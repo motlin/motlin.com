@@ -1,0 +1,10 @@
+order: -1
+author:
+  name: Craig Motlin
+  avatar: /icons/craig.jpg
+category:
+  - all
+  - maven
+date: 2024-05-13
+icon: /icons/maven.svg
+image: /icons/maven.svg
