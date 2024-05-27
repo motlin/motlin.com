@@ -3,6 +3,8 @@ author:
   name: Craig Motlin
   avatar: /icons/craig.jpg
 category:
+  - all
   - intellij
 date: 2022-11-06
-icon: ../icons/intellij.svg
+icon: /icons/intellij.svg
+image: "./2022-11-06 IntelliJ Postfix Completions.gif"

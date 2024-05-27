@@ -31,3 +31,7 @@ Here are a few postfix completions I’ve added for Java. They are available for
 ![](https://miro.medium.com/max/1400/1*iJfTFCwEUwcoBXtwTEFZFQ.png)
 
 In addition to ListAdapter, I have equivalent rules for SetAdapter, MapAdapter, and ArrayAdapter. Since each applies to a specific type, it’s not a problem for all 4 to share the same key “adapt”.
+
+## :icon-comment-discussion: Comments
+
+[Leave a comment on medium](https://motlin.medium.com/intellij-postfix-completions-2fbadf2b1f51)
