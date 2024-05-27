@@ -162,3 +162,7 @@ People still use 80-character wide lines, as if we're still using 1024 x 768 CRT
 ## Do you see the code differently?
 
 Yes! It's a big topic, and I still haven't talked about Inspections. Stay tuned.
+
+## :icon-comment-discussion: Comments
+
+[Leave a comment on medium](https://motlin.medium.com/how-to-pick-colors-for-a-syntax-highlighting-theme-96d3e06c19dc)
