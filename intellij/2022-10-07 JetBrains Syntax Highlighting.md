@@ -151,3 +151,7 @@ With a bit of language-specific tweaking, we can make it even better. If we can 
 You already knew that JetBrains IDEs support syntax highlighting, but hopefully you learned something about how powerful the highlighting engine is. If you're already configuring your own color scheme, I'd love to see your setup.
 
 What other features should folks know more about, where the IDE ships with them disabled by default?
+
+## :icon-comment-discussion: Comments
+
+[Leave a comment on medium](https://motlin.medium.com/jetbrains-ides-hidden-features-syntax-highlighting-f9b03c19b92c)
