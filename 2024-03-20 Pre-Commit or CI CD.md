@@ -51,3 +51,7 @@ and:
 Fans of pre-commit hooks describe a framework that's new but growing into an industry standard.
 
 I think I'm writing to dispel that notion. pre-commit.com is new, but pre-commit hooks are not. Pre-commit suffer from tragedy of the commons, they will never become ubiquitous, and you shouldn't feel guilty about turning them off.
+
+## :icon-comment-discussion: Comments
+
+[Leave a comment on medium](https://motlin.medium.com/pre-commit-or-ci-cd-5779d3a0e566)
