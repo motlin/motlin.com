@@ -104,8 +104,8 @@ Here, the underline for reassignment is obscured by the underwave for the type e
 
 To configure your own color scheme:
 
-* Open the IDE settings, go to Settings > Editor > Color Scheme. 
-* Choose a built-in scheme, like IntelliJ Light or Darcula. 
+* Open the IDE settings, go to Settings > Editor > Color Scheme.
+* Choose a built-in scheme, like IntelliJ Light or Darcula.
 * Click the gear icon, and choose Duplicate...
 * Give it a name and choose Apply.
 
