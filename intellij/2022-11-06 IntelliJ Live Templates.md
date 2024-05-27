@@ -182,3 +182,7 @@ $SELECTION$
 ```
 DESCRIPTION | | "Description"
 ```
+
+## :icon-comment-discussion: Comments
+
+[Leave a comment on medium](https://motlin.medium.com/intellij-live-templates-ca8082bedc3f)
