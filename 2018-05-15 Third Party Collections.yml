@@ -1,0 +1,10 @@
+order: 100
+author:
+  name: Craig Motlin
+  avatar: /icons/craig.jpg
+category:
+  - all
+  - java
+  - eclipse-collections
+date: 2018-05-15
+icon: /icons/java.svg
