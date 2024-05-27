@@ -155,3 +155,7 @@ Maven supports [inheritance](https://maven.apache.org/guides/introduction/introd
 A common pattern is for the pom at the root of a multi-module project to be both an aggregator and a parent, and sometimes a grandparent. A parent pom that is meant to be used within a project should have a name like  `<library>-project`, like Dropwizard’s [dropwizard-project/pom.xml](https://github.com/dropwizard/dropwizard/blob/v2.1.12/pom.xml). A parent pom that is meant to be used by other projects should have a name like  `<library>-parent`.
 
 Leave comments [on medium](https://motlin.medium.com/maven-pom-packaging-modules-09a43635c34b).
+
+## :icon-comment-discussion: Comments
+
+[Leave a comment on medium](https://motlin.medium.com/maven-pom-packaging-modules-09a43635c34b)

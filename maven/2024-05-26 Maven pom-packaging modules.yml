@@ -3,6 +3,8 @@ author:
   name: Craig Motlin
   avatar: /icons/craig.jpg
 category:
+  - all
   - maven
 date: 2024-05-26
-icon: ../icons/maven.svg
+icon: /icons/maven.svg
+image: /icons/maven.svg
