@@ -6,7 +6,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.770298119046">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.770300343760">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -14,7 +14,7 @@
     <!-- Primary Meta Tags -->
     <title>Git Configuration | motlin.com</title>
     <meta name="title" content="Git Configuration | motlin.com">
-    <meta name="description" content="If you just want to use my settings, you can get them here.">
+    <meta name="description" content="This post is about one-time git configuration; commands that start with git config --global.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://motlin.com/2024-05-27-git-configuration/">
@@ -23,22 +23,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://motlin.com/2024-05-27-git-configuration/">
     <meta property="og:title" content="Git Configuration | motlin.com">
-    <meta property="og:description" content="If you just want to use my settings, you can get them here.">
+    <meta property="og:description" content="This post is about one-time git configuration; commands that start with git config --global.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://motlin.com/2024-05-27-git-configuration/">
     <meta property="twitter:title" content="Git Configuration | motlin.com">
-    <meta property="twitter:description" content="If you just want to use my settings, you can get them here.">
+    <meta property="twitter:description" content="This post is about one-time git configuration; commands that start with git config --global.">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.5.0.770298119046" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.5.0.770300343760" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.770298119046" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.770300343760" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.770298119046" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.770298119046" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.770300343760" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.770300343760" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -225,7 +225,9 @@
     <div class="flex items-center shrink-0">Published&nbsp;<span>2024-05-27</span></div>
 </div>
 
-<p>If you just want to use my settings, <a href="https://github.com/motlin/dotfiles/blob/main/gitconfig">you can get them here</a>.</p>
+<p>This post is about one-time git configuration; commands that start with <code v-pre>git config --global</code>.</p>
+<p>This is a <a href="https://github.com/motlin/dotfiles/blob/main/gitconfig">subset of my settings</a> that I&#x27;m comfortable recommending for any user and machine. I&#x27;ve gathered git configuration from <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration">the git-scm book</a>, <a href="https://jvns.ca/blog/2024/02/16/popular-git-config-options/">Julia Evans</a>, and <a href="https://blog.gitbutler.com/git-tips-and-tricks/">Scott Chacon</a>.</p>
+<p>Even if you run the commands below, you may still want to copy from my <a href="https://github.com/motlin/dotfiles/blob/main/gitconfig">dotfiles</a> since the settings are well documented.</p>
 <doc-anchor-target id="aliases">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#aliases">#</doc-anchor-trigger>
