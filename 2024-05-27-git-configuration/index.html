@@ -6,7 +6,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.770300343760">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.770309583243">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -33,12 +33,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.5.0.770300343760" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.5.0.770309583243" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.770300343760" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.770309583243" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.770300343760" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.770300343760" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.770309583243" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.770309583243" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -226,7 +226,7 @@
 </div>
 
 <p>This post is about one-time git configuration; commands that start with <code v-pre>git config --global</code>.</p>
-<p>This is a <a href="https://github.com/motlin/dotfiles/blob/main/gitconfig">subset of my settings</a> that I&#x27;m comfortable recommending for any user and machine. I&#x27;ve gathered git configuration from <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration">the git-scm book</a>, <a href="https://jvns.ca/blog/2024/02/16/popular-git-config-options/">Julia Evans</a>, and <a href="https://blog.gitbutler.com/git-tips-and-tricks/">Scott Chacon</a>.</p>
+<p>This is a <a href="https://github.com/motlin/dotfiles/blob/main/gitconfig">subset of my settings</a> that I&#x27;m comfortable recommending for any user and machine. I&#x27;ve gathered git configuration from <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration">the git-scm book</a>, the <a href="https://github.blog/tag/git/">GitHub Blog</a>, <a href="https://jvns.ca/blog/2024/02/16/popular-git-config-options/">Julia Evans</a>, and <a href="https://blog.gitbutler.com/git-tips-and-tricks/">Scott Chacon</a>.</p>
 <p>Even if you run the commands below, you may still want to copy from my <a href="https://github.com/motlin/dotfiles/blob/main/gitconfig">dotfiles</a> since the settings are well documented.</p>
 <doc-anchor-target id="aliases">
     <h2>
@@ -387,6 +387,24 @@ git config --global diff.mnemonicPrefix true</code></pre>
 <pre class="language-bash"><code v-pre class="language-bash">git config --global branch.sort -committerdate
 git config --global column.ui auto</code></pre>
 </doc-codeblock></div>
+<p>It is idiomatic to name the first/main branch <code v-pre>main</code>. It used to be idiomatic to name it <code v-pre>master</code> and and unconfigured <code v-pre>git init</code> call will still create a <code v-pre>master</code> branch and print this hint.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">❯ git init
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint:
+hint: 	git config --global init.defaultBranch &lt;name&gt;
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m &lt;name&gt;</code></pre>
+</doc-codeblock></div>
+<p>Configuring the default branch name suppresses this hint.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">git config --global init.defaultBranch main</code></pre>
+</doc-codeblock></div>
 <doc-anchor-target id="merge-and-rebase">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#merge-and-rebase">#</doc-anchor-trigger>
@@ -437,8 +455,9 @@ git config --global rerere.autoUpdate true</code></pre>
 <pre class="language-bash"><code v-pre class="language-bash">git config --global log.follow true</code></pre>
 </doc-codeblock></div>
 <p><code v-pre>git log</code> <a href="https://git-scm.com/docs/git-log#Documentation/git-log.txt---decorateshortfullautono">has an option</a> <code v-pre>--decorate</code> that displays the ref names of any logged commits. <code v-pre>git</code> <a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-logdecorate">can be configured</a> to always show these ref names.</p>
+<p>If short is specified, the ref name prefixes <code v-pre>refs/heads/</code>, <code v-pre>refs/tags/</code> and <code v-pre>refs/remotes/</code> will not be printed. If full is specified, the full ref name (including prefix) will be printed.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">git config --global log.decorate auto</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">git config --global log.decorate short</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="submodules">
     <h2>
@@ -484,18 +503,30 @@ git config --global status.submoduleSummary true</code></pre>
         <span>Performance</span>
     </h2>
 </doc-anchor-target>
-<doc-anchor-target id="core">
+<doc-anchor-target id="caching">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#core">#</doc-anchor-trigger>
-        <span>Core</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#caching">#</doc-anchor-trigger>
+        <span>Caching</span>
     </h3>
 </doc-anchor-target>
-<blockquote>
-<p>Git&#x27;s <a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-corefsmonitor">built-in file system monitor</a> can speed up Git commands that need to refresh the Git index (e.g. git status) in a working directory with many files. The built-in monitor eliminates the need to install and maintain an external third-party tool.</p>
-<p>The built-in file system monitor is currently available only on a limited set of supported platforms.</p>
-</blockquote>
+<p>In <a href="https://github.blog/2022-06-29-improve-git-monorepo-performance-with-a-file-system-monitor/">Improve Git monorepo performance with a file system monitor</a>, the GitHub blog recommends turning on the built-in <a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-corefsmonitor">file system monitor</a> and <a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-coreuntrackedCache">untracked cache</a> to speed up subsequent git commands like <code v-pre>git status</code> in a working directory with many files.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">git config --global core.fsmonitor true</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">git config --global core.fsmonitor true
+git config --global core.untrackedCache true</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="fast-merging">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#fast-merging">#</doc-anchor-trigger>
+        <span>Fast Merging</span>
+    </h3>
+</doc-anchor-target>
+<p>The <a href="https://github.blog/2021-08-16-highlights-from-git-2-33/#merge-ort-a-new-merge-strategy">GitHub Blog</a> recommends using the <code v-pre>ort</code> merge strategy for merges over the default <code v-pre>recursive</code> strategy because it&#x27;s 500x faster.</p>
+<blockquote>
+<p>The new merge-ort is likely to become the default strategy in a future version of Git.</p>
+</blockquote>
+<p>In the meantime you can <a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-pulltwohead">configure it</a> with:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">git config --global pull.twohead ort</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="git-maintenance">
     <h3>
