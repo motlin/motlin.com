@@ -1,0 +1,9 @@
+order: -5
+author:
+  name: Craig Motlin
+  avatar: /icons/craig.jpg
+category:
+  - all
+  - intellij
+date: 2024-05-29
+icon: /icons/intellij.svg
