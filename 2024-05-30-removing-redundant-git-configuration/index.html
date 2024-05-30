@@ -6,7 +6,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.770387601081">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.770388727528">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -14,7 +14,7 @@
     <!-- Primary Meta Tags -->
     <title>Removing Redundant Git Configuration | motlin.com</title>
     <meta name="title" content="Removing Redundant Git Configuration | motlin.com">
-    <meta name="description" content="Git's default values for configuration have improved over time. Bad default values were replaces.">
+    <meta name="description" content="Git's default configuration values have improved over time.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://motlin.com/2024-05-30-removing-redundant-git-configuration/">
@@ -23,22 +23,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://motlin.com/2024-05-30-removing-redundant-git-configuration/">
     <meta property="og:title" content="Removing Redundant Git Configuration | motlin.com">
-    <meta property="og:description" content="Git's default values for configuration have improved over time. Bad default values were replaces.">
+    <meta property="og:description" content="Git's default configuration values have improved over time.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://motlin.com/2024-05-30-removing-redundant-git-configuration/">
     <meta property="twitter:title" content="Removing Redundant Git Configuration | motlin.com">
-    <meta property="twitter:description" content="Git's default values for configuration have improved over time. Bad default values were replaces.">
+    <meta property="twitter:description" content="Git's default configuration values have improved over time.">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.5.0.770387601081" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.5.0.770388727528" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.770387601081" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.770388727528" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.770387601081" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.770387601081" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.770388727528" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.770388727528" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -225,9 +225,9 @@
     <div class="flex items-center shrink-0">Published&nbsp;<span>2024-05-30</span></div>
 </div>
 
-<p>Git&#x27;s default values for configuration have improved over time. Bad default values were replaces. New features were released disabled and were later enabled by default.</p>
-<p>It&#x27;s difficult to know if a line in your <code v-pre>~/.gitconfig</code> is redundant because git has no way to print default values. This script includes a hard-coded list of known improvements to defaults.</p>
-<p>The script is arranged in chronological order of when the default value was changed. You can copy the script up to the version of git that you&#x27;re running, or run the whole thing if you&#x27;re running the latest.</p>
+<p>Git&#x27;s default configuration values have improved over time. Bad default values were replaced, and new features were released disabled and later enabled by default.</p>
+<p>It&#x27;s difficult to know if a line in your <code v-pre>~/.gitconfig</code> is redundant because Git has no way to print default values. This script includes a hard-coded list of known improvements to defaults.</p>
+<p>The script is arranged in chronological order of when the default value was changed. You can copy the script up to the version of Git that you&#x27;re running, or run the whole thing if you&#x27;re running the latest.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">safe_unset() {
 local key=$1
@@ -286,7 +286,7 @@ safe_unset pack.writeReverseIndex true</code></pre>
         <span><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M1.75 1h12.5c.966 0 1.75.784 1.75 1.75v9.5A1.75 1.75 0 0 1 14.25 14H8.061l-2.574 2.573A1.458 1.458 0 0 1 3 15.543V14H1.75A1.75 1.75 0 0 1 0 12.25v-9.5C0 1.784.784 1 1.75 1ZM1.5 2.75v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Z"/><path d="M22.5 8.75a.25.25 0 0 0-.25-.25h-3.5a.75.75 0 0 1 0-1.5h3.5c.966 0 1.75.784 1.75 1.75v9.5A1.75 1.75 0 0 1 22.25 20H21v1.543a1.457 1.457 0 0 1-2.487 1.03L15.939 20H10.75A1.75 1.75 0 0 1 9 18.25v-1.465a.75.75 0 0 1 1.5 0v1.465c0 .138.112.25.25.25h5.5a.75.75 0 0 1 .53.22l2.72 2.72v-2.19a.75.75 0 0 1 .75-.75h2a.25.25 0 0 0 .25-.25v-9.5Z"/></g></g></svg> Comments</span>
     </h2>
 </doc-anchor-target>
-<p>If you know of additional redundant configuration that ought to be added, please head over to medium and leave a comment.</p>
+<p>If you know of additional redundant configurations that should be added, please head over to Medium and leave a comment.</p>
 
                                 
                                 <!-- Required only on API pages -->
