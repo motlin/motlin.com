@@ -1,7 +1,7 @@
-order: 97
+order: -4
 author:
   name: Craig Motlin
-  avatar: ./icons/craig.jpg
+  avatar: /icons/craig.jpg
 category:
   - all
   - java

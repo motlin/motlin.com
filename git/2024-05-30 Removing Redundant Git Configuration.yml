@@ -1,9 +1,9 @@
-order: 95
+order: -3
 author:
   name: Craig Motlin
-  avatar: ./icons/craig.jpg
+  avatar: /icons/craig.jpg
 category:
   - all
   - git
-date: 2019-01-13
+date: 2024-05-30
 icon: git-merge
