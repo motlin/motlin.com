@@ -1,10 +1,10 @@
 # Maven pom-packaging modules
 
+This post describes the uses for maven's `<packaging>pom</packaging>`.
+
 [Maven's packaging declaration](https://maven.apache.org/pom.html#packaging) defines the "the default list of goals which execute on each corresponding build lifecycle stage for a particular package structure."
 
 > When no packaging is declared, Maven assumes the packaging is the default: jar.
-
-This post describes the uses for `<packaging>pom</packaging>`.
 
 Pom-only modules have no jar artifact. The pom may serve multiple purposes. Use the artifactId and name to make the purpose clear.
 
