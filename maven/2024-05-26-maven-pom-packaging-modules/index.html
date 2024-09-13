@@ -6,7 +6,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.770579775895">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.779550447828">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -14,7 +14,7 @@
     <!-- Primary Meta Tags -->
     <title>Maven pom-packaging modules | motlin.com</title>
     <meta name="title" content="Maven pom-packaging modules | motlin.com">
-    <meta name="description" content="Maven's packaging declaration defines the \"the default list of goals which execute on each corresponding build lifecycle stage for a particular...">
+    <meta name="description" content="This post describes the uses for maven's packagingpom/packaging.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://motlin.com/maven/2024-05-26-maven-pom-packaging-modules/">
@@ -23,24 +23,24 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://motlin.com/maven/2024-05-26-maven-pom-packaging-modules/">
     <meta property="og:title" content="Maven pom-packaging modules | motlin.com">
-    <meta property="og:description" content="Maven's packaging declaration defines the \"the default list of goals which execute on each corresponding build lifecycle stage for a particular...">
+    <meta property="og:description" content="This post describes the uses for maven's packagingpom/packaging.">
     <meta property="og:image" content="https://motlin.com/icons/maven.svg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://motlin.com/maven/2024-05-26-maven-pom-packaging-modules/">
     <meta property="twitter:title" content="Maven pom-packaging modules | motlin.com">
-    <meta property="twitter:description" content="Maven's packaging declaration defines the \"the default list of goals which execute on each corresponding build lifecycle stage for a particular...">
+    <meta property="twitter:description" content="This post describes the uses for maven's packagingpom/packaging.">
     <meta property="twitter:image" content="https://motlin.com/icons/maven.svg">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.5.0.770579775895" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.779550447828" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.770579775895" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.779550447828" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.770579775895" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.770579775895" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.779550447828" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.779550447828" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -227,11 +227,11 @@
     <div class="flex items-center shrink-0">Published&nbsp;<span>2024-05-26</span></div>
 </div>
 
+<p>This post describes the uses for maven&#x27;s <code v-pre>&lt;packaging&gt;pom&lt;/packaging&gt;</code>.</p>
 <p><a href="https://maven.apache.org/pom.html#packaging">Maven&#x27;s packaging declaration</a> defines the &quot;the default list of goals which execute on each corresponding build lifecycle stage for a particular package structure.&quot;</p>
 <blockquote>
 <p>When no packaging is declared, Maven assumes the packaging is the default: jar.</p>
 </blockquote>
-<p>This post describes the uses for <code v-pre>&lt;packaging&gt;pom&lt;/packaging&gt;</code>.</p>
 <p>Pom-only modules have no jar artifact. The pom may serve multiple purposes. Use the artifactId and name to make the purpose clear.</p>
 <ul>
 <li>Internal Bill of Materials:  <code v-pre>&lt;library&gt;-dependencies</code></li>

@@ -6,7 +6,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.770579775895">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.779550447828">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -35,12 +35,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.5.0.770579775895" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.779550447828" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.770579775895" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.779550447828" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.770579775895" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.770579775895" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.779550447828" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.779550447828" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -258,7 +258,7 @@ git config --global alias.oops      &quot;commit --amend --no-edit&quot;</code><
 </doc-codeblock></div>
 <p>And a few more of my own that aren&#x27;t too common, but you might like.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">git config --global alias.ri        &quot;rebase --interactive --autosquash&quot;
+<pre class="language-bash"><code v-pre class="language-bash">git config --global alias.ri        &quot;rebase --interactive --autosquash --rebase-merges&quot;
 git config --global alias.f         &quot;fetch --all --prune --jobs=16&quot;
 git config --global alias.detach    &quot;checkout --detach&quot;</code></pre>
 </doc-codeblock></div>
@@ -313,7 +313,7 @@ git config --global alias.first     &quot;rev-list --max-parents=0 HEAD&quot;</c
         --graph \
         --decorate \
         --date=short \
-        --format=format:'%C(auto)%(decorate:prefix=👇 ,suffix=%n,tag=,separator= )%C(reset)%C(brightyellow)%h%C(reset) %C(normal)%&lt;|(-50,trunc)%s%C(reset) %C(brightmagenta)%&lt;(15,trunc)%an%C(reset) %C(brightblue)%ad%C(reset) %C(brightcyan)%ar%C(reset)'&quot;
+        --format=format:'%C(auto)%(decorate:prefix=👇 ,suffix=%n,tag=,separator= )%C(reset)%C(dim)%h%C(reset) %N%-C()%C(normal)%&lt;|(-50,trunc)%s%C(reset) %C(brightmagenta)%&lt;(15,trunc)%an%C(reset) %C(brightblue)%ad%C(reset) %C(brightcyan)%ar%C(reset)'&quot;
 
 git config --global alias.laa       &quot;l --all&quot;
 
@@ -323,6 +323,7 @@ git config --global alias.la        &quot;l \
         --exclude=refs/remotes/upstream/pr/* \
         --exclude=refs/remotes/origin/dependabot/* \
         --exclude=refs/notes/tests/* \
+        --exclude=refs/notes/commits \
         --exclude=refs/stash \
         --all&quot;
         
@@ -330,18 +331,23 @@ git config --global alias.decorate  &quot;la --simplify-by-decoration&quot;</cod
 </doc-codeblock></div>
 <p>The common formatting options deserve explanation.</p>
 <ul>
-<li><code v-pre>%C(auto)%(decorate:prefix=👇 ,suffix=%n,tag=,separator= )%C(reset)</code> ref names, like the <code v-pre>--decorate</code> option but on a separate line, like <code v-pre>* upstream/pr/123</code>.</li>
-<li><code v-pre>%C(brightyellow)%h%C(reset)</code> abbreviated commit hash in bright yellow, like <code v-pre>63978b049</code>.</li>
+<li><code v-pre>%C(auto)%(decorate:prefix=👇 ,suffix=%n,tag=,separator= )%C(reset)</code> ref names, like the <code v-pre>--decorate</code> option on its own line, like <code v-pre>* upstream/pr/123</code>.</li>
+<li><code v-pre>%C(dim)%h%C(reset)</code> abbreviated commit hash, like <code v-pre>63978b049</code>.</li>
+<li><code v-pre>%N%-C()</code> <a href="https://stackoverflow.com/a/76133983/">git notes with trailing newline stripped</a>.</li>
 <li><code v-pre>%C(normal)%&lt;|(-50,trunc)%s%C(reset)</code> subject (commit message) truncated 50 characters away from the right edge of the screen.</li>
-<li><code v-pre>%C(brightmagenta)%&lt;(15,trunc)%an%C(reset)</code> author name truncated to 15, in bright magenta.</li>
-<li><code v-pre>%C(brightblue)%ad%C(reset)</code> author date, in bright blue, like <code v-pre>2000-12-31</code>.</li>
-<li><code v-pre>%C(brightcyan)%ar%C(reset)%</code> author date, relative, in bright cyan, like <code v-pre>10 days ago</code>.</li>
+<li><code v-pre>%C(brightmagenta)%&lt;(15,trunc)%an%C(reset)</code> author name truncated to 15.</li>
+<li><code v-pre>%C(brightblue)%ad%C(reset)</code> author date, like <code v-pre>2000-12-31</code>.</li>
+<li><code v-pre>%C(brightcyan)%ar%C(reset)%</code> author date, relative, like <code v-pre>10 days ago</code>.</li>
 </ul>
 <p><figure class="content-center">
     <img src="../2019-01-13-git-configuration.png" alt="git fancy log">
     <figcaption class="caption">git fancy log</figcaption>
 </figure>
 </p>
+<p>A subset of the formatting options that work for <code v-pre>git log</code> also may be used to format the instructions in the rebase TODO file.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">git config --global rebase.instructionFormat '%&lt;|(-5,trunc)%s | %&lt;(15,trunc)%an | %ar'</code></pre>
+</doc-codeblock></div>
 <doc-anchor-target id="fetch-and-push">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#fetch-and-push">#</doc-anchor-trigger>
