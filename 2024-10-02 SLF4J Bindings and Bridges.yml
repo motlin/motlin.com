@@ -1,0 +1,10 @@
+order: 100
+author:
+  name: Craig Motlin
+  avatar: /icons/craig.jpg
+category:
+  - all
+  - java
+  - logging
+date: 2024-10-02
+icon: /icons/java.svg
