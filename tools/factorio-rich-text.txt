@@ -1,0 +1,198 @@
+{{Languages}}
+Rich text formatting in allows the use of tags within most of the game's textboxes to change the visual formatting of text or to embed interactable images/entities. Predefined text tags are employed for this purpose.
+
+== Tags ==
+
+Tags are useful for sharing blueprints, marking map locations in chat or adding icons to map markers and train stations.
+Ctrl+alt clicking the map or ground will automatically insert a gps tag and post it into [[console|chat]].
+
+Shift clicking most things with the console open will insert a tag for that thing into chat. The chat and many other textboxes in the game have a button on the right edge that opens an icon selector. This can be used to easily insert rich text tags of recipes, items, fluids, virtual signals and entities into the textbox.
+
+When used in chat, the tag image will be followed by a text description, except for the img tag.
+Used elsewhere only the image is shown.
+
+{| class="wikitable"
+|-
+! style="width:20%"| Syntax
+! style="width:15%"| Example Input
+! style="width:15%"| Example Result
+! style="width:50%"| Description
+
+|-
+| [img=<i>class</i>/<i>name</i>]<br>
+[img=<i>class</i>.<i>name</i>]<br>
+[img=<i>sprite-prototype-name</i>]
+| [img=item.iron-plate]<br>
+[img=quantity-time]<br>
+[img=utility/played_green]
+| [[File:Iron_plate.png|28px]]<br>
+[[File:Time_icon.png|28px]]<br>
+[[File:Played green.png|28px]]
+| Embeds only a small inline game graphic. The period format must be used in game save names. This tag uses [https://lua-api.factorio.com/latest/Concepts.html#SpritePath sprite paths]:
+<i>class</i> is any of: item, entity, technology, recipe, item-group, fluid, tile, virtual-signal, achievement, equipment or utility.
+
+<i>name</i>: see below
+
+<i>sprite-prototype-name</i> is the [[Data.raw#sprite|internal-name]] of a [[Prototype/Sprite|sprite prototype]].
+
+|-
+| [item=<i>name</i>]
+| [item=iron-plate]
+| [[File:Iron_plate.png|28px]] [Item: Iron plate]
+| <i>name</i> is the internal-name of the item
+
+|-
+| [entity=<i>name</i>]
+| [entity=small-biter]
+| [[File:Small_biter.png|28px]] [Entity: Small biter]
+| <i>name</i> is the internal-name of the entity
+
+|-
+| [technology=<i>name</i>]
+| [technology=logistics]
+| [[File:Logistics_(research).png|28px]] [Technology: Logistics]
+| <i>name</i> is the internal-name of the technology
+
+|-
+| [recipe=<i>name</i>]
+| [recipe=basic-oil-processing]
+| [[File:Basic_oil_processing.png|28px]] [Recipe: Basic oil processing]
+| <i>name</i> is the internal-name of the recipe, usually the item name
+
+|-
+| [item-group=<i>name</i>]
+| [item-group=combat]
+| [[File:Item-group_military.png|28px]] [Item Group: Combat]
+| <i>name</i> is any of: logistics, production, intermediate-products, combat, fluids or signals
+
+|-
+| [fluid=<i>name</i>]
+| [fluid=water]
+| [[File:Water.png|28px]] [Fluid: Water]
+| <i>name</i> is the internal name of the fluid
+
+|-
+| [tile=<i>name</i>]
+| [tile=grass-3]
+| [[File:Grass_3.png|28px]] [Tile: Grass 3]
+| <i>name</i> is the internal name of the tile, usually the lowercase name with hyphens replacing spaces as written from the map editor
+
+|-
+| [virtual-signal=<i>name</i>]
+| [virtual-signal=signal-A]
+| [[File:Signal-A.png|28px]] [Virtual Signal: Signal A]
+| <i>name</i> is the word signal followed by either an uppercase letter, number, color, each, everything or anything
+
+|-
+| [achievement=<i>name</i>]
+| [achievement=minions]
+| [[File:Minions-achievement.png|28px]] [Achievement: Minions]
+| <i>name</i> is the internal-name of the achievement, usually the lowercase name with hyphens replacing spaces
+
+|-
+| [gps=<i>x,y</i>]
+[gps=<i>x,y,surface</i>]
+| [gps=0,0]
+| [[File:Map.png|28px]] [Location: 0,0]
+| Embeds a map location and marks the location on the map of other players.
+<i>x</i> is the x point coordinate<br>
+<i>y</i> is the y point coordinate<br>
+<i>surface</i> is the current surface. Is only added if the player Ctrl+alt clicks on a surface that is not the default surface. When the player is on another surface than <i>surface</i>, clicking the tag does nothing. Mods must handle this case with [https://lua-api.factorio.com/latest/events.html#on_player_clicked_gps_tag on_player_clicked_gps_tag]
+|-
+| [special-item=<i>blueprint_string</i>]
+|
+| [[File:Blueprint.png|28px]] [Blueprint]
+| Embeds a blueprint. Players can get a blueprint item by clicking the icon.
+<i>blueprint_string</i> is the blueprint string of a blueprint, deconstruction planner or upgrade planners
+
+|-
+| [armor=<i>player</i>]
+| [armor=Player]
+| [[File:Power_armor_MK2.png|28px]] [Armor: Player]
+| Embeds the armor of a player. Allows other players to see the equipment installed.
+<i>player</i> is the name of the player
+
+|-
+| [train=<i>number</i>]
+| [train=93]
+| [[File:Locomotive.png|28px]] [Train: 2]
+| Embeds a reference to a train. Clicking the icon will open the train GUI for that train.
+<i>number</i> is the internal unit number of the train
+
+|-
+| [train-stop=<i>number</i>]
+| [train-stop=100]
+| [[File:Train_stop.png|28px]] [Train Stop: Trangar]
+| Embeds a reference to a train stop. Clicking the icon will open the GUI for that train stop.
+<i>number</i> is the internal unit number of the train stop
+
+|-
+| [tooltip=<i>text,tooltip locale key</i>]
+| [tooltip=Hover to see "Iron plate",item-name.iron-plate]
+| <span title="Iron plate"> [[File:Custom-tag-icon.png|28px]] Hover to see "Iron plate"</span>
+| Shows the given <i>text</i> with a <i>tooltip</i> that is specified with a [[Tutorial:Localisation#Localising_simple_strings|locale key]].
+
+|-
+| [quality=<i>tier</i>]<br>
+[item=<i>name</i>,quality=<i>tier</i>]<br>
+[entity=<i>name</i>,quality=<i>tier</i>]<br>
+<!--[recipe=<i>name</i>,quality=<i>tier</i>]<br>
+[fluid=<i>name</i>,quality=<i>tier</i>]<br>
+[virtual-signal=<i>name</i>,quality=<i>tier</i>]-->
+|[quality=normal]<br>
+[item=iron-plate,quality=normal]<br>
+[entity=small-biter,quality=uncommon]<br>
+<!--[recipe=basic-oil-processing,quality=rare]<br>
+[fluid=water,quality=epic]<br>
+[virtual-signal=signal-A,quality=legendary]-->
+| [[File:Quality normal.png|28px]] [Quality: Normal]<br>
+[[File:Iron_plate.png|28px]] [Item: Iron plate]<br>
+[[File:Uncommon small biter.png|28px]] [Entity: Uncommon Small biter]<br>
+|
+[[Quality]] can also be optionally specified on the following tags: item, entity, recipe, fluid, and virtual-signal<br>
+It can also be added to the other tags that use <i>name</i>, but they ignore it.
+
+The normal quality is the default quality and won't modify tags. Any other quality won't exist without [[Space Age]] and Quality
+
+<i>tier</i> is the internal-name of the quality
+
+|}
+
+== Text modifiers ==
+[[File:Fonts.png|right|thumbnail|100px|Different fonts displayed in-game. (Click to enlarge.)]]
+
+The color and font of text can be changed
+
+{| class="wikitable"
+|-
+! style="width:20%"| Syntax
+! style="width:15%"| Example Input
+! style="width:15%"| Example Result
+! style="width:50%"| Description
+|-
+| [color=<i>rgb</i>]...[/color]<br>
+[color=<i>#rrggbb</i>]...[/color]<br>
+[color=<i>#aarrggbb</i>]...[/color]<br>
+[color=<i>rgb</i>]...[.color]<br>
+[color=<i>#rrggbb</i>]...[.color]<br>
+[color=<i>#aarrggbb</i>]...[.color]
+| [color=red]Red[/color] text<br>
+[color=1,0,0]Red[/color] text<br>
+[color=255,0,0]Red[/color] text<br>
+[color=#ff0000]Red[/color] text
+| <span style="color: #ff0000">Red</span> text
+| <i>rgb</i> is a comma separated RGB color ranging from 0 to 1 or 0 to 255, or a color name
+Available colors: default, red, green, blue, orange, yellow, pink, purple, white, black, gray, brown, cyan, acid.
+|-
+| [font=<i>font-name</i>]...[/font]<br>
+[font=<i>font-name</i>]...[.font]
+| [font=default-bold]Bold text[/font]
+| <b>Bold text</b>
+| <i>font-name</i> is the name of the [[Data.raw#font|Factorio font]] to render
+|}
+
+== See also ==
+* [[Console]]
+* [[Data.raw]] for the list of internal names of recipes, technologies, fluids, etc.
+
+{{C|GUI}}
