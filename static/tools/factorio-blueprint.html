@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Factorio Blueprint Parser</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base styles matching Factorio's aesthetic */
+        body {
+            background-color: #201810;
+            font-family: 'Titillium Web', sans-serif;
+            color: #fff;
+            line-height: 1.25;
+        }
+
+        h1, h2, h3, h4, h5 {
+            color: var(--factorio-text);
+            font-weight: 900;
+        }
+
+        a {
+            color: var(--factorio-link);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: lighten(var(--factorio-link), 10%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        h1 {
+            color: #ffe6c0;
+            font-weight: bold;
+            font-size: 130%;
+            margin-bottom: 12px;
+        }
+
+        /* Cards styling */
+        .card {
+            background-color: #242324;
+            margin-bottom: 12px;
+            cursor: pointer;
+            border: 4px solid #2e2623;
+            box-shadow: 0px 0px 3px 0px #201815;
+        }
+
+        .card-header {
+            padding: 8px;
+            color: #ffe6c0;
+            font-weight: bold;
+            background-color: #313031;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        /* Base panel style */
+        .panel .card {
+            background-color: #313031;
+            padding: 12px;
+            box-shadow:
+                /* Inner shadows */
+                    inset 3px 0 3px -3px #201815,  /* Left */
+                    inset 2px 0 2px -2px #201815,
+                    inset 1px 0 1px -1px #201815,
+                    inset 0 3px 3px -3px #8f8c8b,  /* Top */
+                    inset 0 2px 2px -2px #8f8c8b,
+                    inset 0 1px 1px -1px #8f8c8b,
+                    inset -3px 0 3px -3px #201815, /* Right */
+                    inset -2px 0 2px -2px #201815,
+                    inset -2px 0 1px -1px #201815,
+                    inset 0 -3px 3px -3px #000,    /* Bottom */
+                    inset 0 -2px 2px -2px #000,
+                    inset 0 -1px 1px -1px #000,
+                        /* Outer shadow */
+                    0 0 2px 0 #201815,
+                    0 0 4px 0 #201815;
+        }
+
+        /* Base panel style - lighter inset panel */
+        .panel-inset-lighter {
+            background-color: #414040;
+            padding: 12px;
+            box-shadow:
+                /* Inner glow */
+                    inset 0 0 3px 0 #000,
+                        /* Top edge */
+                    0 -2px 2px -1px #000,
+                        /* Left edge */
+                    -2px 0 2px -2px #28221f,
+                    -2px 0 2px -2px #28221f,
+                        /* Right edge */
+                    2px 0 2px -2px #28221f,
+                    2px 0 2px -2px #28221f,
+                        /* Bottom edge highlight */
+                    0 3px 3px -3px #8f8c8b,
+                    0 2px 2px -2px #8f8c8b,
+                    0 1px 1px -1px #8f8c8b;
+        }
+
+        /* Darker inset panel variant */
+        .panel-inset {
+            background: #313031;
+            padding: 12px;
+            box-shadow:
+                /* Deeper inner shadow */
+                    inset 0 0 3px 0 #000000,
+                        /* Stronger top shadow */
+                    0 -2px 2px -1px #000000,
+                        /* Left edge */
+                    -2px 0 2px -2px #0f0d0c,
+                    2px 0 2px -2px #0f0d0c,
+                        /* Bottom highlight */
+                    0 2px 2px -2px #ebe6e4;
+        }
+
+        /* For collapsible content panels */
+        .panel-content {
+            background: #242324;
+            box-shadow:
+                /* Inner shadow at top */
+                    inset 0px 4px 3px -3px #000000,
+                        /* Side shadows */
+                    inset 3px 0 3px -3px #000000,
+                    inset -3px 0 3px -3px #000000,
+                        /* Bottom inner glow */
+                    inset 0 -3px 3px -3px #646261;
+        }
+
+        /* Split view layout */
+        .split-view {
+            display: flex;
+            gap: 16px;
+        }
+
+        .split-pane {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Blueprint input styling */
+        #blueprint-input {
+            width: 100%;
+            height: 60px;
+            background: #8e8e8e;
+            border-radius: 4px;
+            padding: 6px;
+            border: none;
+            color: #000;
+            font-family: monospace;
+            box-shadow: inset 0px 4px 1px -2px #000;
+        }
+
+        .caret {
+            width: 1rem;
+            height: 1rem;
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .caret::before {
+            content: "▶";
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .card-content {
+            padding: 8px;
+            display: none;
+        }
+
+        .card.expanded .card-content {
+            display: block;
+            background-color: #242324;
+        }
+
+        /* Info grid styling */
+        .info-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .info-label {
+            color: #7dcaed;
+            padding-right: 12px;
+        }
+
+        .info-value {
+            color: #fff;
+        }
+
+        /* Blueprint tree styling */
+        .blueprint-tree {
+            font-size: 14px;
+        }
+
+        .tree-row {
+            display: flex;
+            align-items: center;
+            padding: 4px 8px;
+            cursor: pointer;
+            border-radius: 2px;
+            gap: 8px;
+        }
+
+        .tree-row:hover {
+            background-color: #414040;
+        }
+
+        .tree-row.selected {
+            background-color: #5eb663;
+            color: #000;
+        }
+
+        .tree-row.selected:hover {
+            background-color: #7ac97e;
+        }
+
+        .tree-indent {
+            width: 20px;
+            flex-shrink: 0;
+        }
+
+        .tree-type-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .json-content {
+            display: none;
+        }
+
+        .card.expanded .json-content {
+            display: block;
+            white-space: pre;
+            overflow-x: auto;
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+        .json-content.visible {
+            display: block;
+            white-space: pre;
+            overflow-x: auto;
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+        .tree-icons {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .button {
+  background: #8e8e8e;
+            color: #000;
+            font-weight: 600;
+  box-shadow:
+    inset 8px 0 4px -8px #000,
+    inset -8px 0 4px -8px #000,
+    inset 0 10px 2px -8px #e3e3e3,
+    inset 0 -9px 2px -8px #000;
+  transition: background-color 0.2s;
+        }
+
+
+.button:hover {
+  background: var(--factorio-orange);
+  box-shadow:
+    inset 8px 0 4px -8px #000,
+    inset -8px 0 4px -8px #000,
+    inset 0 9px 2px -8px #fff,
+    inset 0 -8px 4px -8px #000;
+}
+
+        .button:active {
+            padding-top: 7px;
+            padding-bottom: 5px;
+            background-color: #f1be64;
+            box-shadow: inset 0px 10px 2px -8px #000,
+            inset 0px 9px 2px -8px #000;
+        }
+
+        /* Parameters styling */
+        .parameters-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .parameter-item {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px;
+        }
+
+        .parameter-name {
+            color: #7dcaed;
+        }
+
+        .parameter-value {
+            color: #fff;
+        }
+
+        .parameter-description {
+            grid-column: span 2;
+            color: #a6a6a6;
+            font-size: 90%;
+        }
+
+        /* Deconstruction planner styling */
+        .deconstruction-settings {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .filter-group-header {
+            color: #ffe6c0;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 2px 4px;
+        }
+
+        .filter-item:hover {
+            background-color: #414040;
+        }
+
+        .filter-item.excluded {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        /* Upgrade planner styling */
+        .upgrade-mapping {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 4px 0;
+        }
+
+        .upgrade-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .upgrade-arrow {
+            color: #7dcaed;
+            font-size: 20px;
+        }
+
+        .contents-tables {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contents-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 1px 2px;
+        }
+
+        .contents-table th {
+            color: #7dcaed;
+            text-align: left;
+            padding: 8px;
+            font-weight: normal;
+            background-color: #242324;
+        }
+
+        .contents-table td {
+            padding: 4px 8px;
+            background-color: #313031;
+        }
+
+        .contents-table tr:hover td {
+            background-color: #414040;
+        }
+
+        .contents-section {
+            margin-bottom: 16px;
+        }
+
+        .contents-section-header {
+            color: #ffe6c0;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .contents-icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contents-icon img {
+            height: 24px;
+            width: 24px;
+        }
+
+        .contents-count {
+            font-family: monospace;
+            color: #7dcaed;
+        }
+
+        /* Blueprint icons styling */
+        .blueprint-icons {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            padding: 4px;
+        }
+
+        /* Feature badges */
+        .feature-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .feature-badge {
+            background-color: #414040;
+            color: #ffe6c0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 90%;
+        }
+
+        .feature-badge.active {
+            background-color: #5eb663;
+            color: #000;
+        }
+
+        /* Error display */
+        #error {
+            color: #ff5555;
+            display: none;
+            padding: 8px;
+            margin: 8px 0;
+        }
+
+        .button i {
+            margin-right: 6px;
+            font-size: 1.0em;
+            vertical-align: middle;
+        }
+
+        img[src^="https://www.factorio.school/icons/"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        :root {
+            /* Match Factorio.com colors */
+            --factorio-orange: #FF9F1C;
+            --factorio-dark: #201810;
+            --factorio-text: #FFE6C0;
+            --factorio-link: #7DCAED;
+            --factorio-border: #2E2623;
+        }
+
+        /* Better mobile support */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .panel {
+                margin: 0.5rem 0;
+            }
+        }
+
+        /* Smooth transitions */
+        .button, .panel {
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Use modern CSS features */
+        .flex-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .card-header .caret {
+            display: inline-block;
+            width: 20px;
+            text-align: center;
+    transition: transform 0.3s;
+        }
+.card-header.expanded .caret {
+    transform: rotate(90deg);
+        }
+.card-content,
+.card-footer {
+            display: none;
+        }
+.card-content.expanded,
+.card-footer.expanded {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Factorio Blueprint Parser</h1>
+
+    <div class="panel">
+        <textarea id="blueprint-input" placeholder="Paste your blueprint here"></textarea>
+        <div id="error" class="panel-inset-lighter"></div>
+    </div>
+
+    <div class="split-view">
+        <!-- Left pane -->
+        <div class="split-pane" id="left-pane">
+            <div id="basic-info" class="card">
+                <div class="card-header">
+                    <span class="caret"></span>
+                    <span class="card-title">Root Blueprint</span>
+                </div>
+                <div class="card-content">
+                    <div class="info-content"></div>
+                    <div class="card-footer">
+                        <button class="button" id="copy-root" onclick="copyBlueprintToClipboard(currentRoot)">
+                            <i class="fas fa-clipboard"></i> Copy Blueprint
+                        </button>
+                        <button class="button" id="view-root" onclick="toggleJsonPanel('root-json-panel')">
+                            <i class="fas fa-eye"></i> View JSON
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="blueprint-tree" class="card">
+                <div class="card-header">
+                    <span class="caret"></span>
+                    <span class="card-title">Blueprint Tree</span>
+                </div>
+                <div class="card-content">
+                </div>
+            </div>
+        </div>
+
+        <!-- Right pane -->
+        <div class="split-pane" id="right-pane">
+            <div id="summary" class="card">
+                <div class="card-header">
+                    <span class="caret"></span>
+                    <span class="card-title">Selected Blueprint</span>
+                </div>
+                <div class="card-content">
+                    <div class="info-content"></div>
+                    <div class="card-footer">
+                        <button class="button" id="copy-selected" onclick="copyBlueprintToClipboard(currentSelected)">
+                            <i class="fas fa-clipboard"></i> Copy Blueprint
+                        </button>
+                        <button class="button" id="view-selected" onclick="toggleJsonPanel('selected-json-panel')">
+                            <i class="fas fa-eye"></i> View JSON
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="contents" class="card">
+                <div class="card-header">
+                    <span class="caret"></span>
+                    <span class="card-title">Contents</span>
+                </div>
+                <div class="card-content">
+                </div>
+            </div>
+
+            <div id="upgrade-planner" class="card">
+                <div class="card-header">
+                    <span class="caret"></span>
+                    <span class="card-title">Upgrade Planner</span>
+                </div>
+                <div class="card-content">
+                </div>
+            </div>
+
+            <div id="deconstruction-planner" class="card">
+                <div class="card-header">
+                    <span class="caret"></span>
+                    <span class="card-title">Deconstruction Planner</span>
+                </div>
+                <div class="card-content">
+                </div>
+            </div>
+
+            <div id="parameters" class="card">
+                <div class="card-header">
+                    <span class="caret"></span>
+                    <span class="card-title">Parameters</span>
+                </div>
+                <div class="card-content">
+                </div>
+            </div>
+
+            <!-- Root JSON Panel with Event Listeners -->
+            <div id="root-json-panel" class="card">
+                <div class="card-header">
+                    <span class="caret"></span>
+                    <span class="card-title">Root Blueprint JSON</span>
+                </div>
+                <div class="card-content">
+                    <div>
+                        <button class="button" id="copy-root-json" onclick="copyJsonToClipboard(currentRoot)">
+                            <i class="fas fa-clipboard"></i> Copy to Clipboard
+                        </button>
+                        <button class="button" id="download-root-json" onclick="downloadJson(currentRoot, generateFilename(currentRoot, true))">
+                            <i class="fas fa-download"></i> Download JSON
+                        </button>
+                    </div>
+                    <pre class="json-content"></pre>
+                </div>
+            </div>
+
+            <div id="selected-json-panel" class="card">
+                <div class="card-header">
+                    <span class="caret"></span>
+                    <span class="card-title">Selected Blueprint JSON</span>
+                </div>
+                <div class="card-content">
+                    <div>
+                        <button class="button" id="copy-selected-json" onclick="copyJsonToClipboard(currentSelected)">
+                            <i class="fas fa-clipboard"></i> Copy to Clipboard
+                        </button>
+                        <button class="button" id="download-selected-json" onclick="downloadJson(currentSelected, generateFilename(currentSelected, false, selectedBlueprintPath))">
+                            <i class="fas fa-download"></i> Download JSON
+                        </button>
+                    </div>
+                    <pre class="json-content"></pre>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Add click handlers to all card headers
+        document.querySelectorAll('.card-header').forEach(header => {
+            header.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                // Toggle expanded class on header for caret rotation
+                header.classList.toggle('expanded');
+
+                // Find parent card
+                const card = header.closest('.card');
+
+                // Toggle all card-content and card-footer elements within this card
+                if (card) {
+                    card.querySelectorAll('.card-content, .card-footer').forEach(element => {
+                        element.classList.toggle('expanded');
+                    });
+                }
+            });
+        });
+
+        // Expand root JSON panel by default
+        const rootJsonPanel = document.querySelector('#root-json-panel');
+        if (rootJsonPanel) {
+            const header = rootJsonPanel.querySelector('.card-header');
+            rootJsonPanel.querySelectorAll('.card-content, .card-footer').forEach(element => {
+                element.classList.add('expanded');
+            });
+            header.classList.add('expanded');
+        }
+    });
+
+    // Global variables to store the current blueprint data
+    let currentRoot = null;
+    let currentSelected = null;
+
+    function copyBlueprintToClipboard(blueprint) {
+        if (blueprint) {
+            navigator.clipboard.writeText(blueprintToString(blueprint));
+        }
+    }
+
+    function toggleJsonPanel(panelId) {
+        const panel = document.getElementById(panelId);
+        if (panel) {
+            panel.classList.toggle('expanded');
+        }
+    }
+
+    function copyJsonToClipboard(jsonData) {
+        if (jsonData) {
+            navigator.clipboard.writeText(JSON.stringify(jsonData, null, 2));
+        }
+    }
+
+    // Convert version number to readable format
+    function parseVersion(version) {
+        if (typeof version !== 'number') return null;
+
+        // Convert to BigInt for precise bitwise operations
+        const versionBig = BigInt(version);
+
+        // Extract 16-bit chunks from 64-bit number
+        const parts = [
+            Number((versionBig >> 48n) & 0xFFFFn),
+            Number((versionBig >> 32n) & 0xFFFFn),
+            Number((versionBig >> 16n) & 0xFFFFn),
+            Number(versionBig & 0xFFFFn)
+        ];
+
+        // Remove trailing zeros and join with dots
+        while (parts.length > 1 && parts[parts.length - 1] === 0) {
+            parts.pop();
+        }
+        return parts.join('.');
+    }
+
+    function getBlueprintMetadata(blueprint) {
+        if (!blueprint) return null;
+
+        // Helper to check for entity usage (recursively)
+        function usesEntity(bp, entityName) {
+            if (!bp) return false;
+
+            // Check current blueprint
+            if (bp.blueprint?.entities?.some(e => e.name === entityName)) {
+                return true;
+            }
+
+            // Check children if this is a blueprint book
+            if (bp.blueprint_book?.blueprints) {
+                return bp.blueprint_book.blueprints.some(child => usesEntity(child, entityName));
+            }
+
+            return false;
+        }
+
+        // Helper to check for quality features (recursively)
+        function usesQuality(bp) {
+            if (!bp) return false;
+
+            // Check current blueprint
+            if (bp.blueprint) {
+                // Check recipe quality
+                if (bp.blueprint.entities?.some(e => e.recipe_quality)) {
+                    return true;
+                }
+
+                // Check circuit conditions in combinators
+                if (bp.blueprint.entities?.some(e => {
+                    return e.control_behavior?.sections?.sections?.some(section =>
+                        section.filters?.some(filter => filter.quality)
+                    );
+                })) {
+                    return true;
+                }
+
+                // Check parameters
+                if (bp.blueprint.parameters?.some(param => param['quality-condition'])) {
+                    return true;
+                }
+            }
+
+            // Check children if this is a blueprint book
+            if (bp.blueprint_book?.blueprints) {
+                return bp.blueprint_book.blueprints.some(child => usesQuality(child));
+            }
+
+            return false;
+        }
+
+        // Helper to check for parameters (recursively)
+        function usesParameters(bp) {
+            if (!bp) return false;
+
+            // Check current blueprint
+            if (bp.blueprint?.parameters?.length > 0) {
+                return true;
+            }
+
+            // Check children if this is a blueprint book
+            if (bp.blueprint_book?.blueprints) {
+                return bp.blueprint_book.blueprints.some(child => usesParameters(child));
+            }
+
+            return false;
+        }
+
+        // Determine the actual blueprint object based on type
+        const actualBlueprint = blueprint.blueprint ||
+            blueprint.blueprint_book ||
+            blueprint.upgrade_planner ||
+            blueprint.deconstruction_planner;
+
+        if (!actualBlueprint) return null;
+
+        // Helper to get type name
+        function getTypeName(blueprint) {
+            if (blueprint.blueprint) return 'blueprint';
+            if (blueprint.blueprint_book) return 'blueprint_book';
+            if (blueprint.upgrade_planner) return 'upgrade_planner';
+            if (blueprint.deconstruction_planner) return 'deconstruction_planner';
+            return undefined;
+        }
+
+        return {
+            type: getTypeName(blueprint),
+            label: actualBlueprint.label,
+            description: actualBlueprint.description,
+            version: actualBlueprint.version,
+            icons: actualBlueprint.icons || [],
+            snapToGrid: blueprint.blueprint?.snap_to_grid,
+            absoluteSnapping: blueprint.blueprint?.absolute_snapping,
+            usesParameters: usesParameters(blueprint),
+            uses20Features: ['curved-rail-a', 'curved-rail-b', 'half-diagonal-rail'].some(entity => usesEntity(blueprint, entity)),
+            usesSpaceAgeFeatures: false, // TODO: Implement Space Age feature detection
+            usesQualityFeatures: usesQuality(blueprint),
+            usesElevatedRails: [
+                'elevated-curved-rail-a',
+                'elevated-curved-rail-b',
+                'elevated-half-diagonal-rail',
+                'elevated-straight-rail',
+                'rail-ramp',
+                'rail-support'
+            ].some(entity => usesEntity(blueprint, entity))
+        };
+    }
+
+    // Core blueprint parsing functions
+    function parseBlueprint(blueprintString) {
+        try {
+            // Remove the "0" prefix if present
+            if (blueprintString.startsWith('0')) {
+                blueprintString = blueprintString.substring(1);
+            }
+
+            // Decode base64
+            const binaryString = atob(blueprintString);
+
+            // Convert binary string to Uint8Array
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+
+            // Decompress using pako (zlib)
+            const decompressed = pako.inflate(bytes, {to: 'string'});
+
+            // Parse JSON
+            const blueprint = JSON.parse(decompressed);
+
+            // Helper to check for entity usage (recursively)
+            function usesEntity(bp, entityName) {
+                if (!bp) return false;
+
+                // Check current blueprint
+                if (bp.blueprint?.entities?.some(e => e.name === entityName)) {
+                    return true;
+                }
+
+                // Check children if this is a blueprint book
+                if (bp.blueprint_book?.blueprints) {
+                    return bp.blueprint_book.blueprints.some(child => usesEntity(child, entityName));
+                }
+
+                return false;
+            }
+
+            // Helper to check for quality features (recursively)
+            function usesQuality(bp) {
+                if (!bp) return false;
+
+                // Check current blueprint
+                if (bp.blueprint) {
+                    // Check recipe quality
+                    if (bp.blueprint.entities?.some(e => e.recipe_quality)) {
+                        return true;
+                    }
+
+                    // Check circuit conditions in combinators
+                    if (bp.blueprint.entities?.some(e => {
+                        return e.control_behavior?.sections?.sections?.some(section =>
+                            section.filters?.some(filter => filter.quality)
+                        );
+                    })) {
+                        return true;
+                    }
+
+                    // Check parameters
+                    if (bp.blueprint.parameters?.some(param => param['quality-condition'])) {
+                        return true;
+                    }
+                }
+
+                // Check children if this is a blueprint book
+                if (bp.blueprint_book?.blueprints) {
+                    return bp.blueprint_book.blueprints.some(child => usesQuality(child));
+                }
+
+                return false;
+            }
+
+            // Helper to check for parameters (recursively)
+            function usesParameters(bp) {
+                if (!bp) return false;
+
+                // Check current blueprint
+                if (bp.blueprint?.parameters?.length > 0) {
+                    return true;
+                }
+
+                // Check children if this is a blueprint book
+                if (bp.blueprint_book?.blueprints) {
+                    return bp.blueprint_book.blueprints.some(child => usesParameters(child));
+                }
+
+                return false;
+            }
+
+            // Add metadata about feature usage
+            const metadata = {
+                version: parseVersion(blueprint.blueprint?.version),
+                type: Object.keys(blueprint)[0], // blueprint, blueprint_book, etc.
+                label: blueprint.blueprint?.label || blueprint.blueprint_book?.label,
+                description: blueprint.blueprint?.description || blueprint.blueprint_book?.description,
+                icons: blueprint.blueprint?.icons || blueprint.blueprint_book?.icons || [],
+                usesParameters: usesParameters(blueprint),
+                uses20Features: [
+                    'curved-rail-a',
+                    'curved-rail-b',
+                    'half-diagonal-rail'
+                ].some(entityName => usesEntity(blueprint, entityName)),
+                usesSpaceAgeFeatures: false, // TODO: Implement Space Age feature detection
+                usesQualityFeatures: usesQuality(blueprint),
+                usesElevatedRails: [
+                    'elevated-curved-rail-a',
+                    'elevated-curved-rail-b',
+                    'elevated-half-diagonal-rail',
+                    'elevated-straight-rail',
+                    'rail-ramp',
+                    'rail-support'
+                ].some(entityName => usesEntity(blueprint, entityName))
+            };
+
+            return {
+                raw: blueprint,
+                metadata
+            };
+
+        } catch (error) {
+            showError("Failed to parse blueprint: " + error.message);
+            return null;
+        }
+    }
+
+    // UI update functions
+    function showError(message) {
+        const errorEl = document.getElementById('error');
+        errorEl.textContent = message;
+        errorEl.style.display = 'block';
+    }
+
+    function hideError() {
+        document.getElementById('error').style.display = 'none';
+    }
+
+    function getTypeIconAndText(type) {
+        if (type === undefined) {
+            return "Unknown type";
+        }
+
+        let typeWithDash = type.replace("_", "-");
+
+        const displayName = type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+        return `<img src="https://www.factorio.school/icons/item/${typeWithDash}.png" alt="${displayName}" title="${displayName}" class="inline align-middle">`;
+    }
+
+    function updateBasicInfo(blueprint) {
+        const content = document.querySelector('#basic-info .card-content');
+        if (!blueprint) {
+            content.innerHTML = '';
+            return;
+        }
+
+        const {metadata} = blueprint;
+
+        let html = '<div class="info-grid">';
+
+        // Blueprint type
+        html += `
+        <div class="info-label">Type</div>
+        <div class="info-value">${getTypeIconAndText(metadata.type)}</div>
+      `;
+
+        // Label
+        if (metadata.label) {
+            html += `
+          <div class="info-label">Label</div>
+          <div class="info-value">${richTextParser.parseRichText(metadata.label)}</div>
+        `;
+        }
+
+        // Description
+        if (metadata.description) {
+            html += `
+          <div class="info-label">Description</div>
+          <div class="info-value">${richTextParser.parseRichText(metadata.description)}</div>
+        `;
+        }
+
+        // Game version
+        if (metadata.version) {
+            html += `
+          <div class="info-label">Game Version</div>
+          <div class="info-value">${metadata.version}</div>
+        `;
+        }
+
+        // Icons
+        if (metadata.icons && metadata.icons.length > 0) {
+            html += `
+          <div class="info-label">Icons</div>
+          <div class="blueprint-icons">
+        `;
+            for (const icon of metadata.icons) {
+                if (icon.signal) {
+                    // Default to 'item' type if not specified
+                    const type = !icon.signal.type ? 'item' :
+                        icon.signal.type === 'virtual' ? 'virtual-signal' :
+                            icon.signal.type;
+                    html += richTextParser.createIcon(type, icon.signal.name);
+                }
+            }
+            html += '</div>';
+        }
+
+        html += '</div>'; // Close info-grid
+
+        content.innerHTML = html;
+
+        // Expand the card by default when there's content
+        document.getElementById('basic-info').classList.add('expanded');
+    }
+
+    // Track the currently selected blueprint path
+    let selectedBlueprintPath = '';
+
+    function getBlueprintByPath(blueprint, path) {
+        if (!path) return blueprint;
+
+        const parts = path.split('.');
+        let current = blueprint;
+
+        for (const part of parts) {
+            const index = parseInt(part) - 1;
+            if (current.blueprint_book && current.blueprint_book.blueprints) {
+                current = current.blueprint_book.blueprints[index];
+            } else {
+                return null;
+            }
+        }
+
+        return current;
+    }
+
+    function createTreeRow(blueprint, path = '', level = 0) {
+        const indent = '<div class="tree-indent"></div>'.repeat(level);
+        const isSelected = path === selectedBlueprintPath;
+
+        let rowHtml = `
+        <div class="tree-row ${isSelected ? 'selected' : ''}" data-path="${path}">
+        ${indent}
+      `;
+
+        // Add type icon if it's a special type
+        if (blueprint.upgrade_planner) {
+            rowHtml += `<div class="tree-type-icon">${richTextParser.createIcon('item', 'upgrade-planner')}</div>`;
+        } else if (blueprint.deconstruction_planner) {
+            rowHtml += `<div class="tree-type-icon">${richTextParser.createIcon('item', 'deconstruction-planner')}</div>`;
+        }
+
+        // Add blueprint icons
+        const icons = blueprint.blueprint?.icons ||
+            blueprint.blueprint_book?.icons ||
+            blueprint.upgrade_planner?.icons ||
+            blueprint.deconstruction_planner?.icons || [];
+
+        if (icons.length > 0) {
+            rowHtml += '<div class="tree-icons">';
+            for (const icon of icons) {
+                if (icon.signal) {
+                    const type = !icon.signal.type ? 'item' :
+                        icon.signal.type === 'virtual' ? 'virtual-signal' :
+                            icon.signal.type;
+                    rowHtml += richTextParser.createIcon(type, icon.signal.name);
+                }
+            }
+            rowHtml += '</div>';
+        }
+
+        // Add label
+        const label = blueprint.blueprint?.label ||
+            blueprint.blueprint_book?.label ||
+            blueprint.upgrade_planner?.label ||
+            blueprint.deconstruction_planner?.label ||
+            '(no label)';
+
+        rowHtml += `<div class="tree-label">${richTextParser.parseRichText(label)}</div>`;
+        rowHtml += '</div>';
+
+        // Recursively add children if it's a blueprint book
+        if (blueprint.blueprint_book?.blueprints) {
+            blueprint.blueprint_book.blueprints.forEach((child, index) => {
+                const childPath = path ? `${path}.${index + 1}` : `${index + 1}`;
+                rowHtml += createTreeRow(child, childPath, level + 1);
+            });
+        }
+
+        return rowHtml;
+    }
+
+    function updateBlueprintTree(blueprint) {
+        const content = document.querySelector('#blueprint-tree .card-content');
+        if (!blueprint || !blueprint.raw) {
+            content.innerHTML = '';
+            document.getElementById('blueprint-tree').style.display = 'none';
+            return;
+        }
+
+        // Only show tree for blueprint books
+        if (!blueprint.raw.blueprint_book) {
+            document.getElementById('blueprint-tree').style.display = 'none';
+            return;
+        }
+
+        document.getElementById('blueprint-tree').style.display = 'block';
+        content.innerHTML = `<div class="blueprint-tree">${createTreeRow(blueprint.raw)}</div>`;
+
+        // Add click handlers for tree rows
+        content.querySelectorAll('.tree-row').forEach(row => {
+            row.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent parent rows from also triggering
+                const path = row.dataset.path;
+                selectedBlueprintPath = path;
+
+                // Update selection visuals
+                content.querySelectorAll('.tree-row').forEach(r => {
+                    r.classList.toggle('selected', r.dataset.path === path);
+                });
+
+                // Update all the cards with the selected blueprint
+                const selectedBlueprint = getBlueprintByPath(blueprint.raw, path);
+                updateSummary({raw: selectedBlueprint, metadata: blueprint.metadata});
+                updateContents({raw: selectedBlueprint, metadata: blueprint.metadata});
+                updateJson(blueprint);  // Add this line to update the JSON card
+                updateUpgradePlanner({raw: selectedBlueprint, metadata: blueprint.metadata});
+                updateDeconstructionPlanner({raw: selectedBlueprint, metadata: blueprint.metadata});
+                updateParameters({raw: selectedBlueprint, metadata: blueprint.metadata});
+            });
+        });
+
+        // Expand the card when there's content
+        document.getElementById('blueprint-tree').classList.add('expanded');
+    }
+
+    function updateSummary(blueprint) {
+        const content = document.querySelector('#summary .card-content');
+        const cardElement = document.getElementById('summary');
+
+        if (!blueprint || !blueprint.raw) {
+            content.innerHTML = '';
+            cardElement.style.display = 'none';
+            return;
+        }
+
+        const metadata = getBlueprintMetadata(blueprint.raw);
+        if (!metadata) {
+            content.innerHTML = '';
+            cardElement.style.display = 'none';
+            return;
+        }
+
+        cardElement.style.display = 'block';
+
+        let html = '<div class="info-grid">';
+
+        // Blueprint type
+        html += `
+        <div class="info-label">Type</div>
+        <div class="info-value">${getTypeIconAndText(metadata.type)}</div>
+      `;
+
+        // Label
+        if (metadata.label) {
+            html += `
+          <div class="info-label">Label</div>
+          <div class="info-value">${richTextParser.parseRichText(metadata.label)}</div>
+        `;
+        }
+
+        // Description
+        if (metadata.description) {
+            html += `
+          <div class="info-label">Description</div>
+          <div class="info-value">${richTextParser.parseRichText(metadata.description)}</div>
+        `;
+        }
+
+        // Game version
+        if (metadata.version) {
+            html += `
+          <div class="info-label">Game Version</div>
+          <div class="info-value">${parseVersion(metadata.version)}</div>
+        `;
+        }
+
+        // Icons
+        if (metadata.icons && metadata.icons.length > 0) {
+            html += `
+          <div class="info-label">Icons</div>
+          <div class="blueprint-icons">
+        `;
+            for (const icon of metadata.icons) {
+                if (icon.signal) {
+                    const type = !icon.signal.type ? 'item' :
+                        icon.signal.type === 'virtual' ? 'virtual-signal' :
+                            icon.signal.type;
+                    html += richTextParser.createIcon(type, icon.signal.name);
+                }
+            }
+            html += '</div>';
+        }
+
+        // Snap to grid
+        if (metadata.snapToGrid !== undefined) {
+            html += `
+          <div class="info-label">Grid Snapping</div>
+          <div class="info-value">${metadata.snapToGrid ? (metadata.absoluteSnapping ? 'Absolute' : 'Relative') : 'None'}</div>
+        `;
+        }
+
+        html += '</div>'; // Close info-grid
+
+        // Feature badges
+        html += '<div class="feature-badges">';
+
+        const features = [
+            {name: 'Parameters', active: metadata.usesParameters},
+            {name: '2.0 Features', active: metadata.uses20Features},
+            {name: 'Space Age', active: metadata.usesSpaceAgeFeatures},
+            {name: 'Quality', active: metadata.usesQualityFeatures},
+            {name: 'Elevated Rails', active: metadata.usesElevatedRails}
+        ];
+
+        for (const feature of features) {
+            html += `
+          <div class="feature-badge ${feature.active ? 'active' : ''}">
+            ${feature.name}
+          </div>
+        `;
+        }
+
+        html += '</div>';
+
+        content.innerHTML = html;
+        cardElement.classList.add('expanded');
+    }
+
+    function updateContents(blueprint) {
+        const content = document.querySelector('#contents .card-content');
+        const cardElement = document.getElementById('contents');
+
+        if (!blueprint?.raw?.blueprint) {
+            content.innerHTML = '';
+            cardElement.style.display = 'none';
+            return;
+        }
+
+        cardElement.style.display = 'block';
+
+        let html = '<div class="contents-tables">';
+
+        // Entities table
+        if (blueprint.raw.blueprint.entities?.length > 0) {
+            const entityCounts = {};
+            blueprint.raw.blueprint.entities.forEach(entity => {
+                entityCounts[entity.name] = (entityCounts[entity.name] || 0) + 1;
+            });
+
+            const sortedEntities = Object.entries(entityCounts)
+                .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+            html += `
+          <div class="contents-section">
+            <div class="contents-section-header">Entities</div>
+            <table class="contents-table">
+              <thead>
+                <tr>
+                  <th>Entity</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+            sortedEntities.forEach(([name, count]) => {
+                html += `
+            <tr>
+              <td class="contents-icon">
+                ${richTextParser.createIcon('entity', name)}
+                ${name}
+              </td>
+              <td class="contents-count">${count}</td>
+            </tr>
+          `;
+            });
+
+            html += '</tbody></table></div>';
+        }
+
+        // Recipe count from assembling machines, refineries, chemical plants, etc.
+        const recipeEntities = blueprint.raw.blueprint.entities?.filter(
+            entity => entity.recipe && [
+                'assembling-machine-1',
+                'assembling-machine-2',
+                'assembling-machine-3',
+                'chemical-plant',
+                'oil-refinery'
+            ].some(prefix => entity.name.startsWith(prefix))
+        ) || [];
+
+        if (recipeEntities.length > 0) {
+            const recipeCounts = {};
+            recipeEntities.forEach(entity => {
+                recipeCounts[entity.recipe] = (recipeCounts[entity.recipe] || 0) + 1;
+            });
+
+            const sortedRecipes = Object.entries(recipeCounts)
+                .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+            html += `
+          <div class="contents-section">
+            <div class="contents-section-header">Recipes</div>
+            <table class="contents-table">
+              <thead>
+                <tr>
+                  <th>Recipe</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+            sortedRecipes.forEach(([name, count]) => {
+                html += `
+            <tr>
+              <td class="contents-icon">
+                ${richTextParser.createIcon('recipe', name)}
+                ${name}
+              </td>
+              <td class="contents-count">${count}</td>
+            </tr>
+          `;
+            });
+
+            html += '</tbody></table></div>';
+        }
+
+        // Tiles table
+        if (blueprint.raw.blueprint.tiles?.length > 0) {
+            const tileCounts = {};
+            blueprint.raw.blueprint.tiles.forEach(tile => {
+                tileCounts[tile.name] = (tileCounts[tile.name] || 0) + 1;
+            });
+
+            const sortedTiles = Object.entries(tileCounts)
+                .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+            html += `
+          <div class="contents-section">
+            <div class="contents-section-header">Tiles</div>
+            <table class="contents-table">
+              <thead>
+                <tr>
+                  <th>Tile</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+            sortedTiles.forEach(([name, count]) => {
+                html += `
+            <tr>
+              <td class="contents-icon">
+                ${richTextParser.createIcon('tile', name)}
+                ${name}
+              </td>
+              <td class="contents-count">${count}</td>
+            </tr>
+          `;
+            });
+
+            html += '</tbody></table></div>';
+        }
+
+        html += '</div>'; // Close contents-tables
+
+        content.innerHTML = html;
+        cardElement.classList.add('expanded');
+    }
+
+    function updateUpgradePlanner(blueprint) {
+        const content = document.querySelector('#upgrade-planner .card-content');
+        const cardElement = document.getElementById('upgrade-planner');
+
+        if (!blueprint?.raw?.upgrade_planner) {
+            content.innerHTML = '';
+            cardElement.style.display = 'none';
+            return;
+        }
+
+        cardElement.style.display = 'block';
+
+        const mappings = blueprint.raw.upgrade_planner.settings?.mappers || [];
+        if (mappings.length === 0) {
+            content.innerHTML = '<div class="panel-inset">No upgrade mappings defined</div>';
+            return;
+        }
+
+        let html = '<div class="upgrade-mappings">';
+
+        // Sort mappings by index
+        const sortedMappings = [...mappings].sort((a, b) => (a.index || 0) - (b.index || 0));
+
+        sortedMappings.forEach(mapping => {
+            let leftIcon, rightIcon;
+
+            // Handle the "from" side
+            if (mapping.from) {
+                const type = !mapping.from.type ? 'item' :
+                    mapping.from.type === 'virtual' ? 'virtual-signal' :
+                        mapping.from.type;
+                leftIcon = richTextParser.createIcon(type, mapping.from.name);
+            }
+
+            // Handle the "to" side
+            if (mapping.to) {
+                const type = !mapping.to.type ? 'item' :
+                    mapping.to.type === 'virtual' ? 'virtual-signal' :
+                        mapping.to.type;
+                rightIcon = richTextParser.createIcon(type, mapping.to.name);
+            }
+
+            html += `
+          <div class="upgrade-mapping">
+            <div class="upgrade-item">
+              ${leftIcon || '<span class="grey">(any)</span>'}
+              ${mapping.from?.name || ''}
+            </div>
+            <div class="upgrade-arrow">→</div>
+            <div class="upgrade-item">
+              ${rightIcon || '<span class="grey">(remove)</span>'}
+              ${mapping.to?.name || ''}
+            </div>
+          </div>
+        `;
+        });
+
+        html += '</div>';
+        content.innerHTML = html;
+        cardElement.classList.add('expanded');
+    }
+
+    function updateDeconstructionPlanner(blueprint) {
+        const content = document.querySelector('#deconstruction-planner .card-content');
+        const cardElement = document.getElementById('deconstruction-planner');
+
+        if (!blueprint?.raw?.deconstruction_planner) {
+            content.innerHTML = '';
+            cardElement.style.display = 'none';
+            return;
+        }
+
+        cardElement.style.display = 'block';
+
+        const settings = blueprint.raw.deconstruction_planner.settings || {};
+        let html = '<div class="deconstruction-settings">';
+
+        // Special modes
+        if (settings.trees_and_rocks_only) {
+            html += `
+              <div class="filter-group">
+                <div class="filter-group-header">Mode</div>
+                <div class="filter-item">Trees and rocks only</div>
+              </div>
+            `;
+        }
+
+        // Tile selection mode
+        if (settings.tile_selection_mode !== undefined) {
+            const modeNames = {
+                2: 'Never deconstruct tiles',
+                3: 'Always deconstruct tiles'
+            };
+            html += `
+              <div class="filter-group">
+                <div class="filter-group-header">Tile Selection</div>
+                <div class="filter-item">${modeNames[settings.tile_selection_mode] || `Mode ${settings.tile_selection_mode}`}</div>
+              </div>
+            `;
+        }
+
+        // Entity filters
+        if (settings.entity_filters?.length > 0) {
+            const sortedFilters = [...settings.entity_filters].sort((a, b) => (a.index || 0) - (b.index || 0));
+            html += `
+              <div class="filter-group">
+                <div class="filter-group-header">Entity Filters</div>
+            `;
+
+            sortedFilters.forEach(filter => {
+                html += `
+                <div class="filter-item">
+                  ${richTextParser.createIcon('entity', filter.name)}
+                  ${filter.name}
+                </div>
+              `;
+            });
+
+            html += '</div>';
+        }
+
+        if (html === '<div class="deconstruction-settings">') {
+            html += '<div class="panel-inset">No specific settings defined</div>';
+        }
+
+        html += '</div>';
+        content.innerHTML = html;
+        cardElement.classList.add('expanded');
+    }
+
+    function updateParameters(blueprint) {
+        const content = document.querySelector('#parameters .card-content');
+        const cardElement = document.getElementById('parameters');
+
+        if (!blueprint?.raw?.blueprint?.parameters) {
+            content.innerHTML = '';
+            cardElement.style.display = 'none';
+            return;
+        }
+
+        const parameters = blueprint.raw.blueprint.parameters;
+        if (parameters.length === 0) {
+            content.innerHTML = '<div class="panel-inset">No parameters defined</div>';
+            return;
+        }
+
+        cardElement.style.display = 'block';
+
+        let html = '<div class="parameters-list">';
+
+        parameters.forEach(param => {
+            html += `<div class="parameter-item">`;
+
+            // Parameter name
+            html += `<div class="parameter-name">${param.name}</div>`;
+
+            // Parameter value based on type
+            if (param.type === 'id') {
+                html += `<div class="parameter-value">ID: ${param.id}</div>`;
+
+                // Show quality condition if present
+                if (param['quality-condition']) {
+                    const qualityCond = param['quality-condition'];
+                    html += `
+              <div class="parameter-description">
+                Quality must be ${qualityCond.comparator} ${qualityCond.quality}
+              </div>
+            `;
+                }
+            } else if (param.type === 'number') {
+                html += `<div class="parameter-value">${param.number}</div>`;
+            }
+
+            html += '</div>';
+        });
+
+        html += '</div>';
+        content.innerHTML = html;
+        cardElement.classList.add('expanded');
+
+        // Also update metadata to show parameter usage
+        blueprint.metadata.usesParameters = true;
+    }
+
+    function generateFilename(blueprint, isRoot, path) {
+        if (!blueprint) {
+            return 'blueprint.json';
+        }
+
+        let label = blueprint.blueprint?.label ||
+            blueprint.blueprint_book?.label ||
+            blueprint.upgrade_planner?.label ||
+            blueprint.deconstruction_planner?.label ||
+            'blueprint';
+
+        // Clean the label for use as filename
+        label = label.replace(/[^\w\s-]/g, '')
+            .trim()
+            .replace(/\s+/g, '-');
+
+        if (!isRoot && path) {
+            return `${label}-${path}.json`;
+        }
+
+        return `${label}.json`;
+    }
+
+    function downloadJson(data, filename) {
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function blueprintToString(blueprintData) {
+        try {
+            // Convert the blueprint data to a JSON string
+            const jsonString = JSON.stringify(blueprintData);
+
+            // Compress using pako
+            const compressed = pako.deflate(new TextEncoder().encode(jsonString));
+
+            // Convert Uint8Array to binary string
+            let binaryString = '';
+            compressed.forEach(byte => binaryString += String.fromCharCode(byte));
+
+            // Convert to base64
+            let base64 = btoa(binaryString);
+
+            // Prepend '0'
+            return '0' + base64;
+        } catch (error) {
+            showError("Failed to convert blueprint: " + error.message);
+            return null;
+        }
+    }
+
+    function updateJson(blueprint) {
+        const rootJsonPanel = document.getElementById('root-json-panel');
+        const selectedJsonPanel = document.getElementById('selected-json-panel');
+
+        // Update our global state
+        currentRoot = blueprint?.raw || null;
+        currentSelected = selectedBlueprintPath ? getBlueprintByPath(blueprint.raw, selectedBlueprintPath) : null;
+
+        // Show or hide JSON panels based on blueprint presence
+        rootJsonPanel.style.display = currentRoot ? 'block' : 'none';
+        selectedJsonPanel.style.display = currentSelected ? 'block' : 'none';
+    }
+
+    // Event listeners
+    document.getElementById('blueprint-input').addEventListener('paste', (event) => {
+        hideError();
+        const blueprint = parseBlueprint(event.clipboardData.getData('text'));
+        if (blueprint) {
+            updateBasicInfo(blueprint);
+            updateBlueprintTree(blueprint);
+            updateSummary(blueprint);
+            updateContents(blueprint);
+            updateUpgradePlanner(blueprint);
+            updateDeconstructionPlanner(blueprint);
+            updateParameters(blueprint);
+            updateJson(blueprint);
+        }
+    });
+
+    // Rich text parsing
+    const richTextParser = {
+        // Color name to RGB mapping for named colors
+        colorMap: {
+            'default': '#ffffff',
+            'red': '#ff0000',
+            'green': '#00ff00',
+            'blue': '#0000ff',
+            'orange': '#ffa500',
+            'yellow': '#ffff00',
+            'pink': '#ffc0cb',
+            'purple': '#800080',
+            'white': '#ffffff',
+            'black': '#000000',
+            'gray': '#808080',
+            'brown': '#a52a2a',
+            'cyan': '#00ffff',
+            'acid': '#80ff00'
+        },
+
+        // Font mapping
+        fontMap: {
+            'default-bold': 'font-weight: bold;',
+            'default-large': 'font-size: 120%;',
+            'default-large-bold': 'font-size: 120%; font-weight: bold;'
+        },
+
+        // Parse a color value which could be named or RGB
+        parseColor(color) {
+            if (this.colorMap[color]) {
+                return this.colorMap[color];
+            }
+            // Handle RGB format like "1,0,0" or "255,0,0"
+            if (color.includes(',')) {
+                const parts = color.split(',').map(Number);
+                if (parts.length === 3) {
+                    if (Math.max(...parts) <= 1) {
+                        // Convert 0-1 range to 0-255
+                        parts = parts.map(n => Math.round(n * 255));
+                    }
+                    return `rgb(${parts.join(',')})`;
+                }
+            }
+            // Handle hex colors
+            if (color.startsWith('#')) {
+                return color;
+            }
+            return this.colorMap.default;
+        },
+
+        // Convert game objects to icon images
+        createIcon(type, name) {
+            return `<img src="https://www.factorio.school/icons/${type}/${name}.png"
+                     alt="${type}:${name}"
+                     class="inline align-middle">`;
+        },
+
+        // Parse rich text markup into HTML
+        parseRichText(text) {
+            if (!text) return '';
+
+            let result = text;
+
+            // Replace game object references with icons
+            const iconRegex = /\[(item|fluid|entity|technology|recipe|virtual-signal|achievement|tile)=([^\]]+)\]/g;
+            result = result.replace(iconRegex, (_, type, name) => this.createIcon(type, name));
+
+            // Handle GPS coordinates
+            const gpsRegex = /\[gps=(-?[\d.]+),(-?[\d.]+)(?:,([^\]]+))?\]/g;
+            result = result.replace(gpsRegex, (_, x, y, surface) => {
+                const loc = surface ? `${surface} ${x},${y}` : `${x},${y}`;
+                return `<span class="gps-coords">📍 ${loc}</span>`;
+            });
+
+            // Handle color tags
+            const colorRegex = /\[color=([^\]]+)\](.*?)(?:\[\/color\]|\[\.color\])/gs;
+            result = result.replace(colorRegex, (_, color, content) => {
+                const parsedColor = this.parseColor(color);
+                return `<span style="color: ${parsedColor}">${content}</span>`;
+            });
+
+            // Handle font tags
+            const fontRegex = /\[font=([^\]]+)\](.*?)(?:\[\/font\]|\[\.font\])/gs;
+            result = result.replace(fontRegex, (_, font, content) => {
+                const style = this.fontMap[font] || '';
+                return `<span style="${style}">${content}</span>`;
+            });
+
+            // Handle special item tags
+            const specialRegex = /\[(special-item)=([^\]]+)\]/g;
+            result = result.replace(specialRegex, (_, type, content) => {
+                return `<span class="special-item">${content}</span>`;
+            });
+
+            // Handle train references
+            const trainRegex = /\[train=(\d+)\]/g;
+            result = result.replace(trainRegex, (_, number) => {
+                return `<span class="train-ref">🚂 ${number}</span>`;
+            });
+
+            // Handle train stop references
+            const trainStopRegex = /\[train-stop=(\d+)\]/g;
+            result = result.replace(trainStopRegex, (_, number) => {
+                return `<span class="train-stop-ref">🚉 ${number}</span>`;
+            });
+
+            // Handle image tags
+            const imgRegex = /\[img=([^\/\]]+)\/([^\]]+)\]/g;
+            result = result.replace(imgRegex, (_, category, name) => {
+                return this.createIcon(category, name);
+            });
+
+            return result;
+        }
+    };
+
+    // Update display functions to use rich text parsing
+    function displayRichText(text, element) {
+        if (!text) {
+            element.style.display = 'none';
+            return;
+        }
+        element.style.display = 'block';
+        element.innerHTML = richTextParser.parseRichText(text);
+    }
+</script>
+</body>
+</html>
