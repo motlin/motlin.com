@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorio Blueprint Parser</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800">Factorio Blueprint Parser</h1>
+        
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-semibold mb-2" for="blueprint">
+                Paste your blueprint string:
+            </label>
+            <textarea 
+                id="blueprint" 
+                class="w-full p-3 border border-gray-300 rounded-md min-h-[100px] font-mono text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                placeholder="Paste your Factorio blueprint string here..."></textarea>
+        </div>
+
+        <button 
+            onclick="parseBlueprint()"
+            class="w-full bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors font-semibold">
+            Parse Blueprint
+        </button>
+
+        <div id="result" class="mt-6 p-4 bg-gray-50 rounded-md border border-gray-200 hidden">
+            <h2 class="font-semibold mb-2 text-gray-700">Results:</h2>
+            <pre id="resultContent" class="whitespace-pre-wrap font-mono text-sm text-gray-600"></pre>
+        </div>
+    </div>
+
+    <script>
+        function convertVersion(versionInt) {
+            // Convert to BigInt to handle 64-bit integers properly
+            const version = BigInt(versionInt);
+            
+            // Extract each 16-bit number using bitwise operations
+            const part1 = Number(version >> 48n & 0xFFFFn);
+            const part2 = Number(version >> 32n & 0xFFFFn);
+            const part3 = Number(version >> 16n & 0xFFFFn);
+            const part4 = Number(version & 0xFFFFn);
+            
+            return `${part1}.${part2}.${part3}.${part4}`;
+        }
+
+        function parseBlueprint() {
+            const blueprintString = document.getElementById('blueprint').value.trim();
+            const resultDiv = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+
+            if (!blueprintString) {
+                resultContent.textContent = 'Error: Please enter a blueprint string';
+                resultDiv.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                // Check if string starts with 0
+                if (!blueprintString.startsWith('0')) {
+                    throw new Error('Invalid blueprint string: Must start with "0"');
+                }
+
+                // Remove the '0' prefix and decode base64
+                const base64String = blueprintString.slice(1);
+                let decodedData;
+                try {
+                    decodedData = atob(base64String);
+                } catch (e) {
+                    throw new Error('Invalid base64 encoding');
+                }
+
+                // Convert decoded base64 to Uint8Array for pako
+                const binaryData = new Uint8Array(decodedData.length);
+                for (let i = 0; i < decodedData.length; i++) {
+                    binaryData[i] = decodedData.charCodeAt(i);
+                }
+
+                // Decompress using pako (zlib)
+                let decompressed;
+                try {
+                    decompressed = pako.inflate(binaryData, { to: 'string' });
+                } catch (e) {
+                    throw new Error('Failed to decompress data: Invalid zlib compression');
+                }
+
+                // Parse JSON
+                const blueprintData = JSON.parse(decompressed);
+
+                // Get the version number from either blueprint or blueprint book
+                const rawVersion = blueprintData.blueprint?.version || blueprintData.blueprint_book?.version;
+                
+                // Extract and display relevant information
+                const info = {
+                    version: rawVersion ? convertVersion(rawVersion) : 'Not found',
+                    type: blueprintData.blueprint ? 'Blueprint' : blueprintData.blueprint_book ? 'Blueprint Book' : 'Unknown',
+                    name: blueprintData.blueprint?.label || blueprintData.blueprint_book?.label || 'Unnamed'
+                };
+
+                resultContent.textContent = JSON.stringify(info, null, 2);
+                resultDiv.classList.remove('hidden');
+            } catch (error) {
+                resultContent.textContent = `Error: ${error.message}`;
+                resultDiv.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
