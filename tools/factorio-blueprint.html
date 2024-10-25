@@ -10,61 +10,139 @@
 <body class="bg-gray-100 min-h-screen py-8">
     <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <h1 class="text-3xl font-bold mb-6 text-gray-800">Factorio Blueprint Parser</h1>
-        
+
         <div class="mb-6">
             <label class="block text-gray-700 text-sm font-semibold mb-2" for="blueprint">
                 Paste your blueprint string:
             </label>
-            <textarea 
-                id="blueprint" 
+            <textarea
+                id="blueprint"
                 class="w-full p-3 border border-gray-300 rounded-md min-h-[100px] font-mono text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
-                placeholder="Paste your Factorio blueprint string here..."></textarea>
+                placeholder="Paste your Factorio blueprint string here..."
+                oninput="debounce(parseBlueprint, 300)()"
+                onpaste="setTimeout(parseBlueprint, 0)"></textarea>
         </div>
 
-        <button 
-            onclick="parseBlueprint()"
-            class="w-full bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors font-semibold">
-            Parse Blueprint
-        </button>
+        <div id="result" class="mt-6 hidden space-y-4">
+            <!-- Metadata section -->
+            <div class="bg-gray-50 rounded-md border border-gray-200 p-4">
+                <h2 class="font-semibold mb-3 text-gray-700">Blueprint Metadata:</h2>
+                <div id="metadataContent" class="space-y-2 font-mono text-sm"></div>
+            </div>
 
-        <div id="result" class="mt-6 p-4 bg-gray-50 rounded-md border border-gray-200 hidden">
-            <h2 class="font-semibold mb-2 text-gray-700">Results:</h2>
-            <pre id="resultContent" class="whitespace-pre-wrap font-mono text-sm text-gray-600"></pre>
+            <!-- Parameters section -->
+            <div id="parametersSection" class="bg-gray-50 rounded-md border border-gray-200 p-4 hidden">
+                <h2 class="font-semibold mb-3 text-gray-700">Parameters:</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr class="text-left text-sm font-medium text-gray-500">
+                                <th class="py-2 pr-4">Name</th>
+                                <th class="py-2 pr-4">Type</th>
+                                <th class="py-2 pr-4">Value</th>
+                                <th class="py-2">Conditions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="parametersContent" class="divide-y divide-gray-200 text-sm"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Expandable JSON section -->
+            <div class="bg-gray-50 rounded-md border border-gray-200 p-4">
+                <button
+                    onclick="toggleJson()"
+                    class="flex items-center justify-between w-full text-left font-semibold text-gray-700 hover:text-gray-900">
+                    <span>Raw JSON Data</span>
+                    <span id="jsonToggle">▼</span>
+                </button>
+                <pre id="jsonContent" class="mt-3 whitespace-pre-wrap font-mono text-sm text-gray-600 hidden"></pre>
+            </div>
         </div>
     </div>
 
     <script>
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
         function convertVersion(versionInt) {
-            // Convert to BigInt to handle 64-bit integers properly
             const version = BigInt(versionInt);
-            
-            // Extract each 16-bit number using bitwise operations
             const part1 = Number(version >> 48n & 0xFFFFn);
             const part2 = Number(version >> 32n & 0xFFFFn);
             const part3 = Number(version >> 16n & 0xFFFFn);
             const part4 = Number(version & 0xFFFFn);
-            
             return `${part1}.${part2}.${part3}.${part4}`;
+        }
+
+        function toggleJson() {
+            const content = document.getElementById('jsonContent');
+            const toggle = document.getElementById('jsonToggle');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                toggle.textContent = '▲';
+            } else {
+                content.classList.add('hidden');
+                toggle.textContent = '▼';
+            }
+        }
+
+        function createMetadataRow(label, value) {
+            return `<div class="grid grid-cols-[120px,1fr] gap-4">
+                <span class="text-gray-600">${label}:</span>
+                <span class="text-gray-800">${value}</span>
+            </div>`;
+        }
+
+        function formatParameterValue(param) {
+            if (param.type === 'number') {
+                return param.number;
+            } else if (param.type === 'id') {
+                return param.id;
+            }
+            return '';
+        }
+
+        function formatConditions(param) {
+            if (param['quality-condition']) {
+                const condition = param['quality-condition'];
+                return `Quality ${condition.comparator} ${condition.quality}`;
+            }
+            return '';
         }
 
         function parseBlueprint() {
             const blueprintString = document.getElementById('blueprint').value.trim();
             const resultDiv = document.getElementById('result');
-            const resultContent = document.getElementById('resultContent');
+            const metadataContent = document.getElementById('metadataContent');
+            const parametersSection = document.getElementById('parametersSection');
+            const parametersContent = document.getElementById('parametersContent');
+            const jsonContent = document.getElementById('jsonContent');
+
+            // Clear all content sections immediately
+            metadataContent.innerHTML = '';
+            parametersContent.innerHTML = '';
+            jsonContent.textContent = '';
+            parametersSection.classList.add('hidden');
+            resultDiv.classList.add('hidden');
 
             if (!blueprintString) {
-                resultContent.textContent = 'Error: Please enter a blueprint string';
-                resultDiv.classList.remove('hidden');
                 return;
             }
 
             try {
-                // Check if string starts with 0
                 if (!blueprintString.startsWith('0')) {
                     throw new Error('Invalid blueprint string: Must start with "0"');
                 }
 
-                // Remove the '0' prefix and decode base64
                 const base64String = blueprintString.slice(1);
                 let decodedData;
                 try {
@@ -73,13 +151,11 @@
                     throw new Error('Invalid base64 encoding');
                 }
 
-                // Convert decoded base64 to Uint8Array for pako
                 const binaryData = new Uint8Array(decodedData.length);
                 for (let i = 0; i < decodedData.length; i++) {
                     binaryData[i] = decodedData.charCodeAt(i);
                 }
 
-                // Decompress using pako (zlib)
                 let decompressed;
                 try {
                     decompressed = pako.inflate(binaryData, { to: 'string' });
@@ -87,24 +163,76 @@
                     throw new Error('Failed to decompress data: Invalid zlib compression');
                 }
 
-                // Parse JSON
                 const blueprintData = JSON.parse(decompressed);
+                const mainData = blueprintData.blueprint || blueprintData.blueprint_book;
 
-                // Get the version number from either blueprint or blueprint book
-                const rawVersion = blueprintData.blueprint?.version || blueprintData.blueprint_book?.version;
-                
-                // Extract and display relevant information
-                const info = {
-                    version: rawVersion ? convertVersion(rawVersion) : 'Not found',
-                    type: blueprintData.blueprint ? 'Blueprint' : blueprintData.blueprint_book ? 'Blueprint Book' : 'Unknown',
-                    name: blueprintData.blueprint?.label || blueprintData.blueprint_book?.label || 'Unnamed'
-                };
+                // Metadata
+                let metadataHtml = '';
+                metadataHtml += createMetadataRow('Type', blueprintData.blueprint ? 'Blueprint' : 'Blueprint Book');
+                if (mainData.version) {
+                    metadataHtml += createMetadataRow('Version', convertVersion(mainData.version));
+                }
+                metadataHtml += createMetadataRow('Name', mainData.label || 'Unnamed');
+                if (mainData.description) {
+                    metadataHtml += createMetadataRow('Description', mainData.description);
+                }
+                if (mainData.entities) {
+                    metadataHtml += createMetadataRow('Entities', mainData.entities.length);
+                }
+                if (mainData.blueprints) {
+                    metadataHtml += createMetadataRow('Blueprints', mainData.blueprints.length);
+                }
+                if (mainData.icons && mainData.icons.length > 0) {
+                    metadataHtml += createMetadataRow('Icons', mainData.icons.length);
+                }
+                if (mainData.entities) {
+                    const itemCounts = {};
+                    mainData.entities.forEach(entity => {
+                        itemCounts[entity.name] = (itemCounts[entity.name] || 0) + 1;
+                    });
+                    const itemList = Object.entries(itemCounts)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 3)
+                        .map(([name, count]) => `${name} (${count})`)
+                        .join(', ');
+                    if (itemList) {
+                        metadataHtml += createMetadataRow('Top Items', itemList);
+                    }
+                }
+                if (mainData.snap_to_grid) {
+                    metadataHtml += createMetadataRow('Snap to Grid', 'Yes');
+                }
+                if (mainData.absolute_snapping) {
+                    metadataHtml += createMetadataRow('Abs. Snapping', 'Yes');
+                }
 
-                resultContent.textContent = JSON.stringify(info, null, 2);
+                // Parameters
+                if (mainData.parameters && mainData.parameters.length > 0) {
+                    let paramsHtml = '';
+                    mainData.parameters.forEach(param => {
+                        paramsHtml += `
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-2 pr-4">${param.name || ''}</td>
+                                <td class="py-2 pr-4">${param.type || ''}</td>
+                                <td class="py-2 pr-4">${formatParameterValue(param)}</td>
+                                <td class="py-2">${formatConditions(param)}</td>
+                            </tr>`;
+                    });
+                    parametersContent.innerHTML = paramsHtml;
+                    parametersSection.classList.remove('hidden');
+                } else {
+                    parametersSection.classList.add('hidden');
+                }
+
+                metadataContent.innerHTML = metadataHtml;
+                jsonContent.textContent = JSON.stringify(blueprintData, null, 2);
                 resultDiv.classList.remove('hidden');
             } catch (error) {
-                resultContent.textContent = `Error: ${error.message}`;
-                resultDiv.classList.remove('hidden');
+                if (blueprintString.length > 0) {
+                    metadataContent.innerHTML = `<div class="text-red-500">Error: ${error.message}</div>`;
+                    parametersSection.classList.add('hidden');
+                    resultDiv.classList.remove('hidden');
+                }
             }
         }
     </script>
