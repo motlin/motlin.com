@@ -6,7 +6,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.783222617742">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.783222993764">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -14,6 +14,7 @@
     <!-- Primary Meta Tags -->
     <title>Factorio blueprint | motlin.com</title>
     <meta name="title" content="Factorio blueprint | motlin.com">
+    <meta name="description" content="I would like to create an artifact that will parse a Factorio blueprint and print out the version number.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://motlin.com/tools/factorio-blueprint/">
@@ -22,19 +23,21 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://motlin.com/tools/factorio-blueprint/">
     <meta property="og:title" content="Factorio blueprint | motlin.com">
+    <meta property="og:description" content="I would like to create an artifact that will parse a Factorio blueprint and print out the version number.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://motlin.com/tools/factorio-blueprint/">
     <meta property="twitter:title" content="Factorio blueprint | motlin.com">
+    <meta property="twitter:description" content="I would like to create an artifact that will parse a Factorio blueprint and print out the version number.">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.6.0.783222617742" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.6.0.783222993764" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.783222617742" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.783222993764" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.783222617742" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.783222993764" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -183,6 +186,27 @@
         <span>Factorio blueprint</span>
     </h1>
 </doc-anchor-target>
+<p>I would like to create an artifact that will parse a Factorio blueprint and print out the version number.</p>
+<p>The way that Factorio Blueprint parsing works:</p>
+<ul>
+<li>Remove the &#x27;0&#x27; prefix</li>
+<li>Decode the base64 string</li>
+<li>Decompress the zlib data</li>
+<li>Parse the JSON</li>
+</ul>
+<p>After parsing the blueprint, display a table of basic information about the blueprint including:</p>
+<ul>
+<li>Game version</li>
+<li>Blueprint type, like blueprint, blueprint book, upgrade planner, deconstruction planner.</li>
+<li>Label</li>
+<li>Description</li>
+<li>Icons</li>
+</ul>
+<p>Factorio text, in labels and descriptions, can contain &quot;rich text,&quot; a format described in the attachment factorio-rich-text.txt. This format includes color, font, and other formatting information. Whenever we display blueprint labels or descriptions, we should parse the rich text and display it in a readable format. For example, <code v-pre>[color=blue][font=default-bold]Shift-click[/font][/color]</code> should display as &quot;Shift-click&quot; in blue and bold. Images, like <code v-pre>[item=red-wire]</code> should become img tags with the appropriate image, like <code v-pre>https://www.factorio.school/icons/item/red-wire.png</code>.</p>
+<p>There shouldn&#x27;t be any button to parse the blueprint. As soon as a paste is detected, the blueprint should be parsed and displayed.</p>
+<p>If the blueprint is a blueprint book, display a tree of the blueprints in the book, showing its recursive structure, including the 4 icons and label of each blueprint.</p>
+<p>If we click on a blueprint in the tree, or if the blueprint type is just a single blueprint, then display summary information about that blueprint in a separate section. That summary should repeat the label, show the description, the game version number, the blueprint type, and tables of the included entities, tiles, and icons.</p>
+<p>At the bottom, include a button to show or hide the json of the root blueprint.</p>
 
                                 
                                 <!-- Required only on API pages -->

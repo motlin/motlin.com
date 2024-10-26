@@ -2,239 +2,415 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factorio Blueprint Parser</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
 </head>
-<body class="bg-gray-100 min-h-screen py-8">
-    <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <h1 class="text-3xl font-bold mb-6 text-gray-800">Factorio Blueprint Parser</h1>
-
-        <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-semibold mb-2" for="blueprint">
-                Paste your blueprint string:
-            </label>
-            <textarea
-                id="blueprint"
-                class="w-full p-3 border border-gray-300 rounded-md min-h-[100px] font-mono text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
-                placeholder="Paste your Factorio blueprint string here..."
-                oninput="debounce(parseBlueprint, 300)()"
-                onpaste="setTimeout(parseBlueprint, 0)"></textarea>
+<body>
+<div class="container">
+    <h1>Factorio Blueprint Parser</h1>
+    <textarea id="input" placeholder="Paste your blueprint string here..."></textarea>
+    <div id="error" class="error" style="display: none;"></div>
+    <div id="output"></div>
+    <div id="json-section" style="display: none;">
+        <div class="section-header">
+            <h3 style="margin: 0;">Raw JSON Data</h3>
+            <button onclick="toggleJson()">Toggle JSON</button>
         </div>
-
-        <div id="result" class="mt-6 hidden space-y-4">
-            <!-- Metadata section -->
-            <div class="bg-gray-50 rounded-md border border-gray-200 p-4">
-                <h2 class="font-semibold mb-3 text-gray-700">Blueprint Metadata:</h2>
-                <div id="metadataContent" class="space-y-2 font-mono text-sm"></div>
-            </div>
-
-            <!-- Parameters section -->
-            <div id="parametersSection" class="bg-gray-50 rounded-md border border-gray-200 p-4 hidden">
-                <h2 class="font-semibold mb-3 text-gray-700">Parameters:</h2>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead>
-                            <tr class="text-left text-sm font-medium text-gray-500">
-                                <th class="py-2 pr-4">Name</th>
-                                <th class="py-2 pr-4">Type</th>
-                                <th class="py-2 pr-4">Value</th>
-                                <th class="py-2">Conditions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="parametersContent" class="divide-y divide-gray-200 text-sm"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Expandable JSON section -->
-            <div class="bg-gray-50 rounded-md border border-gray-200 p-4">
-                <button
-                    onclick="toggleJson()"
-                    class="flex items-center justify-between w-full text-left font-semibold text-gray-700 hover:text-gray-900">
-                    <span>Raw JSON Data</span>
-                    <span id="jsonToggle">▼</span>
-                </button>
-                <pre id="jsonContent" class="mt-3 whitespace-pre-wrap font-mono text-sm text-gray-600 hidden"></pre>
-            </div>
-        </div>
+        <div id="json-viewer" class="json-viewer"></div>
     </div>
+</div>
 
-    <script>
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
+<style>
+    body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f5f5f5;
+    }
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    textarea {
+        width: 100%;
+        height: 100px;
+        margin: 10px 0;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    button {
+        background: #4a524a;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 8px;
+    }
+    button:hover {
+        background: #5a625a;
+    }
+    .blueprint-tree {
+        margin: 20px 0;
+    }
+    .blueprint-node {
+        margin: 8px 0;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .blueprint-node:hover {
+        background: #f5f5f5;
+    }
+    .blueprint-children {
+        margin-left: 20px;
+    }
+    .blueprint-icons {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: 8px;
+    }
+    .blueprint-icon {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+    }
+    .blueprint-type {
+        color: #666;
+        font-size: 0.9em;
+        margin-left: 8px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+    }
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ddd;
+    }
+    th {
+        background: #f5f5f5;
+    }
+    .error {
+        color: red;
+        padding: 10px;
+        background: #fff0f0;
+        border-radius: 4px;
+        margin: 10px 0;
+    }
+    .rich-text {
+        display: inline;
+    }
+    .json-viewer {
+        background: #f8f8f8;
+        padding: 16px;
+        border-radius: 4px;
+        margin-top: 20px;
+        white-space: pre-wrap;
+        font-family: monospace;
+        font-size: 14px;
+        display: none;
+    }
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        padding: 8px;
+        background: #f5f5f5;
+        border-radius: 4px;
+    }
+    .section-header button {
+        margin-left: auto;
+    }
+    .blueprint-info {
+        margin: 10px 0;
+    }
+    .copy-button {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+        margin-right: 8px;
+    }
+    .copy-button:hover {
+        background: #45a049;
+    }
+</style>
+
+<script>
+    function decodeBlueprint(str) {
+        try {
+            if (str.startsWith('0')) {
+                str = str.slice(1);
+            }
+            const decoded = atob(str);
+            const bytes = new Uint8Array(decoded.length);
+            for (let i = 0; i < decoded.length; i++) {
+                bytes[i] = decoded.charCodeAt(i);
+            }
+            const decompressed = pako.inflate(bytes, { to: 'string' });
+            return JSON.parse(decompressed);
+        } catch (error) {
+            throw new Error(`Failed to decode blueprint: ${error.message}`);
+        }
+    }
+
+    function parseRichText(text) {
+        if (!text) return '';
+
+        text = text.replace(/\[color=([^\]]+)\](.*?)\[\/color\]/g, (match, color, content) => {
+            return `<span style="color: ${color}">${content}</span>`;
+        });
+
+        text = text.replace(/\[font=([^\]]+)\](.*?)\[\/font\]/g, (match, font, content) => {
+            const style = font.includes('bold') ? 'font-weight: bold;' : '';
+            return `<span style="${style}">${content}</span>`;
+        });
+
+        text = text.replace(/\[item=([^\]]+)\]/g, (match, item) => {
+            return `<img src="https://www.factorio.school/icons/item/${item}.png" alt="${item}" style="height: 24px; vertical-align: middle;">`;
+        });
+
+        return `<span class="rich-text">${text}</span>`;
+    }
+
+    function renderIcons(icons) {
+        if (!icons || !icons.length) return '';
+
+        const sortedIcons = [...icons].sort((a, b) => a.index - b.index);
+
+        return sortedIcons.map(icon => {
+            const signal = icon.signal;
+            let iconUrl;
+
+            if (signal.type === 'item') {
+                iconUrl = `https://www.factorio.school/icons/item/${signal.name}.png`;
+            } else if (signal.type === 'fluid') {
+                iconUrl = `https://www.factorio.school/icons/fluid/${signal.name}.png`;
+            } else if (signal.type === 'virtual') {
+                iconUrl = `https://www.factorio.school/icons/virtual-signal/${signal.name}.png`;
+            }
+
+            return `<img src="${iconUrl}" alt="${signal.name}" class="blueprint-icon">`;
+        }).join('');
+    }
+
+    function getNodeType(node) {
+        if (node.blueprint) return 'Blueprint';
+        if (node.upgrade_planner) return 'Upgrade Planner';
+        if (node.deconstruction_planner) return 'Deconstruction Planner';
+        return '';
+    }
+
+    function getBlueprintType(blueprint) {
+        if (blueprint.blueprint) return 'Blueprint';
+        if (blueprint.blueprint_book) return 'Blueprint Book';
+        if (blueprint.upgrade_planner) return 'Upgrade Planner';
+        if (blueprint.deconstruction_planner) return 'Deconstruction Planner';
+        return 'Unknown';
+    }
+
+    function renderBlueprintTable(blueprint) {
+        const table = document.createElement('table');
+
+        const addRow = (label, value) => {
+            if (value === undefined) return;
+            const row = table.insertRow();
+            row.insertCell().textContent = label;
+            row.insertCell().innerHTML = typeof value === 'string' ? parseRichText(value) : value;
+        };
+
+        addRow('Game Version', blueprint.version);
+        addRow('Type', getBlueprintType(blueprint));
+        addRow('Label', blueprint.blueprint?.label || blueprint.blueprint_book?.label);
+        addRow('Description', blueprint.blueprint?.description || blueprint.blueprint_book?.description);
+
+        return table;
+    }
+
+    function renderBlueprintTree(blueprint, parentElem) {
+        const container = document.createElement('div');
+        container.className = 'blueprint-tree';
+
+        if (blueprint.blueprint_book) {
+            blueprint.blueprint_book.blueprints.forEach(child => {
+                const node = document.createElement('div');
+                node.className = 'blueprint-node';
+
+                const label = child.blueprint?.label ||
+                    child.blueprint_book?.label ||
+                    child.upgrade_planner?.label ||
+                    child.deconstruction_planner?.label ||
+                    'Unnamed';
+
+                const icons = child.blueprint?.icons ||
+                    child.blueprint_book?.icons ||
+                    child.upgrade_planner?.icons ||
+                    child.deconstruction_planner?.icons ||
+                    [];
+
+                const type = child.blueprint_book ? '' : getNodeType(child);
+
+                node.innerHTML = `
+                        ${parseRichText(label)}
+                        ${type ? `<span class="blueprint-type">(${type})</span>` : ''}
+                        <span class="blueprint-icons">
+                            ${renderIcons(icons)}
+                        </span>
+                        ${child.blueprint_book ? '📚' : ''}
+                    `;
+
+                if (child.blueprint) {
+                    node.onclick = () => showBlueprintDetails(child);
+                }
+
+                const childContainer = document.createElement('div');
+                childContainer.className = 'blueprint-children';
+
+                if (child.blueprint_book) {
+                    renderBlueprintTree(child, childContainer);
+                }
+
+                node.appendChild(childContainer);
+                container.appendChild(node);
+            });
+        }
+
+        parentElem.appendChild(container);
+    }
+
+    function encodeBlueprint(blueprintData) {
+        try {
+            // Create a fresh blueprint object with just the necessary data
+            const singleBlueprint = {
+                blueprint: blueprintData.blueprint,
+                version: blueprintData.version || 281479275675648 // Default version if none provided
             };
+
+            // Convert to JSON string
+            const jsonString = JSON.stringify(singleBlueprint);
+
+            // Compress with zlib
+            const compressed = pako.deflate(jsonString, { to: 'string' });
+
+            // Convert to base64
+            let base64 = btoa(compressed);
+
+            // Add '0' prefix
+            return '0' + base64;
+        } catch (error) {
+            throw new Error(`Failed to encode blueprint: ${error.message}`);
+        }
+    }
+
+    async function copyToClipboard(blueprintData) {
+        try {
+            const encodedBlueprint = encodeBlueprint(blueprintData);
+            await navigator.clipboard.writeText(encodedBlueprint);
+            const button = document.querySelector('.copy-button');
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+                button.textContent = 'Copy Blueprint';
+            }, 2000);
+        } catch (error) {
+            console.error('Failed to copy:', error);
+            alert('Failed to copy blueprint: ' + error.message);
+        }
+    }
+
+    function showBlueprintDetails(blueprintData) {
+        const details = document.createElement('div');
+        const blueprint = blueprintData.blueprint;
+
+        const info = document.createElement('div');
+        info.className = 'blueprint-info';
+        info.innerHTML = `
+                <h3>${parseRichText(blueprint.label || 'Unnamed Blueprint')}</h3>
+                <p><strong>Type:</strong> ${getBlueprintType(blueprintData)}</p>
+                <p><strong>Game Version:</strong> ${blueprintData.version || 'Unknown'}</p>
+                ${blueprint.description ? `<p><strong>Description:</strong> ${parseRichText(blueprint.description)}</p>` : ''}
+                <button class="copy-button" onclick="copyToClipboard(${JSON.stringify(blueprintData)})">
+                    Copy Blueprint
+                </button>
+            `;
+        details.appendChild(info);
+
+        if (blueprint.entities) {
+            const entityCounts = {};
+            blueprint.entities.forEach(entity => {
+                entityCounts[entity.name] = (entityCounts[entity.name] || 0) + 1;
+            });
+
+            const entityTable = document.createElement('table');
+            entityTable.innerHTML = `
+                    <tr><th>Entity</th><th>Count</th></tr>
+                    ${Object.entries(entityCounts)
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([name, count]) => `
+                            <tr>
+                                <td>${parseRichText(`[item=${name}]`)} ${name}</td>
+                                <td>${count}</td>
+                            </tr>
+                        `).join('')}
+                `;
+            details.appendChild(entityTable);
         }
 
-        function convertVersion(versionInt) {
-            const version = BigInt(versionInt);
-            const part1 = Number(version >> 48n & 0xFFFFn);
-            const part2 = Number(version >> 32n & 0xFFFFn);
-            const part3 = Number(version >> 16n & 0xFFFFn);
-            const part4 = Number(version & 0xFFFFn);
-            return `${part1}.${part2}.${part3}.${part4}`;
-        }
+        const existing = document.getElementById('blueprint-details');
+        if (existing) existing.remove();
 
-        function toggleJson() {
-            const content = document.getElementById('jsonContent');
-            const toggle = document.getElementById('jsonToggle');
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                toggle.textContent = '▲';
-            } else {
-                content.classList.add('hidden');
-                toggle.textContent = '▼';
+        details.id = 'blueprint-details';
+        document.getElementById('output').appendChild(details);
+    }
+
+    function toggleJson() {
+        const viewer = document.getElementById('json-viewer');
+        viewer.style.display = viewer.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function parseBlueprint() {
+        const input = document.getElementById('input').value.trim();
+        if (!input) return;
+
+        const errorElem = document.getElementById('error');
+        const outputElem = document.getElementById('output');
+        const jsonSection = document.getElementById('json-section');
+
+        errorElem.style.display = 'none';
+        outputElem.innerHTML = '';
+        jsonSection.style.display = 'none';
+
+        try {
+            const blueprint = decodeBlueprint(input);
+
+            outputElem.appendChild(renderBlueprintTable(blueprint));
+
+            if (blueprint.blueprint_book) {
+                renderBlueprintTree(blueprint, outputElem);
+            } else if (blueprint.blueprint) {
+                showBlueprintDetails(blueprint);
             }
+
+            jsonSection.style.display = 'block';
+            document.getElementById('json-viewer').textContent =
+                JSON.stringify(blueprint, null, 2);
+
+        } catch (error) {
+            errorElem.textContent = error.message;
+            errorElem.style.display = 'block';
         }
+    }
 
-        function createMetadataRow(label, value) {
-            return `<div class="grid grid-cols-[120px,1fr] gap-4">
-                <span class="text-gray-600">${label}:</span>
-                <span class="text-gray-800">${value}</span>
-            </div>`;
-        }
-
-        function formatParameterValue(param) {
-            if (param.type === 'number') {
-                return param.number;
-            } else if (param.type === 'id') {
-                return param.id;
-            }
-            return '';
-        }
-
-        function formatConditions(param) {
-            if (param['quality-condition']) {
-                const condition = param['quality-condition'];
-                return `Quality ${condition.comparator} ${condition.quality}`;
-            }
-            return '';
-        }
-
-        function parseBlueprint() {
-            const blueprintString = document.getElementById('blueprint').value.trim();
-            const resultDiv = document.getElementById('result');
-            const metadataContent = document.getElementById('metadataContent');
-            const parametersSection = document.getElementById('parametersSection');
-            const parametersContent = document.getElementById('parametersContent');
-            const jsonContent = document.getElementById('jsonContent');
-
-            // Clear all content sections immediately
-            metadataContent.innerHTML = '';
-            parametersContent.innerHTML = '';
-            jsonContent.textContent = '';
-            parametersSection.classList.add('hidden');
-            resultDiv.classList.add('hidden');
-
-            if (!blueprintString) {
-                return;
-            }
-
-            try {
-                if (!blueprintString.startsWith('0')) {
-                    throw new Error('Invalid blueprint string: Must start with "0"');
-                }
-
-                const base64String = blueprintString.slice(1);
-                let decodedData;
-                try {
-                    decodedData = atob(base64String);
-                } catch (e) {
-                    throw new Error('Invalid base64 encoding');
-                }
-
-                const binaryData = new Uint8Array(decodedData.length);
-                for (let i = 0; i < decodedData.length; i++) {
-                    binaryData[i] = decodedData.charCodeAt(i);
-                }
-
-                let decompressed;
-                try {
-                    decompressed = pako.inflate(binaryData, { to: 'string' });
-                } catch (e) {
-                    throw new Error('Failed to decompress data: Invalid zlib compression');
-                }
-
-                const blueprintData = JSON.parse(decompressed);
-                const mainData = blueprintData.blueprint || blueprintData.blueprint_book;
-
-                // Metadata
-                let metadataHtml = '';
-                metadataHtml += createMetadataRow('Type', blueprintData.blueprint ? 'Blueprint' : 'Blueprint Book');
-                if (mainData.version) {
-                    metadataHtml += createMetadataRow('Version', convertVersion(mainData.version));
-                }
-                metadataHtml += createMetadataRow('Name', mainData.label || 'Unnamed');
-                if (mainData.description) {
-                    metadataHtml += createMetadataRow('Description', mainData.description);
-                }
-                if (mainData.entities) {
-                    metadataHtml += createMetadataRow('Entities', mainData.entities.length);
-                }
-                if (mainData.blueprints) {
-                    metadataHtml += createMetadataRow('Blueprints', mainData.blueprints.length);
-                }
-                if (mainData.icons && mainData.icons.length > 0) {
-                    metadataHtml += createMetadataRow('Icons', mainData.icons.length);
-                }
-                if (mainData.entities) {
-                    const itemCounts = {};
-                    mainData.entities.forEach(entity => {
-                        itemCounts[entity.name] = (itemCounts[entity.name] || 0) + 1;
-                    });
-                    const itemList = Object.entries(itemCounts)
-                        .sort((a, b) => b[1] - a[1])
-                        .slice(0, 3)
-                        .map(([name, count]) => `${name} (${count})`)
-                        .join(', ');
-                    if (itemList) {
-                        metadataHtml += createMetadataRow('Top Items', itemList);
-                    }
-                }
-                if (mainData.snap_to_grid) {
-                    metadataHtml += createMetadataRow('Snap to Grid', 'Yes');
-                }
-                if (mainData.absolute_snapping) {
-                    metadataHtml += createMetadataRow('Abs. Snapping', 'Yes');
-                }
-
-                // Parameters
-                if (mainData.parameters && mainData.parameters.length > 0) {
-                    let paramsHtml = '';
-                    mainData.parameters.forEach(param => {
-                        paramsHtml += `
-                            <tr class="hover:bg-gray-50">
-                                <td class="py-2 pr-4">${param.name || ''}</td>
-                                <td class="py-2 pr-4">${param.type || ''}</td>
-                                <td class="py-2 pr-4">${formatParameterValue(param)}</td>
-                                <td class="py-2">${formatConditions(param)}</td>
-                            </tr>`;
-                    });
-                    parametersContent.innerHTML = paramsHtml;
-                    parametersSection.classList.remove('hidden');
-                } else {
-                    parametersSection.classList.add('hidden');
-                }
-
-                metadataContent.innerHTML = metadataHtml;
-                jsonContent.textContent = JSON.stringify(blueprintData, null, 2);
-                resultDiv.classList.remove('hidden');
-            } catch (error) {
-                if (blueprintString.length > 0) {
-                    metadataContent.innerHTML = `<div class="text-red-500">Error: ${error.message}</div>`;
-                    parametersSection.classList.add('hidden');
-                    resultDiv.classList.remove('hidden');
-                }
-            }
-        }
-    </script>
+    document.getElementById('input').addEventListener('input', parseBlueprint);
+</script>
 </body>
-</html>
