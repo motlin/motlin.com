@@ -340,11 +340,6 @@
       gap: 8px;
     }
 
-    .contents-icon img {
-      height: 24px;
-      width: 24px;
-    }
-
     .contents-count {
       font-family: monospace;
       color: #7dcaed;
@@ -397,6 +392,11 @@
             display: none;
             padding: 8px;
             margin: 8px 0;
+        }
+
+        img[src^="https://www.factorio.school/icons/"] {
+            width: 24px;
+            height: 24px;
         }
     </style>
 </head>
@@ -1441,7 +1441,7 @@
         return `<img src="https://www.factorio.school/icons/${type}/${name}.png"
                      alt="${type}:${name}"
                      class="inline align-middle"
-                     style="height: 1em;">`;
+                >`;
       },
 
       // Parse rich text markup into HTML
