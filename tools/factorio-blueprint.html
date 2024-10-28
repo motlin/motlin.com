@@ -1246,6 +1246,31 @@
         blueprint.metadata.usesParameters = true;
     }
 
+    function generateFilename(blueprint, isRoot, path) {
+        // First check if blueprint is null
+        if (!blueprint) {
+            return 'blueprint.json';
+        }
+
+        let label = blueprint.blueprint?.label ||
+            blueprint.blueprint_book?.label ||
+            blueprint.upgrade_planner?.label ||
+            blueprint.deconstruction_planner?.label ||
+            'blueprint';
+
+        // Clean the label for use as filename
+        label = label.replace(/[^\w\s-]/g, '')
+            .trim()
+            .replace(/\s+/g, '-');
+
+        if (!isRoot && path) {
+            const rootLabel = label;
+            return `${rootLabel}-${path}.json`;
+        }
+
+        return `${label}.json`;
+    }
+
     function updateJson(blueprint) {
         const content = document.querySelector('#json .card-content');
         const cardElement = document.getElementById('json');
@@ -1270,28 +1295,6 @@
             URL.revokeObjectURL(url);
         }
 
-        function generateFilename(blueprint, isRoot, path) {
-            let label = blueprint.blueprint?.label ||
-                blueprint.blueprint_book?.label ||
-                blueprint.upgrade_planner?.label ||
-                blueprint.deconstruction_planner?.label ||
-                'blueprint';
-
-            // Clean the label for use as filename
-            label = label.replace(/[^\w\s-]/g, '')
-                .trim()
-                .replace(/\s+/g, '-');
-
-            if (!isRoot && path) {
-                const rootLabel = blueprint.raw.blueprint?.label ||
-                    blueprint.raw.blueprint_book?.label ||
-                    'blueprint';
-                return `${rootLabel}-${path}.json`;
-            }
-
-            return `${label}.json`;
-        }
-
         let selectedJson = selectedBlueprintPath ?
             getBlueprintByPath(blueprint.raw, selectedBlueprintPath) :
             blueprint.raw;
@@ -1300,27 +1303,27 @@
 
         // Root blueprint actions
         html += `
-           <button class="button" id="copy-root">Copy Root Blueprint</button>
-           <button class="button" id="view-root">View Root JSON</button>
-           <button class="button" id="download-root">Download Root JSON</button>
-         `;
+            <button class="button" id="copy-root">Copy Root Blueprint</button>
+            <button class="button" id="view-root">View Root JSON</button>
+            <button class="button" id="download-root">Download Root JSON</button>
+        `;
 
-        // Selected blueprint actions (only show if different from root)
-        if (selectedBlueprintPath) {
+        // Selected blueprint actions (only show if different from root and valid)
+        if (selectedBlueprintPath && selectedJson) {
             html += `
-             <button class="button" id="copy-selected">Copy Selected Blueprint</button>
-             <button class="button" id="view-selected">View Selected JSON</button>
-             <button class="button" id="download-selected">Download Selected JSON</button>
-           `;
+                <button class="button" id="copy-selected">Copy Selected Blueprint</button>
+                <button class="button" id="view-selected">View Selected JSON</button>
+                <button class="button" id="download-selected">Download Selected JSON</button>
+            `;
         }
 
         html += '</div>';
 
         // JSON display areas
         html += `
-           <div id="root-json" class="json-display"></div>
-           <div id="selected-json" class="json-display"></div>
-         `;
+            <div id="root-json" class="json-display"></div>
+            <div id="selected-json" class="json-display"></div>
+        `;
 
         content.innerHTML = html;
 
@@ -1340,7 +1343,7 @@
             downloadJson(blueprint.raw, generateFilename(blueprint.raw, true));
         });
 
-        if (selectedBlueprintPath) {
+        if (selectedBlueprintPath && selectedJson) {
             content.querySelector('#copy-selected').addEventListener('click', () => {
                 navigator.clipboard.writeText(JSON.stringify(selectedJson, null, 2));
             });
