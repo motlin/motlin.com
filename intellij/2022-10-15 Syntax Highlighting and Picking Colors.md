@@ -16,11 +16,11 @@ Most syntax highlighters use lexing and parsing. JetBrains IDEs do too, for _bas
 
 I decided to assign very different colors to classes and interfaces.
 
-- ![#AA0000](https://via.placeholder.com/15/AA0000/AA0000.png) `#AA0000` maroon for classes
-- ![#00AAAA](https://via.placeholder.com/15/00AAAA/00AAAA.png) `#00AAAA` teal for interfaces
+- ![color-AA0000](/icons/colors/aa0000.svg) `#AA0000` maroon for classes
+- ![color-00AAAA](/icons/colors/00aaaa.svg) `#00AAAA` teal for interfaces
 
-![#AA0000](https://via.placeholder.com/15/AA0000/AA0000.png)
-![#00AAAA](https://via.placeholder.com/15/00AAAA/00AAAA.png)
+![color-AA0000](/icons/colors/aa0000.svg)
+![color-00AAAA](/icons/colors/00aaaa.svg)
 
 Other settings I've changed over the years, but these colors stuck.
 
@@ -30,13 +30,13 @@ This got me thinking about how many distinct colors I could come up with. How ma
 
 The default light theme _IntelliJ light_, uses three shades of dark blue.
 
-- ![#1750EB](https://via.placeholder.com/15/1750EB/1750EB.png) `#1750EB` for Numbers
-- ![#0033B3](https://via.placeholder.com/15/0033B3/0033B3.png) `#0033B3` for Keywords
-- ![#0037A6](https://via.placeholder.com/15/0037A6/0037A6.png) `#0037A6` for valid escape sequences
+- ![color-1750EB](/icons/colors/1750EB.svg) `#1750EB` for Numbers
+- ![color-0033B3](/icons/colors/0033B3.svg) `#0033B3` for Keywords
+- ![color-0037A6](/icons/colors/0037A6.svg) `#0037A6` for valid escape sequences
 
-![#1750EB](https://via.placeholder.com/15/1750EB/1750EB.png)
-![#0033B3](https://via.placeholder.com/15/0033B3/0033B3.png)
-![#0037A6](https://via.placeholder.com/15/0037A6/0037A6.png)
+![color-1750EB](/icons/colors/1750EB.svg)
+![color-0033B3](/icons/colors/0033B3.svg)
+![color-0037A6](/icons/colors/0037A6.svg)
 
 As swatches, I find two of them hard to distinguish.
 
@@ -50,19 +50,19 @@ The whole point of syntax highlighting is to convey information at a glance; eve
 
 Let's turn our attention to the whole rainbow and figure out which colors we will use.
 
-![#F54400](https://via.placeholder.com/15/F54400/F54400.png) We eliminate red, since that will be used for errors.
+![color-F54400](/icons/colors/F54400.svg) We eliminate red, since that will be used for errors.
 
-![#F5EAC1](https://via.placeholder.com/15/F5EAC1/F5EAC1.png) We eliminate yellow, because it's hard to read in a light theme.
+![color-F5EAC1](/icons/colors/F5EAC1.svg) We eliminate yellow, because it's hard to read in a light theme.
 
-We've already used ![#AA0000](https://via.placeholder.com/15/AA0000/AA0000.png) maroon and ![#00AAAA](https://via.placeholder.com/15/00AAAA/00AAAA.png) teal.
+We've already used ![color-AA0000](/icons/colors/AA0000.svg) maroon and ![color-00AAAA](/icons/colors/00AAAA.svg) teal.
 
-We still have 5 colors left with plenty of contrast: ![#FF8800](https://via.placeholder.com/15/FF8800/FF8800.png) orange, ![#00AA00](https://via.placeholder.com/15/00AA00/00AA00.png) green, ![#1750EB](https://via.placeholder.com/15/1750EB/1750EB.png) blue, ![#871094](https://via.placeholder.com/15/871094/871094.png) purple, and ![#FF15B4](https://via.placeholder.com/15/FF15B4/FF15B4.png) pink.
+We still have 5 colors left with plenty of contrast: ![color-FF8800](/icons/colors/FF8800.svg) orange, ![color-00AA00](/icons/colors/00AA00.svg) green, ![color-1750EB](/icons/colors/1750EB.svg) blue, ![color-871094](/icons/colors/871094.svg) purple, and ![color-FF15B4](/icons/colors/FF15B4.svg) pink.
 
-![#FF8800](https://via.placeholder.com/15/FF8800/FF8800.png)
-![#00AA00](https://via.placeholder.com/15/00AA00/00AA00.png)
-![#1750EB](https://via.placeholder.com/15/1750EB/1750EB.png)
-![#871094](https://via.placeholder.com/15/871094/871094.png)
-![#FF15B4](https://via.placeholder.com/15/FF15B4/FF15B4.png)
+![color-FF8800](/icons/colors/FF8800.svg)
+![color-00AA00](/icons/colors/00AA00.svg)
+![color-1750EB](/icons/colors/1750EB.svg)
+![color-871094](/icons/colors/871094.svg)
+![color-FF15B4](/icons/colors/FF15B4.svg)
 
 But there are more than 5 token types left. We have two options:
 - Squeeze in more colors, by using two shades of blue, two shades of green, etc.
@@ -125,17 +125,17 @@ However, JetBrains did add a keyboard shortcut <kbd>Ctrl</kbd> + <kbd>`</kbd> fo
 My first thought was there must exist an algorithm that can automatically convert a light theme into a dark theme. I couldn't find such an algorithm. Yet I think I came up with something close.
 
 - I took basic colors and fully saturated them.
-  - ![#00AA00](https://via.placeholder.com/15/00AA00/00AA00.png) `#00AA00` → ![#00FF00](https://via.placeholder.com/15/00FF00/00FF00.png) `#00FF00` green
-  - ![#00AAAA](https://via.placeholder.com/15/00AAAA/00AAAA.png) `#00AAAA` → ![#00FFFF](https://via.placeholder.com/15/00FFFF/00FFFF.png) `#00FFFF` teal
+  - ![color-00AA00](/icons/colors/00AA00.svg) `#00AA00` → ![color-00FF00](/icons/colors/00FF00.svg) `#00FF00` green
+  - ![color-00AAAA](/icons/colors/00AAAA.svg) `#00AAAA` → ![color-00FFFF](/icons/colors/00FFFF.svg) `#00FFFF` teal
 - Some Darcula choices also are lighter, more saturated versions of their IntelliJ Light counterparts. For example, numbers use a lighter, more saturated blue.
 - Other Darcula choices are quite different than their IntelliJ light counterparts. Keywords are orange and method/function declarations are yellow. I kept the defaults and played a bit of musical chairs with the colors.
-- I couldn't just fully saturate maroon ![#AA0000](https://via.placeholder.com/15/AA0000/AA0000.png) `#AA0000` because that would give red ![#FF0000](https://via.placeholder.com/15/FF0000/FF0000.png) `#FF0000`  which is used for errors. I just kept lightening till I got pink ![#DD4488](https://via.placeholder.com/15/DD4488/DD4488.png) `#DD4488`
+- I couldn't just fully saturate maroon ![color-AA0000](/icons/colors/AA0000.svg) `#AA0000` because that would give red ![color-FF0000](/icons/colors/FF0000.svg) `#FF0000`  which is used for errors. I just kept lightening till I got pink ![color-DD4488](/icons/colors/DD4488.svg) `#DD4488`
 
-![#00AA00](https://via.placeholder.com/15/00AA00/00AA00.png) → ![#00FF00](https://via.placeholder.com/15/00FF00/00FF00.png)
+![color-00AA00](/icons/colors/00AA00.svg) → ![color-00FF00](/icons/colors/00FF00.svg)
 
-![#00AAAA](https://via.placeholder.com/15/00AAAA/00AAAA.png) → ![#00FFFF](https://via.placeholder.com/15/00FFFF/00FFFF.png)
+![color-00AAAA](/icons/colors/00AAAA.svg) → ![color-00FFFF](/icons/colors/00FFFF.svg)
 
-![#AA0000](https://via.placeholder.com/15/AA0000/AA0000.png) → ![#DD4488](https://via.placeholder.com/15/DD4488/DD4488.png)
+![color-AA0000](/icons/colors/AA0000.svg) → ![color-DD4488](/icons/colors/DD4488.svg)
 
 
 ## Font
