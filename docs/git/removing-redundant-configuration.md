@@ -68,7 +68,3 @@ safe_unset pack.writeReverseIndex true
 
 If you know of additional redundant configurations that should be added, please share them.
 
-:::tip Related Content
-- [Git Configuration](./configuration.md) - Essential recommended settings
-- [Optional Git Configuration](./optional-configuration.md) - More personalized Git settings
-:::

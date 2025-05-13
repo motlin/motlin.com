@@ -99,9 +99,3 @@ Bridges pipe all logs made through other frameworks back to slf4j.
 
 If slf4j supports `N` logging frameworks, then a properly configured classpath includes one binding and `N - 1` bridges.
 
-:::tip Related Content
-- [Which Log Level](./which-log-level.md) - Guidelines for choosing the appropriate log level
-- [How we moved from Log4j to Logback](./how-we-moved-from-log4j-to-logback.md) - Practical guide for migrating logging frameworks
-- [SLF4J Bindings](./slf4j-bindings.md) - Understanding how SLF4J binding mechanisms work
-- [SLF4J Bridges](./slf4j-bridges.md) - How SLF4J bridges work to redirect logs from other frameworks
-:::

@@ -39,8 +39,3 @@ Here are a few postfix completions I've added for Java. They are available for d
 
 In addition to ListAdapter, I have equivalent rules for SetAdapter, MapAdapter, and ArrayAdapter. Since each applies to a specific type, it's not a problem for all 4 to share the same key "adapt".
 
-:::tip Related Content
-- [JetBrains IDEs Hidden Features - Syntax Highlighting](./jetbrains-syntax-highlighting.mdx) - Learn about powerful syntax highlighting capabilities in JetBrains IDEs
-- [How to pick colors for a syntax highlighting theme](./syntax-highlighting-picking-colors.mdx) - A guide to selecting effective colors for your syntax highlighting theme
-- [Additional IntelliJ Live Templates for Java](./intellij-live-templates.md) - Custom live templates to improve your productivity
-:::

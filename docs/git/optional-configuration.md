@@ -82,7 +82,3 @@ When commands like `git status` output more than a screenful, you have to scroll
 git config --global pager.status true
 ```
 
-:::tip Related Content
-- [Git Configuration](./configuration.md) - Essential recommended settings
-- [Removing Redundant Git Configuration](./removing-redundant-configuration.md) - Clean up outdated settings
-:::

@@ -150,6 +150,3 @@ A particularly tricky situation comes from combining two changes in a single cha
 
 Here, migration 2 renames columns A and B to C and D. The error is that the rollback refers to column 4 instead of column D. This is a simple typo.
 
-:::tip Related Content
-- [Third Party Collections](./third-party-collections.md) - Examining the value of third-party collections libraries in the Java 8+ era
-:::

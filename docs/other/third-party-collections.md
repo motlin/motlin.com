@@ -146,6 +146,3 @@ MutableSet<Person> people =
 
 As future versions of Java pull in more features, there will be less of a need for third-party collections libraries. For now, they provide compelling features beyond what's included in the JDK.
 
-:::tip Related Content
-- [Liquibase Best Practices](./liquibase-best-practices.md) - Best practices for database migrations using Liquibase
-:::

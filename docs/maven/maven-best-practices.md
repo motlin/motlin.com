@@ -81,6 +81,3 @@ The versions of the default plugins changes between maven versions, and even the
 
 We can support reproducible builds even with different versions of maven as long as all the plugin versions are the same. To enable plugin consistency across a team, we specify versions of the plugins in the parent pom.
 
-:::tip Related Content
-- [Maven pom-packaging modules](./maven-pom-packaging-modules.md) - Understanding the uses for Maven's pom-packaging modules
-:::

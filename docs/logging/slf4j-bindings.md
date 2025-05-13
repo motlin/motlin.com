@@ -142,9 +142,3 @@ The binding then translates SLF4J logging calls into the appropriate calls for t
 
 My hope is that by understanding how SLF4J bindings work, you'll avoid common pitfalls and unexpected behavior.
 
-:::tip Related Content
-- [Logging Strategy](./logging-strategy.md) - Java logging migration strategies
-- [How we moved from Log4j to Logback](./how-we-moved-from-log4j-to-logback.md) - Practical guide for migrating logging frameworks
-- [Which Log Level](./which-log-level.md) - Guidelines for choosing the appropriate log level
-- [SLF4J Bridges](./slf4j-bridges.md) - How SLF4J bridges work to redirect logs from other frameworks
-:::

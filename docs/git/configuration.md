@@ -342,7 +342,3 @@ The list of repositories is machine specific. After running `git maintenance`, m
     repo = ~/.dotfiles
 ```
 
-:::tip Related Content
-- [Optional Git Configuration](./optional-configuration.md) - More personalized Git settings
-- [Removing Redundant Git Configuration](./removing-redundant-configuration.md) - Clean up outdated settings
-:::

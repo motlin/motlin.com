@@ -20,9 +20,3 @@ For example, if you want to log using Log4J 1.x, your classpath will contain:
 - SLF4J binding for Log4J 1.x, in the jar `slf4j-log4j12`
 - All SLF4J bridges (except for the Log4J 1.x bridges) in the jars `jcl-over-slf4j` and `jul-to-slf4j` (but not `slf4j-log4j12`)
 
-:::tip Related Content
-- [SLF4J Bindings](./slf4j-bindings.md) - Understanding how SLF4J binding mechanisms work
-- [Logging Strategy](./logging-strategy.md) - Java logging migration strategies
-- [How we moved from Log4j to Logback](./how-we-moved-from-log4j-to-logback.md) - Practical guide for migrating logging frameworks
-- [Which Log Level](./which-log-level.md) - Guidelines for choosing the appropriate log level
-:::

@@ -73,8 +73,3 @@ I hope this helps build a shared mental model of the log levels, building on the
 
 For more discussion, see [this StackOverflow question](https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels).
 
-:::tip Related Content
-- [Logging Strategy](./logging-strategy.md) - Java logging migration strategies
-- [How we moved from Log4j to Logback](./how-we-moved-from-log4j-to-logback.md) - Practical guide for migrating logging frameworks
-- [SLF4J Bindings](./slf4j-bindings.md) - Understanding how SLF4J binding mechanisms work
-:::

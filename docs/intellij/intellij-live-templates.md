@@ -191,8 +191,3 @@ $SELECTION$
 DESCRIPTION | | "Description"
 ```
 
-:::tip Related Content
-- [JetBrains IDEs Hidden Features - Syntax Highlighting](./jetbrains-syntax-highlighting.mdx) - Learn about powerful syntax highlighting capabilities in JetBrains IDEs
-- [How to pick colors for a syntax highlighting theme](./syntax-highlighting-picking-colors.mdx) - A guide to selecting effective colors for your syntax highlighting theme
-- [IntelliJ Postfix Completions](./intellij-postfix-completions.md) - Custom postfix completions for more efficient coding
-:::
