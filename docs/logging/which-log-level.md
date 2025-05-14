@@ -3,6 +3,9 @@ sidebar_position: 1
 title: Which Log Level?
 description: Guidelines for choosing the appropriate log level in Java applications
 tags: [java, logging]
+last_update:
+  author: Craig Motlin
+  date: 2023-07-05
 ---
 
 # Which Log Level?

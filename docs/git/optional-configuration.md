@@ -3,6 +3,9 @@ title: Optional Git Configuration
 sidebar_position: 3
 description: Optional Git configuration
 tags: [git, configuration]
+last_update:
+  author: Craig Motlin
+  date: 2024-05-30
 ---
 
 # Optional Git Configuration
