@@ -146,3 +146,7 @@ MutableSet<Person> people =
 
 As future versions of Java pull in more features, there will be less of a need for third-party collections libraries. For now, they provide compelling features beyond what's included in the JDK.
 
+## Comments
+
+[Leave a comment on Medium](https://motlin.medium.com/java-has-streams-do-we-need-third-party-collections-dd12f473d105)
+

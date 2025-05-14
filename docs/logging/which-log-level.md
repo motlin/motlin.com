@@ -73,3 +73,7 @@ I hope this helps build a shared mental model of the log levels, building on the
 
 For more discussion, see [this StackOverflow question](https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels).
 
+## Comments
+
+[Leave a comment on Medium](https://motlin.medium.com/which-log-level-70145ad2fc1f)
+

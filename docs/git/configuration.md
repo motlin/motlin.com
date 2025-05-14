@@ -342,3 +342,7 @@ The list of repositories is machine specific. After running `git maintenance`, m
     repo = ~/.dotfiles
 ```
 
+## Comments
+
+[Leave a comment on Medium](https://motlin.medium.com/git-config-3d20c4c079ba)
+

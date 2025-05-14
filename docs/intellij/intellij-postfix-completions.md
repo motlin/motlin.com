@@ -39,3 +39,7 @@ Here are a few postfix completions I've added for Java. They are available for d
 
 In addition to ListAdapter, I have equivalent rules for SetAdapter, MapAdapter, and ArrayAdapter. Since each applies to a specific type, it's not a problem for all 4 to share the same key "adapt".
 
+## Comments
+
+[Leave a comment on Medium](https://motlin.medium.com/intellij-postfix-completions-2fbadf2b1f51)
+
