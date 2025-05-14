@@ -4,7 +4,7 @@ title: Maven Best Practices
 description: Essential best practices for configuring Maven projects
 tags: [java, maven]
 last_update:
-  author: Craig Motlin
+  author: Craig P. Motlin
   date: 2024-05-13
 ---
 

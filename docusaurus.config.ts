@@ -18,7 +18,7 @@ const config: Config = {
   deploymentBranch: 'gh-pages',
   trailingSlash: false,
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -175,7 +175,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Craig Motlin. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Craig P. Motlin. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.oneDark,

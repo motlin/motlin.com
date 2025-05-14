@@ -4,7 +4,7 @@ sidebar_position: 3
 description: Optional Git configuration
 tags: [git, configuration]
 last_update:
-  author: Craig Motlin
+  author: Craig P. Motlin
   date: 2024-05-30
 ---
 
