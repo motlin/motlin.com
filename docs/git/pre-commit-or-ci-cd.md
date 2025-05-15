@@ -4,7 +4,6 @@ sidebar_position: 2
 description: A comparison of pre-commit hooks versus CI/CD for code quality enforcement
 tags: [git, ci-cd, pre-commit]
 last_update:
-  author: Craig P. Motlin
   date: 2024-03-20
 ---
 

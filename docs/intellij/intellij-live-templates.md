@@ -4,7 +4,6 @@ title: Additional IntelliJ Live Templates for Java
 description: Custom live templates to improve your productivity in IntelliJ IDEA.
 tags: [intellij, ide, java]
 last_update:
-  author: Craig P. Motlin
   date: 2022-11-06
 ---
 

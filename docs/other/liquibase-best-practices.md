@@ -4,7 +4,6 @@ title: Liquibase Best Practices
 description: Essential guidelines for using Liquibase for database migrations
 tags: [java, database, liquibase]
 last_update:
-  author: Craig P. Motlin
   date: 2023-05-03
 ---
 

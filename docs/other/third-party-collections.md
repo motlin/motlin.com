@@ -4,7 +4,6 @@ title: Java has Streams. Do we need third-party collections?
 description: Examining the value of third-party collections libraries in the Java 8+ era
 tags: [java, collections, streams, eclipse-collections]
 last_update:
-  author: Craig P. Motlin
   date: 2018-05-15
 ---
 

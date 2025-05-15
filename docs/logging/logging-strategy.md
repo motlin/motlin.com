@@ -4,7 +4,6 @@ title: Java Logging Strategy
 description: A comprehensive strategy for migrating from Log4j 1.x to modern logging frameworks
 tags: [java, logging, log4j, logback, slf4j]
 last_update:
-  author: Craig P. Motlin
   date: 2024-05-02
 ---
 

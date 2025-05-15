@@ -4,7 +4,6 @@ title: Moving from Log4j to Logback
 description: Step-by-step guide for migrating Java applications from Log4j to Logback
 tags: [java, logging, log4j, logback]
 last_update:
-  author: Craig P. Motlin
   date: 2024-05-02
 ---
 

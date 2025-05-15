@@ -4,7 +4,6 @@ title: Maven pom-packaging modules
 description: Understanding the uses for Maven's pom-packaging modules
 tags: [java, maven]
 last_update:
-  author: Craig P. Motlin
   date: 2024-05-26
 ---
 

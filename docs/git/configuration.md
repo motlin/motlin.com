@@ -4,7 +4,6 @@ sidebar_position: 1
 description: Essential Git configuration
 tags: [git, configuration]
 last_update:
-  author: Craig P. Motlin
   date: 2019-01-13
 ---
 

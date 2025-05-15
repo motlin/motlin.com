@@ -5,7 +5,6 @@ tags: [java, logging]
 hide_table_of_contents: false
 sidebar_class_name: hidden
 last_update:
-  author: Craig P. Motlin
   date: 2025-05-15
 ---
 
