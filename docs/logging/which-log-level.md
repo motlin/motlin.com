@@ -10,7 +10,7 @@ last_update:
 
 # Which Log Level?
 
-A coworker introduced me to the excellent article [Logging levels: the wrong abstraction](https://labs.ig.com/logging-level-wrong-abstraction) which is unfortunately down.
+A coworker introduced me to the excellent article "Logging levels: the wrong abstraction" which is unfortunately no longer available at its original location. However, the author has published a version called [No more DEBUG/INFO/WARN/ERROR logging](https://dev.to/danlebrero/no-more-debuginfowarnerror-logging) on DEV.to that covers the same concepts.
 
 The TL;DR is that developers without a shared understanding of logging severities (error, warning, info, and debug) will tend to inflate severity.
 
@@ -72,7 +72,7 @@ If a user clicks a button and the service logs 10 times while responding, almost
 
 ## Conclusion
 
-I hope this helps build a shared mental model of the log levels, building on the [original article](https://labs.ig.com/logging-level-wrong-abstraction).
+I hope this helps build a shared mental model of the log levels, building on the [original article](https://dev.to/danlebrero/no-more-debuginfowarnerror-logging).
 
 For more discussion, see [this StackOverflow question](https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels).
 
