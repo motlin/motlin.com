@@ -3,6 +3,9 @@ sidebar_position: 6
 title: SLF4J Bindings and Bridges
 description: Overview of the relationship between SLF4J bindings and bridges
 tags: [java, logging, slf4j]
+last_update:
+  author: Craig P. Motlin
+  date: 2024-05-02
 ---
 
 # SLF4J Bridges

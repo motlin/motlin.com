@@ -3,6 +3,9 @@ title: Removing Redundant Git Configuration
 sidebar_position: 4
 description: Script to remove Git configuration settings that are now default
 tags: [git, configuration]
+last_update:
+  author: Craig P. Motlin
+  date: 2024-05-30
 ---
 
 # Removing Redundant Git Configuration

@@ -3,6 +3,9 @@ sidebar_position: 4
 title: SLF4J Bindings
 description: Detailed explanation of how SLF4J bindings work to connect logging APIs
 tags: [java, logging, slf4j]
+last_update:
+  author: Craig P. Motlin
+  date: 2024-10-02
 ---
 
 # SLF4J Bindings

@@ -3,6 +3,9 @@ sidebar_position: 4
 title: IntelliJ Postfix Completions
 description: Custom postfix completions to improve your productivity in IntelliJ IDEA.
 tags: [intellij, ide, java]
+last_update:
+  author: Craig P. Motlin
+  date: 2022-11-06
 ---
 
 # IntelliJ Postfix Completions
