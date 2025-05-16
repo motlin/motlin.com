@@ -3,6 +3,7 @@ sidebar_position: 5
 title: SLF4J Bridges
 description: Understanding how SLF4J bridges redirect logs from other frameworks
 tags: [java, logging, slf4j]
+draft: true
 last_update:
   date: 2024-05-02
 ---
