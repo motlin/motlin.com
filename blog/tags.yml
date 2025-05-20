@@ -1,0 +1,19 @@
+git:
+  label: Git
+  permalink: /git
+  description: Posts about Git version control system
+
+version-control:
+  label: Version Control
+  permalink: /version-control
+  description: Posts about version control systems and practices
+
+claude-code:
+  label: Claude Code
+  permalink: /claude-code
+  description: Posts about Claude Code, Anthropic's AI coding assistant
+
+developer-productivity:
+  label: Developer Productivity
+  permalink: /developer-productivity
+  description: Tips and tools for improving software development productivity
