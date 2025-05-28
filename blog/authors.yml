@@ -1,0 +1,10 @@
+craig:
+  name: Craig P. Motlin
+  title: Software Engineer
+  url: https://motlin.com
+  image_url: https://github.com/motlin.png
+  page: true
+  socials:
+    x: motlin
+    github: motlin
+    linkedin: craigmotlin

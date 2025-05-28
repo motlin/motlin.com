@@ -1,0 +1,8 @@
+{
+  "label": "Logging",
+  "position": 60,
+  "link": {
+    "type": "generated-index",
+    "description": "Best practices and guidance for Java logging"
+  }
+}
