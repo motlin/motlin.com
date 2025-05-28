@@ -52,7 +52,7 @@ const config: Config = {
   markdown: {
     mermaid: true,
   },
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: ['@docusaurus/theme-mermaid', '@saucelabs/theme-github-codeblock'],
 
   presets: [
     [
@@ -179,7 +179,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.oneDark,
       darkTheme: prismThemes.oneDark,
-      additionalLanguages: ['java', 'shell-session', 'bash', 'toml'],
+      additionalLanguages: ['java', 'shell-session', 'bash', 'toml', 'markdown'],
     },
   } satisfies Preset.ThemeConfig,
 };
