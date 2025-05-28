@@ -2,14 +2,22 @@
 default:
     @just --list --unsorted
 
-# Push to origin with force-with-lease
-push:
-    git push --force-with-lease origin drafts:drafts main:main
+# `npm start -- --port 4000`
+start:
+    npm start -- --port 4000
 
-# Build the static site using Retype
-retype-build:
-    npx retypeapp build
+# Start with drafts enabled: `DOCUSAURUS_DRAFT=true npm start -- --port 4000`
+start-drafts:
+    DOCUSAURUS_DRAFT=true npm start -- --port 4000
 
-# Build, start local server and watch for changes
-retype-serve:
-    npx retypeapp start
+# `npm run build`
+build:
+    npm run build
+
+# `npm run serve`
+serve: build
+    npm run serve -- --port 4000
+
+# `npm run deploy`
+deploy:
+    npm run deploy

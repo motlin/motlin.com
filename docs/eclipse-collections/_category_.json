@@ -1,0 +1,8 @@
+{
+  "label": "Eclipse Collections",
+  "position": 20,
+  "link": {
+    "type": "generated-index",
+    "description": "Best practices and guides for using Eclipse Collections in Java projects."
+  }
+}
