@@ -27,6 +27,18 @@ const config: Config = {
     locales: ['en'],
   },
 
+  // Google Ads configuration
+  headTags: [
+    {
+      tagName: 'script',
+      attributes: {
+        async: 'true',
+        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3146575260211386',
+        crossorigin: 'anonymous',
+      },
+    },
+  ],
+
   // Google Analytics configuration
   plugins: [
     [
