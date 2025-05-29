@@ -29,7 +29,8 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-/* Set tab size to 4 spaces for code blocks */
 .prism-code {
   tab-size: 4;
+  white-space: pre-wrap;
 }
+
