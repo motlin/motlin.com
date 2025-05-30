@@ -197,7 +197,7 @@ const config: Config = {
       appId: 'C2FFLRAS9H',
       apiKey: 'e55dde7380a510c51b3748b4bffdd9d1',
       indexName: 'motlin',
-      contextualSearch: true,
+      contextualSearch: false,
     },
   } satisfies Preset.ThemeConfig,
 };
