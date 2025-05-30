@@ -7,44 +7,85 @@ tags: [claude-code, developer-productivity]
 
 [Simon Willison wrote](https://simonwillison.net/2025/May/5/prompting/) "I'm disappointed at how little good writing there is out there about effective prompting."
 
-I spent a lot of time writing and tweaking my prompts, so I'm sharing what works for me. Here's how I configure the `claude` CLI and set up custom `todo` and `commit` commands.
+I spent a lot of time writing and tweaking my prompts, so I'm sharing what works for me. Here's how I configure `claude`, the Claude code CLI, and set up custom `todo` and `commit` commands.
 
 <!-- truncate -->
 
 ## Global CLAUDE.md
 
-The global [`~/.claude/CLAUDE.md`](https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md) file sets default behavior for Claude Code across all your projects.
+The global [`~/.claude/CLAUDE.md`](https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md) file sets default behavior for `claude` across all your projects.
+
+## Instructions for Humans
+
+### Code Style
+
+I have some code style instructions that could have been written for human developers.
+
+```markdown reference
+https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md?plain=1#L5-L17
+```
+
+**Vibes**: these instructions sometimes help. Curiously, Sonnet 3.7 followed my instructions about including emoji in edits. Opus 4.0 uses emoji in messages to me, but doesn't use them in edits.
+
+```shell-session
+⏺ ✅ Successfully renamed the all recipe to precommit.
+```
+
+### Commit message style
+
+I have some commit message style notes that could have been written for human developers as well.
+
+```markdown reference
+https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L21-L25
+```
+
+**Vibes**: these instructions work well.
+
+### Testing Practices
+
+```markdown reference
+https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L29-L41
+```
+
+**Vibes**: these instructions don't work well. When writing tests, LLMs remind me of [Mr. Meeseeks](https://en.wikipedia.org/wiki/Mr._Meeseeks). The LLM will go to any length to get tests to pass, including deleting all of the assertions.
+
+
+## Instructions specific to LLMs
 
 ### Rhetorical questions?
 
-Sometimes I ask Claude why it implemented a feature one way and not another and it answers "You're right! I'll implement it \<the other way\>." This is so human-like and infuriating.
+Sometimes I ask `claude` why it implemented a feature one way and not another and it answers "You're right! I'll implement it \<the other way\>." This is so human-like and infuriating.
 
 GPT-4o had [a now-famous bug](https://openai.com/index/sycophancy-in-gpt-4o/) that made it "overly supportive but disingenuous." It's "fixed," but all models can [trend toward sycophancy](https://www.anthropic.com/research/towards-understanding-sycophancy-in-language-models).
 
 Tackling these these together:
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L56-L65
+https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L58-L65
 ```
 
 **Vibes:** these instructions work well.
 
 ### Long-lived processes
 
-Claude handles linter and compiler errors it sees in console output, but sometimes it will try to run a long-lived command like `npm run start` and basically hang.
+`claude` handles console output from linters and compiler well. But sometimes it will try to run a long-lived command like `npm run start` and basically hang.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L67-L73
+https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L69-L72
 ```
 
-**Vibes:** these instructions help sometimes. Sometimes Claude still tries to run `npm run start`.
+**Vibes:** these instructions help sometimes. Sometimes Claude still tries to run long-lived commands so I've started to explicitly deny them.
+
+```json reference
+https://github.com/motlin/claude-code-prompts/blob/main/settings.json#L54-L58
+ ```
 
 ### Extra context just for you
 
-Claude code can search the internet, and can read files from outside the current git repository, but it's an extra hop. I find it convenient to gather files into a subdirectory just for the LLM.
+`claude` can search the internet, and can read files from outside the current git repository, but it's an extra hop. I find it convenient to gather files into a subdirectory just for the LLM.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L75-L89
+https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L77-L87
 ```
 
 **Vibes:** these instructions work well. Though I'm deliberate about telling the LLM to look in `.llm/`.
@@ -58,33 +99,27 @@ LLMs write obvious comments.
 const elapsedTimeMs = Date.now() - startTime
 ```
 
-I tried to prompt the LLM to write fewer comments, but it doesn't work. More on this later.
+I tell Claude not to, but it really, really likes writing comments.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L6-L23
+https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L47-L54
 ```
 
-Besides comments, the other style instructions work well.
+**Vibes:** This didn't work with Claude 3.7 **at all**, and I noticed the difference right away when upgrading. Claude 4 Opus doesn't use the words "added", "removed", or "changed" and avoids commenting out code, but still writes way too many comments.
 
-### Commit messages
+I've come to accept that comments are crucial to how LLMs "think" and I cannot stop the LLM from writing them, at least in the first draft. My `/user:comments` command (described below) is great at getting rid of them in a second step.
 
-Claude code's commit messages are remarkably consistent, to the point where you know what [the system prompt](https://gist.github.com/transitive-bullshit/487c9cb52c75a9701d312334ed53b20c#file-claude-code-prompts-js-L448-L462) is going to be before you read it.
+### Claude's Commit messages
 
-The system prompt includes inconsistent and incorrect information about pre-commit hooks and staging changes, so I give my own corrections.
+Claude code's commit messages are remarkably consistent, to the point where you know what [the system prompt](https://gist.github.com/transitive-bullshit/487c9cb52c75a9701d312334ed53b20c#file-claude-code-prompts-js-L448-L462) is going to say before you read it.
+
+The system prompt includes [inconsistent and incorrect information](https://github.com/anthropics/claude-code/issues/1000) about pre-commit hooks and staging changes, so I give my own corrections.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L90-L106
+https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L91-L105
 ```
 
-I expect mixed results when my instructions contract the system prompt and I hope [the system prompt gets fixed upstream](https://github.com/anthropics/claude-code/issues/1000), but these instructions have been working well.
-
-### zoxide
-
-To get around a specific problem with [zoxide](https://github.com/ajeetdsouza/zoxide#getting-started):
-
-```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L108-L109
-```
+**Vibes** I expect mixed results when my instructions contract the system prompt and I hope [the system prompt gets fixed upstream](https://github.com/anthropics/claude-code/issues/1000), but these instructions have been working well.
 
 ## Project-specific CLAUDE.md
 
@@ -124,7 +159,7 @@ The first instructions are because Claude sometimes looks for `.llm/todo.md` in 
 
 ### ~/.claude/commands/commit.md
 
-As the `/user:todo` command winds down, the conversation will naturally reach a point where the LLM suggests committing the code. But when I'm not [fully vibe coding](https://simonwillison.net/2025/Mar/19/vibe-coding/) - when I'm manually testing, debugging, and fixing things - 
+As the `/user:todo` command winds down, the conversation will naturally reach a point where the LLM suggests committing the code. But when I'm not [fully vibe coding](https://simonwillison.net/2025/Mar/19/vibe-coding/) - when I'm manually testing, debugging, and fixing things -
 
 
  I review the changes, often manually test or debug, and sometimes make my own changes on top. When I'm happy with the changes, I invoke `/user:commit`.
