@@ -27,9 +27,14 @@
     "@mdx-js/react": "^3.0.0",
     "@saucelabs/theme-github-codeblock": "^0.3.0",
     "clsx": "^2.0.0",
+    "date-fns": "^4.1.0",
+    "node-fetch": "^3.3.2",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-markdown": "^10.1.0",
+    "zod": "^3.25.64"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.0",

@@ -8,19 +8,19 @@ install:
 
 # `npm start`
 start: install
-    npm start -- --port 4000
+    op run -- npm start -- --port 4000
 
 # Start with drafts enabled: `DOCUSAURUS_DRAFT=true npm start`
 start-drafts: install
-    DOCUSAURUS_DRAFT=true npm start -- --port 4000
+    op run -- bash -c 'DOCUSAURUS_DRAFT=true npm start -- --port 4000'
 
 # `npm run build`
 build: install
-    npm run build
+    op run -- npm run build
 
 # `npm run serve`
 serve: build
-    npm run serve -- --port 4000
+    op run -- npm run serve -- --port 4000
 
 # `npm run deploy`
 deploy: install

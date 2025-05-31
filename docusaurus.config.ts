@@ -1,6 +1,7 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import portfolioData from './src/data/portfolio.json';
 
 const config: Config = {
   title: 'motlin.com',
@@ -58,6 +59,8 @@ const config: Config = {
         disableInDev: false,
       },
     ],
+    ['./src/plugins/github-user-profile-plugin.ts', { username: portfolioData.profile.username }],
+    './src/plugins/github-repos-plugin.ts',
   ],
 
   // Enable Mermaid diagrams
@@ -122,6 +125,7 @@ const config: Config = {
           label: 'Docs',
         },
         {to: '/blog', label: 'Blog', position: 'left'},
+        {to: '/portfolio', label: 'Portfolio', position: 'left'},
         {to: '/sick-picks', label: 'Sick Picks', position: 'left'},
         {
           href: 'https://github.com/motlin/motlin.com',
@@ -169,27 +173,15 @@ const config: Config = {
         },
         {
           title: 'Connect',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/motlin',
-            },
-            {
-              label: 'LinkedIn',
-              href: 'https://www.linkedin.com/in/craig-motlin/',
-            },
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/users/23572/craig-p-motlin',
-            },
-            {
-              label: 'Medium',
-              href: 'https://motlin.medium.com/',
-            },
-          ],
+          items: portfolioData.profile.socialLinks
+            .filter(link => ['GitHub', 'LinkedIn', 'Stack Overflow', 'Medium'].includes(link.platform))
+            .map(link => ({
+              label: link.platform,
+              href: link.url,
+            })),
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Craig P. Motlin. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} ${portfolioData.profile.name}. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.oneDark,

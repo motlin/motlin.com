@@ -1,0 +1,386 @@
+{
+  "profile": {
+    "name": "Craig Motlin",
+    "username": "motlin",
+    "tagline": "Model-Driven Design • Developer Productivity",
+    "bio": "Tech Lead of Developer Productivity Engineering. Top contributor to Eclipse Collections and creator of open-source projects. Focused on developer productivity through AI, temporal data, and programming language design.",
+    "avatarUrl": "https://github.com/motlin.png",
+    "socialLinks": [
+      {
+        "platform": "GitHub",
+        "url": "https://github.com/motlin",
+        "icon": "FaGithub"
+      },
+      {
+        "platform": "Stack Overflow",
+        "url": "https://stackoverflow.com/users/23572/craig-p-motlin",
+        "icon": "FaStackOverflow"
+      },
+      {
+        "platform": "LinkedIn",
+        "url": "https://www.linkedin.com/in/craig-motlin/",
+        "icon": "FaLinkedinIn"
+      },
+      {
+        "platform": "Medium",
+        "url": "https://motlin.medium.com/",
+        "icon": "FaMedium"
+      },
+      {
+        "platform": "Blog",
+        "url": "https://motlin.com/",
+        "icon": "FaLink"
+      },
+      {
+        "platform": "X",
+        "url": "https://x.com/motlin",
+        "icon": "FaXTwitter"
+      }
+    ]
+  },
+  "talks": [
+    {
+      "id": "qcon-ny-2014",
+      "event": "QCon NY 2014",
+      "eventUrl": "https://www.infoq.com/presentations/java-streams-scala-parallel-collections/",
+      "title": "Parallel-lazy Performance: Java 8 vs Scala vs GS Collections",
+      "year": 2014
+    },
+    {
+      "id": "scala-days-2015",
+      "event": "Scala Days 2015",
+      "title": "Scala Collections Performance",
+      "year": 2015
+    },
+    {
+      "id": "javaone-goto-2015",
+      "event": "JavaOne & GOTO Chicago 2015",
+      "eventUrl": "https://gotocon.com/chicago-2015/speaker/Craig+Motlin",
+      "title": "GS Collections and Java 8: Functional, Fluent, Friendly, and Fun",
+      "year": 2015
+    },
+    {
+      "id": "jvm-language-summit",
+      "event": "JVM Language Summit",
+      "title": "Multiple presentations on collections and performance"
+    }
+  ],
+  "sections": [
+    {
+      "id": "web-applications",
+      "title": "Web Applications",
+      "icon": "FaRocket",
+      "projects": [
+        {
+          "id": "factorio-prints",
+          "name": "factorio-prints",
+          "repoUrl": "https://github.com/motlin/factorio-prints",
+          "description": "A site to share blueprints for the game Factorio.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/factorio-prints",
+              "label": "GitHub"
+            },
+            { "url": "https://factorioprints.com", "label": "Website" }
+          ],
+          "techStack": ["Firebase"],
+          "features": ["Blueprint Sharing", "Community Platform"],
+          "githubRepo": "motlin/factorio-prints",
+          "iconUrl": "https://factorioprints.com/favicon.ico"
+        },
+        {
+          "id": "factorio-blueprint-playground",
+          "name": "factorio-blueprint-playground",
+          "repoUrl": "https://github.com/motlin/factorio-blueprint-playground",
+          "description": "Interactive playground for Factorio blueprints with live editing and visualization.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/factorio-blueprint-playground",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://factorio-blueprint-playground.pages.dev/",
+              "label": "Website"
+            }
+          ],
+          "techStack": ["Cloudflare Pages"],
+          "features": [
+            "Blueprint Editing",
+            "Live Preview",
+            "Interactive Playground"
+          ],
+          "githubRepo": "motlin/factorio-blueprint-playground",
+          "iconUrl": "https://factorio-icon-cdn.pages.dev/item/blueprint-book.webp"
+        },
+        {
+          "id": "hex-zero",
+          "name": "Hex Zero",
+          "repoUrl": "https://github.com/motlin/hex-zero",
+          "description": "A hexagonal puzzle game built with HTML5 Canvas. Interactive game challenging spatial reasoning and pattern recognition. Originally named Hex Flip.",
+          "links": [
+            { "url": "https://github.com/motlin/hex-zero", "label": "GitHub" },
+            { "url": "https://motlin.github.io/hex-zero/", "label": "Play" }
+          ],
+          "techStack": ["HTML5 Canvas"],
+          "features": [
+            "Puzzle Game",
+            "Spatial Reasoning",
+            "Interactive Graphics"
+          ],
+          "githubRepo": "motlin/hex-zero",
+          "iconUrl": "/img/hex-zero-favicon.svg"
+        },
+        {
+          "id": "motlin-com",
+          "name": "motlin.com",
+          "repoUrl": "https://github.com/motlin/motlin.com",
+          "description": "This site! Personal blog and technical writing platform built with Docusaurus. Features my portfolio, blog posts, and technical documentation.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/motlin.com",
+              "label": "GitHub"
+            },
+            { "url": "https://motlin.com", "label": "Website" }
+          ],
+          "techStack": ["Docusaurus", "React", "MDX"],
+          "features": ["Technical Blogging", "Documentation"],
+          "githubRepo": "motlin/motlin.com",
+          "iconUrl": "/img/motlin.com.png"
+        }
+      ]
+    },
+    {
+      "id": "major-projects",
+      "title": "Major Projects & Frameworks",
+      "icon": "FaCircleDot",
+      "projects": [
+        {
+          "id": "eclipse-collections",
+          "name": "Eclipse Collections",
+          "repoUrl": "https://github.com/eclipse/eclipse-collections",
+          "description": "High-performance Java collections framework with optimized data structures and rich functional API. Originally created as GS Collections at Goldman Sachs. Top contributor and technical lead.",
+          "links": [
+            {
+              "url": "https://github.com/eclipse/eclipse-collections",
+              "label": "GitHub"
+            },
+            { "url": "https://eclipse.dev/collections/", "label": "Docs" },
+            { "url": "https://eclipse.dev/collections/", "label": "Website" }
+          ],
+          "role": "Tech Lead & Committer",
+          "techStack": [],
+          "features": ["Performance", "Collections", "Data Structures"],
+          "githubRepo": "eclipse-collections/eclipse-collections",
+          "openGraphImageUrl": "https://repository-images.githubusercontent.com/46803767/30a0d313-9984-4580-b587-f899361ca8b8"
+        },
+        {
+          "id": "liftwizard",
+          "name": "Liftwizard",
+          "repoUrl": "https://github.com/liftwizard/liftwizard",
+          "description": "Comprehensive collection of bundles and add-ons for Dropwizard web services. Modular design with Jackson utilities, logging, Reladomo ORM integration, and testing tools.",
+          "links": [
+            {
+              "url": "https://github.com/liftwizard/liftwizard",
+              "label": "GitHub"
+            },
+            { "url": "https://liftwizard.io/docs/", "label": "Docs" }
+          ],
+          "techStack": ["Dropwizard", "Reladomo"],
+          "features": ["Dropwizard Bundles", "Temporal Data", "Dynamic SQL"],
+          "githubRepo": "liftwizard/liftwizard",
+          "iconUrl": "https://avatars.githubusercontent.com/u/66336490?s=400&u=9224a9fdb190bb4b591405b11cd826c0c9ffd33c&v=4",
+          "openGraphImageUrl": "https://repository-images.githubusercontent.com/232442863/68684218-c814-45c3-ba9f-ed9c2835df27"
+        },
+        {
+          "id": "klass",
+          "name": "Klass",
+          "repoUrl": "https://github.com/liftwizard/klass",
+          "description": "Model-driven design framework and language for Java. Part of the Liftwizard ecosystem for building enterprise applications with code generation and metamodel support.",
+          "links": [
+            { "url": "https://github.com/liftwizard/klass", "label": "GitHub" },
+            { "url": "https://klass.cool/", "label": "Docs" },
+            { "url": "https://klass.cool/", "label": "Website" }
+          ],
+          "techStack": ["ANTLR"],
+          "features": ["Model-Driven Design", "Code Generation"],
+          "githubRepo": "liftwizard/klass"
+        }
+      ]
+    },
+    {
+      "id": "developer-productivity",
+      "title": "Developer Productivity & IDE Tools",
+      "icon": "FaCube",
+      "projects": [
+        {
+          "id": "claude-code-prompts",
+          "name": "claude-code-prompts",
+          "repoUrl": "https://github.com/motlin/claude-code-prompts",
+          "description": "Prompts and configurations for AI-assisted coding with Claude.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/claude-code-prompts",
+              "label": "GitHub"
+            }
+          ],
+          "techStack": [],
+          "features": [
+            "AI Prompts",
+            "Code Generation",
+            "Developer Productivity"
+          ],
+          "githubRepo": "motlin/claude-code-prompts",
+          "iconUrl": "https://avatars.githubusercontent.com/u/76263028?s=200&v=4",
+          "openGraphImageUrl": "https://repository-images.githubusercontent.com/990112581/5fd34aaf-b360-48ce-ba47-695ecfc3aedf"
+        },
+        {
+          "id": "dotfiles",
+          "name": "dotfiles",
+          "repoUrl": "https://github.com/motlin/dotfiles",
+          "description": "Command line configuration files for development environment setup. Actively maintained with zsh, vim, and terminal configurations using dotbot.",
+          "links": [
+            { "url": "https://github.com/motlin/dotfiles", "label": "GitHub" }
+          ],
+          "techStack": ["Dotbot"],
+          "features": ["Config Management", "Environment Setup"],
+          "githubRepo": "motlin/dotfiles"
+        },
+        {
+          "id": "jetbrains-settings",
+          "name": "JetBrains Settings",
+          "repoUrl": "https://github.com/motlin/jetbrains-settings",
+          "description": "Custom color schemes for IntelliJ IDEA and JetBrains IDEs with enhanced syntax highlighting for more token types. Includes comprehensive theme customization.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/jetbrains-settings",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://motlin.com/docs/intellij/jetbrains-syntax-highlighting",
+              "label": "Blog"
+            }
+          ],
+          "techStack": ["IntelliJ"],
+          "features": [
+            "Color Schemes",
+            "Syntax Highlighting",
+            "IDE Customization"
+          ],
+          "githubRepo": "motlin/jetbrains-settings",
+          "openGraphImageUrl": "https://repository-images.githubusercontent.com/547908373/5080fa4c-427e-4e2d-b526-b340cc4b2e14"
+        },
+        {
+          "id": "development-setup",
+          "name": "development-setup",
+          "repoUrl": "https://github.com/motlin/development-setup",
+          "description": "Comprehensive development environment setup scripts and configurations for new machines.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/development-setup",
+              "label": "GitHub"
+            }
+          ],
+          "techStack": ["Homebrew"],
+          "features": ["Setup Automation", "Developer Onboarding"],
+          "githubRepo": "motlin/development-setup"
+        }
+      ]
+    },
+    {
+      "id": "ci-cd",
+      "title": "CI/CD & GitHub Actions",
+      "icon": "FaFolder",
+      "projects": [
+        {
+          "id": "checkstyle-results",
+          "name": "CheckStyle Results Reporter",
+          "repoUrl": "https://github.com/motlin/checkstyle-results",
+          "description": "GitHub Action to convert CheckStyle results into annotations for better CI/CD integration and code quality automation.",
+          "links": [
+            {
+              "url": "https://github.com/marketplace/actions/checkstyle-reporter",
+              "label": "Marketplace"
+            },
+            {
+              "url": "https://github.com/motlin/checkstyle-results",
+              "label": "GitHub"
+            }
+          ],
+          "techStack": ["GitHub Actions"],
+          "features": [
+            "Code Quality",
+            "CI/CD Automation",
+            "CheckStyle Integration"
+          ],
+          "githubRepo": "motlin/checkstyle-results",
+          "customIcon": "CheckStyleMarketplaceIcon"
+        },
+        {
+          "id": "forbid-merge-commits-action",
+          "name": "forbid-merge-commits-action",
+          "repoUrl": "https://github.com/motlin/forbid-merge-commits-action",
+          "description": "A GitHub Composite Action to enforce clean commit history by forbidding merge commits inside pull requests.",
+          "links": [
+            {
+              "url": "https://github.com/marketplace/actions/forbid-merge-commits",
+              "label": "Marketplace"
+            },
+            {
+              "url": "https://github.com/motlin/forbid-merge-commits-action",
+              "label": "GitHub"
+            }
+          ],
+          "techStack": ["GitHub Actions"],
+          "features": ["Commit History", "Pull Request Validation"],
+          "githubRepo": "motlin/forbid-merge-commits-action",
+          "customIcon": "ForbidMergeCommitsMarketplaceIcon"
+        },
+        {
+          "id": "aggregator-creator",
+          "name": "aggregator-creator",
+          "repoUrl": "https://github.com/motlin/aggregator-creator",
+          "description": "CLI tool that creates Maven aggregator POMs from a set of repositories. Maven aggregators combine multiple Maven projects into a single build, allowing you to compile and test related modules together.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/aggregator-creator",
+              "label": "GitHub"
+            }
+          ],
+          "techStack": [],
+          "features": [
+            "Data Aggregation",
+            "Maven",
+            "Multi-Module",
+            "Code Generation"
+          ],
+          "githubRepo": "motlin/aggregator-creator",
+          "openGraphImageUrl": "https://repository-images.githubusercontent.com/978289206/e59d26af-4725-496b-aab1-953f0a26ad6c"
+        },
+        {
+          "id": "git-test-results-commits",
+          "name": "git-test-results-commits",
+          "repoUrl": "https://github.com/motlin/git-test-results-commits",
+          "description": "Takes the output of [git-test](https://github.com/mhagger/git-test) and adds the commit message to each line of output.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/git-test-results-commits",
+              "label": "GitHub"
+            }
+          ],
+          "techStack": ["GitHub Actions"],
+          "features": ["Test Results", "Commit Automation", "CI/CD"],
+          "githubRepo": "motlin/git-test-results-commits"
+        }
+      ]
+    }
+  ],
+  "openGraphImageUrls": {
+    "eclipse-collections/eclipse-collections": "https://repository-images.githubusercontent.com/46803767/30a0d313-9984-4580-b587-f899361ca8b8",
+    "liftwizard/liftwizard": "https://repository-images.githubusercontent.com/232442863/68684218-c814-45c3-ba9f-ed9c2835df27",
+    "liftwizard/klass": "https://repository-images.githubusercontent.com/772183375/63ba0f2b-6e03-4754-8e6e-020ddb32373a",
+    "motlin/jetbrains-settings": "https://repository-images.githubusercontent.com/547908373/5080fa4c-427e-4e2d-b526-b340cc4b2e14",
+    "motlin/claude-code-prompts": "https://repository-images.githubusercontent.com/990112581/5fd34aaf-b360-48ce-ba47-695ecfc3aedf",
+    "motlin/aggregator-creator": "https://repository-images.githubusercontent.com/978289206/e59d26af-4725-496b-aab1-953f0a26ad6c",
+    "motlin/dotfiles": "https://repository-images.githubusercontent.com/1726220/cb7542b4-5a01-4edf-956f-ba854b1460de"
+  }
+}
