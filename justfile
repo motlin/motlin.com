@@ -2,11 +2,11 @@
 default:
     @just --list --unsorted
 
-# `npm start -- --port 4000`
+# `npm start`
 start:
     npm start -- --port 4000
 
-# Start with drafts enabled: `DOCUSAURUS_DRAFT=true npm start -- --port 4000`
+# Start with drafts enabled: `DOCUSAURUS_DRAFT=true npm start`
 start-drafts:
     DOCUSAURUS_DRAFT=true npm start -- --port 4000
 
