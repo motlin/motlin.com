@@ -7,17 +7,17 @@ export interface ColorSwatchProps {
   label?: boolean;
 }
 
-export default function ColorSwatch({ 
-  color, 
-  size = 'medium', 
-  label = true 
-}: ColorSwatchProps): JSX.Element {
+export default function ColorSwatch({
+  color,
+  size = 'medium',
+  label = true
+}: ColorSwatchProps): React.JSX.Element {
   const colorValue = color.startsWith('#') ? color : `#${color}`;
-  
+
   return (
     <span className={styles.container}>
-      <span 
-        className={`${styles.swatch} ${styles[size]}`} 
+      <span
+        className={`${styles.swatch} ${styles[size]}`}
         style={{ backgroundColor: colorValue }}
         title={colorValue}
       />

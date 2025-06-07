@@ -2,11 +2,11 @@ import React from 'react';
 import Heading from '@theme/Heading';
 import ColorSwatch from './ColorSwatch';
 
-export default function ColorSwatchExample(): JSX.Element {
+export default function ColorSwatchExample(): React.JSX.Element {
   return (
     <div className="color-swatch-examples">
       <Heading as="h3">Color Swatch Examples</Heading>
-      
+
       <Heading as="h4">Sizes</Heading>
       <div>
         <p>
@@ -15,7 +15,7 @@ export default function ColorSwatchExample(): JSX.Element {
           Large: <ColorSwatch color="#0033B3" size="large" />
         </p>
       </div>
-      
+
       <Heading as="h4">With and Without Labels</Heading>
       <div>
         <p>
@@ -23,7 +23,7 @@ export default function ColorSwatchExample(): JSX.Element {
           Without label: <ColorSwatch color="#00AA00" label={false} />
         </p>
       </div>
-      
+
       <Heading as="h4">Colors from Documentation</Heading>
       <div>
         <p>

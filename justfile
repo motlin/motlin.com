@@ -21,3 +21,22 @@ serve: build
 # `npm run deploy`
 deploy:
     npm run deploy
+
+# `npm run typecheck`
+typecheck:
+    npm run typecheck
+
+# `npm run ci:eslint`
+lint:
+    npm run ci:eslint
+
+# `npm run lint:fix`
+lint-fix:
+    npm run lint:fix
+
+# `npm run clear`
+clear:
+    npm run clear
+
+# Run pre-commit workflow with fixes
+precommit: lint-fix typecheck build
