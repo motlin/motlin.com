@@ -22,7 +22,7 @@ The global [`~/.claude/CLAUDE.md`](https://github.com/motlin/claude-code-prompts
 I have some code style instructions that could have been written for human developers.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md?plain=1#L5-L17
+https://github.com/motlin/claude-code-prompts/blob/main/instructions/code-style.md
 ```
 
 **Vibes**: these instructions sometimes help. Curiously, Sonnet 3.7 followed my instructions about including emoji in edits. Opus 4.0 uses emoji in messages to me, but doesn't use them in edits.
@@ -36,7 +36,7 @@ https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md?plain=1#L5-L17
 I have some commit message style notes that could have been written for human developers as well.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L21-L25
+https://github.com/motlin/claude-code-prompts/blob/main/instructions/git-commits.md
 ```
 
 **Vibes**: these instructions work well.
@@ -44,7 +44,7 @@ https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L21-L25
 ### Testing Practices
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L29-L41
+https://github.com/motlin/claude-code-prompts/blob/main/instructions/tests.md
 ```
 
 **Vibes**: these instructions don't work well. When writing tests, LLMs remind me of [Mr. Meeseeks](https://en.wikipedia.org/wiki/Mr._Meeseeks). The LLM will go to any length to get tests to pass, including deleting all of the assertions.
@@ -61,7 +61,7 @@ GPT-4o had [a now-famous bug](https://openai.com/index/sycophancy-in-gpt-4o/) th
 Tackling these these together:
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L58-L65
+https://github.com/motlin/claude-code-prompts/blob/main/instructions/conversation.md
 ```
 
 **Vibes:** these instructions work well.
@@ -71,21 +71,21 @@ https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L58-L65
 `claude` handles console output from linters and compiler well. But sometimes it will try to run a long-lived command like `npm run start` and basically hang.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L69-L72
+https://github.com/motlin/claude-code-prompts/blob/main/instructions/build-commands.md
 ```
 
 **Vibes:** these instructions help sometimes. Sometimes Claude still tries to run long-lived commands so I've started to explicitly deny them.
 
 ```json reference
-https://github.com/motlin/claude-code-prompts/blob/main/settings.json#L54-L58
- ```
+https://github.com/motlin/claude-code-prompts/blob/main/settings.json#L54-L60
+```
 
 ### Extra context just for you
 
 `claude` can search the internet, and can read files from outside the current git repository, but it's an extra hop. I find it convenient to gather files into a subdirectory just for the LLM.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L77-L87
+https://github.com/motlin/claude-code-prompts/blob/main/instructions/llm-context.md
 ```
 
 **Vibes:** these instructions work well. Though I'm deliberate about telling the LLM to look in `.llm/`.
@@ -99,10 +99,10 @@ LLMs write obvious comments.
 const elapsedTimeMs = Date.now() - startTime
 ```
 
-I tell Claude not to, but it really, really likes writing comments.
+I tell Claude not to, but it really, really likes writing comments. The built-in system prompt flat out says "Do not add comments to the code you write" and that doesn't work either.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L47-L54
+https://github.com/motlin/claude-code-prompts/blob/main/instructions/llm-code-style.md
 ```
 
 **Vibes:** This didn't work with Claude 3.7 **at all**, and I noticed the difference right away when upgrading. Claude 4 Opus doesn't use the words "added", "removed", or "changed" and avoids commenting out code, but still writes way too many comments.
@@ -116,7 +116,7 @@ Claude code's commit messages are remarkably consistent, to the point where you 
 The system prompt includes [inconsistent and incorrect information](https://github.com/anthropics/claude-code/issues/1000) about pre-commit hooks and staging changes, so I give my own corrections.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md#L91-L105
+https://github.com/motlin/claude-code-prompts/blob/main/instructions/llm-git-commits.md
 ```
 
 **Vibes** I expect mixed results when my instructions contract the system prompt and I hope [the system prompt gets fixed upstream](https://github.com/anthropics/claude-code/issues/1000), but these instructions have been working well.
@@ -143,43 +143,46 @@ The contents of `CLAUDE.local.md` vary of course. It's a good place to share:
 
 Claude Code supports some built-in slash commands, like `/pr-comments` which are basically just shorthand for [specific prompts](https://gist.github.com/transitive-bullshit/487c9cb52c75a9701d312334ed53b20c#file-claude-code-prompts-js-L591-L597). Users can define their own prompts in files like `~/.claude/commands/example.md` and invoke them with slash commands like `/user:example`. I have created commands for implementing todos, commiting to git, and cleaning up comments.
 
-You can also create project-specific commands by placing them in a `.claude/commands/` directory within your project, but I haven't used this feature yet. These commands take precedence over global commands with the same name.
+You can also create project-specific commands by placing them in a `.claude/commands/` directory within your project, but I haven't used this feature yet. These commands are invoked with `/project:example`.
 
-### ~/.claude/commands/todo.md
+### `~/.claude/commands/todo.md`
 
 When planning larger changes, I tend to chat with a thinking model in the browser. At the end, I ask for a markdown checklist containing tasks in the order that I need to implement them, where each completed task could be committed to git separately. The `/user:todo` command asks Claude to implement a single task from that list.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/commands/todo.md#L1-L25
+https://github.com/motlin/claude-code-prompts/blob/main/commands/todo.md
 ```
 
 "Think hard" is [a magic word](https://simonwillison.net/2025/Apr/19/claude-code-best-practices/) that triggers extended thinking mode.
 
 The first instructions are because Claude sometimes looks for `.llm/todo.md` in my home directory. I should try a name that doesn't start with a dot. Once Claude finds the file, this prompt works very well, and it forms the core of my workflow for larger ideas.
 
-### ~/.claude/commands/commit.md
+### `~/.claude/commands/commit.md`
 
-As the `/user:todo` command winds down, the conversation will naturally reach a point where the LLM suggests committing the code. But when I'm not [fully vibe coding](https://simonwillison.net/2025/Mar/19/vibe-coding/) - when I'm manually testing, debugging, and fixing things -
+As the `/user:todo` command winds down, the conversation will naturally reach a point where the LLM suggests committing the code. But when I'm not [fully vibe coding](https://simonwillison.net/2025/Mar/19/vibe-coding/) - when I'm manually testing, debugging, and fixing things - I don't want Claude to commit immediately.
 
-
- I review the changes, often manually test or debug, and sometimes make my own changes on top. When I'm happy with the changes, I invoke `/user:commit`.
-
-```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/commands/commit.md#L24-L47
-```
-
-### ~/.claude/commands/comments.md
-
-The `/user:comments` command asks the LLM to clean up redundant comments. I showed my instructions in `~/.claude/CLAUDE.md` starting with "Use comments sparingly" but they don't work. The built-in system prompt flat out says "Do not add comments to the code you write" and that doesn't work either. LLMs really want to write comments. It must be important to their writing processes.
-
-I gave up on prevention and wrote this command to clean up the comments afterwards.
+I review the changes, often manually test or debug, and sometimes make my own changes on top. When I'm happy with the changes, I invoke `/user:commit`.
 
 ```markdown reference
-https://github.com/motlin/claude-code-prompts/blob/main/commands/comments.md#L11-L21
+https://github.com/motlin/claude-code-prompts/blob/main/commands/commit.md
 ```
 
-While I can't get the LLM to stop writing comments, it is extremely effective at cleaning them up after the fact. Effective enough that I turn on `auto-accept` edits while this command is running.
+### `~/.claude/commands/all-comments.md`
 
-### ~/.claude/commands/all-comments.md
+The `/user:all-comments` command asks the LLM to clean up redundant comments. I showed my instructions in `~/.claude/CLAUDE.md` starting with "Use comments sparingly" but they don't work.
 
-While vibe coding, lots of comments sneak into committed code. The `all-comments` prompt is identical to `comments` except it omits the sentence "Look at the local code changes that are not yet committed to git" turning it into a more global edit. After Claude deletes all the comments, I run [`git absorb`](https://github.com/tummychow/git-absorb) and it's as if the comments never existed in git history.
+I gave up on prevention and wrote this command to clean up the comments afterwards. After Claude deletes all the comments, I run [`git absorb`](https://github.com/tummychow/git-absorb) and it's as if the comments never existed in git history.
+
+```markdown reference
+https://github.com/motlin/claude-code-prompts/blob/main/shared/comment-removal-rules.md
+```
+
+### `~/.claude/commands/comments.md`
+
+The `comments` prompt is identical to `all-comments` except it add the sentence "Look at the local code changes that are not yet committed to git" turning it into a local edit.
+
+```markdown reference
+https://github.com/motlin/claude-code-prompts/blob/main/commands/comments.md
+```
+
+While I can't get the LLM to stop writing comments, these commands are extremely effective at cleaning them up after the fact.
