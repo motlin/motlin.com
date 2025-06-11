@@ -1,0 +1,3 @@
+[submodule "src/.claude-prompts"]
+	path = src/.claude-prompts
+	url = https://github.com/motlin/claude-code-prompts.git

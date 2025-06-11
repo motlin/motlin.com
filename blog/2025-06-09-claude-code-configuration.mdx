@@ -1,0 +1,163 @@
+---
+slug: claude-code-configuration
+title: "Claude Code Secrets: Configuration That Works"
+authors: [craig]
+tags: [claude-code, developer-productivity]
+date: 2025-06-09
+---
+
+{/* eslint-disable-next-line */}
+import CodeBlock from '@theme/CodeBlock';
+import settingsContent from '!!raw-loader!../src/.claude-prompts/settings.json';
+import CodeStyleSource from '!!raw-loader!../src/.claude-prompts/instructions/code-style.md';
+import TestsSource from '!!raw-loader!../src/.claude-prompts/instructions/tests.md';
+import ConversationSource from '!!raw-loader!../src/.claude-prompts/instructions/conversation.md';
+import BuildCommandsSource from '!!raw-loader!../src/.claude-prompts/instructions/build-commands.md';
+import LlmContextSource from '!!raw-loader!../src/.claude-prompts/instructions/llm-context.md';
+import LlmCodeStyleSource from '!!raw-loader!../src/.claude-prompts/instructions/llm-code-style.md';
+import LlmGitCommitsSource from '!!raw-loader!../src/.claude-prompts/instructions/llm-git-commits.md';
+
+export const SettingsDenyString = (() => {
+  const settings = JSON.parse(settingsContent);
+  const filteredSettings = {
+    permissions: {
+      deny: settings.permissions?.deny || []
+    }
+  };
+  return JSON.stringify(filteredSettings, null, 2);
+})();
+
+[Simon Willison wrote](https://simonwillison.net/2025/May/5/prompting/) "I'm disappointed at how little good writing there is out there about effective prompting."
+
+I worked hard on these prompts and think they're effective. This post covers how I configure `claude` using `CLAUDE.md` files and `settings.json` to control the behavior of the Claude code CLI.
+
+<!-- truncate -->
+
+This post is part of my [Claude Code setup series](/blog/claude-code-setup).
+
+## Global CLAUDE.md
+
+The global `~/.claude/CLAUDE.md` file sets default behavior for `claude` across all projects. [Mine](https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md) is set up as imports of all the snippets below.
+
+## Instructions for Humans
+
+### Code Style
+
+I start with code style instructions that are applicable to LLMs and human developers.
+
+<CodeBlock language="markdown" title=".claude-prompts/instructions/code-style.md">
+  {CodeStyleSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/code-style.md)
+
+## Instructions specific to LLMs
+
+### Testing Practices
+
+When writing tests, LLMs remind me of [Mr. Meeseeks](https://en.wikipedia.org/wiki/Mr._Meeseeks). The LLM will go to any length to get tests to pass, including deleting all of the assertions.
+
+The advice here is applicable to human developers too, but we're getting into LLM quirks now.
+
+<CodeBlock language="markdown" title=".claude-prompts/instructions/tests.md">
+    {TestsSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/tests.md)
+
+### Rhetorical questions?
+
+Sometimes I ask `claude` why it implemented a feature one way and not another and it answers "You're right! I'll implement it \<the other way\>." Infuriating!
+
+GPT-4o had [a now-famous bug](https://openai.com/index/sycophancy-in-gpt-4o/) that made it "overly supportive but disingenuous." It's "fixed," but all models can [trend toward sycophancy](https://www.anthropic.com/research/towards-understanding-sycophancy-in-language-models).
+
+Tackling these these together:
+
+<CodeBlock language="markdown" title=".claude-prompts/instructions/conversation.md">
+  {ConversationSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/conversation.md)
+
+### Long-lived processes
+
+`claude` handles console output from linters and compiler well. But sometimes it will try to run a long-lived command like `npm run start` and basically hang.
+
+<CodeBlock language="markdown" title=".claude-prompts/instructions/build-commands.md">
+  {BuildCommandsSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/build-commands.md)
+
+Sometimes Claude still tries to run long-lived commands so I've started to explicitly deny them.
+
+<CodeBlock language="json" title="src/.claude-prompts/settings.json (deny section)">
+  {SettingsDenyString}
+</CodeBlock>
+
+### Extra context just for you
+
+`claude` can search the internet, and can read files from outside the current git repository, but it's an extra hop. I find it convenient to gather files into a subdirectory just for the LLM.
+
+<CodeBlock language="markdown" title=".claude-prompts/instructions/llm-context.md">
+  {LlmContextSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/llm-context.md)
+
+These instructions work well. Though I'm deliberate about telling the LLM to look in `.llm/`.
+
+### // Too Many Comments
+
+LLMs write obvious comments.
+
+```typescript
+// Calculate elapsed time
+const elapsedTimeMs = Date.now() - startTime
+```
+
+Here are my instructions telling Claude not to, but it really, really likes writing comments. The built-in system prompt flat out says "Do not add comments to the code you write" and that doesn't work either.
+
+<CodeBlock language="markdown" title=".claude-prompts/instructions/llm-code-style.md">
+  {LlmCodeStyleSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/llm-code-style.md)
+
+I've come to accept that comments are crucial to how LLMs "think" and I cannot stop the LLM from writing them, at least in the first draft. My [comment cleanup commands](/blog/claude-code-utility-commands#comments) are great at getting rid of them in a second step.
+
+### Claude's Commit messages
+
+Claude code's commit messages are remarkably consistent, to the point where you know what [the system prompt](https://gist.github.com/transitive-bullshit/487c9cb52c75a9701d312334ed53b20c#file-claude-code-prompts-js-L448-L462) is going to say before you read it.
+
+The system prompt includes [inconsistent and incorrect information](https://github.com/anthropics/claude-code/issues/1000) about pre-commit hooks and staging changes, so I give my own corrections.
+
+<CodeBlock language="markdown" title=".claude-prompts/instructions/llm-git-commits.md">
+  {LlmGitCommitsSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/llm-git-commits.md)
+
+I didn't expect this to work since it contradicts the system prompt, but it works fine. I hope [the system prompt gets fixed upstream](https://github.com/anthropics/claude-code/issues/1000) anyway.
+
+## Project-specific CLAUDE.md
+
+You can override global settings for a specific project by creating a `CLAUDE.md` and `CLAUDE.local.md` in the root of that project. The first is intended to be committed and the second is intended to be ignored.
+
+I don't want to assume my teammates use a specific tool like Claude, so I never create project-specific `CLAUDE.md` files. I don't even want the word Claude to appear in `.gitignore` so instead I ignore the file with:
+
+```console
+echo CLAUDE.local.md >> .git/info/exclude
+```
+
+I hope a standard emerges. I would be willing to check in a file called `LLM.md`.
+
+The contents of `CLAUDE.local.md` vary. It's a good place to share:
+
+- What the build tool is, and which commands to run before committing.
+- Libraries to use and APIs to prefer.
+- Whether to use a `justfile` or the language-native build tool.
+
+## Next Steps
+
+Now that you've seen how to configure Claude Code's behavior, check out my development workflow in [Workflow Commands](/blog/claude-code-workflow-commands) and my additional [Utility Commands](/blog/claude-code-utility-commands).
