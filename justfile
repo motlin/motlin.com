@@ -38,5 +38,9 @@ lint-fix:
 clear:
     npm run clear
 
+# Update submodules
+update-submodules:
+    git submodule update --remote
+
 # Run pre-commit workflow with fixes
-precommit: lint-fix typecheck build
+precommit: update-submodules lint-fix typecheck build
