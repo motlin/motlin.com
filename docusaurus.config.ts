@@ -160,7 +160,7 @@ const config: Config = {
             },
             {
               label: 'Documentation',
-              to: '/docs/welcome',
+              to: '/docs/',
             },
           ],
         },
@@ -191,7 +191,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.oneDark,
       darkTheme: prismThemes.oneDark,
-      additionalLanguages: ['java', 'shell-session', 'bash', 'toml', 'markdown'],
+      additionalLanguages: ['java', 'shell-session', 'bash', 'toml', 'markdown', 'json'],
     },
     algolia: {
       appId: 'C2FFLRAS9H',

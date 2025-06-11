@@ -1,0 +1,95 @@
+---
+slug: claude-code-workflow-commands
+title: "Claude Code Secrets: The Perfect Development Loop"
+authors: [craig]
+tags: [claude-code, developer-productivity]
+date: 2025-06-10
+---
+
+{/* eslint-disable-next-line */}
+import CodeBlock from '@theme/CodeBlock';
+import TodoCommandSource from '!!raw-loader!../src/.claude-prompts/commands/todo.md';
+import CommitCommandSource from '!!raw-loader!../src/.claude-prompts/commands/commit.md';
+
+I've written two slash commands for Claude Code that form the core of my development workflow: `/user:todo` implements one task and `/user:commit` commits it.
+
+<!-- truncate -->
+
+This post is part of my [Claude Code setup series](/blog/claude-code-setup).
+
+## Understanding Slash Commands
+
+Claude Code comes with built-in slash commands like `/pr-comments`, which are essentially [shortcuts for specific prompts](https://gist.github.com/transitive-bullshit/487c9cb52c75a9701d312334ed53b20c#file-claude-code-prompts-js-L591-L597). You can also [create custom slash commands](https://docs.anthropic.com/en/docs/claude-code/tutorials#create-custom-slash-commands).
+
+- **Global commands**: Place them in `$HOME/.claude/commands/example.md` and invoke with `/user:example`
+- **Project commands**: Place them in `./.claude/commands/` and invoke with `/project:example`
+
+## The Development Loop
+
+When building larger features, I work through a task list in `.llm/todo.md`:
+
+1. Run `/user:todo` to implement the next task
+2. Test and debug manually
+3. Run `/user:commit` to commit the changes
+4. Run `/compact` to clean up the conversation history
+5. Repeat
+
+## Creating the Task List
+
+When planning larger changes, I tend to chat with a thinking model in the browser. At the end, I ask for a task list:
+
+> Write a task list that we can work through to implement this idea, as a markdown checklist.
+>
+> Each checkbox should represent a task that we can implement and commit on its own.
+>
+> Arrange the tasks in the order we need to implement them, not in order of importance.
+>
+> Example format:
+>
+> - [ ] Add a test case for feature ABC.
+>   - It's ok for the test to be failing at this point.
+> - [ ] Implement feature ABC.
+> - [ ] Delete DEF
+>   - Replace usages of DEF with ABC.
+
+I save this list to `.llm/todo.md`. I've [configured Claude](/blog/claude-code-configuration#extra-context-just-for-you) to ignore the `.llm` directory in version control.
+
+## `/user:todo`
+
+This command tells Claude to implement one task from the list.
+
+<CodeBlock language="markdown" title=".claude-prompts/commands/todo.md">
+  {TodoCommandSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/todo.md)
+
+"Think hard" is [a magic word](https://simonwillison.net/2025/Apr/19/claude-code-best-practices/) that triggers extended reasoning.
+
+## `/user:commit`
+
+After implementing and testing a task, I use `/user:commit` to create a commit:
+
+<CodeBlock language="markdown" title=".claude-prompts/commands/commit.md">
+  {CommitCommandSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/commit.md)
+
+You don't need a custom command to commit - and Claude will offer to commit without being asked. But this gives me control over timing while leveraging Claude's ability to write good summaries.
+
+## Managing the Context Window with `/compact`
+
+The `/compact` command is built in but [not well documented](https://docs.anthropic.com/en/docs/claude-code/costs#reduce-token-usage). It's built on [a markdown prompt](https://www.reddit.com/r/ClaudeAI/comments/1jr52qj/here_is_claude_codes_compact_prompt/) to summarize the conversation, then replaces Claude's context with that summary.
+
+After completing a task, I need to make room in the context window for the next task. I used to run `/compact` if the next task was related, and `/clear` if unrelated. Now I just always run `/compact`.
+
+This is also a good time to restart with `claude --continue` if it has been running too long or if there's a new version available.
+
+## Summary
+
+This workflow breaks large features into manageable steps.
+
+These commands work best when combined with proper [Claude Code configuration](/blog/claude-code-configuration).
+
+For more custom commands, see [Claude Code Utility Commands](/blog/claude-code-utility-commands).
