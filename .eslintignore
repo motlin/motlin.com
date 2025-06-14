@@ -1,3 +1,6 @@
 build/
 .docusaurus/
 node_modules/
+blog/2025-06-09-claude-code-configuration.mdx
+blog/2025-06-10-claude-code-workflow-commands.mdx
+blog/2025-06-11-claude-code-utility-commands.mdx

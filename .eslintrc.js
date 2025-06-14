@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   extends: ['plugin:@docusaurus/recommended'],
-  plugins: ['@docusaurus'],
+  plugins: ['@docusaurus', 'import'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -18,6 +18,13 @@ module.exports = {
       files: ['*.md', '*.mdx'],
       extends: ['plugin:mdx/recommended'],
       parser: 'eslint-mdx',
+      settings: {
+        'mdx/code-blocks': true,
+        'mdx/language-mapper': {},
+      },
+      rules: {
+        'import/no-webpack-loader-syntax': 'off',
+      },
     },
   ],
   rules: {

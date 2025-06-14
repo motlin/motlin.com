@@ -31,6 +31,9 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.27.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.27.1",
+    "@babel/preset-react": "^7.27.1",
     "@docusaurus/eslint-plugin": "^3.8.1",
     "@docusaurus/module-type-aliases": "^3.8.0",
     "@docusaurus/tsconfig": "^3.8.1",
@@ -39,7 +42,9 @@
     "@typescript-eslint/parser": "^8.33.0",
     "eslint": "^8.57.1",
     "eslint-mdx": "^3.4.2",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-mdx": "^3.4.2",
+    "raw-loader": "^4.0.2",
     "typescript": "~5.8.3"
   },
   "browserslist": {
