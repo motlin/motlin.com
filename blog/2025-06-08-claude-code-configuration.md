@@ -1,6 +1,6 @@
 ---
 slug: claude-code-setup
-title: "Claude Code Secrets: My Complete Setup"
+title: "Claude Code: My Complete Setup"
 authors: [craig]
 tags: [claude-code, developer-productivity]
 date: 2025-06-08
@@ -14,19 +14,19 @@ I spent a lot of time writing and tweaking my prompts, so I'm sharing what works
 
 This is my complete Claude Code setup, broken down into three posts:
 
-📋 [How I Configure Claude Code with CLAUDE.md and settings.json](/blog/claude-code-configuration)
+📋 [Claude Code: Configuration That Works](/blog/claude-code-configuration)
 
 - Global `CLAUDE.md`
 - Code style, commit message, and conversation guidelines
 
-🔄 [Claude Code Development Workflow Commands](/blog/claude-code-workflow-commands)
+🔄 [Claude Code: The Perfect Development Loop](/blog/claude-code-workflow-commands)
 
 My core development loop using custom commands:
 - `/user:todo` - Implement a task from a checklist
 - `/user:commit` - `git commit` with a nice message
 - `/compact` - Manage the context window
 
-🛠️ [Claude Code Utility Commands](/blog/claude-code-utility-commands)
+🛠️ [Claude Code: Custom Slash Commands](/blog/claude-code-utility-commands)
 
 Commands for code maintenance:
 - `/user:comments` - Clean up comments in recent changes
