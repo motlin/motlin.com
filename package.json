@@ -41,7 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^8.34.0",
     "@typescript-eslint/parser": "^8.33.0",
     "eslint": "^8.57.1",
-    "eslint-mdx": "^3.4.2",
+    "eslint-mdx": "^3.5.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-mdx": "^3.4.2",
     "raw-loader": "^4.0.2",
