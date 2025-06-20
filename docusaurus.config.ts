@@ -120,6 +120,7 @@ const config: Config = {
           label: 'Docs',
         },
         {to: '/blog', label: 'Blog', position: 'left'},
+        {to: '/sick-picks', label: 'Sick Picks', position: 'left'},
         {
           href: 'https://github.com/motlin/motlin.com',
           label: 'GitHub',
