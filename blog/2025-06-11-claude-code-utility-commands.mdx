@@ -32,9 +32,9 @@ const elapsedTimeMs = Date.now() - startTime
 
 I've come to accept that comments are crucial to how LLMs "think" and I cannot stop the LLM from writing them, at least in the first draft. Instead, I use these commands to clean them up after the fact.
 
-### `/user:all-comments` - Global Comment Cleanup
+### `/all-comments` - Global Comment Cleanup
 
-The `/user:all-comments` command asks the LLM to clean up redundant comments across the entire codebase. After Claude deletes all the comments, I run [`git absorb`](https://github.com/tummychow/git-absorb) and it's as if the comments never existed in git history.
+The `/all-comments` command asks the LLM to clean up redundant comments across the entire codebase. After Claude deletes all the comments, I run [`git absorb`](https://github.com/tummychow/git-absorb) and it's as if the comments never existed in git history.
 
 <CodeBlock language="markdown" title=".claude-prompts/shared/comment-removal-rules.md">
   {CommentRemovalRulesSource}
@@ -42,7 +42,7 @@ The `/user:all-comments` command asks the LLM to clean up redundant comments acr
 
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/shared/comment-removal-rules.md)
 
-### `/user:comments` - Local Comment Cleanup {#usercomments}
+### `/comments` - Local Comment Cleanup
 
 The `comments` prompt is identical to `all-comments` except it adds the sentence "Look at the local code changes that are not yet committed to git" turning it into a local edit.
 
@@ -52,7 +52,7 @@ The `comments` prompt is identical to `all-comments` except it adds the sentence
 
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/comments.md)
 
-This is my preferred command because it integrates with [my workflow](/blog/claude-code-workflow-commands) and is perfect for cleaning up after `/user:todo`.
+This is my preferred command because it integrates with [my workflow](/blog/claude-code-workflow-commands) and is perfect for cleaning up after `/todo`.
 
 While I can't get the LLM to stop writing comments during initial implementation, these commands are extremely effective at cleaning them up after the fact.
 
@@ -68,7 +68,7 @@ This command adds emoji!
 
 ### Usage Patterns
 
-The `/user:emoji` command follows consistent patterns and avoids duplicates by using a two-pass approach to ensure variety and appropriateness.
+The `/emoji` command follows consistent patterns and avoids duplicates by using a two-pass approach to ensure variety and appropriateness.
 
 ## Learn
 
@@ -82,7 +82,7 @@ When we solve tricky problems, this command helps document the solution for futu
 
 ### Knowledge Persistence
 
-The `/user:learn` command documents solutions in `CLAUDE.local.md` so the knowledge persists for future sessions, especially useful for CLI commands that required multiple attempts or specific ordering requirements.
+The `/learn` command documents solutions in `CLAUDE.local.md` so the knowledge persists for future sessions, especially useful for CLI commands that required multiple attempts or specific ordering requirements.
 
 ## Rebase
 
@@ -96,7 +96,7 @@ This command systematically resolves merge conflicts during git rebases.
 
 ### Conflict Resolution Strategy
 
-The `/user:rebase` command follows a structured approach to understand and fix each conflict, ensuring the rebase completes successfully without missing any issues.
+The `/rebase` command follows a structured approach to understand and fix each conflict, ensuring the rebase completes successfully without missing any issues.
 
 ## Next Steps
 

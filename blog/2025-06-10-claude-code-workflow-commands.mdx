@@ -12,7 +12,7 @@ import GiscusComponent from '@site/src/components/GiscusComponent';
 import TodoCommandSource from '!!raw-loader!../src/.claude-prompts/commands/todo.md';
 import CommitCommandSource from '!!raw-loader!../src/.claude-prompts/commands/commit.md';
 
-I've written two slash commands for Claude Code that form the core of my development workflow: `/user:todo` implements one task and `/user:commit` commits it.
+I've written two slash commands for Claude Code that form the core of my development workflow: `/todo` implements one task and `/commit` commits it.
 
 <!-- truncate -->
 
@@ -22,16 +22,18 @@ This post is part of my [Claude Code setup series](/blog/claude-code-setup).
 
 Claude Code comes with built-in slash commands like `/pr-comments`, which are essentially [shortcuts for specific prompts](https://gist.github.com/transitive-bullshit/487c9cb52c75a9701d312334ed53b20c#file-claude-code-prompts-js-L591-L597). You can also [create custom slash commands](https://docs.anthropic.com/en/docs/claude-code/tutorials#create-custom-slash-commands).
 
-- **Global commands**: Place them in `$HOME/.claude/commands/example.md` and invoke with `/user:example`
-- **Project commands**: Place them in `./.claude/commands/` and invoke with `/project:example`
+- **Global commands**: Place them in `$HOME/.claude/commands/example.md`
+- **Project commands**: Place them in `./.claude/commands/example.md`
+
+Both are invoked with `/example`. If a command exists in both locations, the project-specific version takes precedence.
 
 ## The Development Loop
 
 When building larger features, I work through a task list in `.llm/todo.md`:
 
-1. Run `/user:todo` to implement the next task
+1. Run `/todo` to implement the next task
 2. Test and debug manually
-3. Run `/user:commit` to commit the changes
+3. Run `/commit` to commit the changes
 4. Run `/compact` to clean up the conversation history
 5. Repeat
 
@@ -55,7 +57,7 @@ When planning larger changes, I tend to chat with a thinking model in the browse
 
 I save this list to `.llm/todo.md`. I've [configured Claude](/blog/claude-code-configuration#extra-context-just-for-you) to ignore the `.llm` directory in version control.
 
-## `/user:todo`
+## `/todo`
 
 This command tells Claude to implement one task from the list.
 
@@ -67,9 +69,9 @@ This command tells Claude to implement one task from the list.
 
 "Think hard" is [a magic word](https://simonwillison.net/2025/Apr/19/claude-code-best-practices/) that triggers extended reasoning.
 
-## `/user:commit`
+## `/commit`
 
-After implementing and testing a task, I use `/user:commit` to create a commit:
+After implementing and testing a task, I use `/commit` to create a commit:
 
 <CodeBlock language="markdown" title=".claude-prompts/commands/commit.md">
   {CommitCommandSource}
