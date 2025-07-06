@@ -1,0 +1,145 @@
+---
+slug: claude-code-worktree
+title: "Claude Code: Parallel Development with /worktree"
+authors: [craig]
+tags: [claude-code, developer-productivity, git]
+date: 2025-07-07
+---
+
+{/* eslint-disable-next-line */}
+import CodeBlock from '@theme/CodeBlock';
+import GiscusComponent from '@site/src/components/GiscusComponent';
+import WorktreeCommandSource from '!!raw-loader!../src/.claude-prompts/commands/worktree.md';
+
+Building on [my workflow with /todo and /commit](/blog/claude-code-workflow-commands), I've created the `/worktree` command to enable parallel development on multiple tasks using Git worktrees.
+
+<!-- truncate -->
+
+This post is part of my [Claude Code setup series](/blog/claude-code-setup).
+
+## Evolution of My Workflow
+
+I started with a simple pattern: maintain a todo list and repeatedly run [three commands](/blog/claude-code-workflow-commands):
+- `/todo` - Implement one task
+- `/commit` - Create a commit
+- `/compact` - Manage the context window
+
+This workflow steadily churned through my todo list, but LLMs can be slow. While waiting for one task to complete, I'd switch to working on a second task. Initially, I tried running Claude on two tasks in the same directory simultaneously, but they would trample each other's changes.
+
+I started using [Git worktrees](https://git-scm.com/docs/git-worktree). It worked well. Each instance of Claude works in its own directory, eliminating conflicts, while still working on a single git repository. Later, [Anthropic officially recommended using worktrees](https://docs.anthropic.com/en/docs/claude-code/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees) in their documentation, which validated the approach.
+
+## Building the /worktree Command
+
+While Anthropic recommends using worktrees, they don't provide any automation or commands for managing them yet. I found myself spending too much time creating worktrees, copying todo lists, and managing branches myself. That's where my `/worktree` command comes in.
+
+## Using the command
+
+This command can be used within claude, with a number of worktrees to create.
+
+```
+/worktree 3
+
+⏺ 1 worktree has been created so far.
+⏺ 2 worktrees have been created so far.
+⏺ 3 worktrees have been created.
+```
+
+Even though the worktrees used for parallel work, they are created in serial. Each time a worktree is created, Claude also opens a new iTerm tab, and kicks off the command:
+
+```bash
+claude --dangerously-skip-permissions /todo
+```
+
+## How It Works
+
+The `/worktree` command automates several key steps:
+
+### 1. Find and mark the next available todo
+```markdown
+- [ ] Implement user authentication with JWT
+```
+becomes:
+```markdown
+- [>] Implement user authentication with JWT <!-- worktree: implement-user-auth-jwt -->
+```
+
+### 2. Create the worktree
+```bash
+git worktree add ../my-app-implement-user-auth-jwt -b task/implement-user-auth-jwt HEAD
+```
+
+### 3. Set up the worktree environment
+```bash
+# Copy environment files if they exist
+cp .envrc ../my-app-implement-user-auth-jwt/
+direnv allow ../my-app-implement-user-auth-jwt
+
+# Trust the directory for mise
+mise trust ../my-app-implement-user-auth-jwt
+```
+
+### 4. Create a focused todo file
+```bash
+mkdir ../my-app-implement-user-auth-jwt/.llm
+echo "- [ ] Implement user authentication with JWT" > .llm/todo.md
+```
+
+### 5. Launch Claude in a new terminal tab
+
+Launch a new iTerm tab and run:
+
+```bash
+cd ../my-app-implement-user-auth-jwt
+claude --dangerously-skip-permissions /todo
+```
+
+And if we wrote `/worktree 3`, the command will repeat these steps until 3 worktrees are created.
+
+## Integration with /todo Workflow
+
+The `/worktree` command creates a new worktree with its own `.llm/todo.md` file containing just the single task. This means you can use the [same /todo workflow](/blog/claude-code-workflow-commands) we've already established, but now with better isolation and the ability to work on multiple tasks in parallel. Each worktree starts fresh from main, giving you a clean context for every task.
+
+## Managing Context Size
+
+If we have a large number of tasks we want to run in parallel, we need to be careful about the context size. There are two ways I manage this.
+
+A command like `/worktree 10` can run out of context in a single Claude session, trigger auto-compaction, and get lost. To avoid this, I move the looping outside of Claude.
+
+```bash
+for i in $(seq 1 10); do claude --dangerously-skip-permissions --print /worktree; done
+```
+
+The second problem is that if we run too many tasks in parallel, we can quickly hit API usage limits. To avoid this, I sometimes downgrade the model. At the time of writing, that means switching from Opus 4 to Sonnet 4.
+
+If I'm going step away for a while, I can also use the `sleep` command to space out the requests. This allows me to run tasks overnight without hitting API limits.
+
+```bash
+for i in $(seq 1 11); do claude --dangerously-skip-permissions --print /worktree; sleep 1200; done
+  ```
+
+## Finishing Up
+
+After all parallel tasks complete, I cherry-pick the completed work into a single branch. This gives me a chance to review all the changes together and ensure they work well as a cohesive whole.
+
+If there are any merge conflicts, and they look at all tricky to resolve, I just throw away the work and mark the todo as `[ ]` again.
+
+Finally, I clean up all worktrees except the current one.
+
+```bash
+git worktree remove ../myproject-add-user-auth-jwt
+git branch -d task/add-user-auth-jwt
+```
+
+Or I ask Claude to do it for me. If you ask Claude to clean up worktrees, make sure to tell it not to use `--force`.
+
+## Full /worktree Command
+
+Here's the complete `/worktree` command that automates the entire process:
+
+<CodeBlock language="markdown" title=".claude-prompts/commands/worktree.md">
+  {WorktreeCommandSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/worktree.md)
+
+<GiscusComponent />
