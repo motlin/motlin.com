@@ -8,19 +8,17 @@ export default function GiscusComponent(): React.JSX.Element {
   return (
     <div style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid var(--ifm-color-emphasis-200)' }}>
       <Giscus
-        id="comments"
         repo="motlin/motlin.com-comments"
         repoId="R_kgDOPDECdQ"
-        category="General"
-        categoryId="DIC_kwDOPDECdc4CkJB_"
+        category="Announcements"
+        categoryId="DIC_kwDOPDECdc4CsH4X"
         mapping="pathname"
-        term="Comments"
+        strict="1"
         reactionsEnabled="1"
         emitMetadata="0"
-        inputPosition="top"
+        inputPosition="bottom"
         theme={colorMode}
         lang="en"
-        loading="lazy"
       />
     </div>
   );
