@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Heading from '@theme/Heading';
 
 const GridLineGame = () => {
   const [gridWidth, setGridWidth] = useState(3);
@@ -194,7 +195,6 @@ const GridLineGame = () => {
   const calculateCellSize = () => {
     if (!containerRef.current) return;
 
-    const container = containerRef.current;
     const availableWidth = window.innerWidth - 40;
     const availableHeight = window.innerHeight - 150; // Space for header and controls
 
@@ -344,15 +344,15 @@ const GridLineGame = () => {
         }
       `}</style>
       <div className="flex flex-col h-full w-full">
-        <h1 className="text-3xl font-bold mb-4 text-center bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
+        <Heading as="h1" className="text-3xl font-bold mb-4 text-center bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
           Grid Line Game
-        </h1>
+        </Heading>
 
         {showSetup ? (
           // Setup Screen
           <div className="flex flex-col items-center justify-center flex-1">
             <div className="p-8 rounded-xl border-2 shadow-2xl max-w-md w-full" style={{ backgroundColor: 'var(--ifm-card-background-color)', borderColor: 'var(--ifm-color-emphasis-300)' }}>
-              <h2 className="text-2xl font-bold mb-6 text-center">Choose Grid Size</h2>
+              <Heading as="h2" className="text-2xl font-bold mb-6 text-center">Choose Grid Size</Heading>
 
               <div className="space-y-6">
                 <div>
