@@ -1,0 +1,96 @@
+---
+slug: claude-code-phone-notifications
+title: "Claude Code: Getting Phone Notifications When Tasks Complete"
+authors: [craig]
+tags: [claude-code, developer-productivity, notifications]
+date: 2025-07-22
+---
+
+{/* eslint-disable */}
+import GiscusComponent from '@site/src/components/GiscusComponent';
+
+Ever start a long-running Claude Code task and walk away, only to come back later and find it finished ages ago? I solved this by configuring Claude Code to send notifications to my phone when it completes tasks.
+
+<!-- truncate -->
+
+## The Hook Configuration
+
+In my `~/.dotfiles/claude/settings.json`, I have a hook that runs when Claude Code stops:
+
+```json
+"hooks": {
+  "Stop": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "if [ \"$NOTIFICATIONS\" = \"true\" ]; then woof \"Claude: $(basename $(pwd))\"; else echo \"NOTIFICATIONS=$NOTIFICATIONS (not woofing)\"; fi"
+        }
+      ]
+    }
+  ]
+}
+```
+
+This hook:
+- Checks if the `NOTIFICATIONS` environment variable is set to `true`
+- If so, calls a script called `woof` with a message containing the current directory name
+- Otherwise, just echoes the current notification status
+
+## The woof Script
+
+On my PATH at `/Users/craig/.bin/woof`, I have this script:
+
+```bash
+#!/bin/bash
+
+set -Eeuo pipefail
+
+# Check that there is exactly one argument
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <message>"
+    exit 1
+fi
+
+MESSAGE="$1"
+
+echo -e "$MESSAGE"
+
+if [ "${SILENT:-false}" != true ]; then
+    VOICE=${VOICE:-Serena (Premium)}
+    say --voice "${VOICE}" "$MESSAGE" &
+fi
+
+curl --silent \
+    --output /dev/null \
+    --form-string "token=$PUSHOVER_APP_TOKEN" \
+    --form-string "user=$PUSHOVER_USER_KEY" \
+    --form-string "message=$MESSAGE" \
+    https://api.pushover.net/1/messages.json
+```
+
+This script does three things:
+1. **Echoes** the message to the terminal
+2. **Speaks** the message using macOS's text-to-speech with an AI voice (Serena Premium by default)
+3. **Sends a push notification** to my phone using [Pushover](https://pushover.net/)
+
+## Pushover for Push Notifications
+
+[Pushover](https://pushover.net/) is a simple notification service that sends real-time notifications to your Android, iPhone, iPad, and Desktop devices. It has a straightforward API that makes it perfect for this use case - just a simple HTTP POST with your API token, user key, and message.
+
+To use Pushover:
+1. Sign up at [pushover.net](https://pushover.net/)
+2. Create an application to get an API token
+3. Get your user key from your account settings
+4. Set these as environment variables: `PUSHOVER_APP_TOKEN` and `PUSHOVER_USER_KEY`
+
+## Works Great with --dangerously-skip-permissions
+
+This notification system works particularly well when using `claude --dangerously-skip-permissions`, which allows Claude Code to work autonomously for extended periods without needing human input. Without this flag, you might miss the notifications because Claude would be waiting for permission to perform various actions.
+
+## Yes, It's a WUPHF.com Reference
+
+And yes, `woof` is absolutely a reference to WUPHF.com from The Office - Ryan Howard's startup that simultaneously sends messages via fax, email, text, tweet, and home phone. While my script doesn't quite reach that level of simultaneous communication, it does echo, speak, and push - which feels appropriately excessive for a completion notification!
+
+<GiscusComponent />
