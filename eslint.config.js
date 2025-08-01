@@ -3,7 +3,6 @@ const docusaurus = require('@docusaurus/eslint-plugin');
 const tseslint = require('@typescript-eslint/eslint-plugin');
 const tsParser = require('@typescript-eslint/parser');
 const importPlugin = require('eslint-plugin-import');
-const mdx = require('eslint-plugin-mdx');
 const globals = require('globals');
 
 module.exports = [
@@ -14,12 +13,8 @@ module.exports = [
       '.docusaurus/',
       'node_modules/',
       'storybook-static/',
-      'blog/2025-06-08-claude-code-configuration.mdx',
-      'blog/2025-06-09-claude-code-configuration.mdx',
-      'blog/2025-06-10-claude-code-workflow-commands.mdx',
-      'blog/2025-06-11-claude-code-utility-commands.mdx',
-      'blog/2025-07-07-claude-code-worktree.mdx',
-      'blog/2025-07-08-claude-code-merge-conflicts.mdx',
+      '**/*.mdx',
+      '**/*.md',
     ],
   },
   {
@@ -75,42 +70,6 @@ module.exports = [
           'varsIgnorePattern': '^_',
         }
       ],
-    },
-  },
-  {
-    files: ['**/*.md', '**/*.mdx'],
-    plugins: {
-      mdx: mdx,
-      '@docusaurus': docusaurus,
-      'import': importPlugin,
-    },
-    languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      globals: {
-        ...globals.node,
-        ...globals.browser,
-      },
-      parser: require('eslint-mdx'),
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-      },
-    },
-    processor: 'mdx/remark',
-    settings: {
-      'mdx/code-blocks': true,
-      'mdx/language-mapper': {},
-    },
-    rules: {
-      ...docusaurus.configs.recommended.rules,
-      'import/no-webpack-loader-syntax': 'off',
-      '@docusaurus/no-html-links': 'error',
-      '@docusaurus/prefer-docusaurus-heading': 'error',
-      'no-unused-vars': 'off',
-      'no-undef': 'off',
-      'mdx/no-unused-expressions': 'off',
-      'mdx/no-unescaped-entities': 'off',
     },
   },
   {
