@@ -2,7 +2,7 @@ name: Daily Deployment
 
 on:
   schedule:
-    # Runs at 8 AM Eastern Time (EST: 1 PM UTC, EDT: 12 PM UTC)
+    # 8 AM EST / 9 AM EDT
     - cron: "0 13 * * *"
   workflow_dispatch:
 
