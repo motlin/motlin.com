@@ -1,0 +1,284 @@
+[
+  {
+    "card": "4♣",
+    "mnemonic": "Fight Club",
+    "image": "/img/mnemonica/01 4C Fight Club.png",
+    "transitionImage": "/img/mnemonica/transitions/01 4C-2H Fight Club - Two Hands.png",
+    "transitionDescription": "Fight Club → Two Hands"
+  },
+  {
+    "card": "2♥",
+    "mnemonic": "Two Hands",
+    "image": "/img/mnemonica/02 2H Two Hands.png",
+    "transitionImage": "/img/mnemonica/transitions/02 2H-7D Two Hands - Seven Dwarfs.png",
+    "transitionDescription": "Two Hands → Seven Dwarfs"
+  },
+  {
+    "card": "7♦",
+    "mnemonic": "Seven Dwarfs",
+    "image": "/img/mnemonica/03 7D Seven Dwarfs.png",
+    "transitionImage": "/img/mnemonica/transitions/03 7D-3C Seven Dwarfs - Treasure Chest.png",
+    "transitionDescription": "Seven Dwarfs → Treasure Chest"
+  },
+  {
+    "card": "3♣",
+    "mnemonic": "Treasure Chest",
+    "image": "/img/mnemonica/04 3C Treasure Chest.png",
+    "transitionImage": "/img/mnemonica/transitions/04 3C-4H Treasure Chest - Four Horsemen.png",
+    "transitionDescription": "Treasure Chest → Four Horsemen"
+  },
+  {
+    "card": "4♥",
+    "mnemonic": "Four Horsemen",
+    "image": "/img/mnemonica/05 4H Four Horsemen.png",
+    "transitionImage": "/img/mnemonica/transitions/05 4H-6D Four Horsemen - Sitting Duck.png",
+    "transitionDescription": "Four Horsemen → Sitting Duck"
+  },
+  {
+    "card": "6♦",
+    "mnemonic": "Sitting Duck",
+    "image": "/img/mnemonica/06 6D Sitting Duck.png",
+    "transitionImage": "/img/mnemonica/transitions/06 6D-AS Sitting Duck - Apple Store.png",
+    "transitionDescription": "Sitting Duck → Apple Store"
+  },
+  {
+    "card": "A♠",
+    "mnemonic": "Apple Store",
+    "image": "/img/mnemonica/07 AS Apple Store.jpg",
+    "transitionImage": "/img/mnemonica/transitions/07 AS-5H Apple Store - Fire Hydrant.png",
+    "transitionDescription": "Apple Store → Fire Hydrant"
+  },
+  {
+    "card": "5♥",
+    "mnemonic": "Fire Hydrant",
+    "image": "/img/mnemonica/08 5H Fire Hydrant.jpg",
+    "transitionImage": "/img/mnemonica/transitions/08 5H-9S Fire Hydrant - Ned Stark.png",
+    "transitionDescription": "Fire Hydrant → Ned Stark"
+  },
+  {
+    "card": "9♠",
+    "mnemonic": "Ned Stark",
+    "image": "/img/mnemonica/09 9S Ned Stark.webp",
+    "transitionImage": "/img/mnemonica/transitions/09 9S-2S Ned Stark - Tupak Shakur.png",
+    "transitionDescription": "Ned Stark → Tupak Shakur"
+  },
+  {
+    "card": "2♠",
+    "mnemonic": "Tupak Shakur",
+    "image": "/img/mnemonica/10 2S Tupak Shakur.jpeg",
+    "transitionImage": "/img/mnemonica/transitions/10 2S-QH Tupak Shakur - Darth Helmet.png",
+    "transitionDescription": "Tupak Shakur → Darth Helmet"
+  },
+  {
+    "card": "Q♥",
+    "mnemonic": "Darth Helmet",
+    "image": "/img/mnemonica/11 QH Darth Helmet.jpg",
+    "transitionImage": "/img/mnemonica/transitions/11 QH-3D Darth Helmet - Three D.png",
+    "transitionDescription": "Darth Helmet → Three D"
+  },
+  {
+    "card": "3♦",
+    "mnemonic": "Three D",
+    "image": "/img/mnemonica/12 3D Three D.webp"
+  },
+  {
+    "card": "Q♣",
+    "mnemonic": "District of Columbia",
+    "image": "/img/mnemonica/13 QC District of Columbia.jpg"
+  },
+  {
+    "card": "8♥",
+    "mnemonic": "Eight Hours",
+    "image": "/img/mnemonica/14 8H Eight Hours.webp"
+  },
+  {
+    "card": "6♠",
+    "mnemonic": "Six Shooter",
+    "image": "/img/mnemonica/15 6S Six Shooter.webp"
+  },
+  {
+    "card": "5♠",
+    "mnemonic": "Five Star",
+    "image": "/img/mnemonica/16 5S Five Star.jpg"
+  },
+  {
+    "card": "9♥",
+    "mnemonic": "Neil Harris",
+    "image": "/img/mnemonica/17 9H Neil Harris.jpg"
+  },
+  {
+    "card": "K♣",
+    "mnemonic": "King Cobra",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "2♦",
+    "mnemonic": "Two Dollar",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "J♥",
+    "mnemonic": "Jack Hammer",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "3♠",
+    "mnemonic": "Three Stooges",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "8♠",
+    "mnemonic": "Eagle Scout",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "6♥",
+    "mnemonic": "Santa Hat",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "10♣",
+    "mnemonic": "Ten Commandments",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "5♦",
+    "mnemonic": "Fire Department",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "K♦",
+    "mnemonic": "Kentucky Derby",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "2♣",
+    "mnemonic": "Tom Cruise",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "3♥",
+    "mnemonic": "Tree House",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "8♦",
+    "mnemonic": "Energy Drink",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "5♣",
+    "mnemonic": "Flying Carpet",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "K♠",
+    "mnemonic": "King Size",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "J♦",
+    "mnemonic": "Jack Daniels",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "8♣",
+    "mnemonic": "Electric Chair",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "10♠",
+    "mnemonic": "Ten Speed",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "K♥",
+    "mnemonic": "Key Hole",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "J♣",
+    "mnemonic": "Jesus Christ",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "7♠",
+    "mnemonic": "Seven Seas",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "10♥",
+    "mnemonic": "Tin Hat",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "A♦",
+    "mnemonic": "Ace Detective",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "4♠",
+    "mnemonic": "Four Seasons",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "7♥",
+    "mnemonic": "Seventh Heaven",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "4♦",
+    "mnemonic": "Four Door",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "A♣",
+    "mnemonic": "Alice Cooper",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "9♣",
+    "mnemonic": "Nicolas Cage",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "J♠",
+    "mnemonic": "Jack Sparrow",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "Q♦",
+    "mnemonic": "Donald Duck",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "7♣",
+    "mnemonic": "Sean Connery",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "Q♠",
+    "mnemonic": "David Spade",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "10♦",
+    "mnemonic": "Tenacious D",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "6♣",
+    "mnemonic": "Simon Cowell",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "A♥",
+    "mnemonic": "Ant Hill",
+    "image": "/img/mnemonica/placeholder.svg"
+  },
+  {
+    "card": "9♦",
+    "mnemonic": "Napoleon Dynamite",
+    "image": "/img/mnemonica/placeholder.svg"
+  }
+]
