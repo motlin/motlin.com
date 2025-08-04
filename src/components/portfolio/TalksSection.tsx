@@ -42,7 +42,7 @@ export function TalksSection({ talks }: TalksSectionProps): React.JSX.Element {
         margin: '0 auto'
       }}>
         {talks.map((talk, index) => {
-          const cardStyle = {
+          const cardStyle: React.CSSProperties = {
             background: 'var(--ifm-background-color)',
             padding: '30px',
             borderRadius: index === 0 ? '40px 20px 20px 20px' :
