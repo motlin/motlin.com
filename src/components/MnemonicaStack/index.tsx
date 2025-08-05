@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Heading from '@theme/Heading';
 import styles from './MnemonicaStack.module.css';
 import mnemonicaData from '@site/src/data/mnemonicaData.json';
 
@@ -200,7 +201,7 @@ export default function MnemonicaStack() {
 
   return (
     <div className={styles.container}>
-      <h1>Interactive Mnemonica Stack</h1>
+      <Heading as="h1">Interactive Mnemonica Stack</Heading>
       <p className={styles.instructions}>Click cards to cycle through: Position → Image → Mnemonic → Card</p>
       <div className={styles.buttonContainer}>
         <button onClick={() => showAll('position')} className={styles.controlButton}>Positions</button>

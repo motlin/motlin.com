@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './ProjectCard.module.css';
 import { EnhancedProject } from '../../data/projects';
-import { formatRelativeTime } from '../../utils/dateUtils';
 import { useGitHubRepos } from '../../hooks/useGitHubRepos';
 import { FaGithub, FaBook, FaStore, FaGlobe, FaBlog, FaGamepad, FaHouse } from 'react-icons/fa6';
 import { FaJava, FaPython, FaRust, FaPhp } from 'react-icons/fa';
@@ -54,7 +53,6 @@ const licenseIcons: Record<string, React.ComponentType> = {
 export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
   const repos = useGitHubRepos();
   const repoData = project.githubRepo ? repos[project.githubRepo] : null;
-  const pushedAtDate = (repoData?.pushed_at || project.pushedAt) ? new Date(repoData?.pushed_at || project.pushedAt) : null;
 
 
 

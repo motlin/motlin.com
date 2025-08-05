@@ -1,7 +1,7 @@
 import React from 'react';
 import Heading from '@theme/Heading';
 import Link from '@docusaurus/Link';
-import { FaDesktop, FaVideo } from 'react-icons/fa6';
+import { FaVideo } from 'react-icons/fa6';
 
 interface Talk {
   id: string;
