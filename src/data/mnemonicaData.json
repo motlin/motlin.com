@@ -79,107 +79,137 @@
   {
     "card": "3♦",
     "mnemonic": "Three D",
-    "image": "/img/mnemonica/12 3D Three D.webp"
+    "image": "/img/mnemonica/12 3D Three D.webp",
+    "transitionImage": "/img/mnemonica/transitions/12 3D-QC Three D - District of Columbia.png",
+    "transitionDescription": "Three D → District of Columbia"
   },
   {
     "card": "Q♣",
     "mnemonic": "District of Columbia",
-    "image": "/img/mnemonica/13 QC District of Columbia.jpg"
+    "image": "/img/mnemonica/13 QC District of Columbia.jpg",
+    "transitionImage": "/img/mnemonica/transitions/13 QC-8H District of Columbia - Eight Hours.png",
+    "transitionDescription": "District of Columbia → Eight Hours"
   },
   {
     "card": "8♥",
     "mnemonic": "Eight Hours",
-    "image": "/img/mnemonica/14 8H Eight Hours.webp"
+    "image": "/img/mnemonica/14 8H Eight Hours.webp",
+    "transitionImage": "/img/mnemonica/transitions/14 8H-6S Eight Hours - Six Shooter.png",
+    "transitionDescription": "Eight Hours → Six Shooter"
   },
   {
     "card": "6♠",
     "mnemonic": "Six Shooter",
-    "image": "/img/mnemonica/15 6S Six Shooter.webp"
+    "image": "/img/mnemonica/15 6S Six Shooter.webp",
+    "transitionImage": "/img/mnemonica/transitions/15 6S-5S Six Shooter - Five Star.png",
+    "transitionDescription": "Six Shooter → Five Star"
   },
   {
     "card": "5♠",
     "mnemonic": "Five Star",
-    "image": "/img/mnemonica/16 5S Five Star.jpg"
+    "image": "/img/mnemonica/16 5S Five Star.jpg",
+    "transitionImage": "/img/mnemonica/transitions/16 5S-9H Five Star - Neil Harris.png",
+    "transitionDescription": "Five Star → Neil Harris"
   },
   {
     "card": "9♥",
     "mnemonic": "Neil Harris",
-    "image": "/img/mnemonica/17 9H Neil Harris.jpg"
+    "image": "/img/mnemonica/17 9H Neil Harris.jpg",
+    "transitionImage": "/img/mnemonica/transitions/17 9H-KC Neil Harris - King Cobra.png",
+    "transitionDescription": "Neil Harris → King Cobra"
   },
   {
     "card": "K♣",
     "mnemonic": "King Cobra",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/18 KC King Cobra.jpg",
+    "transitionImage": "/img/mnemonica/transitions/18 KC-2D King Cobra - Two Dollar.png",
+    "transitionDescription": "King Cobra → Two Dollar"
   },
   {
     "card": "2♦",
     "mnemonic": "Two Dollar",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/19 2D Two Dollar.jpg",
+    "transitionImage": "/img/mnemonica/transitions/19 2D-JH Two Dollar - Jack Hammer.png",
+    "transitionDescription": "Two Dollar → Jack Hammer"
   },
   {
     "card": "J♥",
     "mnemonic": "Jack Hammer",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/20 JH Jack Hammer.jpg",
+    "transitionImage": "/img/mnemonica/transitions/20 JH-3S Jack Hammer - Three Stooges.png",
+    "transitionDescription": "Jack Hammer → Three Stooges"
   },
   {
     "card": "3♠",
     "mnemonic": "Three Stooges",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/21 3S Three Stooges.webp",
+    "transitionImage": "/img/mnemonica/transitions/21 3S-8S Three Stooges - Eagle Scout.png",
+    "transitionDescription": "Three Stooges → Eagle Scout"
   },
   {
     "card": "8♠",
     "mnemonic": "Eagle Scout",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/22 8S Eagle Scout.jpg"
   },
   {
     "card": "6♥",
-    "mnemonic": "Santa Hat",
-    "image": "/img/mnemonica/placeholder.svg"
+    "mnemonic": "Sexual Harassment",
+    "image": "/img/mnemonica/23 6H Sexual Harassment.webp"
   },
   {
     "card": "10♣",
     "mnemonic": "Ten Commandments",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/24 10C Ten Commandments.jpg",
+    "transitionImage": "/img/mnemonica/transitions/24 10C-5D Ten Commandments - Fire Department.png",
+    "transitionDescription": "Ten Commandments → Fire Department"
   },
   {
     "card": "5♦",
     "mnemonic": "Fire Department",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/25 5D Fire Department.jpeg",
+    "transitionImage": "/img/mnemonica/transitions/25 5D-KD Fire Department - Kentucky Derby.png",
+    "transitionDescription": "Fire Department → Kentucky Derby"
   },
   {
     "card": "K♦",
     "mnemonic": "Kentucky Derby",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/26 KD Kentucky Derby.jpg",
+    "transitionImage": "/img/mnemonica/transitions/26 KD-2C Kentucky Derby - Tom Cruise.png",
+    "transitionDescription": "Kentucky Derby → Tom Cruise"
   },
   {
     "card": "2♣",
     "mnemonic": "Tom Cruise",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/27 2C Tom Cruise.webp",
+    "transitionImage": "/img/mnemonica/transitions/27 2C-3H Tom Cruise - Tree House.png",
+    "transitionDescription": "Tom Cruise → Tree House"
   },
   {
     "card": "3♥",
     "mnemonic": "Tree House",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/28 3H Tree House.webp",
+    "transitionImage": "/img/mnemonica/transitions/28 3H-8D Tree House - Energy Drink.png",
+    "transitionDescription": "Tree House → Energy Drink"
   },
   {
     "card": "8♦",
     "mnemonic": "Energy Drink",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/29 8D Energy Drink.png"
   },
   {
     "card": "5♣",
     "mnemonic": "Flying Carpet",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/30 5C Flying Carpet.webp"
   },
   {
     "card": "K♠",
     "mnemonic": "King Size",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/31 KS King Size.webp"
   },
   {
     "card": "J♦",
     "mnemonic": "Jack Daniels",
-    "image": "/img/mnemonica/placeholder.svg"
+    "image": "/img/mnemonica/32 JD Jack Daniels.jpg"
   },
   {
     "card": "8♣",
