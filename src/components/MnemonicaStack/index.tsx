@@ -18,6 +18,7 @@ interface CardProps {
   data: CardData;
   state: CardState;
   onStateChange: (newState: CardState) => void;
+  onImageHover: (image: { src: string; alt: string } | null) => void;
 }
 
 interface TransitionProps {
@@ -25,9 +26,10 @@ interface TransitionProps {
   description?: string;
   state: CardState;
   onStateChange: (newState: CardState) => void;
+  onImageHover: (image: { src: string; alt: string } | null) => void;
 }
 
-function TransitionCard({ image, description, state, onStateChange }: TransitionProps) {
+function TransitionCard({ image, description, state, onStateChange, onImageHover }: TransitionProps) {
   const [frontContent, setFrontContent] = useState<React.ReactNode>(null);
   const [backContent, setBackContent] = useState<React.ReactNode>(null);
   // Transition cards only flip between position (arrow) and image states
@@ -43,7 +45,15 @@ function TransitionCard({ image, description, state, onStateChange }: Transition
 
     // Back shows image or arrow if no image
     if (image) {
-      setBackContent(<img src={image} alt={description || 'Transition'} title={description} />);
+      setBackContent(
+        <img
+          src={image}
+          alt={description || 'Transition'}
+          title={description}
+          onMouseEnter={() => onImageHover({ src: image, alt: description || 'Transition' })}
+          onMouseLeave={() => onImageHover(null)}
+        />
+      );
     } else {
       setBackContent(
         <div className={styles.transitionPlaceholder}>
@@ -51,7 +61,7 @@ function TransitionCard({ image, description, state, onStateChange }: Transition
         </div>
       );
     }
-  }, [image, description]);
+  }, [image, description, onImageHover]);
 
   const handleClick = () => {
     // Transitions only toggle between front (position/mnemonic) and back (image/card)
@@ -76,7 +86,7 @@ function TransitionCard({ image, description, state, onStateChange }: Transition
   );
 }
 
-function Card({ position, data, state, onStateChange }: CardProps) {
+function Card({ position, data, state, onStateChange, onImageHover }: CardProps) {
   const [frontContent, setFrontContent] = useState<React.ReactNode>(null);
   const [backContent, setBackContent] = useState<React.ReactNode>(null);
   const isRed = data.card.includes('♥') || data.card.includes('♦');
@@ -93,7 +103,14 @@ function Card({ position, data, state, onStateChange }: CardProps) {
         setFrontContent(<span style={{ fontSize: '28px' }}>{position}</span>);
         break;
       case 'image':
-        setBackContent(<img src={data.image} alt={`Mnemonic for ${data.card}`} />);
+        setBackContent(
+          <img
+            src={data.image}
+            alt={`Mnemonic for ${data.card}`}
+            onMouseEnter={() => onImageHover({ src: data.image, alt: `Mnemonic for ${data.card}` })}
+            onMouseLeave={() => onImageHover(null)}
+          />
+        );
         break;
       case 'mnemonic':
         setFrontContent(<span>{data.mnemonic}</span>);
@@ -102,7 +119,7 @@ function Card({ position, data, state, onStateChange }: CardProps) {
         setBackContent(<span className={isRed ? styles.red : styles.black} style={{ fontSize: '32px' }}>{data.card}</span>);
         break;
     }
-  }, [state, position, data, isRed]);
+  }, [state, position, data, isRed, onImageHover]);
 
   const handleClick = () => {
     const stateOrder: CardState[] = ['position', 'image', 'mnemonic', 'card'];
@@ -132,6 +149,7 @@ export default function MnemonicaStack() {
   const [transitionStates, setTransitionStates] = useState<CardState[]>(
     mnemonicaData.map(() => 'position')
   );
+  const [hoveredImage, setHoveredImage] = useState<{ src: string; alt: string } | null>(null);
 
   const handleCardStateChange = (index: number, newState: CardState) => {
     setCardStates(prev => {
@@ -172,6 +190,7 @@ export default function MnemonicaStack() {
             data={data}
             state={cardStates[globalIndex]}
             onStateChange={(newState) => handleCardStateChange(globalIndex, newState)}
+            onImageHover={setHoveredImage}
           />
         );
 
@@ -184,6 +203,7 @@ export default function MnemonicaStack() {
               description={data.transitionDescription}
               state={transitionStates[globalIndex]}
               onStateChange={(newState) => handleTransitionStateChange(globalIndex, newState)}
+              onImageHover={setHoveredImage}
             />
           );
         }
@@ -212,6 +232,11 @@ export default function MnemonicaStack() {
       <div className={styles.cardGridWithTransitions}>
         {renderRows()}
       </div>
+      {hoveredImage && (
+        <div className={styles.imageOverlay}>
+          <img src={hoveredImage.src} alt={hoveredImage.alt} />
+        </div>
+      )}
     </div>
   );
 }
