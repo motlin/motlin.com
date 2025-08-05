@@ -54,8 +54,6 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
   const repos = useGitHubRepos();
   const repoData = project.githubRepo ? repos[project.githubRepo] : null;
 
-
-
   const description = repoData?.description || project.description;
 
   // Priority order: Play/Demo/Website links > Marketplace > Homepage > GitHub repo
