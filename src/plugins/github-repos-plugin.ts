@@ -1,8 +1,5 @@
-import type { LoadContext, Plugin } from '@docusaurus/types';
+import type { Plugin } from '@docusaurus/types';
 
-interface GitHubReposPluginOptions {
-  // Add options here if needed
-}
 
 interface Repository {
   full_name: string;
@@ -25,10 +22,7 @@ interface GraphQLResponse {
   };
 }
 
-export default function githubReposPlugin(
-  context: LoadContext,
-  options: GitHubReposPluginOptions
-): Plugin {
+export default function githubReposPlugin(): Plugin {
   return {
     name: 'github-repos-plugin',
     async loadContent() {
@@ -250,7 +244,7 @@ export default function githubReposPlugin(
       // Summary of repositories with openGraphImageUrl
       console.log('\n=== OpenGraph Image URL Summary ===');
       const reposWithOpenGraph = Array.from(repos.entries())
-        .filter(([_, data]) => data.openGraphImageUrl)
+        .filter(([, data]) => data.openGraphImageUrl)
         .map(([name, data]) => ({
           name,
           url: data.openGraphImageUrl,
