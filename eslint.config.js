@@ -66,6 +66,14 @@ module.exports = [
       ...docusaurus.configs.recommended.rules,
       '@docusaurus/no-html-links': 'error',
       '@docusaurus/prefer-docusaurus-heading': 'error',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          'argsIgnorePattern': '^_',
+          'varsIgnorePattern': '^_',
+        }
+      ],
     },
   },
   {

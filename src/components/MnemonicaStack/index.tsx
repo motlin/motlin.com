@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import Heading from '@theme/Heading';
 import styles from './MnemonicaStack.module.css';
 import mnemonicaData from '@site/src/data/mnemonicaData.json';
+import { getActualImagePath, getTransitionImagePath, getTransitionDescription } from '@site/src/utils/mnemonicaUtils';
 
 interface CardData {
   card: string;
   mnemonic: string;
-  image: string;
-  transitionImage?: string;
-  transitionDescription?: string;
 }
 
 type CardState = 'position' | 'image' | 'mnemonic' | 'card';
@@ -17,33 +15,30 @@ interface CardProps {
   position: number;
   data: CardData;
   state: CardState;
-  onStateChange: (newState: CardState) => void;
-  onImageHover: (image: { src: string; alt: string } | null) => void;
+  onStateChange: (_state: CardState) => void;
+  onImageHover: (_image: { src: string; alt: string } | null) => void;
 }
 
 interface TransitionProps {
-  image?: string;
+  image?: string | undefined;
   description?: string;
   state: CardState;
-  onStateChange: (newState: CardState) => void;
-  onImageHover: (image: { src: string; alt: string } | null) => void;
+  onStateChange: (_state: CardState) => void;
+  onImageHover: (_image: { src: string; alt: string } | null) => void;
 }
 
 function TransitionCard({ image, description, state, onStateChange, onImageHover }: TransitionProps) {
   const [frontContent, setFrontContent] = useState<React.ReactNode>(null);
   const [backContent, setBackContent] = useState<React.ReactNode>(null);
-  // Transition cards only flip between position (arrow) and image states
   const isFlipped = state === 'image' || state === 'card';
 
   React.useEffect(() => {
-    // Front always shows arrow
     setFrontContent(
       <div className={styles.transitionPlaceholder}>
         <span>→</span>
       </div>
     );
 
-    // Back shows image or arrow if no image
     if (image) {
       setBackContent(
         <img
@@ -64,7 +59,6 @@ function TransitionCard({ image, description, state, onStateChange, onImageHover
   }, [image, description, onImageHover]);
 
   const handleClick = () => {
-    // Transitions only toggle between front (position/mnemonic) and back (image/card)
     if (state === 'position' || state === 'mnemonic') {
       onStateChange('image');
     } else {
@@ -91,27 +85,25 @@ function Card({ position, data, state, onStateChange, onImageHover }: CardProps)
   const [backContent, setBackContent] = useState<React.ReactNode>(null);
   const isRed = data.card.includes('♥') || data.card.includes('♦');
 
-  // Determine if card should be flipped based on state
-  // position and mnemonic show on front (not flipped)
-  // image and card show on back (flipped)
   const isFlipped = state === 'image' || state === 'card';
 
   React.useEffect(() => {
-    // Update only the face that will be visible after the state change
     switch (state) {
       case 'position':
         setFrontContent(<span style={{ fontSize: '28px' }}>{position}</span>);
         break;
-      case 'image':
+      case 'image': {
+        const imagePath = getActualImagePath(data, position);
         setBackContent(
           <img
-            src={data.image}
+            src={imagePath}
             alt={`Mnemonic for ${data.card}`}
-            onMouseEnter={() => onImageHover({ src: data.image, alt: `Mnemonic for ${data.card}` })}
+            onMouseEnter={() => onImageHover({ src: imagePath, alt: `Mnemonic for ${data.card}` })}
             onMouseLeave={() => onImageHover(null)}
           />
         );
         break;
+      }
       case 'mnemonic':
         setFrontContent(<span>{data.mnemonic}</span>);
         break;
@@ -172,7 +164,6 @@ export default function MnemonicaStack() {
     setTransitionStates(mnemonicaData.map(() => targetState));
   };
 
-  // Create rows of 4 cards + 3 transitions each
   const renderRows = () => {
     const rows = [];
     const cardsPerRow = 4;
@@ -194,19 +185,22 @@ export default function MnemonicaStack() {
           />
         );
 
-        // Add transition after each card except the last in the row and the very last card
-        if (idx < rowCards.length - 1 || (globalIndex < mnemonicaData.length - 1 && idx === rowCards.length - 1)) {
-          rowElements.push(
-            <TransitionCard
-              key={`trans-${globalIndex}`}
-              image={data.transitionImage}
-              description={data.transitionDescription}
-              state={transitionStates[globalIndex]}
-              onStateChange={(newState) => handleTransitionStateChange(globalIndex, newState)}
-              onImageHover={setHoveredImage}
-            />
-          );
-        }
+        // Add transition after each card (all 52 transitions)
+        const nextIndex = (globalIndex + 1) % mnemonicaData.length;
+        const nextData = mnemonicaData[nextIndex];
+        const transitionImage = getTransitionImagePath(data, nextData, globalIndex + 1);
+        const transitionDescription = getTransitionDescription(data, nextData);
+
+        rowElements.push(
+          <TransitionCard
+            key={`trans-${globalIndex}`}
+            image={transitionImage}
+            description={transitionDescription}
+            state={transitionStates[globalIndex]}
+            onStateChange={(newState) => handleTransitionStateChange(globalIndex, newState)}
+            onImageHover={setHoveredImage}
+          />
+        );
       });
 
       rows.push(
@@ -215,6 +209,7 @@ export default function MnemonicaStack() {
         </div>
       );
     }
+
 
     return rows;
   };
