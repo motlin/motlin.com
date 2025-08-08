@@ -1,7 +1,7 @@
 <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
   <!-- Background circle -->
   <circle cx="100" cy="100" r="95" fill="#2b3f6b" />
-  
+
   <!-- Text for initials -->
   <text x="100" y="120" font-family="Arial, sans-serif" font-size="70" font-weight="bold" fill="#ffffff" text-anchor="middle">CM</text>
 </svg>

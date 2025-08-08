@@ -83,5 +83,3 @@ When commands like `git status` output more than a screenful, you have to scroll
 ```shell
 git config --global pager.status true
 ```
-
-

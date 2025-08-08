@@ -44,4 +44,3 @@ In addition to ListAdapter, I have equivalent rules for SetAdapter, MapAdapter, 
 ## Comments
 
 [Leave a comment on Medium](https://motlin.medium.com/intellij-postfix-completions-2fbadf2b1f51)
-

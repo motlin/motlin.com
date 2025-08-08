@@ -78,4 +78,3 @@ For more discussion, see [this StackOverflow question](https://stackoverflow.com
 ## Comments
 
 [Leave a comment on Medium](https://motlin.medium.com/which-log-level-70145ad2fc1f)
-

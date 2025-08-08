@@ -73,4 +73,3 @@ If you know of additional redundant configurations that should be added, please 
 ## Comments
 
 [Leave a comment on Medium](https://motlin.medium.com/git-config-3d20c4c079ba)
-
