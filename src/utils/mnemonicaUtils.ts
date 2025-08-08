@@ -158,3 +158,11 @@ export function getActualImagePath(data: MnemonicaCard, _position: number): stri
   const extension = imageExtensions[cardCode] || '.jpg';
   return `/img/mnemonica/pegs/${cardCode}${extension}`;
 }
+
+export function isRedSuit(suit: string): boolean {
+  return suit === '♥' || suit === '♦';
+}
+
+export function getCardColorClass(suit: string, styles: { readonly [key: string]: string }): string {
+  return isRedSuit(suit) ? styles.red : styles.black;
+}
