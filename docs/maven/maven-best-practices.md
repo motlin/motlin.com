@@ -82,4 +82,3 @@ The versions of the default plugins changes between maven versions, and even the
 | maven-deploy-plugin    | 3.1.1  | deploy        |
 
 We can support reproducible builds even with different versions of maven as long as all the plugin versions are the same. To enable plugin consistency across a team, we specify versions of the plugins in the parent pom.
-

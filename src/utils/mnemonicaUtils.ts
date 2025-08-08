@@ -1,4 +1,4 @@
-interface MnemonicaCard {
+export interface MnemonicaCard {
   card: string;
   mnemonic: string;
 }

@@ -166,4 +166,3 @@ A common pattern is for the pom at the root of a multi-module project to be both
 ## Comments
 
 [Leave a comment on Medium](https://motlin.medium.com/maven-pom-packaging-modules-09a43635c34b)
-

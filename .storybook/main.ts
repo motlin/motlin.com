@@ -10,8 +10,7 @@ const config: StorybookConfig = {
     "@chromatic-com/storybook",
     "@storybook/addon-docs",
     "@storybook/addon-onboarding",
-    "@storybook/addon-a11y",
-    "@storybook/addon-vitest"
+    "@storybook/addon-a11y"
   ],
   "framework": {
     "name": "@storybook/react-vite",
@@ -23,6 +22,7 @@ const config: StorybookConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@site': path.resolve(__dirname, '../'),
+      '@theme': path.resolve(__dirname, '../src/theme'),
       '@theme/Heading': path.resolve(__dirname, '../src/mocks/theme/Heading.tsx'),
       '@docusaurus/Link': path.resolve(__dirname, '../src/mocks/docusaurus/Link.tsx'),
       '@docusaurus/useGlobalData': path.resolve(__dirname, '../src/mocks/docusaurus/useGlobalData.ts'),

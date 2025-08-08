@@ -58,4 +58,3 @@ I think I'm writing to dispel that notion. pre-commit.com is new, but pre-commit
 ## Comments
 
 [Leave a comment on Medium](https://motlin.medium.com/pre-commit-or-ci-cd-5779d3a0e566)
-

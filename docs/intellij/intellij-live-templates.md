@@ -197,4 +197,3 @@ DESCRIPTION | | "Description"
 ## Comments
 
 [Leave a comment on Medium](https://motlin.medium.com/intellij-live-templates-ca8082bedc3f)
-
