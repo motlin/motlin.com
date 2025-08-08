@@ -50,89 +50,47 @@
 }
 
 .popupContent {
-  min-width: 900px;
+  min-width: 800px;
   max-width: 90vw;
 }
 
-.tilesLayout {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.pegRow {
+.navigationContainer {
   display: flex;
   gap: 40px;
   justify-content: center;
   align-items: flex-start;
+  margin-bottom: 30px;
 }
 
-.pegTile {
+.navSection {
   flex: 1;
-  max-width: 250px;
 }
 
-.currentPeg {
+.currentSection {
   flex: 1.2;
-  max-width: 300px;
 }
 
-.transitionRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  position: relative;
-  padding: 0 145px;
-  margin-top: -10px;
-}
 
-.transitionTile {
+.transitionSection {
   text-align: center;
   padding: 20px;
   background-color: #fff3e0;
   border-radius: 8px;
-  position: relative;
 }
 
-.transitionTile::before {
-  content: '';
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 30px;
-  background: linear-gradient(to bottom, transparent 0%, transparent 50%, #ccc 50%, #ccc 52%, transparent 52%);
-}
-
-.transitionTile:first-child::before {
-  transform: translateX(-50%) rotate(-20deg);
-  left: 25%;
-}
-
-.transitionTile:last-child::before {
-  transform: translateX(-50%) rotate(20deg);
-  left: 75%;
-}
-
-.transitionAlignRight {
-  grid-column-start: 2;
-}
-
-.transitionTile h4 {
+.transitionSection h4 {
   margin: 0 0 15px;
   color: #666;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 18px;
 }
 
 .transitionImage {
-  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
 .transitionImage img {
   width: 100%;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

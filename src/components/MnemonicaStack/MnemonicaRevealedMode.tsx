@@ -54,15 +54,17 @@ export default function MnemonicaRevealedMode() {
             return (
               <div
                 key={`card-${position}`}
-                className={styles.cardTile}
+                className={styles.cardContainer}
                 onClick={() => handleCardClick(position, card)}
-                style={{
-                  backgroundImage: `url(${getCardSvgPath(card.card)})`,
-                }}
               >
-                <div className={styles.cardOverlay}>
-                  <div className={styles.positionNumber}>{position}</div>
-                  <div className={styles.mnemonicText}>
+                <div className={styles.positionBadge}>{position}</div>
+                <div className={styles.cardContent}>
+                  <img
+                    src={getCardSvgPath(card.card)}
+                    alt={card.card}
+                    className={styles.cardImage}
+                  />
+                  <div className={styles.mnemonicName}>
                     {card.mnemonic}
                   </div>
                 </div>

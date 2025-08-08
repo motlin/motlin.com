@@ -80,13 +80,21 @@ export function getCardSvgPath(card: string): string {
     'K': 'K'
   };
 
-  const svgRank = rankMap[rank];
+  const suitMap: { [key: string]: string } = {
+    '♠': 'S',
+    '♥': 'H',
+    '♦': 'D',
+    '♣': 'C'
+  };
 
-  if (!svgRank) {
+  const svgRank = rankMap[rank];
+  const svgSuit = suitMap[suit];
+
+  if (!svgRank || !svgSuit) {
     throw new Error(`Invalid card format: ${card}`);
   }
 
-  return `/img/mnemonica/cards/${svgRank}${suit}.svg`;
+  return `/img/mnemonica/inbox/poker-blank-Maze/${svgRank}${svgSuit}.svg`;
 }
 
 export function getActualImagePath(data: MnemonicaCard, _position: number): string {
@@ -149,12 +157,4 @@ export function getActualImagePath(data: MnemonicaCard, _position: number): stri
 
   const extension = imageExtensions[cardCode] || '.jpg';
   return `/img/mnemonica/pegs/${cardCode}${extension}`;
-}
-
-export function isRedSuit(suit: string): boolean {
-  return suit === '♥' || suit === '♦';
-}
-
-export function getCardColorClass(suit: string, styles: { readonly [key: string]: string }): string {
-  return isRedSuit(suit) ? styles.red : styles.black;
 }

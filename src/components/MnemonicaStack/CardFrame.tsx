@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './CardFrame.module.css';
-import { getCardColorClass } from '../../utils/mnemonicaUtils';
 
 interface CardFrameProps {
   card: string;
@@ -12,15 +11,15 @@ export default function CardFrame({ card, children, className = '' }: CardFrameP
   const rank = card.slice(0, -1);
   const suit = card.slice(-1);
 
-  const colorClass = getCardColorClass(suit, styles);
+  const isRed = suit === '♥' || suit === '♦';
 
   return (
     <div className={`${styles.cardFrame} ${className}`}>
       <div className={styles.cardHeader}>
-        <span className={`${styles.rank} ${colorClass}`}>
+        <span className={`${styles.rank} ${isRed ? styles.red : styles.black}`}>
           {rank}
         </span>
-        <span className={`${styles.suit} ${colorClass}`}>
+        <span className={`${styles.suit} ${isRed ? styles.red : styles.black}`}>
           {suit}
         </span>
       </div>
@@ -28,10 +27,10 @@ export default function CardFrame({ card, children, className = '' }: CardFrameP
         {children}
       </div>
       <div className={styles.cardFooter}>
-        <span className={`${styles.rank} ${colorClass}`}>
+        <span className={`${styles.rank} ${isRed ? styles.red : styles.black}`}>
           {rank}
         </span>
-        <span className={`${styles.suit} ${colorClass}`}>
+        <span className={`${styles.suit} ${isRed ? styles.red : styles.black}`}>
           {suit}
         </span>
       </div>

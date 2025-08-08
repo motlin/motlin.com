@@ -49,7 +49,7 @@ export default function PlayingCardFrame({
 
         <text
           x="20"
-          y="40"
+          y="38"
           fontSize="32"
           fontWeight="bold"
           fill={isRed ? 'var(--card-red)' : 'var(--card-black)'}
@@ -57,11 +57,11 @@ export default function PlayingCardFrame({
         >
           {rank}
         </text>
-        <g transform="translate(20, 50) scale(0.04)">
+        <g transform="translate(20, 45) scale(0.04)">
           {suitPaths[suit]}
         </g>
 
-        <g transform="translate(220, 296) rotate(180)">
+        <g transform="translate(220, 315) rotate(180)">
           <text
             x="0"
             y="0"
@@ -72,7 +72,7 @@ export default function PlayingCardFrame({
           >
             {rank}
           </text>
-          <g transform="translate(0, 10) scale(0.04)">
+          <g transform="translate(0, 7) scale(0.04)">
             {suitPaths[suit]}
           </g>
         </g>

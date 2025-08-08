@@ -1,7 +1,6 @@
 import React from 'react';
 import Heading from '@theme/Heading';
 import styles from './CompactCardFrame.module.css';
-import { getCardColorClass } from '../../utils/mnemonicaUtils';
 
 interface CompactCardFrameProps {
   card: string;
@@ -23,17 +22,17 @@ export default function CompactCardFrame({
   const rank = card.slice(0, -1);
   const suit = card.slice(-1);
 
-  const colorClass = getCardColorClass(suit, styles);
+  const isRed = suit === '♥' || suit === '♦';
 
   return (
     <div className={`${styles.compactCard} ${className}`}>
       {title && <Heading as="h4" className={styles.title}>{title}</Heading>}
       <div className={styles.cardFrame}>
         <div className={styles.cardHeader}>
-          <span className={`${styles.rank} ${colorClass}`}>
+          <span className={`${styles.rank} ${isRed ? styles.red : styles.black}`}>
             {rank}
           </span>
-          <span className={`${styles.suit} ${colorClass}`}>
+          <span className={`${styles.suit} ${isRed ? styles.red : styles.black}`}>
             {suit}
           </span>
         </div>
