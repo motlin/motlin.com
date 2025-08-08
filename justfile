@@ -50,8 +50,17 @@ lint-fix: install
 clear: install
     npm run clear
 
-# Update submodules
+# `git submodule update --remote`
 update-submodules:
     git submodule update --remote
 
-precommit: update-submodules lint-fix typecheck build
+# `npm run test`
+test: install
+    npm run test
+
+# `npm run storybook`
+storybook: install
+    npm run storybook
+
+# `just precommit` - Run all pre-commit checks
+precommit: update-submodules lint-fix typecheck test build

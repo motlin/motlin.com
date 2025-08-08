@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ProjectCard.module.css';
-import { EnhancedProject } from '../../data/projects';
+import { Project } from '../../data/projects';
 import { useGitHubRepos } from '../../hooks/useGitHubRepos';
 import { FaGithub, FaBook, FaStore, FaGlobe, FaBlog, FaGamepad, FaHouse } from 'react-icons/fa6';
 import { FaJava, FaPython, FaRust, FaPhp } from 'react-icons/fa';
@@ -9,7 +9,7 @@ import Link from '@docusaurus/Link';
 import Markdown from 'react-markdown';
 
 interface ProjectCardProps {
-  project: EnhancedProject;
+  project: Project;
 }
 
 const languageIcons: Record<string, React.ComponentType> = {

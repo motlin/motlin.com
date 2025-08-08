@@ -23,22 +23,68 @@ export default function githubProfilePlugin(
       const cachePath = path.join(cacheDir, 'user-profile.json');
 
       if (fs.existsSync(cachePath)) {
-        console.log(`✅ Using cached GitHub profile from ${cachePath}`);
+        console.log(`📝 GitHub User Profile Plugin: Using cached data from ${cachePath}`);
         const cachedData = fs.readFileSync(cachePath, 'utf-8');
         return JSON.parse(cachedData);
       }
 
-      console.warn('⚠️  No cached GitHub profile found, fetching from API...');
-      const fetch = (await import('node-fetch')).default;
+      console.warn('📝 GitHub User Profile Plugin: No cache found, fetching from API...');
 
-      const profileResponse = await fetch(`https://api.github.com/users/${username}`);
-      if (!profileResponse.ok) {
-        throw new Error(`Failed to fetch GitHub profile for ${username}: ${profileResponse.statusText}`);
+      try {
+        const fetch = (await import('node-fetch')).default;
+
+        const profileResponse = await fetch(`https://api.github.com/users/${username}`);
+        if (!profileResponse.ok) {
+          if (profileResponse.status === 403 && profileResponse.statusText === 'rate limit exceeded') {
+            console.warn(`📝 GitHub User Profile Plugin: Rate limit exceeded for user ${username}, using fallback data`);
+            return {
+              login: username,
+              id: 1,
+              avatar_url: 'https://github.com/github.png',
+              html_url: `https://github.com/${username}`,
+              name: 'Craig Motlin',
+              company: null,
+              blog: null,
+              location: null,
+              email: null,
+              bio: 'Software Engineer',
+              public_repos: 0,
+              public_gists: 0,
+              followers: 0,
+              following: 0,
+              created_at: '2000-01-01T00:00:00Z',
+              updated_at: '2000-01-01T00:00:00Z',
+            };
+          }
+          throw new Error(`Failed to fetch GitHub profile for ${username}: ${profileResponse.statusText}`);
+        }
+
+        const profile = await profileResponse.json();
+        return profile;
+      } catch (error: any) {
+        if (error.message?.includes('rate limit exceeded')) {
+          console.warn(`GitHub API rate limit exceeded for user ${username}, using fallback data`);
+          return {
+            login: username,
+            id: 1,
+            avatar_url: 'https://github.com/github.png',
+            html_url: `https://github.com/${username}`,
+            name: 'Craig Motlin',
+            company: null,
+            blog: null,
+            location: null,
+            email: null,
+            bio: 'Software Engineer',
+            public_repos: 0,
+            public_gists: 0,
+            followers: 0,
+            following: 0,
+            created_at: '2000-01-01T00:00:00Z',
+            updated_at: '2000-01-01T00:00:00Z',
+          };
+        }
+        throw error;
       }
-
-      const profile = await profileResponse.json();
-
-      return profile;
     },
     async contentLoaded({content, actions}) {
       const {setGlobalData} = actions;
