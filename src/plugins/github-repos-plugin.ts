@@ -1,4 +1,6 @@
 import type { Plugin } from '@docusaurus/types';
+import fs from 'node:fs';
+import path from 'node:path';
 
 
 interface Repository {
@@ -28,33 +30,46 @@ export default function githubReposPlugin(): Plugin {
     async loadContent() {
       console.log('\n🚀 GitHub Repos Plugin: Starting to fetch repository data...');
 
+      const cacheDir = path.join(process.cwd(), '.github-cache');
+      const cachePath = path.join(cacheDir, 'repositories.json');
+
+      if (fs.existsSync(cachePath)) {
+        console.log(`✅ Using cached repository data from ${cachePath}`);
+        const cachedData = fs.readFileSync(cachePath, 'utf-8');
+        const repos = JSON.parse(cachedData);
+
+        const repoCount = Object.keys(repos).length;
+        const reposWithOpenGraph = Object.values(repos).filter((repo: any) => repo.openGraphImageUrl).length;
+
+        console.log(`Total repos: ${repoCount}`);
+        console.log(`Repos with openGraphImageUrl: ${reposWithOpenGraph}`);
+
+        return repos;
+      }
+
+      console.warn('⚠️  No cached repository data found, fetching from API...');
+
       const fetch = (await import('node-fetch')).default;
 
       const repos = new Map<string, Repository>();
 
-      // Load hard-coded openGraphImageUrl values from portfolio.json
       const portfolioData = require('../data/portfolio.json');
       const hardCodedOpenGraphUrls: Record<string, string> = portfolioData.openGraphImageUrls;
 
-      // Check for GitHub token in environment variables
       const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
       console.log(`GitHub token available: ${githubToken ? 'Yes' : 'No'}`);
 
-      // Headers for API requests
       const headers: Record<string, string> = {
         'Accept': 'application/vnd.github.v3+json',
         ...(githubToken && { 'Authorization': `token ${githubToken}` })
       };
 
-      // Headers without auth for fallback
       const headersNoAuth: Record<string, string> = {
         'Accept': 'application/vnd.github.v3+json'
       };
 
-      // GraphQL endpoint
       const graphqlUrl = 'https://api.github.com/graphql';
 
-      // Use GitHub search API to find all public, non-fork, non-archived repos for motlin, liftwizard, and FactorioBlueprints
       const searchQuery = 'user:motlin user:liftwizard user:FactorioBlueprints is:public fork:false archived:false';
       const searchUrl = `https://api.github.com/search/repositories?q=${encodeURIComponent(searchQuery)}&per_page=100&sort=created&order=asc`;
 
@@ -63,7 +78,6 @@ export default function githubReposPlugin(): Plugin {
       const searchResponse = await fetch(searchUrl, { headers });
       if (!searchResponse.ok) {
         console.warn(`Failed to search repositories: ${searchResponse.statusText}`);
-        // If unauthorized, try without token
         if (searchResponse.status === 401 && githubToken) {
           console.log('Retrying without authentication token...');
           const retryResponse = await fetch(searchUrl, {
@@ -81,19 +95,16 @@ export default function githubReposPlugin(): Plugin {
         searchData = await searchResponse.json() as GitHubSearchResponse;
       }
 
-      // Fetch full repository data for each repo
       for (const repo of searchData.items) {
         try {
           let fullRepoResponse = await fetch(`https://api.github.com/repos/${repo.full_name}`, { headers });
           if (!fullRepoResponse.ok && fullRepoResponse.status === 401 && githubToken) {
-            // Retry without auth
             fullRepoResponse = await fetch(`https://api.github.com/repos/${repo.full_name}`, { headers: headersNoAuth });
           }
 
           if (fullRepoResponse.ok) {
             const fullRepoData = await fullRepoResponse.json() as Repository;
 
-            // Try to fetch openGraphImageUrl via GraphQL if we have a token
             if (githubToken) {
               try {
                 const [owner, name] = repo.full_name.split('/');
@@ -124,11 +135,9 @@ export default function githubReposPlugin(): Plugin {
                     fullRepoData.openGraphImageUrl = graphqlData.data.repository.openGraphImageUrl;
                     fullRepoData.usesCustomOpenGraphImage = graphqlData.data.repository.usesCustomOpenGraphImage;
 
-                    // Log the fetched openGraphImageUrl for debugging
                     console.log(`[${repo.full_name}] GraphQL openGraphImageUrl: ${fullRepoData.openGraphImageUrl}`);
                     console.log(`[${repo.full_name}] Uses custom image: ${fullRepoData.usesCustomOpenGraphImage}`);
 
-                    // Compare with hard-coded value if available
                     if (hardCodedOpenGraphUrls[repo.full_name]) {
                       const hardCoded = hardCodedOpenGraphUrls[repo.full_name];
                       const fetched = fullRepoData.openGraphImageUrl;
@@ -149,7 +158,6 @@ export default function githubReposPlugin(): Plugin {
 
             repos.set(repo.full_name, fullRepoData);
           } else {
-            // Fallback to search data if individual fetch fails
             repos.set(repo.full_name, repo);
           }
         } catch (error) {
@@ -163,7 +171,6 @@ export default function githubReposPlugin(): Plugin {
         console.log('Note: Set GITHUB_TOKEN or GH_TOKEN environment variable to fetch repository social preview images');
       }
 
-      // Extract all GitHub repos referenced in portfolio.json
       const portfolioProjects = [
         ...portfolioData.sections.flatMap((section: any) =>
           section.projects.filter((project: any) => project.githubRepo)
@@ -171,19 +178,16 @@ export default function githubReposPlugin(): Plugin {
         )
       ];
 
-      // Find repos that weren't included in the search results
       const additionalRepos = portfolioProjects.filter((repoName: string) =>
         !repos.has(repoName)
       );
 
       console.log(`\nFetching ${additionalRepos.length} additional repos from portfolio...`);
 
-      // Fetch each additional repo
       for (const repoName of additionalRepos) {
         try {
           let response = await fetch(`https://api.github.com/repos/${repoName}`, { headers });
           if (!response.ok && response.status === 401 && githubToken) {
-            // Retry without auth
             response = await fetch(`https://api.github.com/repos/${repoName}`, { headers: headersNoAuth });
           }
 
@@ -191,7 +195,6 @@ export default function githubReposPlugin(): Plugin {
             const data = await response.json() as Repository;
             console.log(`✓ Fetched ${repoName}`);
 
-            // Try to fetch openGraphImageUrl via GraphQL if we have a token
             if (githubToken) {
               try {
                 const [owner, name] = repoName.split('/');
@@ -221,7 +224,6 @@ export default function githubReposPlugin(): Plugin {
                     data.openGraphImageUrl = graphqlData.data.repository.openGraphImageUrl;
                     data.usesCustomOpenGraphImage = graphqlData.data.repository.usesCustomOpenGraphImage;
 
-                    // Log the fetched openGraphImageUrl for debugging
                     console.log(`[${repoName}] GraphQL openGraphImageUrl: ${data.openGraphImageUrl}`);
                     console.log(`[${repoName}] Uses custom image: ${data.usesCustomOpenGraphImage}`);
                   }
@@ -241,7 +243,6 @@ export default function githubReposPlugin(): Plugin {
         }
       }
 
-      // Summary of repositories with openGraphImageUrl
       console.log('\n=== OpenGraph Image URL Summary ===');
       const reposWithOpenGraph = Array.from(repos.entries())
         .filter(([, data]) => data.openGraphImageUrl)

@@ -58,7 +58,10 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build
+      - name: Build with GitHub data download
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build:with-download
 
       - name: Upload build artifacts
         if: success()

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
+    "start": "docusaurus start --port 4000",
+    "start:with-download": "npm run download-github-data && npm run start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
@@ -14,7 +15,9 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
     "ci:eslint": "eslint . --ext .js,.jsx,.ts,.tsx,.md,.mdx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.md,.mdx --fix"
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.md,.mdx --fix",
+    "download-github-data": "tsx scripts/download-github-data.ts",
+    "build:with-download": "npm run download-github-data && npm run build"
   },
   "dependencies": {
     "@docusaurus/core": "^3.8.1",
@@ -52,6 +55,7 @@
     "eslint-plugin-mdx": "^3.6.2",
     "globals": "^16.3.0",
     "raw-loader": "^4.0.2",
+    "tsx": "^4.20.3",
     "typescript": "~5.8.3"
   },
   "browserslist": {
