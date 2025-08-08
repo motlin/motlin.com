@@ -1,0 +1,60 @@
+.playingCard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --card-bg: white;
+  --card-border: #000;
+  --card-black: #000;
+  --card-red: #d32f2f;
+  --card-text: #333;
+  --card-text-secondary: #666;
+}
+
+[data-theme='dark'] .playingCard {
+  --card-bg: #1e1e1e;
+  --card-border: #fff;
+  --card-black: #fff;
+  --card-red: #ff5252;
+  --card-text: #fff;
+  --card-text-secondary: #aaa;
+}
+
+.cardSvg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+[data-theme='dark'] .cardSvg {
+  filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.2));
+}
+
+.cardRank {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.contentWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.mnemonicImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.mnemonicText {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.positionText {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
