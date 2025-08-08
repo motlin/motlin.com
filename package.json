@@ -14,8 +14,8 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "ci:eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "ci:eslint": "eslint . --ext .js,.jsx,.ts,.tsx,.md,.mdx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.md,.mdx --fix",
     "download-github-data": "tsx scripts/download-github-data.ts",
     "build:with-download": "npm run download-github-data && npm run build"
   },

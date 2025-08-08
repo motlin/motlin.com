@@ -56,6 +56,15 @@ async function downloadUserProfile(username: string): Promise<void> {
     const response = await fetch(`https://api.github.com/users/${username}`, { headers });
 
     if (!response.ok) {
+      if (response.status === 403 || response.status === 429) {
+        const rateLimitRemaining = response.headers.get('x-ratelimit-remaining');
+        const rateLimitReset = response.headers.get('x-ratelimit-reset');
+
+        if (rateLimitRemaining === '0' && rateLimitReset) {
+          const resetDate = new Date(parseInt(rateLimitReset) * 1000);
+          throw new Error(`GitHub API rate limit exceeded. Resets at ${resetDate.toLocaleString()}`);
+        }
+      }
       throw new Error(`Failed to fetch GitHub profile: ${response.status} ${response.statusText}`);
     }
 
@@ -91,6 +100,15 @@ async function downloadRepositories(): Promise<void> {
     const searchResponse = await fetch(searchUrl, { headers });
 
     if (!searchResponse.ok) {
+      if (searchResponse.status === 403 || searchResponse.status === 429) {
+        const rateLimitRemaining = searchResponse.headers.get('x-ratelimit-remaining');
+        const rateLimitReset = searchResponse.headers.get('x-ratelimit-reset');
+
+        if (rateLimitRemaining === '0' && rateLimitReset) {
+          const resetDate = new Date(parseInt(rateLimitReset) * 1000);
+          throw new Error(`GitHub API rate limit exceeded. Resets at ${resetDate.toLocaleString()}`);
+        }
+      }
       throw new Error(`Failed to search repositories: ${searchResponse.status} ${searchResponse.statusText}`);
     }
 
@@ -229,11 +247,38 @@ async function main() {
 
     await ensureCacheDirectory();
 
-    const username = portfolioData.profile.username;
-    await downloadUserProfile(username);
-    await downloadRepositories();
+    let hasErrors = false;
 
-    console.log('\n✅ Download complete!');
+    try {
+      const username = portfolioData.profile.username;
+      await downloadUserProfile(username);
+    } catch (error: any) {
+      if (error.message.includes('rate limit')) {
+        console.warn('⚠️  Skipping user profile due to rate limit');
+        hasErrors = true;
+      } else {
+        throw error;
+      }
+    }
+
+    try {
+      await downloadRepositories();
+    } catch (error: any) {
+      if (error.message.includes('rate limit')) {
+        console.warn('⚠️  Skipping repositories due to rate limit');
+        hasErrors = true;
+      } else {
+        throw error;
+      }
+    }
+
+    if (hasErrors) {
+      console.log('\n⚠️  Download completed with warnings.');
+      console.log('Some data could not be downloaded due to rate limiting.');
+      console.log('The build will use any cached data that was successfully downloaded.');
+    } else {
+      console.log('\n✅ Download complete!');
+    }
 
     console.log(`\n💡 Tip: Set GITHUB_TOKEN environment variable to avoid rate limits.`);
 
