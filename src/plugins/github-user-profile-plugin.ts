@@ -31,14 +31,59 @@ export default function githubProfilePlugin(
       console.warn('⚠️  No cached GitHub profile found, fetching from API...');
       const fetch = (await import('node-fetch')).default;
 
-      const profileResponse = await fetch(`https://api.github.com/users/${username}`);
-      if (!profileResponse.ok) {
-        throw new Error(`Failed to fetch GitHub profile for ${username}: ${profileResponse.statusText}`);
+      try {
+        const profileResponse = await fetch(`https://api.github.com/users/${username}`);
+        if (!profileResponse.ok) {
+          if (profileResponse.status === 403 || profileResponse.status === 429) {
+            console.warn(`⚠️  GitHub API rate limit exceeded for ${username}, using fallback data`);
+            return {
+              login: username,
+              id: 0,
+              avatar_url: `https://github.com/${username}.png`,
+              html_url: `https://github.com/${username}`,
+              name: username,
+              company: null,
+              blog: null,
+              location: null,
+              email: null,
+              bio: null,
+              public_repos: 0,
+              public_gists: 0,
+              followers: 0,
+              following: 0,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            };
+          }
+          throw new Error(`Failed to fetch GitHub profile for ${username}: ${profileResponse.statusText}`);
+        }
+
+        const profile = await profileResponse.json();
+        return profile;
+      } catch (error: any) {
+        if (error.message?.includes('rate limit exceeded')) {
+          console.warn(`⚠️  GitHub API rate limit exceeded for ${username}, using fallback data`);
+          return {
+            login: username,
+            id: 0,
+            avatar_url: `https://github.com/${username}.png`,
+            html_url: `https://github.com/${username}`,
+            name: username,
+            company: null,
+            blog: null,
+            location: null,
+            email: null,
+            bio: null,
+            public_repos: 0,
+            public_gists: 0,
+            followers: 0,
+            following: 0,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          };
+        }
+        throw error;
       }
-
-      const profile = await profileResponse.json();
-
-      return profile;
     },
     async contentLoaded({content, actions}) {
       const {setGlobalData} = actions;
