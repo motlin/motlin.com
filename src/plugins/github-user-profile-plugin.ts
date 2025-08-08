@@ -29,9 +29,10 @@ export default function githubProfilePlugin(
       }
 
       console.warn('⚠️  No cached GitHub profile found, fetching from API...');
-      const fetch = (await import('node-fetch')).default;
 
       try {
+        const fetch = (await import('node-fetch')).default;
+
         const profileResponse = await fetch(`https://api.github.com/users/${username}`);
         if (!profileResponse.ok) {
           if (profileResponse.status === 403 && profileResponse.statusText === 'rate limit exceeded') {
