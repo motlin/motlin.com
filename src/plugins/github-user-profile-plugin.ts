@@ -1,4 +1,6 @@
 import type { LoadContext, Plugin } from '@docusaurus/types';
+import fs from 'node:fs';
+import path from 'node:path';
 
 interface GitHubProfilePluginOptions {
   username: string;
@@ -17,6 +19,16 @@ export default function githubProfilePlugin(
   return {
     name: 'github-user-profile-plugin',
     async loadContent() {
+      const cacheDir = path.join(context.siteDir, '.github-cache');
+      const cachePath = path.join(cacheDir, 'user-profile.json');
+
+      if (fs.existsSync(cachePath)) {
+        console.log(`✅ Using cached GitHub profile from ${cachePath}`);
+        const cachedData = fs.readFileSync(cachePath, 'utf-8');
+        return JSON.parse(cachedData);
+      }
+
+      console.warn('⚠️  No cached GitHub profile found, fetching from API...');
       const fetch = (await import('node-fetch')).default;
 
       const profileResponse = await fetch(`https://api.github.com/users/${username}`);

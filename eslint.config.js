@@ -13,6 +13,7 @@ module.exports = [
       'build/',
       '.docusaurus/',
       'node_modules/',
+      'storybook-static/',
       'blog/2025-06-08-claude-code-configuration.mdx',
       'blog/2025-06-09-claude-code-configuration.mdx',
       'blog/2025-06-10-claude-code-workflow-commands.mdx',
