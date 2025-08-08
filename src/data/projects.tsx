@@ -102,11 +102,6 @@ export interface Project {
   openGraphImageUrl?: string;
 }
 
-export interface EnhancedProject extends Project {
-  stars?: number;
-  pushedAt?: string;
-}
-
 export interface ProjectSection {
   id: string;
   title: string;

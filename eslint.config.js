@@ -1,11 +1,12 @@
-const js = require('@eslint/js');
-const docusaurus = require('@docusaurus/eslint-plugin');
-const tseslint = require('@typescript-eslint/eslint-plugin');
-const tsParser = require('@typescript-eslint/parser');
-const importPlugin = require('eslint-plugin-import');
-const globals = require('globals');
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import js from '@eslint/js';
+import docusaurus from '@docusaurus/eslint-plugin';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import importPlugin from 'eslint-plugin-import';
+import globals from 'globals';
 
-module.exports = [
+export default [
   js.configs.recommended,
   {
     ignores: [
@@ -73,10 +74,17 @@ module.exports = [
     },
   },
   {
+    files: ['src/stories/**/*', '.storybook/**/*'],
+    rules: {
+      '@docusaurus/no-html-links': 'off',
+      '@docusaurus/prefer-docusaurus-heading': 'off',
+    },
+  },
+  {
     files: ['eslint.config.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'commonjs',
+      sourceType: 'module',
       globals: {
         ...globals.node,
       },

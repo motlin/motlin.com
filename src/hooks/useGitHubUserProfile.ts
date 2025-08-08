@@ -22,7 +22,21 @@ export const GitHubProfileSchema = z.object({
 
 export type GitHubProfile = z.infer<typeof GitHubProfileSchema>;
 
-export function useGitHubUserProfile(): GitHubProfile {
-  const data = usePluginData('github-user-profile-plugin');
-  return GitHubProfileSchema.parse(data || {});
+export function useGitHubUserProfile(): GitHubProfile | null {
+  try {
+    const data = usePluginData('github-user-profile-plugin');
+    if (!data || Object.keys(data).length === 0) {
+      return null;
+    }
+    return GitHubProfileSchema.parse(data);
+  } catch (error) {
+    // In Storybook or development, continue without throwing
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      console.warn('GitHub user profile data not available in development/Storybook:', error);
+      return null;
+    }
+    // In production, we still want to handle gracefully
+    console.error('Failed to parse GitHub user profile data:', error);
+    return null;
+  }
 }

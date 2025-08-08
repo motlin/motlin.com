@@ -1,0 +1,121 @@
+/* Import Infima CSS framework - provides all Docusaurus theme variables */
+@import '../node_modules/infima/dist/css/default/default.css';
+
+/* Additional Infima variables that Docusaurus sets by default */
+:root {
+  /* Typography */
+  --ifm-font-family-base: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --ifm-font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --ifm-font-size-base: 100%;
+  --ifm-line-height-base: 1.65;
+  --ifm-font-weight-light: 300;
+  --ifm-font-weight-normal: 400;
+  --ifm-font-weight-semibold: 500;
+  --ifm-font-weight-bold: 700;
+
+  /* Spacing */
+  --ifm-spacing-horizontal: 1rem;
+  --ifm-spacing-vertical: 1rem;
+  --ifm-global-spacing: 1rem;
+
+  /* Shadows */
+  --ifm-global-shadow-lw: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  --ifm-global-shadow-md: 0 5px 40px rgba(0, 0, 0, 0.2);
+  --ifm-global-shadow-tl: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+
+  /* Borders */
+  --ifm-global-radius: 0.4rem;
+  --ifm-global-border-width: 1px;
+
+  /* Color system */
+  --ifm-color-emphasis-0: var(--ifm-color-gray-0);
+  --ifm-color-emphasis-100: var(--ifm-color-gray-100);
+  --ifm-color-emphasis-200: var(--ifm-color-gray-200);
+  --ifm-color-emphasis-300: var(--ifm-color-gray-300);
+  --ifm-color-emphasis-400: var(--ifm-color-gray-400);
+  --ifm-color-emphasis-500: var(--ifm-color-gray-500);
+  --ifm-color-emphasis-600: var(--ifm-color-gray-600);
+  --ifm-color-emphasis-700: var(--ifm-color-gray-700);
+  --ifm-color-emphasis-800: var(--ifm-color-gray-800);
+  --ifm-color-emphasis-900: var(--ifm-color-gray-900);
+  --ifm-color-emphasis-1000: var(--ifm-color-gray-1000);
+
+  /* Background and surface colors */
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f5f6f7;
+  --ifm-card-background-color: #ffffff;
+
+  /* Font colors */
+  --ifm-font-color-base: rgba(0, 0, 0, 0.9);
+  --ifm-font-color-base-inverse: #ffffff;
+  --ifm-font-color-secondary: rgba(0, 0, 0, 0.6);
+  --ifm-heading-color: inherit;
+
+  /* Link colors */
+  --ifm-link-color: var(--ifm-color-primary);
+  --ifm-link-hover-color: var(--ifm-color-primary-dark);
+  --ifm-link-hover-decoration: underline;
+
+  /* Status colors */
+  --ifm-color-success: #00a400;
+  --ifm-color-success-dark: #009400;
+  --ifm-color-success-darker: #008b00;
+  --ifm-color-success-darkest: #007300;
+  --ifm-color-success-light: #02b302;
+  --ifm-color-success-lighter: #02bd02;
+  --ifm-color-success-lightest: #04d304;
+
+  --ifm-color-danger: #fa383e;
+  --ifm-color-danger-dark: #e13238;
+  --ifm-color-danger-darker: #d53035;
+  --ifm-color-danger-darkest: #af272b;
+  --ifm-color-danger-light: #fb4e53;
+  --ifm-color-danger-lighter: #fb5d62;
+  --ifm-color-danger-lightest: #fd7478;
+
+  --ifm-color-warning: #ffc426;
+  --ifm-color-warning-dark: #e6b00f;
+  --ifm-color-warning-darker: #d9a60a;
+  --ifm-color-warning-darkest: #b38800;
+  --ifm-color-warning-light: #ffcf3d;
+  --ifm-color-warning-lighter: #ffd44c;
+  --ifm-color-warning-lightest: #ffdd62;
+
+  --ifm-color-info: #54c7ec;
+  --ifm-color-info-dark: #35bde6;
+  --ifm-color-info-darker: #2bb9e4;
+  --ifm-color-info-darkest: #0fa3d1;
+  --ifm-color-info-light: #73d1f2;
+  --ifm-color-info-lighter: #7dd3f4;
+  --ifm-color-info-lightest: #a5e2f9;
+}
+
+/* Dark mode overrides */
+[data-theme='dark'] {
+  --ifm-background-color: #1b1b1d;
+  --ifm-background-surface-color: #242526;
+  --ifm-card-background-color: #242526;
+
+  --ifm-font-color-base: #e3e3e3;
+  --ifm-font-color-base-inverse: #1b1b1d;
+  --ifm-font-color-secondary: #b0b0b0;
+
+  --ifm-color-emphasis-0: var(--ifm-color-gray-1000);
+  --ifm-color-emphasis-100: var(--ifm-color-gray-900);
+  --ifm-color-emphasis-200: var(--ifm-color-gray-800);
+  --ifm-color-emphasis-300: var(--ifm-color-gray-700);
+  --ifm-color-emphasis-400: var(--ifm-color-gray-600);
+  --ifm-color-emphasis-500: var(--ifm-color-gray-500);
+  --ifm-color-emphasis-600: var(--ifm-color-gray-400);
+  --ifm-color-emphasis-700: var(--ifm-color-gray-300);
+  --ifm-color-emphasis-800: var(--ifm-color-gray-200);
+  --ifm-color-emphasis-900: var(--ifm-color-gray-100);
+  --ifm-color-emphasis-1000: var(--ifm-color-gray-0);
+}
+
+/* Apply theme to Storybook container */
+.sb-show-main.sb-main-padded {
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font-family: var(--ifm-font-family-base);
+}

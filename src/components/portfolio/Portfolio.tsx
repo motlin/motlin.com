@@ -7,16 +7,13 @@ import { projectSections } from '../../data/projects';
 import { useGitHubUserProfile } from '../../hooks/useGitHubUserProfile';
 import { FaGithub, FaStackOverflow, FaLinkedinIn, FaMedium, FaLink, FaXTwitter } from 'react-icons/fa6';
 import portfolioData from '../../data/portfolio.json';
+import styles from './Portfolio.module.css';
 
 function ProfileImage() {
   const profile = useGitHubUserProfile();
   return (
     <img
-      style={{
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover'
-      }}
+      className={styles.profileImage}
       src={profile?.avatar_url || portfolioData.profile.avatarUrl}
       alt={portfolioData.profile.name}
     />
@@ -44,54 +41,15 @@ const iconMap = {
 
 export function Portfolio() {
   return (
-    <>
-      <div style={{
-        display: 'flex',
-        gap: '3.75rem',
-        alignItems: 'center',
-        padding: '2.5rem',
-        background: 'var(--ifm-background-surface-color)',
-        borderRadius: '30px',
-        boxShadow: '0 5px 20px rgba(0, 0, 0, 0.08)',
-        marginBottom: '3rem'
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{
-            position: 'relative',
-            width: '150px',
-            height: '150px',
-            borderRadius: '50%',
-            overflow: 'hidden',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
-          }}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.profileSection}>
+          <div className={styles.profileImageContainer}>
             <ProfileImage />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1.5rem' }}>
+          <div className={styles.socialLinks}>
             {portfolioData.profile.socialLinks.map(link => (
-              <Link key={link.platform} href={link.url} style={{
-                background: 'var(--ifm-background-color)',
-                padding: '10px 20px',
-                borderRadius: '50px',
-                textDecoration: 'none',
-                color: 'var(--ifm-color-emphasis-700)',
-                border: '2px solid var(--ifm-color-emphasis-200)',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                fontSize: '0.875rem',
-                whiteSpace: 'nowrap'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-3px)';
-                e.currentTarget.style.borderColor = 'var(--ifm-color-emphasis-400)';
-                e.currentTarget.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'var(--ifm-color-emphasis-200)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}>
+              <Link key={link.platform} href={link.url} className={styles.socialLink}>
                 {iconMap[link.icon]}
                 <span>{link.platform}</span>
               </Link>
@@ -99,32 +57,14 @@ export function Portfolio() {
           </div>
         </div>
 
-        <div style={{ flex: 1 }}>
-          <Heading as="h1" style={{
-            marginTop: 0,
-            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-            fontWeight: '800',
-            lineHeight: '1.1',
-            marginBottom: '0.625rem'
-          }}><ProfileName /></Heading>
-          <strong style={{
-            fontSize: '1.2rem',
-            color: 'var(--ifm-color-emphasis-600)',
-            display: 'block',
-            marginBottom: '1.25rem'
-          }}>{portfolioData.profile.tagline}</strong>
-          <div style={{
-            marginTop: '1rem',
-            fontSize: '1.1rem',
-            lineHeight: '1.6',
-            color: 'var(--ifm-color-emphasis-700)'
-          }}>
+        <div className={styles.headerContent}>
+          <Heading as="h1" className={styles.title}><ProfileName /></Heading>
+          <strong className={styles.subtitle}>{portfolioData.profile.tagline}</strong>
+          <div className={styles.bio}>
             <ProfileBio />
           </div>
         </div>
       </div>
-
-      <hr />
 
       <Heading as="h2">Projects</Heading>
 
@@ -137,6 +77,6 @@ export function Portfolio() {
       <Heading as="h2">Conference Talks</Heading>
 
       <TalksSection talks={portfolioData.talks} />
-    </>
+    </div>
   );
 }

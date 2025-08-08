@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Heading from '@theme/Heading';
+import styles from './GridLineGame.module.css';
 
 const GridLineGame = () => {
   const [gridWidth, setGridWidth] = useState(3);
@@ -298,102 +299,62 @@ const GridLineGame = () => {
   };
 
   return (
-    <div className="w-full h-screen p-4 flex flex-col" style={{ backgroundColor: 'var(--ifm-background-color)', color: 'var(--ifm-font-color-base)' }} ref={containerRef}>
-      <style>{`
-        input[type="range"]::-webkit-slider-thumb {
-          appearance: none;
-          width: 20px;
-          height: 20px;
-          background: #3b82f6;
-          cursor: pointer;
-          border-radius: 50%;
-        }
-        input[type="range"]::-moz-range-thumb {
-          width: 20px;
-          height: 20px;
-          background: #3b82f6;
-          cursor: pointer;
-          border-radius: 50%;
-          border: none;
-        }
-        @keyframes rainbow {
-          0% { stroke: #ff0000; }
-          16.66% { stroke: #ff8800; }
-          33.33% { stroke: #ffff00; }
-          50% { stroke: #00ff00; }
-          66.66% { stroke: #0088ff; }
-          83.33% { stroke: #8800ff; }
-          100% { stroke: #ff0000; }
-        }
-        @keyframes glow {
-          0%, 100% { filter: drop-shadow(0 0 8px currentColor); }
-          50% { filter: drop-shadow(0 0 20px currentColor); }
-        }
-        .rainbow-path {
-          animation: rainbow 2s linear infinite, glow 1.5s ease-in-out infinite;
-        }
-      `}</style>
-      <div className="flex flex-col h-full w-full">
-        <Heading as="h1" className="text-3xl font-bold mb-4 text-center bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
+    <div className={styles.container} ref={containerRef}>
+      <div className={styles.gameWrapper}>
+        <Heading as="h1" className={styles.title}>
           Grid Line Game
         </Heading>
 
         {showSetup ? (
           // Setup Screen
-          <div className="flex flex-col items-center justify-center flex-1">
-            <div className="p-8 rounded-xl border-2 shadow-2xl max-w-md w-full" style={{ backgroundColor: 'var(--ifm-card-background-color)', borderColor: 'var(--ifm-color-emphasis-300)' }}>
-              <Heading as="h2" className="text-2xl font-bold mb-6 text-center">Choose Grid Size</Heading>
+          <div className={styles.menuContainer}>
+            <div className={styles.menuCard}>
+              <Heading as="h2" className={styles.menuTitle}>Choose Grid Size</Heading>
 
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Width: {tempWidth}</label>
+              <div className={styles.controlsContainer}>
+                <div className={styles.controlGroup}>
+                  <label className={styles.controlLabel}>Width: {tempWidth}</label>
                   <input
                     type="range"
                     min="2"
                     max="10"
                     value={tempWidth}
                     onChange={(e) => setTempWidth(parseInt(e.target.value))}
-                    className="w-full h-2 rounded-lg appearance-none cursor-pointer slider"
-                    style={{ backgroundColor: 'var(--ifm-color-emphasis-200)' }}
+                    className={styles.slider}
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Height: {tempHeight}</label>
+                <div className={styles.controlGroup}>
+                  <label className={styles.controlLabel}>Height: {tempHeight}</label>
                   <input
                     type="range"
                     min="2"
                     max="8"
                     value={tempHeight}
                     onChange={(e) => setTempHeight(parseInt(e.target.value))}
-                    className="w-full h-2 rounded-lg appearance-none cursor-pointer slider"
-                    style={{ backgroundColor: 'var(--ifm-color-emphasis-200)' }}
+                    className={styles.slider}
                   />
                 </div>
 
                 {/* Preview Grid */}
-                <div className="flex justify-center py-4">
-                  <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${tempWidth}, 1fr)` }}>
+                <div className={styles.gridPreview}>
+                  <div className={styles.gridPreviewGrid} style={{ gridTemplateColumns: `repeat(${tempWidth}, 1fr)` }}>
                     {Array.from({ length: tempHeight * tempWidth }, (_, i) => (
                       <div
                         key={i}
-                        className="w-8 h-8 rounded-sm"
-                        style={{ backgroundColor: 'var(--ifm-color-emphasis-300)' }}
+                        className={styles.gridPreviewCell}
                       />
                     ))}
                   </div>
                 </div>
 
-                <div className="text-center text-sm" style={{ color: 'var(--ifm-color-emphasis-600)' }}>
+                <div className={styles.gridStats}>
                   Grid: {tempWidth} × {tempHeight} = {tempWidth * tempHeight} squares
                 </div>
 
                 <button
                   onClick={startGame}
-                  className="w-full py-3 px-6 rounded-lg font-semibold text-lg transition-colors"
-                  style={{ backgroundColor: 'var(--ifm-color-primary)', color: 'white' }}
-                  onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-                  onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                  className={styles.startButton}
                 >
                   Start Game
                 </button>
@@ -401,20 +362,17 @@ const GridLineGame = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col flex-1">
+          <div className={styles.gameContainer}>
             {/* Status */}
-            <div className="mb-4 text-center">
+            <div className={styles.gameInfo}>
               {gameStatus === 'playing' && (
                 <>
-                  <div className="text-xl mb-2">
+                  <div className={styles.scoreDisplay}>
                     Lines: {lines.size} / {totalPossibleLines}
                   </div>
                   <button
                     onClick={resetGame}
-                    className="text-sm underline"
-                    style={{ color: 'var(--ifm-color-emphasis-600)' }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--ifm-color-emphasis-800)'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ifm-color-emphasis-600)'}
+                    className={styles.resetLink}
                   >
                     Give up
                   </button>
@@ -422,16 +380,13 @@ const GridLineGame = () => {
               )}
               {gameStatus === 'won' && (
                 <div>
-                  <div className="text-3xl font-bold mb-4" style={{ color: 'var(--ifm-color-success)' }}>You Win! 🎉</div>
-                  <div className="text-xl mb-4">
+                  <div className={styles.gameResultWin}>You Win! 🎉</div>
+                  <div className={styles.gameResultScore}>
                     Completed: {lines.size} / {totalPossibleLines} lines
                   </div>
                   <button
                     onClick={resetGame}
-                    className="px-6 py-3 rounded-lg transition-colors font-semibold"
-                    style={{ backgroundColor: 'var(--ifm-color-success)', color: 'white' }}
-                    onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-                    onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                    className={`${styles.playAgainButton} ${styles.playAgainButtonWin}`}
                   >
                     New Game
                   </button>
@@ -439,16 +394,13 @@ const GridLineGame = () => {
               )}
               {gameStatus === 'lost' && (
                 <div>
-                  <div className="text-3xl font-bold mb-4" style={{ color: 'var(--ifm-color-danger)' }}>Game Over - You got stuck!</div>
-                  <div className="text-xl mb-4">
+                  <div className={styles.gameResultLose}>Game Over - You got stuck!</div>
+                  <div className={styles.gameResultScore}>
                     Lines: {lines.size} / {totalPossibleLines}
                   </div>
                   <button
                     onClick={resetGame}
-                    className="px-6 py-3 rounded-lg transition-colors font-semibold"
-                    style={{ backgroundColor: 'var(--ifm-color-danger)', color: 'white' }}
-                    onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-                    onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                    className={`${styles.playAgainButton} ${styles.playAgainButtonLose}`}
                   >
                     Try Again
                   </button>
@@ -457,11 +409,11 @@ const GridLineGame = () => {
             </div>
 
             {/* Game Grid */}
-            <div className="flex justify-center items-center flex-1">
-              <div className="relative inline-block">
+            <div className={styles.canvasContainer}>
+              <div className={styles.canvasWrapper}>
                 {showTouchHint && gameStatus === 'playing' && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                    <div className="bg-blue-600 bg-opacity-90 text-white px-4 py-2 rounded-lg animate-pulse">
+                  <div className={styles.loadingOverlay}>
+                    <div className={styles.loadingMessage}>
                       Swipe to move!
                     </div>
                   </div>
@@ -469,12 +421,7 @@ const GridLineGame = () => {
                 <svg
                   width={gridWidth * cellSize}
                   height={gridHeight * cellSize}
-                  className={`border-2 touch-none ${rainbowActive ? 'animate-pulse' : ''}`}
-                  style={{
-                    borderColor: 'var(--ifm-color-emphasis-300)',
-                    backgroundColor: 'var(--ifm-color-emphasis-100)',
-                    touchAction: 'none'
-                  }}
+                  className={`${styles.canvas} ${rainbowActive ? styles.canvasAnimated : ''}`}
                   onTouchStart={handleTouchStart}
                   onTouchMove={handleTouchMove}
                   onTouchEnd={handleTouchEnd}
@@ -539,7 +486,7 @@ const GridLineGame = () => {
                           cy={y * cellSize + cellSize / 2}
                           r="6"
                           fill={currentPos.x === x && currentPos.y === y ? "var(--ifm-color-primary)" : "var(--ifm-color-emphasis-400)"}
-                          className={rainbowActive ? 'animate-pulse' : ''}
+                          className={rainbowActive ? styles.swipeIndicator : ''}
                         />
                       </g>
                     ))
@@ -553,7 +500,7 @@ const GridLineGame = () => {
                     strokeWidth={rainbowActive ? '6' : '4'}
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className={rainbowActive ? 'rainbow-path' : ''}
+                    className={rainbowActive ? styles.rainbowPath : ''}
                   />
 
                   {/* Current position indicator */}
@@ -564,7 +511,7 @@ const GridLineGame = () => {
                     fill="none"
                     stroke={rainbowActive ? 'url(#rainbow-gradient)' : 'var(--ifm-color-primary)'}
                     strokeWidth="4"
-                    className={rainbowActive ? 'rainbow-path' : ''}
+                    className={rainbowActive ? styles.rainbowPath : ''}
                   />
 
                   {/* Swipe indicator */}
@@ -578,7 +525,7 @@ const GridLineGame = () => {
                       strokeWidth="2"
                       strokeDasharray="4"
                       opacity="0.5"
-                      className="animate-pulse"
+                      className={styles.swipeIndicator}
                     />
                   )}
                   {/* Win celebration effects */}
@@ -616,7 +563,7 @@ const GridLineGame = () => {
             </div>
 
             {/* Instructions */}
-            <div className="mt-4 text-center text-sm" style={{ color: 'var(--ifm-color-emphasis-600)' }}>
+            <div className={styles.footer}>
               <p>Use arrow keys or swipe to draw through all connections. Lines wrap around edges.</p>
             </div>
           </div>

@@ -17,7 +17,10 @@
     "ci:eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "download-github-data": "tsx scripts/download-github-data.ts",
-    "build:with-download": "npm run download-github-data && npm run build"
+    "build:with-download": "npm run download-github-data && npm run build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "test": "vitest run"
   },
   "dependencies": {
     "@docusaurus/core": "^3.9.2",
@@ -43,6 +46,7 @@
     "@babel/eslint-parser": "^7.28.4",
     "@babel/plugin-transform-modules-commonjs": "^7.27.1",
     "@babel/preset-react": "^7.27.1",
+    "@chromatic-com/storybook": "^4.1.0",
     "@docusaurus/eslint-plugin": "^3.9.2",
     "@docusaurus/module-type-aliases": "^3.8.0",
     "@docusaurus/tsconfig": "^3.9.2",
@@ -57,12 +61,18 @@
     "@testing-library/user-event": "^14.6.1",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.33.0",
+    "@vitest/browser": "^3.2.4",
     "eslint": "^9.38.0",
     "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-storybook": "^9.1.1",
     "globals": "^16.4.0",
+    "jsdom": "^26.1.0",
+    "playwright": "^1.54.2",
     "raw-loader": "^4.0.2",
+    "storybook": "^9.1.1",
     "tsx": "^4.20.6",
-    "typescript": "~5.8.3"
+    "typescript": "~5.8.3",
+    "vitest": "^3.2.4"
   },
   "browserslist": {
     "production": [

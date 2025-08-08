@@ -65,19 +65,37 @@ export const GitHubRepoSchema = z.object({
 export type GitHubRepo = z.infer<typeof GitHubRepoSchema>;
 
 export function useGitHubRepos(): Record<string, GitHubRepo> {
-  const data = usePluginData('github-repos-plugin') as Record<string, unknown>;
-  if (!data) return {};
-
-  const validRepos: Record<string, GitHubRepo> = {};
-
-  for (const [key, value] of Object.entries(data)) {
-    try {
-      validRepos[key] = GitHubRepoSchema.parse(value);
-    } catch (error) {
-      console.error(`Failed to parse repo data for ${key}:`, error);
-      throw error;
+  try {
+    const data = usePluginData('github-repos-plugin') as Record<string, unknown>;
+    if (!data || Object.keys(data).length === 0) {
+      return {};
     }
-  }
 
-  return validRepos;
+    const validRepos: Record<string, GitHubRepo> = {};
+
+    for (const [key, value] of Object.entries(data)) {
+      try {
+        validRepos[key] = GitHubRepoSchema.parse(value);
+      } catch (error) {
+        // In Storybook or development, continue without throwing
+        if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+          console.warn(`GitHub repo data not available for ${key} in development/Storybook:`, error);
+          continue;
+        }
+        // In production, continue gracefully instead of throwing
+        console.error(`Failed to parse repo data for ${key}:`, error);
+        continue;
+      }
+    }
+
+    return validRepos;
+  } catch (error) {
+    // Handle plugin data access errors gracefully
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      console.warn('GitHub repos data not available in development/Storybook:', error);
+      return {};
+    }
+    console.error('Failed to access GitHub repos data:', error);
+    return {};
+  }
 }

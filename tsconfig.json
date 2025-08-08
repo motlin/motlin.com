@@ -5,5 +5,13 @@
     "baseUrl": ".",
     "jsx": "react-jsx"
   },
-  "exclude": [".docusaurus", "build"]
+  "include": [
+    "src/**/*",
+    ".storybook/**/*",
+    "scripts/**/*",
+    "docusaurus.config.ts",
+    "sidebars.ts",
+    "vitest.config.ts"
+  ],
+  "exclude": [".docusaurus", "build", "storybook-static"]
 }
