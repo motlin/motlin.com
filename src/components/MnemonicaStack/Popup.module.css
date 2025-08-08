@@ -17,7 +17,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   z-index: 1001;
-  max-width: 90vw;
+  max-width: 95vw;
   max-height: 90vh;
   overflow: auto;
 }
@@ -43,15 +43,18 @@
 }
 
 .content {
-  padding: 40px 20px 20px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .cardStylePopup {
-  width: 350px;
-  height: 490px;
+  width: 320px;
+  height: 480px;
   max-width: calc(90vw - 40px);
   max-height: calc(90vh - 40px);
+  overflow: hidden;
 }
