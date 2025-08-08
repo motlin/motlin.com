@@ -107,3 +107,7 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.redSuit {
+  color: #d32f2f;
+}

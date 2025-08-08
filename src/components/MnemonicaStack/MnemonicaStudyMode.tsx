@@ -82,6 +82,15 @@ export default function MnemonicaStudyMode() {
 
   const currentSlide = slides[currentIndex];
 
+  const formatCardTitle = (title: string) => {
+    return title.split('').map((char, index) => {
+      if (char === '♥' || char === '♦') {
+        return <span key={index} className={styles.redSuit}>{char}</span>;
+      }
+      return char;
+    });
+  };
+
   return (
     <div className={styles.container}>
       <Heading as="h1">Mnemonica Study Mode</Heading>
@@ -104,7 +113,7 @@ export default function MnemonicaStudyMode() {
 
       <div className={styles.slideContainer} onClick={handleImageClick}>
         <div className={styles.slideText}>
-          <Heading as="h2" className={styles.slideTitle}>{currentSlide.title}</Heading>
+          <Heading as="h2" className={styles.slideTitle}>{formatCardTitle(currentSlide.title)}</Heading>
         </div>
         <img
           src={currentSlide.imagePath}
