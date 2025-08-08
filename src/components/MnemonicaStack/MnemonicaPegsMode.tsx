@@ -106,70 +106,74 @@ export default function MnemonicaPegsMode() {
       >
         {popupData && (
           <div className={styles.popupContent}>
-            <div className={styles.navigationContainer}>
-              {popupData.previous && (
-                <CompactCardFrame
-                  card={popupData.previous.card.card}
-                  imageSrc={getActualImagePath(popupData.previous.card, popupData.previous.position)}
-                  mnemonic={popupData.previous.card.mnemonic}
-                  position={popupData.previous.position}
-                  title="Previous"
-                  className={styles.navSection}
-                />
-              )}
+            <div className={styles.tilesLayout}>
+              <div className={styles.pegRow}>
+                {popupData.previous && (
+                  <CompactCardFrame
+                    card={popupData.previous.card.card}
+                    imageSrc={getActualImagePath(popupData.previous.card, popupData.previous.position)}
+                    mnemonic={popupData.previous.card.mnemonic}
+                    position={popupData.previous.position}
+                    title="Previous"
+                    className={styles.pegTile}
+                  />
+                )}
 
-              <CompactCardFrame
-                card={popupData.card.card}
-                imageSrc={getActualImagePath(popupData.card, popupData.position)}
-                mnemonic={popupData.card.mnemonic}
-                position={popupData.position}
-                title="Current"
-                className={styles.currentSection}
-              />
-
-              {popupData.next && (
                 <CompactCardFrame
-                  card={popupData.next.card.card}
-                  imageSrc={getActualImagePath(popupData.next.card, popupData.next.position)}
-                  mnemonic={popupData.next.card.mnemonic}
-                  position={popupData.next.position}
-                  title="Next"
-                  className={styles.navSection}
+                  card={popupData.card.card}
+                  imageSrc={getActualImagePath(popupData.card, popupData.position)}
+                  mnemonic={popupData.card.mnemonic}
+                  position={popupData.position}
+                  title="Current"
+                  className={`${styles.pegTile} ${styles.currentPeg}`}
                 />
-              )}
+
+                {popupData.next && (
+                  <CompactCardFrame
+                    card={popupData.next.card.card}
+                    imageSrc={getActualImagePath(popupData.next.card, popupData.next.position)}
+                    mnemonic={popupData.next.card.mnemonic}
+                    position={popupData.next.position}
+                    title="Next"
+                    className={styles.pegTile}
+                  />
+                )}
+              </div>
+
+              <div className={styles.transitionRow}>
+                {popupData.previous && (
+                  <div className={styles.transitionTile}>
+                    <Heading as="h4">Transition from Previous</Heading>
+                    <div className={styles.transitionImage}>
+                      <img
+                        src={getTransitionImagePath(
+                          popupData.previous.card,
+                          popupData.card,
+                          popupData.previous.position
+                        )}
+                        alt={`Transition from ${popupData.previous.card.mnemonic} to ${popupData.card.mnemonic}`}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {popupData.next && (
+                  <div className={`${styles.transitionTile} ${!popupData.previous ? styles.transitionAlignRight : ''}`}>
+                    <Heading as="h4">Transition to Next</Heading>
+                    <div className={styles.transitionImage}>
+                      <img
+                        src={getTransitionImagePath(
+                          popupData.card,
+                          popupData.next.card,
+                          popupData.position
+                        )}
+                        alt={`Transition from ${popupData.card.mnemonic} to ${popupData.next.card.mnemonic}`}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-
-            {popupData.previous && (
-              <div className={styles.transitionSection}>
-                <Heading as="h4">Transition from Previous</Heading>
-                <div className={styles.transitionImage}>
-                  <img
-                    src={getTransitionImagePath(
-                      popupData.previous.card,
-                      popupData.card,
-                      popupData.previous.position
-                    )}
-                    alt={`Transition from ${popupData.previous.card.mnemonic} to ${popupData.card.mnemonic}`}
-                  />
-                </div>
-              </div>
-            )}
-
-            {popupData.next && (
-              <div className={styles.transitionSection}>
-                <Heading as="h4">Transition to Next</Heading>
-                <div className={styles.transitionImage}>
-                  <img
-                    src={getTransitionImagePath(
-                      popupData.card,
-                      popupData.next.card,
-                      popupData.position
-                    )}
-                    alt={`Transition from ${popupData.card.mnemonic} to ${popupData.next.card.mnemonic}`}
-                  />
-                </div>
-              </div>
-            )}
           </div>
         )}
       </Popup>
