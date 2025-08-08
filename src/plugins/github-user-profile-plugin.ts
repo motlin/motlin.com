@@ -34,25 +34,25 @@ export default function githubProfilePlugin(
       try {
         const profileResponse = await fetch(`https://api.github.com/users/${username}`);
         if (!profileResponse.ok) {
-          if (profileResponse.status === 403 || profileResponse.status === 429) {
-            console.warn(`⚠️  GitHub API rate limit exceeded for ${username}, using fallback data`);
+          if (profileResponse.status === 403 && profileResponse.statusText === 'rate limit exceeded') {
+            console.warn(`GitHub API rate limit exceeded for user ${username}, using fallback data`);
             return {
               login: username,
-              id: 0,
-              avatar_url: `https://github.com/${username}.png`,
+              id: 1,
+              avatar_url: 'https://github.com/github.png',
               html_url: `https://github.com/${username}`,
-              name: username,
+              name: 'Craig Motlin',
               company: null,
               blog: null,
               location: null,
               email: null,
-              bio: null,
+              bio: 'Software Engineer',
               public_repos: 0,
               public_gists: 0,
               followers: 0,
               following: 0,
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString(),
+              created_at: '2000-01-01T00:00:00Z',
+              updated_at: '2000-01-01T00:00:00Z',
             };
           }
           throw new Error(`Failed to fetch GitHub profile for ${username}: ${profileResponse.statusText}`);
@@ -62,24 +62,24 @@ export default function githubProfilePlugin(
         return profile;
       } catch (error: any) {
         if (error.message?.includes('rate limit exceeded')) {
-          console.warn(`⚠️  GitHub API rate limit exceeded for ${username}, using fallback data`);
+          console.warn(`GitHub API rate limit exceeded for user ${username}, using fallback data`);
           return {
             login: username,
-            id: 0,
-            avatar_url: `https://github.com/${username}.png`,
+            id: 1,
+            avatar_url: 'https://github.com/github.png',
             html_url: `https://github.com/${username}`,
-            name: username,
+            name: 'Craig Motlin',
             company: null,
             blog: null,
             location: null,
             email: null,
-            bio: null,
+            bio: 'Software Engineer',
             public_repos: 0,
             public_gists: 0,
             followers: 0,
             following: 0,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
+            created_at: '2000-01-01T00:00:00Z',
+            updated_at: '2000-01-01T00:00:00Z',
           };
         }
         throw error;
