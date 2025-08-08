@@ -80,21 +80,13 @@ export function getCardSvgPath(card: string): string {
     'K': 'K'
   };
 
-  const suitMap: { [key: string]: string } = {
-    '♠': 'S',
-    '♥': 'H',
-    '♦': 'D',
-    '♣': 'C'
-  };
-
   const svgRank = rankMap[rank];
-  const svgSuit = suitMap[suit];
 
-  if (!svgRank || !svgSuit) {
+  if (!svgRank) {
     throw new Error(`Invalid card format: ${card}`);
   }
 
-  return `/img/mnemonica/inbox/poker-blank-Maze/${svgRank}${svgSuit}.svg`;
+  return `/img/mnemonica/cards/${svgRank}${suit}.svg`;
 }
 
 export function getActualImagePath(data: MnemonicaCard, position: number): string {

@@ -17,3 +17,8 @@ developer-productivity:
   label: Developer Productivity
   permalink: /developer-productivity
   description: Tips and tools for improving software development productivity
+
+notifications:
+  label: Notifications
+  permalink: /notifications
+  description: Posts about notification systems and alerts
