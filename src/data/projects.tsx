@@ -94,12 +94,18 @@ export interface Project {
   links: Link[];
   role?: string;
   customMeta?: string[];
-  techStack?: string[]; // Implementation technologies (Java, TypeScript, React, etc.)
-  features?: string[]; // What the project provides (Performance, Collections, Code Generation, etc.)
-  githubRepo?: string; // Format: "owner/repo" for API fetching
-  iconUrl?: string; // Custom icon URL to override GitHub avatar
-  customIcon?: React.JSX.Element; // Custom React component icon
-  openGraphImageUrl?: string; // Hard-coded OpenGraph/social card URL to avoid rate limiting
+  // Implementation technologies (Java, TypeScript, React, etc.)
+  techStack?: string[];
+  // What the project provides (Performance, Collections, Code Generation, etc.)
+  features?: string[];
+  // Format: "owner/repo" for API fetching
+  githubRepo?: string;
+  // Custom icon URL to override GitHub avatar
+  iconUrl?: string;
+  // Custom React component icon
+  customIcon?: React.JSX.Element;
+  // Hard-coded OpenGraph/social card URL to avoid rate limiting
+  openGraphImageUrl?: string;
 }
 
 export interface EnhancedProject extends Project {

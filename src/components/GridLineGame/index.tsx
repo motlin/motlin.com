@@ -7,7 +7,8 @@ const GridLineGame = () => {
   const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
   const [lines, setLines] = useState(new Set());
   const [path, setPath] = useState([{ x: 0, y: 0 }]);
-  const [gameStatus, setGameStatus] = useState('playing'); // 'playing', 'won', 'lost'
+  // 'playing', 'won', 'lost'
+  const [gameStatus, setGameStatus] = useState('playing');
   const [possibleMoves, setPossibleMoves] = useState([]);
   const [touchStart, setTouchStart] = useState(null);
   const [isSwiping, setIsSwiping] = useState(false);
@@ -128,7 +129,8 @@ const GridLineGame = () => {
 
   const handleTouchMove = (e) => {
     if (!touchStart || !isSwiping) return;
-    e.preventDefault(); // Prevent scrolling while swiping
+    // Prevent scrolling while swiping
+    e.preventDefault();
   };
 
   const handleTouchEnd = (e) => {
@@ -196,7 +198,8 @@ const GridLineGame = () => {
     if (!containerRef.current) return;
 
     const availableWidth = window.innerWidth - 40;
-    const availableHeight = window.innerHeight - 150; // Space for header and controls
+    // Space for header and controls
+    const availableHeight = window.innerHeight - 150;
 
     // Calculate cell size to use 95% of available space
     const targetWidth = availableWidth * 0.95;
