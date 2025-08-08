@@ -33,6 +33,70 @@ export function getTransitionDescription(fromData: MnemonicaCard, toData: Mnemon
   return `${fromData.mnemonic} → ${toData.mnemonic}`;
 }
 
+export function getStandardDeckOrder(mnemonicaData: MnemonicaCard[]): MnemonicaCard[] {
+  const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+  const suits = ['♠', '♥', '♣', '♦'];
+
+  const standardOrder: MnemonicaCard[] = [];
+
+  for (const rank of ranks) {
+    for (const suit of suits) {
+      const card = mnemonicaData.find(item => {
+        const cardRank = item.card.slice(0, -1);
+        const cardSuit = item.card.slice(-1);
+        return cardRank === rank && cardSuit === suit;
+      });
+      if (card) {
+        standardOrder.push(card);
+      }
+    }
+  }
+
+  return standardOrder;
+}
+
+export function getMnemonicaPosition(card: MnemonicaCard, mnemonicaData: MnemonicaCard[]): number {
+  const index = mnemonicaData.findIndex(item => item.card === card.card);
+  return index !== -1 ? index + 1 : 0;
+}
+
+export function getCardSvgPath(card: string): string {
+  const rank = card.slice(0, -1);
+  const suit = card.slice(-1);
+
+  const rankMap: { [key: string]: string } = {
+    'A': 'A',
+    '2': '2',
+    '3': '3',
+    '4': '4',
+    '5': '5',
+    '6': '6',
+    '7': '7',
+    '8': '8',
+    '9': '9',
+    '10': 'T',
+    'J': 'J',
+    'Q': 'Q',
+    'K': 'K'
+  };
+
+  const suitMap: { [key: string]: string } = {
+    '♠': 'S',
+    '♥': 'H',
+    '♦': 'D',
+    '♣': 'C'
+  };
+
+  const svgRank = rankMap[rank];
+  const svgSuit = suitMap[suit];
+
+  if (!svgRank || !svgSuit) {
+    throw new Error(`Invalid card format: ${card}`);
+  }
+
+  return `/img/mnemonica/inbox/poker-blank-Maze/${svgRank}${svgSuit}.svg`;
+}
+
 export function getActualImagePath(data: MnemonicaCard, position: number): string {
   const paddedPosition = String(position).padStart(2, '0');
   const cardCode = getCardCode(data.card);
@@ -95,4 +159,12 @@ export function getActualImagePath(data: MnemonicaCard, position: number): strin
 
   const extension = imageExtensions[position] || '.jpg';
   return `/img/mnemonica/${paddedPosition} ${cardCode} ${mnemonic}${extension}`;
+}
+
+export function isRedSuit(suit: string): boolean {
+  return suit === '♥' || suit === '♦';
+}
+
+export function getCardColorClass(suit: string, styles: { readonly [key: string]: string }): string {
+  return isRedSuit(suit) ? styles.red : styles.black;
 }
