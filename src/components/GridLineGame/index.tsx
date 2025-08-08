@@ -122,7 +122,8 @@ const GridLineGame = () => {
 
   const handleTouchMove = (e) => {
     if (!touchStart || !isSwiping) return;
-    e.preventDefault(); // Prevent scrolling while swiping
+    // Prevent scrolling while swiping
+    e.preventDefault();
   };
 
   const handleTouchEnd = (e) => {
@@ -189,7 +190,8 @@ const GridLineGame = () => {
     if (!containerRef.current) return;
 
     const availableWidth = window.innerWidth - 40;
-    const availableHeight = window.innerHeight - 150; // Space for header and controls
+    // Space for header and controls
+    const availableHeight = window.innerHeight - 150;
 
     const targetWidth = availableWidth * 0.95;
     const targetHeight = availableHeight * 0.95;
