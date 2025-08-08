@@ -1,7 +1,6 @@
 import React from 'react';
 import { ProjectCard } from './ProjectCard';
-import { ProjectSection as ProjectSectionType, EnhancedProject } from '../../data/projects';
-import { useGitHubRepos } from '../../hooks/useGitHubRepos';
+import { ProjectSection as ProjectSectionType } from '../../data/projects';
 import Heading from '@theme/Heading';
 
 interface ProjectSectionProps {
@@ -9,20 +8,6 @@ interface ProjectSectionProps {
 }
 
 export function ProjectSection({ section }: ProjectSectionProps): React.JSX.Element {
-  const repos = useGitHubRepos();
-
-  const enhancedProjects: EnhancedProject[] = section.projects.map(project => {
-    if (project.githubRepo && repos[project.githubRepo]) {
-      const repoData = repos[project.githubRepo];
-      return {
-        ...project,
-        stars: repoData.stargazers_count,
-        pushedAt: repoData.pushed_at,
-      };
-    }
-    return project;
-  });
-
   return (
     <section style={{ marginBottom: '3.75rem' }}>
       <Heading as="h2" style={{
@@ -39,7 +24,7 @@ export function ProjectSection({ section }: ProjectSectionProps): React.JSX.Elem
         {section.title}
       </Heading>
       <div style={{ display: 'grid', gap: '1.25rem' }}>
-        {enhancedProjects.map((project) => (
+        {section.projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </div>

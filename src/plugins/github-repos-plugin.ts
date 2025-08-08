@@ -28,26 +28,25 @@ export default function githubReposPlugin(): Plugin {
   return {
     name: 'github-repos-plugin',
     async loadContent() {
-      console.log('\n🚀 GitHub Repos Plugin: Starting to fetch repository data...');
+      console.log('\n📦 GitHub Repos Plugin: Initializing...');
 
       const cacheDir = path.join(process.cwd(), '.github-cache');
       const cachePath = path.join(cacheDir, 'repositories.json');
 
       if (fs.existsSync(cachePath)) {
-        console.log(`✅ Using cached repository data from ${cachePath}`);
+        console.log(`📦 GitHub Repos Plugin: Using cached data from ${cachePath}`);
         const cachedData = fs.readFileSync(cachePath, 'utf-8');
         const repos = JSON.parse(cachedData);
 
         const repoCount = Object.keys(repos).length;
         const reposWithOpenGraph = Object.values(repos).filter((repo: any) => repo.openGraphImageUrl).length;
 
-        console.log(`Total repos: ${repoCount}`);
-        console.log(`Repos with openGraphImageUrl: ${reposWithOpenGraph}`);
+        console.log(`📦 GitHub Repos Plugin: ${repoCount} repos cached (${reposWithOpenGraph} with OpenGraph images)`);
 
         return repos;
       }
 
-      console.warn('⚠️  No cached repository data found, fetching from API...');
+      console.warn('📦 GitHub Repos Plugin: No cache found, fetching from API...');
 
       const fetch = (await import('node-fetch')).default;
 
@@ -77,14 +76,14 @@ export default function githubReposPlugin(): Plugin {
 
       const searchResponse = await fetch(searchUrl, { headers });
       if (!searchResponse.ok) {
-        console.warn(`Failed to search repositories: ${searchResponse.statusText}`);
+        console.warn(`📦 GitHub Repos Plugin: Search failed - ${searchResponse.statusText}`);
         if (searchResponse.status === 401 && githubToken) {
-          console.log('Retrying without authentication token...');
+          console.log('📦 GitHub Repos Plugin: Retrying without authentication token...');
           const retryResponse = await fetch(searchUrl, {
             headers: { 'Accept': 'application/vnd.github.v3+json' }
           });
           if (!retryResponse.ok) {
-            console.warn(`Retry also failed: ${retryResponse.statusText}`);
+            console.warn(`📦 GitHub Repos Plugin: Retry also failed - ${retryResponse.statusText}`);
             return {};
           }
           searchData = await retryResponse.json() as GitHubSearchResponse;
@@ -166,9 +165,9 @@ export default function githubReposPlugin(): Plugin {
         }
       }
 
-      console.log(`Found ${searchData.items.length} repositories via search`);
+      console.log(`📦 GitHub Repos Plugin: Found ${searchData.items.length} repositories via search`);
       if (!githubToken) {
-        console.log('Note: Set GITHUB_TOKEN or GH_TOKEN environment variable to fetch repository social preview images');
+        console.log('📦 GitHub Repos Plugin: Note - Set GITHUB_TOKEN or GH_TOKEN environment variable to fetch repository social preview images');
       }
 
       const portfolioProjects = [
@@ -182,7 +181,7 @@ export default function githubReposPlugin(): Plugin {
         !repos.has(repoName)
       );
 
-      console.log(`\nFetching ${additionalRepos.length} additional repos from portfolio...`);
+      console.log(`📦 GitHub Repos Plugin: Fetching ${additionalRepos.length} additional repos from portfolio...`);
 
       for (const repoName of additionalRepos) {
         try {
@@ -193,7 +192,7 @@ export default function githubReposPlugin(): Plugin {
 
           if (response.ok) {
             const data = await response.json() as Repository;
-            console.log(`✓ Fetched ${repoName}`);
+            console.log(`📦 GitHub Repos Plugin: ✓ Fetched ${repoName}`);
 
             if (githubToken) {
               try {
@@ -236,10 +235,10 @@ export default function githubReposPlugin(): Plugin {
             repos.set(repoName, data);
             console.log(`Stored ${repoName} with language: ${data.language || 'none'}, license: ${data.license?.name || 'none'}`);
           } else {
-            console.warn(`Failed to fetch ${repoName}: ${response.statusText}`);
+            console.warn(`📦 GitHub Repos Plugin: Failed to fetch ${repoName} - ${response.statusText}`);
           }
         } catch (error) {
-          console.warn(`Failed to fetch ${repoName}:`, error);
+          console.warn(`📦 GitHub Repos Plugin: Failed to fetch ${repoName} -`, error);
         }
       }
 
