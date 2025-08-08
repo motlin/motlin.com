@@ -1,0 +1,277 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+}
+
+.gameWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  background: linear-gradient(to right, #3b82f6, #9333ea);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.menuCard {
+  padding: 2rem;
+  border-radius: 0.75rem;
+  border: 2px solid;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 28rem;
+  width: 100%;
+  background-color: var(--ifm-card-background-color);
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+.menuTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.controlsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.controlLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.slider {
+  width: 100%;
+  height: 0.5rem;
+  border-radius: 0.5rem;
+  appearance: none;
+  cursor: pointer;
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+  cursor: pointer;
+  border: none;
+}
+
+.gridPreview {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.gridPreviewGrid {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.gridPreviewCell {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.125rem;
+  background-color: var(--ifm-color-emphasis-300);
+}
+
+.gridStats {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.startButton {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  transition: all 0.15s;
+  background-color: var(--ifm-color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.startButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.gameInfo {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.scoreDisplay {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.resetLink {
+  font-size: 0.875rem;
+  text-decoration: underline;
+  color: var(--ifm-color-emphasis-600);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.gameResultWin {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: var(--ifm-color-success);
+}
+
+.gameResultLose {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: var(--ifm-color-danger);
+}
+
+.gameResultScore {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.playAgainButton {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.15s;
+  font-weight: 600;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.playAgainButtonWin {
+  background-color: var(--ifm-color-success);
+}
+
+.playAgainButtonLose {
+  background-color: var(--ifm-color-danger);
+}
+
+.canvasContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.canvasWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.loadingMessage {
+  background-color: rgba(59, 130, 246, 0.9);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.canvas {
+  border: 2px solid var(--ifm-color-emphasis-300);
+  background-color: var(--ifm-color-emphasis-100);
+  touch-action: none;
+}
+
+.canvasAnimated {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.rainbowPath {
+  animation: rainbow 2s linear infinite;
+}
+
+@keyframes rainbow {
+  0% { stroke: #ff0000; }
+  16.66% { stroke: #ff8800; }
+  33.33% { stroke: #ffff00; }
+  50% { stroke: #00ff00; }
+  66.66% { stroke: #0088ff; }
+  83.33% { stroke: #8800ff; }
+  100% { stroke: #ff0000; }
+}
+
+.footer {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.swipeIndicator {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
