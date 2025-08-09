@@ -11,7 +11,8 @@
     "scripts/**/*",
     "docusaurus.config.ts",
     "sidebars.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "vitest.setup.ts"
   ],
   "exclude": [".docusaurus", "build", "storybook-static"]
 }

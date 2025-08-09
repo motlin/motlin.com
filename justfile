@@ -58,9 +58,25 @@ update-submodules:
 test: install
     npm run test
 
+# `npm run test:run`
+test-run: install
+    npm run test:run
+
+# `npm run test:watch`
+test-watch: install
+    npm run test:watch
+
+# `npm run test:ui`
+test-ui: install
+    npm run test:ui
+
 # `npm run storybook`
 storybook: install
     npm run storybook
+
+# `npm run build-storybook`
+build-storybook: install
+    npm run build-storybook
 
 validate-lockfile:
     @echo "Validating package-lock.json is in sync..."
