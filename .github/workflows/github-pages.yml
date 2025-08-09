@@ -30,7 +30,6 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 20
-          cache: npm
 
       - uses: jdx/mise-action@v3
 
@@ -38,7 +37,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           just download-data-ci
-          just build
+          just build-ci
 
       - uses: actions/configure-pages@v5
 

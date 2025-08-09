@@ -20,7 +20,11 @@
     "build:with-download": "npm run download-github-data && npm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest run"
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@docusaurus/core": "^3.9.2",
@@ -73,6 +77,9 @@
     "tsx": "^4.20.6",
     "typescript": "~5.8.3",
     "vitest": "^4.0.6"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "*"
   },
   "browserslist": {
     "production": [
