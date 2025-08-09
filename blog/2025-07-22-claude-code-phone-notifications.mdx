@@ -13,7 +13,7 @@ Ever start a long-running Claude Code task and walk away, only to come back late
 
 {/* truncate */}
 
-## The Hook Configuration
+## The Hook Configuration {#the-hook-configuration}
 
 In my `~/.dotfiles/claude/settings.json`, I have a hook that runs when Claude Code stops:
 
@@ -38,7 +38,7 @@ This hook:
 - If so, calls a script called `woof` with a message containing the current directory name
 - Otherwise, just echoes the current notification status
 
-## The woof Script
+## The woof Script {#the-woof-script}
 
 On my PATH at `/Users/craig/.bin/woof`, I have this script:
 
@@ -75,7 +75,7 @@ This script does three things:
 2. **Speaks** the message using macOS's text-to-speech with an AI voice (Serena Premium by default)
 3. **Sends a push notification** to my phone using [Pushover](https://pushover.net/)
 
-## Pushover for Push Notifications
+## Pushover for Push Notifications {#pushover-for-push-notifications}
 
 [Pushover](https://pushover.net/) is a simple notification service that sends real-time notifications to your Android, iPhone, iPad, and Desktop devices. It has a straightforward API that makes it perfect for this use case - just a simple HTTP POST with your API token, user key, and message.
 
@@ -85,11 +85,11 @@ To use Pushover:
 3. Get your user key from your account settings
 4. Set these as environment variables: `PUSHOVER_APP_TOKEN` and `PUSHOVER_USER_KEY`
 
-## Works Great with --dangerously-skip-permissions
+## Works Great with --dangerously-skip-permissions {#works-great-with---dangerously-skip-permissions}
 
 This notification system works particularly well when using `claude --dangerously-skip-permissions`, which allows Claude Code to work autonomously for extended periods without needing human input. Without this flag, you might miss the notifications because Claude would be waiting for permission to perform various actions.
 
-## Yes, It's a WUPHF.com Reference
+## Yes, It's a WUPHF.com Reference {#yes-its-a-wuphfcom-reference}
 
 And yes, `woof` is absolutely a reference to WUPHF.com from The Office - Ryan Howard's startup that simultaneously sends messages via fax, email, text, tweet, and home phone. While my script doesn't quite reach that level of simultaneous communication, it does echo, speak, and push - which feels appropriately excessive for a completion notification!
 

@@ -1,0 +1,64 @@
+java:
+  label: Java
+  permalink: /java
+  description: Posts about Java programming language
+
+maven:
+  label: Maven
+  permalink: /maven
+  description: Posts about Apache Maven build tool
+
+collections:
+  label: Collections
+  permalink: /collections
+  description: Posts about Java collections and data structures
+
+streams:
+  label: Streams
+  permalink: /streams
+  description: Posts about Java streams and functional programming
+
+eclipse-collections:
+  label: Eclipse Collections
+  permalink: /eclipse-collections
+  description: Posts about Eclipse Collections framework
+
+intellij:
+  label: IntelliJ IDEA
+  permalink: /intellij
+  description: Posts about IntelliJ IDEA IDE
+
+ide:
+  label: IDE
+  permalink: /ide
+  description: Posts about Integrated Development Environments
+
+syntax-highlighting:
+  label: Syntax Highlighting
+  permalink: /syntax-highlighting
+  description: Posts about syntax highlighting configuration
+
+logging:
+  label: Logging
+  permalink: /logging
+  description: Posts about logging frameworks and best practices
+
+git:
+  label: Git
+  permalink: /git
+  description: Posts about Git version control system
+
+configuration:
+  label: Configuration
+  permalink: /configuration
+  description: Posts about configuration and settings
+
+ci-cd:
+  label: CI/CD
+  permalink: /ci-cd
+  description: Posts about Continuous Integration and Continuous Deployment
+
+pre-commit:
+  label: Pre-commit
+  permalink: /pre-commit
+  description: Posts about pre-commit hooks and development workflow
