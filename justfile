@@ -6,21 +6,34 @@ default:
 install:
     npm install
 
-# `npm start`
+# Download GitHub data (requires 1Password for GitHub token)
+# Run this once to populate .github-cache/, then other commands work without 1Password
+download-data: install
+    op run -- npm run download-github-data
+
+# `npm start` (using cached data)
 start: install
-    op run -- npm start -- --port 4000
+    npm start -- --port 4000
+
+# `npm start` with fresh data download (requires 1Password)
+start-with-download: install
+    op run -- npm run start:with-download -- --port 4000
 
 # Start with drafts enabled: `DOCUSAURUS_DRAFT=true npm start`
 start-drafts: install
-    op run -- bash -c 'DOCUSAURUS_DRAFT=true npm start -- --port 4000'
+    bash -c 'DOCUSAURUS_DRAFT=true npm start -- --port 4000'
 
-# `npm run build`
+# `npm run build` (using cached data)
 build: install
-    op run -- npm run build
+    npm run build
+
+# `npm run build` with fresh data download (requires 1Password)
+build-with-download: install
+    op run -- npm run build:with-download
 
 # `npm run serve`
 serve: build
-    op run -- npm run serve -- --port 4000
+    npm run serve -- --port 4000
 
 # `npm run deploy`
 deploy: install
