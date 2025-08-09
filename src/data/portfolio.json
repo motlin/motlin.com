@@ -177,7 +177,7 @@
           "id": "liftwizard",
           "name": "Liftwizard",
           "repoUrl": "https://github.com/liftwizard/liftwizard",
-          "description": "Comprehensive collection of bundles and add-ons for Dropwizard web services. Modular design with Jackson utilities, logging, Reladomo ORM integration, and testing tools.",
+          "description": "Collection of bundles and add-ons for Dropwizard web services. Modular design with Jackson utilities, logging, Reladomo ORM integration, and testing tools.",
           "links": [
             {
               "url": "https://github.com/liftwizard/liftwizard",
@@ -249,7 +249,7 @@
           "id": "jetbrains-settings",
           "name": "JetBrains Settings",
           "repoUrl": "https://github.com/motlin/jetbrains-settings",
-          "description": "Custom color schemes for IntelliJ IDEA and JetBrains IDEs with enhanced syntax highlighting for more token types. Includes comprehensive theme customization.",
+          "description": "Custom color schemes for IntelliJ IDEA and JetBrains IDEs with enhanced syntax highlighting for more token types.",
           "links": [
             {
               "url": "https://github.com/motlin/jetbrains-settings",
@@ -273,7 +273,7 @@
           "id": "development-setup",
           "name": "development-setup",
           "repoUrl": "https://github.com/motlin/development-setup",
-          "description": "Comprehensive development environment setup scripts and configurations for new machines.",
+          "description": "Development environment setup scripts and configurations for new machines.",
           "links": [
             {
               "url": "https://github.com/motlin/development-setup",
