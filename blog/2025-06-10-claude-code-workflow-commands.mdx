@@ -11,6 +11,8 @@ import CodeBlock from '@theme/CodeBlock';
 import GiscusComponent from '@site/src/components/GiscusComponent';
 import TodoCommandSource from '!!raw-loader!../src/.claude-prompts/commands/todo.md';
 import CommitCommandSource from '!!raw-loader!../src/.claude-prompts/commands/commit.md';
+import TodoGetScript from '!!raw-loader!../src/.dotfiles/bin/todo-get';
+import TodoCompleteScript from '!!raw-loader!../src/.dotfiles/bin/todo-complete';
 
 I've written two slash commands for Claude Code that form the core of my development workflow: `/todo` implements one task and `/commit` commits it.
 
@@ -70,6 +72,18 @@ This command tells Claude to implement one task from the list.
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/todo.md)
 
 "Think hard" is [a magic word](https://simonwillison.net/2025/Apr/19/claude-code-best-practices/) that triggers extended reasoning.
+
+### Helper Scripts
+
+The `/todo` command uses two helper scripts from my dotfiles:
+
+<CodeBlock language="python" title="todo-get">
+  {TodoGetScript}
+</CodeBlock>
+
+<CodeBlock language="python" title="todo-complete">
+  {TodoCompleteScript}
+</CodeBlock>
 
 ## `/commit`
 
