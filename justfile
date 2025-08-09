@@ -54,4 +54,28 @@ clear: install
 update-submodules:
     git submodule update --remote
 
-precommit: update-submodules lint-fix typecheck build
+# `npm run test`
+test: install
+    npm run test
+
+# `npm run test:run`
+test-run: install
+    npm run test:run
+
+# `npm run test:watch`
+test-watch: install
+    npm run test:watch
+
+# `npm run test:ui`
+test-ui: install
+    npm run test:ui
+
+# `npm run storybook`
+storybook: install
+    npm run storybook
+
+# `npm run build-storybook`
+build-storybook: install
+    npm run build-storybook
+
+precommit: update-submodules lint-fix typecheck test-run build
