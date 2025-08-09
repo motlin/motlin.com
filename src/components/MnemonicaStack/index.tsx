@@ -185,7 +185,6 @@ export default function MnemonicaStack() {
           />
         );
 
-        // Add transition after each card (all 52 transitions)
         const nextIndex = (globalIndex + 1) % mnemonicaData.length;
         const nextData = mnemonicaData[nextIndex];
         const transitionImage = getTransitionImagePath(data, nextData, globalIndex + 1);

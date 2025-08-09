@@ -29,16 +29,62 @@ export default function githubProfilePlugin(
       }
 
       console.warn('⚠️  No cached GitHub profile found, fetching from API...');
-      const fetch = (await import('node-fetch')).default;
 
-      const profileResponse = await fetch(`https://api.github.com/users/${username}`);
-      if (!profileResponse.ok) {
-        throw new Error(`Failed to fetch GitHub profile for ${username}: ${profileResponse.statusText}`);
+      try {
+        const fetch = (await import('node-fetch')).default;
+
+        const profileResponse = await fetch(`https://api.github.com/users/${username}`);
+        if (!profileResponse.ok) {
+          if (profileResponse.status === 403 && profileResponse.statusText === 'rate limit exceeded') {
+            console.warn(`GitHub API rate limit exceeded for user ${username}, using fallback data`);
+            return {
+              login: username,
+              id: 1,
+              avatar_url: 'https://github.com/github.png',
+              html_url: `https://github.com/${username}`,
+              name: 'Craig Motlin',
+              company: null,
+              blog: null,
+              location: null,
+              email: null,
+              bio: 'Software Engineer',
+              public_repos: 0,
+              public_gists: 0,
+              followers: 0,
+              following: 0,
+              created_at: '2000-01-01T00:00:00Z',
+              updated_at: '2000-01-01T00:00:00Z',
+            };
+          }
+          throw new Error(`Failed to fetch GitHub profile for ${username}: ${profileResponse.statusText}`);
+        }
+
+        const profile = await profileResponse.json();
+        return profile;
+      } catch (error: any) {
+        if (error.message?.includes('rate limit exceeded')) {
+          console.warn(`GitHub API rate limit exceeded for user ${username}, using fallback data`);
+          return {
+            login: username,
+            id: 1,
+            avatar_url: 'https://github.com/github.png',
+            html_url: `https://github.com/${username}`,
+            name: 'Craig Motlin',
+            company: null,
+            blog: null,
+            location: null,
+            email: null,
+            bio: 'Software Engineer',
+            public_repos: 0,
+            public_gists: 0,
+            followers: 0,
+            following: 0,
+            created_at: '2000-01-01T00:00:00Z',
+            updated_at: '2000-01-01T00:00:00Z',
+          };
+        }
+        throw error;
       }
-
-      const profile = await profileResponse.json();
-
-      return profile;
     },
     async contentLoaded({content, actions}) {
       const {setGlobalData} = actions;

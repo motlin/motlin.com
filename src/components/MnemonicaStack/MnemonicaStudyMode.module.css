@@ -1,0 +1,113 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.instructions {
+  color: var(--ifm-font-color-base);
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: var(--ifm-color-primary);
+  transition: width 0.3s ease;
+}
+
+.slideInfo {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--ifm-font-color-base);
+}
+
+.slideNumber {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.slideType {
+  font-size: 16px;
+}
+
+.slideContainer {
+  background-color: var(--ifm-background-surface-color);
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.slideContainer:hover {
+  transform: scale(1.02);
+}
+
+.slideImage {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+}
+
+.slideText {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.slideTitle {
+  margin: 0;
+  font-size: 28px;
+  color: var(--ifm-font-color-base);
+}
+
+.slideSubtitle {
+  margin: 0;
+  font-size: 18px;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.controls {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.controlButton {
+  padding: 12px 24px;
+  background-color: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  border: 2px solid var(--ifm-color-emphasis-400);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.controlButton:hover:not(:disabled) {
+  background-color: var(--ifm-color-emphasis-100);
+  transform: translateY(-2px);
+}
+
+.controlButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.redSuit {
+  color: #d32f2f;
+}
