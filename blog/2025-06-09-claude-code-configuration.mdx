@@ -36,13 +36,13 @@ I worked hard on these prompts and think they're effective. This post covers how
 
 This post is part of my [Claude Code setup series](/blog/claude-code-setup).
 
-## Global CLAUDE.md
+## Global CLAUDE.md {#global-claudemd}
 
 The global `~/.claude/CLAUDE.md` file sets default behavior for `claude` across all projects. Mine is split into several files, with the [top-level CLAUDE.md](https://github.com/motlin/claude-code-prompts/blob/main/CLAUDE.md) including them all using [@ syntax](https://docs.anthropic.com/en/docs/claude-code/memory#claude-md-imports).
 
-## Instructions for Humans
+## Instructions for Humans {#instructions-for-humans}
 
-### Code Style
+### Code Style {#code-style}
 
 I start with code style instructions that are applicable to LLMs and human developers.
 
@@ -52,9 +52,9 @@ I start with code style instructions that are applicable to LLMs and human devel
 
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/code-style.md)
 
-## Instructions specific to LLMs
+## Instructions specific to LLMs {#instructions-specific-to-llms}
 
-### Testing Practices
+### Testing Practices {#testing-practices}
 
 When writing tests, LLMs remind me of [Mr. Meeseeks](https://en.wikipedia.org/wiki/Mr._Meeseeks). The LLM will go to any length to get tests to pass, including deleting all of the assertions.
 
@@ -66,7 +66,7 @@ The advice here is applicable to human developers too, but we're getting into LL
 
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/tests.md)
 
-### Rhetorical questions?
+### Rhetorical questions? {#rhetorical-questions}
 
 Sometimes I ask `claude` why it implemented a feature one way and not another and it answers "You're right! I'll implement it \<the other way\>." Infuriating!
 
@@ -80,7 +80,7 @@ Tackling these these together:
 
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/conversation.md)
 
-### Long-lived processes
+### Long-lived processes {#long-lived-processes}
 
 `claude` handles console output from linters and compiler well. But sometimes it will try to run a long-lived command like `npm run start` and basically hang.
 
@@ -96,7 +96,7 @@ Sometimes Claude still tries to run long-lived commands so I've started to expli
   {SettingsDenyString}
 </CodeBlock>
 
-### Extra context just for you
+### Extra context just for you {#extra-context-just-for-you}
 
 `claude` can search the internet, and can read files from outside the current git repository, but it's an extra hop. I find it convenient to gather files into a subdirectory just for the LLM.
 
@@ -108,7 +108,7 @@ Sometimes Claude still tries to run long-lived commands so I've started to expli
 
 These instructions work well. Though I'm deliberate about telling the LLM to look in `.llm/`.
 
-### // Too Many Comments
+### // Too Many Comments {#-too-many-comments}
 
 LLMs write obvious comments.
 
@@ -127,7 +127,7 @@ Here are my instructions telling Claude not to, but it really, really likes writ
 
 I've come to accept that comments are crucial to how LLMs "think" and I cannot stop the LLM from writing them, at least in the first draft. My [comment cleanup commands](/blog/claude-code-utility-commands#comments) are great at getting rid of them in a second step.
 
-### Claude's Commit messages
+### Claude's Commit messages {#claudes-commit-messages}
 
 Claude code's commit messages are remarkably consistent, to the point where you know what [the system prompt](https://gist.github.com/transitive-bullshit/487c9cb52c75a9701d312334ed53b20c#file-claude-code-prompts-js-L448-L462) is going to say before you read it.
 
@@ -141,7 +141,7 @@ The system prompt includes [inconsistent and incorrect information](https://gith
 
 I didn't expect this to work since it contradicts the system prompt, but it works fine. I hope [the system prompt gets fixed upstream](https://github.com/anthropics/claude-code/issues/1000) anyway.
 
-## Project-specific CLAUDE.md
+## Project-specific CLAUDE.md {#project-specific-claudemd}
 
 You can override global settings for a specific project by creating a `CLAUDE.md` and `CLAUDE.local.md` in the root of that project. The first is intended to be committed and the second is intended to be ignored.
 
@@ -159,7 +159,7 @@ The contents of `CLAUDE.local.md` vary. It's a good place to share:
 - Libraries to use and APIs to prefer.
 - Whether to use a `justfile` or the language-native build tool.
 
-## Next Steps
+## Next Steps {#next-steps}
 
 Now that you've seen how to configure Claude Code's behavior, check out my development workflow in [Workflow Commands](/blog/claude-code-workflow-commands) and my additional [Utility Commands](/blog/claude-code-utility-commands).
 

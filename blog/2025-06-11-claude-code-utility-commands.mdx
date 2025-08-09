@@ -21,9 +21,9 @@ Utility commands I use with Claude Code for code maintenance and cleanup, partic
 
 This post is part of my [Claude Code setup series](/blog/claude-code-setup).
 
-## Comments
+## Comments {#comments}
 
-LLMs write obvious comments. Despite clear instructions not to [in the system prompt](https://github.com/langgptai/awesome-claude-prompts/blob/2be4e1085e8c026cd12ad67fdd2ce61c1c42b2d6/README.md?plain=1#L494) and in my [global configuration](/blog/claude-code-configuration#-too-many-comments), Claude consistently adds comments like:
+LLMs write obvious comments. Despite clear instructions not to [in the system prompt](https://github.com/langgptai/awesome-claude-prompts/blob/2be4e1085e8c026cd12ad67fdd2ce61c1c42b2d6/README.md?plain=1#L494) and in my [global configuration](/blog/claude-code-configuration#too-many-comments), Claude consistently adds comments like:
 
 ```typescript
 // Calculate elapsed time
@@ -32,7 +32,7 @@ const elapsedTimeMs = Date.now() - startTime
 
 I've come to accept that comments are crucial to how LLMs "think" and I cannot stop the LLM from writing them, at least in the first draft. Instead, I use these commands to clean them up after the fact.
 
-### `/all-comments` - Global Comment Cleanup
+### `/all-comments` - Global Comment Cleanup {#all-comments---global-comment-cleanup}
 
 The `/all-comments` command asks the LLM to clean up redundant comments across the entire codebase. After Claude deletes all the comments, I run [`git absorb`](https://github.com/tummychow/git-absorb) and it's as if the comments never existed in git history.
 
@@ -42,7 +42,7 @@ The `/all-comments` command asks the LLM to clean up redundant comments across t
 
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/shared/comment-removal-rules.md)
 
-### `/comments` - Local Comment Cleanup
+### `/comments` - Local Comment Cleanup {#comments---local-comment-cleanup}
 
 The `comments` prompt is identical to `all-comments` except it adds the sentence "Look at the local code changes that are not yet committed to git" turning it into a local edit.
 
@@ -56,7 +56,7 @@ This is my preferred command because it integrates with [my workflow](/blog/clau
 
 While I can't get the LLM to stop writing comments during initial implementation, these commands are extremely effective at cleaning them up after the fact.
 
-## Emoji
+## Emoji {#emoji}
 
 This command adds emoji!
 
@@ -66,11 +66,11 @@ This command adds emoji!
 
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/emoji.md)
 
-### Usage Patterns
+### Usage Patterns {#usage-patterns}
 
 The `/emoji` command follows consistent patterns and avoids duplicates by using a two-pass approach to ensure variety and appropriateness.
 
-## Learn
+## Learn {#learn}
 
 When we solve tricky problems, this command helps document the solution for future reference.
 
@@ -80,11 +80,11 @@ When we solve tricky problems, this command helps document the solution for futu
 
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/learn.md)
 
-### Knowledge Persistence
+### Knowledge Persistence {#knowledge-persistence}
 
 The `/learn` command documents solutions in `CLAUDE.local.md` so the knowledge persists for future sessions, especially useful for CLI commands that required multiple attempts or specific ordering requirements.
 
-## Rebase
+## Rebase {#rebase}
 
 This command systematically resolves merge conflicts during git rebases.
 
@@ -94,11 +94,11 @@ This command systematically resolves merge conflicts during git rebases.
 
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/rebase.md)
 
-### Conflict Resolution Strategy
+### Conflict Resolution Strategy {#conflict-resolution-strategy}
 
 The `/rebase` command follows a structured approach to understand and fix each conflict, ensuring the rebase completes successfully without missing any issues.
 
-## Next Steps
+## Next Steps {#next-steps}
 
 These utility commands complement the main [development workflow](/blog/claude-code-workflow-commands) and work best with proper [Claude Code configuration](/blog/claude-code-configuration).
 

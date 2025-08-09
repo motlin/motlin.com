@@ -16,8 +16,8 @@ const config: Config = {
   deploymentBranch: 'gh-pages',
   trailingSlash: false,
 
-  onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'throw',
 
   i18n: {
     defaultLocale: 'en',
@@ -73,6 +73,8 @@ const config: Config = {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           routeBasePath: 'docs',
+          tags: 'tags.yml',
+          onInlineTags: 'throw',
         },
         blog: {
           showReadingTime: true,
@@ -82,7 +84,8 @@ const config: Config = {
           },
           editUrl:
             'https://github.com/motlin/motlin.com/edit/main/',
-          onInlineTags: 'warn',
+          tags: 'tags.yml',
+          onInlineTags: 'throw',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
           blogSidebarCount: 'ALL',
