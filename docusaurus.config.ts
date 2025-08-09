@@ -11,7 +11,6 @@ const config: Config = {
   url: 'https://motlin.com',
   baseUrl: '/',
 
-  // GitHub pages deployment config.
   organizationName: 'motlin',
   projectName: 'motlin.com',
   deploymentBranch: 'gh-pages',
@@ -20,15 +19,11 @@ const config: Config = {
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
 
-  // Google Ads configuration
   headTags: [
     {
       tagName: 'script',
@@ -40,7 +35,6 @@ const config: Config = {
     },
   ],
 
-  // Google Analytics configuration
   plugins: [
     [
       '@docusaurus/plugin-google-gtag',
@@ -63,7 +57,6 @@ const config: Config = {
     './src/plugins/github-repos-plugin.ts',
   ],
 
-  // Enable Mermaid diagrams
   markdown: {
     mermaid: true,
   },
@@ -75,11 +68,8 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/motlin/motlin.com/edit/main/',
-          // Show last update author and time
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           routeBasePath: 'docs',
@@ -90,11 +80,8 @@ const config: Config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/motlin/motlin.com/edit/main/',
-          // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
@@ -109,7 +96,6 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
     image: 'img/motlin-social-card.png',
     navbar: {
       title: 'motlin.com',
