@@ -94,12 +94,12 @@ export interface Project {
   links: Link[];
   role?: string;
   customMeta?: string[];
-  techStack?: string[]; // Implementation technologies (Java, TypeScript, React, etc.)
-  features?: string[]; // What the project provides (Performance, Collections, Code Generation, etc.)
-  githubRepo?: string; // Format: "owner/repo" for API fetching
-  iconUrl?: string; // Custom icon URL to override GitHub avatar
-  customIcon?: React.JSX.Element; // Custom React component icon
-  openGraphImageUrl?: string; // Hard-coded OpenGraph/social card URL to avoid rate limiting
+  techStack?: string[];
+  features?: string[];
+  githubRepo?: string;
+  iconUrl?: string;
+  customIcon?: React.JSX.Element;
+  openGraphImageUrl?: string;
 }
 
 export interface EnhancedProject extends Project {
@@ -114,7 +114,6 @@ export interface ProjectSection {
   projects: Project[];
 }
 
-// Transform JSON data to include React icons and custom components
 export const projectSections: ProjectSection[] = portfolioData.sections.map(section => ({
   ...section,
   icon: iconMap[section.icon as keyof typeof iconMap],

@@ -7,7 +7,7 @@ const GridLineGame = () => {
   const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
   const [lines, setLines] = useState(new Set());
   const [path, setPath] = useState([{ x: 0, y: 0 }]);
-  const [gameStatus, setGameStatus] = useState('playing'); // 'playing', 'won', 'lost'
+  const [gameStatus, setGameStatus] = useState('playing');
   const [possibleMoves, setPossibleMoves] = useState([]);
   const [touchStart, setTouchStart] = useState(null);
   const [isSwiping, setIsSwiping] = useState(false);
@@ -20,17 +20,14 @@ const GridLineGame = () => {
   const [rainbowActive, setRainbowActive] = useState(false);
   const rainbowTimerRef = useRef(null);
 
-  // Calculate total possible lines
   const totalPossibleLines = gridWidth * gridHeight * 2;
 
-  // Create a key for a line segment
   const getLineKey = (from, to) => {
     const key1 = `${from.x},${from.y}-${to.x},${to.y}`;
     const key2 = `${to.x},${to.y}-${from.x},${from.y}`;
     return [key1, key2];
   };
 
-  // Get the destination position given a direction
   const getDestination = (pos, direction) => {
     let newX = pos.x;
     let newY = pos.y;
@@ -53,13 +50,11 @@ const GridLineGame = () => {
     return { x: newX, y: newY };
   };
 
-  // Check if a move is valid
   const isValidMove = (from, to) => {
     const [key1, key2] = getLineKey(from, to);
     return !lines.has(key1) && !lines.has(key2);
   };
 
-  // Get all possible moves from current position
   const getPossibleMoves = (pos) => {
     const moves = [];
     const directions = ['up', 'down', 'left', 'right'];
@@ -81,7 +76,6 @@ const GridLineGame = () => {
     }
   }, [currentPos, lines, showSetup, gridWidth, gridHeight]);
 
-  // Check game status
   useEffect(() => {
     if (!showSetup && lines.size > 0) {
       if (lines.size === totalPossibleLines) {
@@ -191,14 +185,12 @@ const GridLineGame = () => {
     setShowSetup(true);
   };
 
-  // Calculate responsive cell size to fill most of the screen
   const calculateCellSize = () => {
     if (!containerRef.current) return;
 
     const availableWidth = window.innerWidth - 40;
     const availableHeight = window.innerHeight - 150; // Space for header and controls
 
-    // Calculate cell size to use 95% of available space
     const targetWidth = availableWidth * 0.95;
     const targetHeight = availableHeight * 0.95;
 
@@ -258,7 +250,6 @@ const GridLineGame = () => {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [gameStatus, showSetup, currentPos, lines]);
 
-  // Get the SVG path for drawing lines
   const getSVGPath = () => {
     if (path.length < 2) return '';
 
@@ -270,7 +261,6 @@ const GridLineGame = () => {
       const prev = path[i - 1];
       const curr = path[i];
 
-      // Check if we need to draw a wrapping line
       const xDiff = Math.abs(curr.x - prev.x);
       const yDiff = Math.abs(curr.y - prev.y);
 

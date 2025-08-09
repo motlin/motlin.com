@@ -1,7 +1,6 @@
 import {usePluginData} from '@docusaurus/useGlobalData';
 import { z } from 'zod';
 
-// GitHub Profile schema based on actual API response
 export const GitHubProfileSchema = z.object({
   login: z.string(),
   id: z.number(),

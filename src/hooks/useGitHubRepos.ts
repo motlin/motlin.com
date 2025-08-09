@@ -1,7 +1,6 @@
 import {usePluginData} from '@docusaurus/useGlobalData';
 import { z } from 'zod';
 
-// GitHub Repository schema based on actual search API response
 export const GitHubRepoSchema = z.object({
   id: z.number(),
   node_id: z.string(),
@@ -57,11 +56,10 @@ export const GitHubRepoSchema = z.object({
   open_issues: z.number(),
   watchers: z.number(),
   default_branch: z.string(),
-  score: z.number().optional(), // Only present in search results
-  // Note: The field from GraphQL API is camelCase, but we'll accept both formats
-  openGraphImageUrl: z.string().optional(), // From GraphQL API
-  open_graph_image_url: z.string().optional(), // Legacy/alternative format
-  usesCustomOpenGraphImage: z.boolean().optional(), // From GraphQL API
+  score: z.number().optional(),
+  openGraphImageUrl: z.string().optional(),
+  open_graph_image_url: z.string().optional(),
+  usesCustomOpenGraphImage: z.boolean().optional(),
 });
 
 export type GitHubRepo = z.infer<typeof GitHubRepoSchema>;
@@ -77,7 +75,7 @@ export function useGitHubRepos(): Record<string, GitHubRepo> {
       validRepos[key] = GitHubRepoSchema.parse(value);
     } catch (error) {
       console.error(`Failed to parse repo data for ${key}:`, error);
-      throw error; // Re-throw to maintain error behavior
+      throw error;
     }
   }
 

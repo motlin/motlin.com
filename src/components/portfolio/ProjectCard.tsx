@@ -56,10 +56,8 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
 
 
 
-  // Use GitHub description if available and project doesn't have a custom description
   const description = repoData?.description || project.description;
 
-  // Determine the main link with improved prioritization
   // Priority order: Play/Demo/Website links > Marketplace > Homepage > GitHub repo
   const priorityLabels = ['Play', 'Demo', 'Website', 'Marketplace', 'Homepage'];
   const priorityLink = project.links.find(link =>
@@ -79,13 +77,10 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
       return;
     }
 
-    // Only navigate when clicking on the background
     if (mainLink) {
       if (e.ctrlKey || e.metaKey || e.button === 1) {
-        // Middle click or Ctrl/Cmd+click - open in new tab
         window.open(mainLink, '_blank', 'noopener,noreferrer');
       } else {
-        // Regular click - open in new tab
         window.open(mainLink, '_blank', 'noopener,noreferrer');
       }
     }
@@ -96,7 +91,6 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
       <div className={styles.project}>
         <div className={styles.projectContent}>
             <div className={styles.projectHeader}>
-              {/* Only show hard-coded icons */}
               {(project.customIcon || project.iconUrl) && (
                 <div className={styles.projectLogo}>
                   {project.customIcon ? project.customIcon : (
@@ -119,7 +113,6 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
               }}>{description}</Markdown>
             </div>
 
-            {/* Social media card if available */}
             {project.openGraphImageUrl && (
               <div className={styles.socialMediaCard}>
                 <img
@@ -131,7 +124,6 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
               </div>
             )}
 
-            {/* Badges matrix */}
             <div className={styles.badgesMatrix}>
               {links.length > 0 && (
                 <>
