@@ -3,7 +3,6 @@ title: Sick Picks
 description: Personal recommendations for tools, products, and resources that I find valuable
 ---
 
-import Link from '@docusaurus/Link';
 
 # Sick Picks
 
