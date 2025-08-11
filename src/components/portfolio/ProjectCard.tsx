@@ -67,14 +67,12 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
   const links = project.links;
 
   const handleCardClick = (e: React.MouseEvent) => {
-    // Don't navigate if clicking on text or interactive elements
     const target = e.target as HTMLElement;
     if (target.tagName === 'A' || target.closest('a') ||
         window.getSelection()?.toString() ||
         target.classList.contains(styles.matrixBadge)) {
       return;
     }
-
     if (mainLink) {
       if (e.ctrlKey || e.metaKey || e.button === 1) {
         window.open(mainLink, '_blank', 'noopener,noreferrer');

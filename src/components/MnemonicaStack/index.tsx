@@ -209,7 +209,6 @@ export default function MnemonicaStack() {
       );
     }
 
-
     return rows;
   };
 

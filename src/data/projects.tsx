@@ -2,7 +2,6 @@ import React from 'react';
 import { FaCircleDot, FaCube, FaFolder, FaRocket } from 'react-icons/fa6';
 import portfolioData from './portfolio.json';
 
-// Custom marketplace icon for CheckStyle Results Reporter
 const CheckStyleMarketplaceIcon = () => (
   <div
     style={{
@@ -34,7 +33,6 @@ const CheckStyleMarketplaceIcon = () => (
   </div>
 );
 
-// Custom marketplace icon for Forbid Merge Commits Action
 const ForbidMergeCommitsMarketplaceIcon = () => (
   <div
     style={{
@@ -67,7 +65,6 @@ const ForbidMergeCommitsMarketplaceIcon = () => (
   </div>
 );
 
-// Icon mapping
 const iconMap = {
   FaCircleDot: <FaCircleDot size={24} />,
   FaCube: <FaCube size={24} />,
@@ -75,7 +72,6 @@ const iconMap = {
   FaRocket: <FaRocket size={24} />
 };
 
-// Custom icon mapping
 const customIconMap = {
   CheckStyleMarketplaceIcon: <CheckStyleMarketplaceIcon />,
   ForbidMergeCommitsMarketplaceIcon: <ForbidMergeCommitsMarketplaceIcon />
