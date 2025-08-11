@@ -25,7 +25,7 @@ jobs:
       - run: npm run ci:eslint
         continue-on-error: true
 
-      - uses: ataylorme/eslint-annotate-action@v3
+      - uses: ataylorme/eslint-annotate-action@2.2.0
 
   typecheck:
     name: Type Check
