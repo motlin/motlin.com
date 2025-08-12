@@ -33,6 +33,27 @@ export default function githubProfilePlugin(
 
       const profileResponse = await fetch(`https://api.github.com/users/${username}`);
       if (!profileResponse.ok) {
+        if (profileResponse.status === 403 || profileResponse.status === 429) {
+          console.warn(`⚠️  GitHub API rate limit exceeded for ${username}, using fallback data`);
+          return {
+            login: username,
+            id: 0,
+            avatar_url: `https://github.com/${username}.png`,
+            html_url: `https://github.com/${username}`,
+            name: username,
+            company: null,
+            blog: null,
+            location: null,
+            email: null,
+            bio: null,
+            public_repos: 0,
+            public_gists: 0,
+            followers: 0,
+            following: 0,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          };
+        }
         throw new Error(`Failed to fetch GitHub profile for ${username}: ${profileResponse.statusText}`);
       }
 
