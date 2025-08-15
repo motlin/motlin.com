@@ -34,7 +34,9 @@ jobs:
 
           git submodule update --init --remote --recursive
 
-          # Check if there are any changes
+          # Initialize nested submodules within src/.dotfiles
+          git -C src/.dotfiles submodule update --init --recursive
+
           if [[ -n $(git status --porcelain) ]]; then
             git add .
             git commit -m "Update submodules"
