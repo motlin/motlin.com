@@ -31,7 +31,8 @@ jobs:
       - run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git submodule update --remote --recursive
+
+          git submodule update --init --remote --recursive
 
           # Check if there are any changes
           if [[ -n $(git status --porcelain) ]]; then
