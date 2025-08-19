@@ -13,7 +13,7 @@ import CommentRemovalRulesSource from '!!raw-loader!../src/.claude-prompts/share
 import CommentsCommandSource from '!!raw-loader!../src/.claude-prompts/commands/comments.md';
 import EmojiCommandSource from '!!raw-loader!../src/.claude-prompts/commands/emoji.md';
 import LearnCommandSource from '!!raw-loader!../src/.claude-prompts/commands/learn.md';
-import RebaseCommandSource from '!!raw-loader!../src/.claude-prompts/commands/rebase.md';
+import ConflictsCommandSource from '!!raw-loader!../src/.claude-prompts/commands/conflicts.md';
 
 Utility commands I use with Claude Code for code maintenance and cleanup, particularly for handling the LLM's tendency to over-comment code.
 
@@ -84,19 +84,19 @@ When we solve tricky problems, this command helps document the solution for futu
 
 The `/learn` command documents solutions in `CLAUDE.local.md` so the knowledge persists for future sessions, especially useful for CLI commands that required multiple attempts or specific ordering requirements.
 
-## Rebase {#rebase}
+## Conflicts {#conflicts}
 
 This command systematically resolves merge conflicts during git rebases.
 
-<CodeBlock language="markdown" title=".claude-prompts/commands/rebase.md">
-  {RebaseCommandSource}
+<CodeBlock language="markdown" title=".claude-prompts/commands/conflicts.md">
+  {ConflictsCommandSource}
 </CodeBlock>
 
 [View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/rebase.md)
 
 ### Conflict Resolution Strategy {#conflict-resolution-strategy}
 
-The `/rebase` command follows a structured approach to understand and fix each conflict, ensuring the rebase completes successfully without missing any issues.
+The `/conflicts` command follows a structured approach to understand and fix each conflict, ensuring the rebase completes successfully without missing any issues.
 
 ## Next Steps {#next-steps}
 
