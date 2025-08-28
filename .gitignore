@@ -21,3 +21,6 @@ yarn-error.log*
 
 # GitHub data cache
 .github-cache
+
+# Data directory with fetched JSON files
+/data
