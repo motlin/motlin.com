@@ -100,6 +100,8 @@ export interface Project {
   iconUrl?: string;
   customIcon?: React.JSX.Element;
   openGraphImageUrl?: string;
+  language?: string;
+  license?: string;
 }
 
 export interface EnhancedProject extends Project {
