@@ -1,0 +1,91 @@
+---
+slug: claude-code-running-for-hours
+title: "Claude Code: Keeping It Running for Hours"
+authors: [craig]
+tags: [claude-code, developer-productivity]
+date: 2025-09-15
+description: "How I use todo lists and agents to keep Claude Code running autonomously for over an hour, processing entire task lists within the 200k token context window."
+---
+
+import GiscusComponent from '@site/src/components/GiscusComponent';
+
+How I use todo lists and agents to keep Claude Code running autonomously for over an hour, processing entire task lists within the 200k token context window.
+
+{/* truncate */}
+
+This post is part of my [Claude Code setup series](/blog/claude-code-setup). If you're new to agents, read [From Slash Commands to Agents](/blog/claude-code-slash-commands-to-agents) first.
+
+As I scaled up my Claude Code usage with [slash commands](/blog/claude-code-slash-commands-to-agents) and [git worktrees](/blog/claude-code-worktree), I found myself babysitting instances of Claude Code. I was trying to figure out how to get Claude to work for longer without my input when Anthropic released subagents. After [converting slash commands into subagents](/blog/claude-code-slash-commands-to-agents) I figured I could build higher-level subagents to "loop" and keep Claude running autonomously for longer.
+
+## First Attempt: The `/todo` Command {#first-attempt}
+
+The [final slash command](/blog/claude-code-slash-commands-to-agents#putting-it-all-together) in my original setup was `/todo`. This command would find the next incomplete task in `todo.md` and do it. It worked but I was still babysitting. I'd have multiple Claude instances running across different projects and I'd periodically check in, to see which ones were getting stuck or needed help. But when things were going well, I would just watch and occasionally type `/todo` to kick off the next task.
+
+I briefly experimented with [worktrees](/blog/claude-code-worktree) to run multiple tasks in parallel, but found it was often more trouble than it was worth.
+
+My next attempt is what I settled on. I converted `/todo` to an agent (`do-todo`), and created a looping `/todo-all` command to run the agent repeatedly. Now my process is:
+
+- Create a markdown todo list in `.llm/todo.md`
+- Run `/todo-all` to have Claude work through the entire list
+- Occasionally check in, and potentially append or reorder tasks while Claude works
+
+This works well. I've had Claude run for over an hour several times, and much longer on occasion. The longest I've had it run is on a porting task where each todo item took the form "Port file X from JavaScript to TypeScript". Claude worked through the entire list autonomously, with no human intervention, for over 2 hours. If my JavaScript project was bigger, Claude could have kept going for longer.
+
+## The Current Solution: `do-todo` and `/todo-all` {#the-current-solution}
+
+I ported the `/todo` command to a `do-todo` agent and created a looping `/todo-all` command that processes the entire list.
+
+### The `do-todo` Agent {#do-todo-agent}
+
+The `do-todo` agent is nearly identical to the [/todo slash command](/blog/claude-code-slash-commands-to-agents#putting-it-all-together) from my previous post. The key difference is that it runs as an agent instead of a slash command, which means it executes in a separate context. This is crucial for the looping mechanism in `/todo-all` since all the verbose output from implementation, builds, tests, and git operations stays out of the main conversation.
+
+[The agent](https://github.com/motlin/claude-code-prompts/blob/main/agents/do-todo.md) gets a task with `todo-get`, implements it, runs cleanup agents (`comment-cleaner`, `precommit-runner`, `git-commit-handler`, `git-rebaser`), and marks it complete with `todo-complete`.
+
+### The `/todo-all` Command {#todo-all-command}
+
+The `/todo-all` command is where the magic happens:
+
+- Find whether there is an incomplete task using `todo-get`
+- Launch the `@do-todo` agent to implement it
+- Repeat until no incomplete tasks remain
+
+There are also some instructions on how to report progress back to the user. You can see the full slash command prompt [on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/todo-all.md).
+
+The main conversation stays clean throughout this process. All the verbose output - test failures, build logs, git operations, file edits - happens inside the `@do-todo` agent's separate context and never touches the main window. This context isolation is what makes it possible to run for over an hour without hitting the token limit.
+
+## Agent Hierarchy: Agents Calling Agents {#agent-hierarchy}
+
+The full hierarchy looks like this:
+
+```
+/todo-all → launch the @do-todo agent... Repeat until no incomplete tasks
+└── @do-todo → Implement the task... then do these things in order:
+    ├── Remove obvious comments using the @comment-cleaner agent
+    ├── Verify the build passes using the @precommit-runner agent
+    ├── Commit to git using the @git-commit-handler agent
+    └── Rebase on upstream with the @git-rebaser agent
+        └── invoke the @git-rebase-conflict-resolver agent to handle merge conflicts
+            └── If more conflicts arise, repeat the @git-rebase-conflict-resolver agent
+```
+
+Each agent has a focused job. The prompts explicitly tell agents when to delegate to other agents. This creates a deep chain of automation where each piece handles one specific concern.
+
+## Try It Yourself {#try-it-yourself}
+
+Start with a simple todo list:
+
+```markdown
+- [ ] Add a test for feature X
+- [ ] Implement feature X
+- [ ] Update documentation
+```
+
+Save it to `.llm/todo.md`, then run `/todo-all`. Watch Claude work through the entire list autonomously.
+
+You can copy my setup from my GitHub repos. You'll need:
+- The [`/todo-all` command](https://github.com/motlin/claude-code-prompts/blob/main/commands/todo-all.md)
+- The [`do-todo` agent](https://github.com/motlin/claude-code-prompts/blob/main/agents/do-todo.md)
+- The four cleanup agents: [`comment-cleaner`](https://github.com/motlin/claude-code-prompts/blob/main/agents/comment-cleaner.md), [`precommit-runner`](https://github.com/motlin/claude-code-prompts/blob/main/agents/precommit-runner.md), [`git-commit-handler`](https://github.com/motlin/claude-code-prompts/blob/main/agents/git-commit-handler.md), [`git-rebaser`](https://github.com/motlin/claude-code-prompts/blob/main/agents/git-rebaser.md)
+- The [`todo-get`](https://github.com/motlin/dotfiles/blob/main/bin/todo-get) and [`todo-complete`](https://github.com/motlin/dotfiles/blob/main/bin/todo-complete) scripts
+
+<GiscusComponent />

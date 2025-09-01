@@ -1,0 +1,157 @@
+---
+slug: claude-code-slash-commands-to-agents
+title: "Claude Code: Moving from Slash Commands to Agents"
+authors: [craig]
+tags: [claude-code, developer-productivity]
+date: 2025-08-30
+description: "When agents were released, the documentation was too vague for me to understand what they were for. One effective way to use them is as a more powerful form of slash commands."
+---
+
+import CodeBlock from '@theme/CodeBlock';
+import GiscusComponent from '@site/src/components/GiscusComponent';
+import CommentCleanerSource from '!!raw-loader!../src/.claude-prompts/agents/comment-cleaner.md';
+import PrecommitRunnerSource from '!!raw-loader!../src/.claude-prompts/agents/precommit-runner.md';
+import GitCommitHandlerSource from '!!raw-loader!../src/.claude-prompts/agents/git-commit-handler.md';
+import GitRebaserSource from '!!raw-loader!../src/.claude-prompts/agents/git-rebaser.md';
+
+When agents were released, the documentation was too vague for me to understand what they were for. One effective way to use them is as a more powerful form of slash commands.
+
+{/* truncate */}
+
+## Agents Seemed Vague {#agents-seemed-vague}
+
+When Claude Code released agents, the [documentation](https://docs.anthropic.com/en/docs/claude-code/subagents) described them as "specialized AI assistants that can be invoked to handle specific types of tasks." Each agent:
+
+> - Has a specific purpose and expertise area
+> - Uses its own context window separate from the main conversation
+> - Can be configured with specific tools it's allowed to use
+> - Includes a custom system prompt that guides its behavior
+
+This definition was so generic I couldn't figure out what they were actually for. [The examples](https://docs.anthropic.com/en/docs/claude-code/subagents#example-subagents) showed personas like ["code-reviewer,"](https://docs.anthropic.com/en/docs/claude-code/subagents#code-reviewer) ["debugger,"](https://docs.anthropic.com/en/docs/claude-code/subagents#debugger) and ["data-scientist."](https://docs.anthropic.com/en/docs/claude-code/subagents#data-scientist) I've never understood the pattern of personifying AI with "you are a senior code reviewer" type prompts. The LLM's expertise comes from its training data, not from prompts written in second person.
+
+## Porting Slash Commands to Agents {#porting-slash-commands-to-agents}
+
+I already had [custom slash commands](/blog/claude-code-workflow-commands) that worked well. So I started experimenting by converting commands into agents.
+
+I used the `/agents` slash command to set up the markdown file structure, then copied my existing prompt content in.
+
+At this point I noticed a mechanical benefit - I could tell Claude to run multiple agents in sequence. It's not possible to execute multiple slash commands in one go. A prompt like `Please /commit and then /rebase` doesn't work - presumably because they are a special syntax.
+
+With slash commands, I had felt like I was babysitting the agents. At the end of each task, I ran `/comments`, then `just precommit` (pasting failures if it broke), then `/commit`, then `git rebase` (running `/conflicts` if it failed). With subagents, I can say "run comment-cleaner, precommit-runner, git-commit-handler, and git-rebaser" and it works great.
+
+I kept my slash commands. I still use them occasionally, but I use the subagent versions more.
+
+## Why Agents Are Better Than Alternatives {#why-agents-are-better-than-alternatives}
+
+Agents share features with several existing tools but combine their benefits:
+
+### What Agents Have in Common With Other Tools {#what-agents-have-in-common-with-other-tools}
+
+- **Slash Commands**: Both let you invoke complex behavior with a simple trigger, keeping detailed prompts out of context until needed
+- **Task Tool**: Both run in isolated context windows to avoid polluting your main conversation
+- **MCP Tools**: Both can run automatically when Claude recognizes they're needed, or can be invoked explicitly
+
+### How Agents Improve on Each {#how-agents-improve-on-each}
+
+1. **Context Isolation** (vs Slash Commands): Slash command prompts don't load into context on startup, but they do load when you invoke them. Subagents are more like MCP tools; only their description loads into main context on startup, and the full prompt loads in the agent's isolated context. Subagents are also like the Task tool; all the output from their work stays in the agent's context as well.
+
+2. **Model Switching** (vs Slash Commands and Task Tool): With slash commands and Tasks, everything runs using the same model. With subagents, I can use a more powerful and expensive model for my main work but run agents on a cheaper model. This is not always a huge benefit - it depends on the models and pricing of the day.
+
+3. **Detailed Instructions** (vs Task Tool): Before subagents, I had tried prompts like "Run /commit using the Task tool" but this simply didn't work. Subagents fill this gap.
+
+## Practical Benefits {#practical-benefits}
+
+After using agents for a few weeks, here's what I've found:
+
+- **Longer Sessions**: By offloading repetitive tasks to agents, my main context stays clean. I can work much longer without hitting context limits or needing to compact.
+
+- **Better Task Decomposition**: LLMs perform better with several short, focused prompts rather than a single long prompt with multiple steps. Since agents can call other agents (like git-rebaser calling git-rebase-conflict-resolver), they naturally decompose complex tasks into manageable pieces.
+
+- **Cost Savings**: On personal projects where I pay per token or have usage caps, running simpler tasks on Sonnet instead of Opus saves money and stays under limits. This is less relevant with Sonnet 4.5.
+
+## My Four Main Agents {#my-four-main-agents}
+
+In my [`~/.claude/CLAUDE.md`](https://github.com/motlin/claude-code-prompts/blob/main/instructions/build-commands.md), I specify four agents that should run when code changes are ready:
+
+```markdown
+- When a code change is ready, and we are about to return control to the user, do these things in order:
+  - Remove obvious comments using the `comment-cleaner` agent
+  - Verify the build passes using the `precommit-runner` agent
+  - Commit to git using the `git-commit-handler` agent
+  - Rebase on top of the upstream branch with the `git-rebaser` agent
+```
+
+### comment-cleaner {#comment-cleaner}
+
+This agent removes the redundant comments that LLMs inevitably write. It's based on [my `/comments` command](/blog/claude-code-utility-commands#comments---local-comment-cleanup).
+
+<CodeBlock language="markdown" title=".claude/agents/comment-cleaner.md">
+    {CommentCleanerSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/agents/comment-cleaner.md)
+
+### precommit-runner {#precommit-runner}
+
+This agent runs `just precommit`. I intend for this recipe to exist in every project and to run appropriate builds, tests, and formatters. If it fails because `just` or the `precommit` recipe aren't set up yet, I go ahead and set them up.
+
+<CodeBlock language="markdown" title=".claude/agents/precommit-runner.md">
+    {PrecommitRunnerSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/agents/precommit-runner.md)
+
+### git-commit-handler {#git-commit-handler}
+
+This agent stages and commits changes. It's based on [my `/commit` command](/blog/claude-code-workflow-commands#commit).
+
+<CodeBlock language="markdown" title=".claude/agents/git-commit-handler.md">
+    {GitCommitHandlerSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/agents/git-commit-handler.md)
+
+### git-rebaser {#git-rebaser}
+
+This agent rebases the current branch on top of the upstream branch to ensure changes are up to date before handing control back. This agent can itself call another agent - if it encounters merge conflicts, it delegates to the `git-rebase-conflict-resolver` agent.
+
+<CodeBlock language="markdown" title=".claude/agents/git-rebaser.md">
+    {GitRebaserSource}
+</CodeBlock>
+
+[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/agents/git-rebaser.md)
+
+## Putting It All Together: The `/todo` Command {#putting-it-all-together}
+
+As I found myself manually running the same sequence of cleanup agents after implementing each task, I created a `/todo` slash command to gather the entire workflow into a single command. I started keeping a markdown task list in `.llm/todo.md`.  I'd run `/todo` to get Claude to implement one task from the list. The [full slash command](https://github.com/motlin/claude-code-prompts/blob/main/commands/todo.md) is on GitHub. To summarize what it does:
+
+1. Read `.llm/todo.md` using `todo-get`
+2. Find the first incomplete task
+3. Implement it (focusing ONLY on this task, ignoring other items)
+4. Run all the cleanup agents
+5. Mark it complete using `todo-complete`
+
+Step 4 is where these four agents come together. The cleanup step calls them in sequence:
+
+```
+/todo (slash command)
+├── 1-3: Find and implement task
+└── 4: Run cleanup agents
+    ├── @comment-cleaner
+    ├── @precommit-runner
+    ├── @git-commit-handler
+    └── @git-rebaser
+        └── @git-rebase-conflict-resolver (if conflicts occur)
+```
+
+The `git-rebaser` agent can itself call another agent - if it encounters merge conflicts, it delegates to `git-rebase-conflict-resolver`.
+
+Complex workflows naturally decompose when agents can call other agents. Instead of one long prompt trying to handle all edge cases, each agent focuses on its specific concern - cleaning comments, running tests, committing, or resolving conflicts.
+
+## Try It Yourself {#try-it-yourself}
+
+You can copy my agents directly from [my GitHub repo](https://github.com/motlin/claude-code-prompts/tree/main/agents) or create your own with `/agents`. Start with something simple - maybe just the comment cleaner - and see how it changes your workflow.
+
+I feel like I'm just scratching the surface with agents. If you find different patterns that work well, let me know in the comments below.
+
+<GiscusComponent />
