@@ -177,33 +177,33 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
                 </>
               )}
 
-              {repoData?.language && (
+              {(repoData?.language || project.language) && (
                 <>
                   <div className={styles.matrixLabel}>Language</div>
                   <div className={styles.matrixValues}>
                     <span className={styles.matrixBadge}>
-                      {languageIcons[repoData.language] && (
+                      {languageIcons[repoData?.language || project.language] && (
                         <span className={styles.linkIcon}>
-                          {React.createElement(languageIcons[repoData.language])}
+                          {React.createElement(languageIcons[repoData?.language || project.language])}
                         </span>
                       )}
-                      {repoData.language}
+                      {repoData?.language || project.language}
                     </span>
                   </div>
                 </>
               )}
 
-              {repoData?.license && (
+              {(repoData?.license || project.license) && (
                 <>
                   <div className={styles.matrixLabel}>License</div>
                   <div className={styles.matrixValues}>
                     <span className={styles.matrixBadge}>
-                      {licenseIcons[repoData.license.spdx_id || repoData.license.name] && (
+                      {licenseIcons[repoData?.license?.spdx_id || repoData?.license?.name || project.license] && (
                         <span className={styles.linkIcon}>
-                          {React.createElement(licenseIcons[repoData.license.spdx_id || repoData.license.name])}
+                          {React.createElement(licenseIcons[repoData?.license?.spdx_id || repoData?.license?.name || project.license])}
                         </span>
                       )}
-                      {repoData.license.spdx_id || repoData.license.name}
+                      {repoData?.license?.spdx_id || repoData?.license?.name || project.license}
                     </span>
                   </div>
                 </>
