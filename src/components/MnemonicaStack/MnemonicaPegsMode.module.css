@@ -1,0 +1,138 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.instructions {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+}
+
+.cardGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.cardRow {
+  display: flex;
+  gap: 15px;
+}
+
+.card {
+  width: 80px;
+  height: 112px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.red {
+  color: #d32f2f;
+}
+
+.black {
+  color: #000;
+}
+
+.popupContent {
+  min-width: 900px;
+  max-width: 90vw;
+}
+
+.tilesLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pegRow {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.pegTile {
+  flex: 1;
+  max-width: 250px;
+}
+
+.currentPeg {
+  flex: 1.2;
+  max-width: 300px;
+}
+
+.transitionRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  position: relative;
+  padding: 0 145px;
+  margin-top: -10px;
+}
+
+.transitionTile {
+  text-align: center;
+  padding: 20px;
+  background-color: #fff3e0;
+  border-radius: 8px;
+  position: relative;
+}
+
+.transitionTile::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent 0%, transparent 50%, #ccc 50%, #ccc 52%, transparent 52%);
+}
+
+.transitionTile:first-child::before {
+  transform: translateX(-50%) rotate(-20deg);
+  left: 25%;
+}
+
+.transitionTile:last-child::before {
+  transform: translateX(-50%) rotate(20deg);
+  left: 75%;
+}
+
+.transitionAlignRight {
+  grid-column-start: 2;
+}
+
+.transitionTile h4 {
+  margin: 0 0 15px;
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.transitionImage {
+  width: 100%;
+}
+
+.transitionImage img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
