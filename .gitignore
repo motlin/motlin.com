@@ -24,3 +24,7 @@ yarn-error.log*
 
 # Data directory with fetched JSON files
 /data
+
+# Storybook
+*storybook.log
+storybook-static
