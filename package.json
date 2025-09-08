@@ -40,7 +40,7 @@
     "zod": "^4.1.5"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.28.0",
+    "@babel/eslint-parser": "^7.28.4",
     "@babel/plugin-transform-modules-commonjs": "^7.27.1",
     "@babel/preset-react": "^7.27.1",
     "@docusaurus/eslint-plugin": "^3.8.1",
