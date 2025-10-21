@@ -62,5 +62,10 @@ test: install
 storybook: install
     npm run storybook
 
-# `just precommit` - Run all pre-commit checks
-precommit: update-submodules lint-fix typecheck test build
+validate-lockfile:
+    @echo "Validating package-lock.json is in sync..."
+    @npm install --package-lock-only --quiet
+    @git diff --exit-code package-lock.json || (echo "Error: package-lock.json is out of sync with package.json. Run 'npm install' and commit the changes." && exit 1)
+
+# Run all pre-commit checks
+precommit: update-submodules validate-lockfile lint-fix typecheck test build
