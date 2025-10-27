@@ -4,3 +4,6 @@
 [submodule "src/.dotfiles"]
 	path = src/.dotfiles
 	url = https://github.com/motlin/dotfiles.git
+[submodule "src/claude-code-plugins"]
+	path = src/claude-code-plugins
+	url = https://github.com/motlin/claude-code-plugins.git
