@@ -51,7 +51,7 @@
     "@docusaurus/module-type-aliases": "^3.8.0",
     "@docusaurus/tsconfig": "^3.9.2",
     "@docusaurus/types": "^3.8.0",
-    "@storybook/addon-a11y": "^9.1.1",
+    "@storybook/addon-a11y": "^9.1.15",
     "@storybook/addon-docs": "^9.1.1",
     "@storybook/addon-onboarding": "^9.1.1",
     "@storybook/addon-vitest": "^9.1.1",
