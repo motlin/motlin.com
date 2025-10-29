@@ -96,3 +96,34 @@ export function getActualImagePath(data: MnemonicaCard, position: number): strin
   const extension = imageExtensions[position] || '.jpg';
   return `/img/mnemonica/${paddedPosition} ${cardCode} ${mnemonic}${extension}`;
 }
+
+export function isRedSuit(suit: string): boolean {
+  return suit === '♥' || suit === '♦';
+}
+
+export function getCardColorClass(suit: string, styles: { red: string; black: string }): string {
+  return isRedSuit(suit) ? styles.red : styles.black;
+}
+
+export function getCardSvgPath(card: string): string {
+  const validRanks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+  const validSuits = ['♠', '♥', '♦', '♣'];
+
+  if (!card || card.length < 2) {
+    throw new Error(`Invalid card format: ${card}`);
+  }
+
+  const rank = card.startsWith('10') ? '10' : card[0];
+  const suit = card.startsWith('10') ? card[2] : card[1];
+
+  if (!validRanks.includes(rank) || !validSuits.includes(suit)) {
+    throw new Error(`Invalid card format: ${card}`);
+  }
+
+  let processedCard = card;
+  if (card.startsWith('10')) {
+    processedCard = 'T' + card.slice(2);
+  }
+
+  return `/img/mnemonica/cards/${processedCard}.svg`;
+}

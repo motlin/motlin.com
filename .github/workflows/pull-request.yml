@@ -43,6 +43,22 @@ jobs:
 
       - run: just typecheck
 
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "npm"
+
+      - uses: jdx/mise-action@v3
+
+      - run: just test-run
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -71,7 +87,7 @@ jobs:
 
   all-checks:
     name: All checks
-    needs: [eslint, typecheck, build]
+    needs: [eslint, typecheck, test, build]
     runs-on: ubuntu-latest
     steps:
       - run: echo "All checks passed!"
