@@ -3,6 +3,7 @@ import Link from '@docusaurus/Link';
 import Heading from '@theme/Heading';
 import { ProjectSection } from './ProjectSection';
 import { TalksSection } from './TalksSection';
+import { ThirdPartyContributions } from './ThirdPartyContributions';
 import { projectSections } from '../../data/projects';
 import { useGitHubUserProfile } from '../../hooks/useGitHubUserProfile';
 import { FaGithub, FaStackOverflow, FaLinkedinIn, FaMedium, FaLink, FaXTwitter } from 'react-icons/fa6';
@@ -68,9 +69,24 @@ export function Portfolio() {
 
       <Heading as="h2">Projects</Heading>
 
-      {projectSections.map((section) => (
-        <ProjectSection key={section.id} section={section} />
-      ))}
+      <p style={{ marginBottom: '2rem', fontSize: '1.1rem', color: 'var(--ifm-color-emphasis-700)' }}>
+        All projects listed here are open source. Below are my contributions organized by affiliation and project type.
+      </p>
+
+      {projectSections.map((section) => {
+        if (section.id === 'third-party-contributions') {
+          return (
+            <div key={section.id} style={{ marginBottom: '3rem' }}>
+              <Heading as="h3">{section.title}</Heading>
+              <p style={{ marginBottom: '1.5rem', color: 'var(--ifm-color-emphasis-600)' }}>
+                {portfolioData.sections.find(s => s.id === section.id)?.description}
+              </p>
+              <ThirdPartyContributions projects={section.projects} />
+            </div>
+          );
+        }
+        return <ProjectSection key={section.id} section={section} />;
+      })}
 
       <hr />
 

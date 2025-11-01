@@ -38,6 +38,15 @@
       }
     ]
   },
+  "openGraphImageUrls": {
+    "eclipse-collections/eclipse-collections": "https://repository-images.githubusercontent.com/46803767/30a0d313-9984-4580-b587-f899361ca8b8",
+    "liftwizard/liftwizard": "https://repository-images.githubusercontent.com/232442863/68684218-c814-45c3-ba9f-ed9c2835df27",
+    "liftwizard/klass": "https://repository-images.githubusercontent.com/772183375/63ba0f2b-6e03-4754-8e6e-020ddb32373a",
+    "motlin/jetbrains-settings": "https://repository-images.githubusercontent.com/547908373/5080fa4c-427e-4e2d-b526-b340cc4b2e14",
+    "motlin/claude-code-prompts": "https://repository-images.githubusercontent.com/990112581/5fd34aaf-b360-48ce-ba47-695ecfc3aedf",
+    "motlin/aggregator-creator": "https://repository-images.githubusercontent.com/978289206/e59d26af-4725-496b-aab1-953f0a26ad6c",
+    "motlin/dotfiles": "https://repository-images.githubusercontent.com/1726220/cb7542b4-5a01-4edf-956f-ba854b1460de"
+  },
   "talks": [
     {
       "id": "qcon-ny-2014",
@@ -67,10 +76,203 @@
   ],
   "sections": [
     {
-      "id": "web-applications",
-      "title": "Web Applications",
-      "icon": "FaRocket",
+      "id": "two-sigma",
+      "title": "Two Sigma Open Source",
+      "description": "Projects created or maintained during my time at Two Sigma (2018-present)",
+      "icon": "FaBuilding",
       "projects": [
+        {
+          "id": "liftwizard",
+          "name": "Liftwizard",
+          "repoUrl": "https://github.com/liftwizard/liftwizard",
+          "description": "Collection of bundles and add-ons for Dropwizard web services. Modular design with Jackson utilities, logging, Reladomo ORM integration, and testing tools.",
+          "links": [
+            {
+              "url": "https://github.com/liftwizard/liftwizard",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://liftwizard.io/docs/",
+              "label": "Docs"
+            }
+          ],
+          "techStack": ["Dropwizard", "Reladomo"],
+          "features": ["Dropwizard Bundles", "Temporal Data", "Dynamic SQL"],
+          "githubRepo": "liftwizard/liftwizard",
+          "iconUrl": "https://avatars.githubusercontent.com/u/66336490?s=400&u=9224a9fdb190bb4b591405b11cd826c0c9ffd33c&v=4",
+          "openGraphImageUrl": "https://repository-images.githubusercontent.com/232442863/68684218-c814-45c3-ba9f-ed9c2835df27",
+          "stats": {
+            "prs": 685
+          },
+          "language": "Java",
+          "license": "Apache-2.0"
+        },
+        {
+          "id": "checkstyle-results",
+          "name": "CheckStyle Results Reporter",
+          "repoUrl": "https://github.com/motlin/checkstyle-results",
+          "description": "GitHub Action to convert CheckStyle results into annotations for better CI/CD integration and code quality automation.",
+          "links": [
+            {
+              "url": "https://github.com/marketplace/actions/checkstyle-reporter",
+              "label": "Marketplace"
+            },
+            {
+              "url": "https://github.com/motlin/checkstyle-results",
+              "label": "GitHub"
+            }
+          ],
+          "techStack": ["GitHub Actions"],
+          "features": [
+            "Code Quality",
+            "CI/CD Automation",
+            "CheckStyle Integration"
+          ],
+          "githubRepo": "motlin/checkstyle-results",
+          "customIcon": "CheckStyleMarketplaceIcon",
+          "stats": {
+            "prs": 4
+          },
+          "language": "TypeScript",
+          "license": "Apache-2.0"
+        },
+        {
+          "id": "forbid-merge-commits-action",
+          "name": "forbid-merge-commits-action",
+          "repoUrl": "https://github.com/motlin/forbid-merge-commits-action",
+          "description": "A GitHub Composite Action to enforce clean commit history by forbidding merge commits inside pull requests.",
+          "links": [
+            {
+              "url": "https://github.com/marketplace/actions/forbid-merge-commits",
+              "label": "Marketplace"
+            },
+            {
+              "url": "https://github.com/motlin/forbid-merge-commits-action",
+              "label": "GitHub"
+            }
+          ],
+          "techStack": ["GitHub Actions"],
+          "features": ["Commit History", "Pull Request Validation"],
+          "githubRepo": "motlin/forbid-merge-commits-action",
+          "customIcon": "ForbidMergeCommitsMarketplaceIcon",
+          "stats": {
+            "prs": 29
+          },
+          "language": "TypeScript",
+          "license": "Apache-2.0"
+        },
+        {
+          "id": "aggregator-creator",
+          "name": "aggregator-creator",
+          "repoUrl": "https://github.com/motlin/aggregator-creator",
+          "description": "CLI tool that creates Maven aggregator POMs from a set of repositories. Maven aggregators combine multiple Maven projects into a single build, allowing you to compile and test related modules together.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/aggregator-creator",
+              "label": "GitHub"
+            }
+          ],
+          "techStack": [],
+          "features": [
+            "Data Aggregation",
+            "Maven",
+            "Multi-Module",
+            "Code Generation"
+          ],
+          "githubRepo": "motlin/aggregator-creator",
+          "openGraphImageUrl": "https://repository-images.githubusercontent.com/978289206/e59d26af-4725-496b-aab1-953f0a26ad6c",
+          "stats": {
+            "prs": 5
+          },
+          "language": "TypeScript",
+          "license": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "id": "goldman-sachs",
+      "title": "Goldman Sachs Open Source",
+      "description": "Projects created or maintained during my time at Goldman Sachs (2007-2018)",
+      "icon": "FaBuilding",
+      "projects": [
+        {
+          "id": "eclipse-collections",
+          "name": "eclipse-collections",
+          "repoUrl": "https://github.com/Saurabh-Daware/eclipse-collections",
+          "description": "Contributions to eclipse-collections",
+          "links": [
+            {
+              "url": "https://github.com/Saurabh-Daware/eclipse-collections",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/Saurabh-Daware/eclipse-collections/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 0,
+          "contributionCount": 1,
+          "language": "",
+          "license": "",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "eclipse-collections-kata",
+          "name": "Eclipse Collections Kata",
+          "repoUrl": "https://github.com/eclipse-collections/eclipse-collections-kata",
+          "description": "A fun way to help you learn idiomatic Eclipse Collections usage. Teaches concepts through hands-on exercises and unit tests.",
+          "links": [
+            {
+              "url": "https://github.com/eclipse-collections/eclipse-collections-kata",
+              "label": "GitHub"
+            }
+          ],
+          "techStack": ["Java", "JUnit"],
+          "features": ["Interactive Learning", "Unit Tests", "Code Katas"],
+          "githubRepo": "eclipse-collections/eclipse-collections-kata",
+          "language": "Java",
+          "license": "EPL-1.0",
+          "stats": {
+            "prs": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "personal-projects",
+      "title": "Personal Open Source Projects",
+      "description": "Projects I've created and maintain in my personal time",
+      "icon": "FaCode",
+      "projects": [
+        {
+          "id": "klass",
+          "name": "Klass",
+          "repoUrl": "https://github.com/liftwizard/klass",
+          "description": "Model-driven design framework and language for Java. Part of the Liftwizard ecosystem for building enterprise applications with code generation and metamodel support.",
+          "links": [
+            {
+              "url": "https://github.com/liftwizard/klass",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://klass.cool/",
+              "label": "Docs"
+            },
+            {
+              "url": "https://klass.cool/",
+              "label": "Website"
+            }
+          ],
+          "techStack": ["ANTLR"],
+          "features": ["Model-Driven Design", "Code Generation"],
+          "githubRepo": "liftwizard/klass",
+          "stats": {
+            "prs": 317
+          },
+          "language": "Java",
+          "license": "Apache-2.0"
+        },
         {
           "id": "factorio-prints",
           "name": "factorio-prints",
@@ -81,12 +283,17 @@
               "url": "https://github.com/motlin/factorio-prints",
               "label": "GitHub"
             },
-            { "url": "https://factorioprints.com", "label": "Website" }
+            {
+              "url": "https://factorioprints.com",
+              "label": "Website"
+            }
           ],
           "techStack": ["Firebase"],
           "features": ["Blueprint Sharing", "Community Platform"],
           "githubRepo": "motlin/factorio-prints",
-          "iconUrl": "https://factorioprints.com/favicon.ico"
+          "iconUrl": "https://factorioprints.com/favicon.ico",
+          "language": "TypeScript",
+          "license": "MIT"
         },
         {
           "id": "factorio-blueprint-playground",
@@ -110,7 +317,12 @@
             "Interactive Playground"
           ],
           "githubRepo": "motlin/factorio-blueprint-playground",
-          "iconUrl": "https://factorio-icon-cdn.pages.dev/item/blueprint-book.webp"
+          "iconUrl": "https://factorio-icon-cdn.pages.dev/item/blueprint-book.webp",
+          "stats": {
+            "prs": 128
+          },
+          "language": "TypeScript",
+          "license": "MIT"
         },
         {
           "id": "hex-zero",
@@ -118,8 +330,14 @@
           "repoUrl": "https://github.com/motlin/hex-zero",
           "description": "A hexagonal puzzle game built with HTML5 Canvas. Interactive game challenging spatial reasoning and pattern recognition. Originally named Hex Flip.",
           "links": [
-            { "url": "https://github.com/motlin/hex-zero", "label": "GitHub" },
-            { "url": "https://motlin.github.io/hex-zero/", "label": "Play" }
+            {
+              "url": "https://github.com/motlin/hex-zero",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://motlin.github.io/hex-zero/",
+              "label": "Play"
+            }
           ],
           "techStack": ["HTML5 Canvas"],
           "features": [
@@ -128,7 +346,12 @@
             "Interactive Graphics"
           ],
           "githubRepo": "motlin/hex-zero",
-          "iconUrl": "/img/hex-zero-favicon.svg"
+          "iconUrl": "/img/hex-zero-favicon.svg",
+          "stats": {
+            "prs": 21
+          },
+          "language": "TypeScript",
+          "license": "MIT"
         },
         {
           "id": "motlin-com",
@@ -140,247 +363,338 @@
               "url": "https://github.com/motlin/motlin.com",
               "label": "GitHub"
             },
-            { "url": "https://motlin.com", "label": "Website" }
+            {
+              "url": "https://motlin.com",
+              "label": "Website"
+            }
           ],
           "techStack": ["Docusaurus", "React", "MDX"],
           "features": ["Technical Blogging", "Documentation"],
           "githubRepo": "motlin/motlin.com",
-          "iconUrl": "/img/motlin.com.png"
+          "iconUrl": "/img/motlin.com.png",
+          "stats": {
+            "prs": 32
+          },
+          "language": "TypeScript",
+          "license": "MIT"
         }
       ]
     },
     {
-      "id": "major-projects",
-      "title": "Major Projects & Frameworks",
-      "icon": "FaCircleDot",
+      "id": "third-party-contributions",
+      "title": "Third-Party Open Source Contributions",
+      "description": "Contributions to major open source projects",
+      "icon": "FaStar",
       "projects": [
         {
-          "id": "eclipse-collections",
-          "name": "Eclipse Collections",
-          "repoUrl": "https://github.com/eclipse/eclipse-collections",
-          "description": "High-performance Java collections framework with optimized data structures and rich functional API. Originally created as GS Collections at Goldman Sachs. Top contributor and technical lead.",
+          "id": "jekyll-jekyll",
+          "name": "Jekyll",
+          "repoUrl": "https://github.com/jekyll/jekyll",
+          "description": "Transform your plain text into static websites and blogs",
           "links": [
             {
-              "url": "https://github.com/eclipse/eclipse-collections",
+              "url": "https://github.com/jekyll/jekyll",
               "label": "GitHub"
             },
-            { "url": "https://eclipse.dev/collections/", "label": "Docs" },
-            { "url": "https://eclipse.dev/collections/", "label": "Website" }
+            {
+              "url": "https://github.com/jekyll/jekyll/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
           ],
-          "role": "Tech Lead & Committer",
+          "stars": 50461,
+          "contributionCount": 2,
+          "language": "Ruby",
+          "license": "MIT",
           "techStack": [],
-          "features": ["Performance", "Collections", "Data Structures"],
-          "githubRepo": "eclipse-collections/eclipse-collections",
-          "openGraphImageUrl": "https://repository-images.githubusercontent.com/46803767/30a0d313-9984-4580-b587-f899361ca8b8"
+          "features": []
         },
         {
-          "id": "liftwizard",
-          "name": "Liftwizard",
-          "repoUrl": "https://github.com/liftwizard/liftwizard",
-          "description": "Collection of bundles and add-ons for Dropwizard web services. Modular design with Jackson utilities, logging, Reladomo ORM integration, and testing tools.",
+          "id": "netty-netty",
+          "name": "Netty",
+          "repoUrl": "https://github.com/netty/netty",
+          "description": "An asynchronous event-driven network application framework",
           "links": [
             {
-              "url": "https://github.com/liftwizard/liftwizard",
+              "url": "https://github.com/netty/netty",
               "label": "GitHub"
             },
-            { "url": "https://liftwizard.io/docs/", "label": "Docs" }
-          ],
-          "techStack": ["Dropwizard", "Reladomo"],
-          "features": ["Dropwizard Bundles", "Temporal Data", "Dynamic SQL"],
-          "githubRepo": "liftwizard/liftwizard",
-          "iconUrl": "https://avatars.githubusercontent.com/u/66336490?s=400&u=9224a9fdb190bb4b591405b11cd826c0c9ffd33c&v=4",
-          "openGraphImageUrl": "https://repository-images.githubusercontent.com/232442863/68684218-c814-45c3-ba9f-ed9c2835df27"
-        },
-        {
-          "id": "klass",
-          "name": "Klass",
-          "repoUrl": "https://github.com/liftwizard/klass",
-          "description": "Model-driven design framework and language for Java. Part of the Liftwizard ecosystem for building enterprise applications with code generation and metamodel support.",
-          "links": [
-            { "url": "https://github.com/liftwizard/klass", "label": "GitHub" },
-            { "url": "https://klass.cool/", "label": "Docs" },
-            { "url": "https://klass.cool/", "label": "Website" }
-          ],
-          "techStack": ["ANTLR"],
-          "features": ["Model-Driven Design", "Code Generation"],
-          "githubRepo": "liftwizard/klass"
-        }
-      ]
-    },
-    {
-      "id": "developer-productivity",
-      "title": "Developer Productivity & IDE Tools",
-      "icon": "FaCube",
-      "projects": [
-        {
-          "id": "claude-code-prompts",
-          "name": "claude-code-prompts",
-          "repoUrl": "https://github.com/motlin/claude-code-prompts",
-          "description": "Prompts and configurations for AI-assisted coding with Claude.",
-          "links": [
             {
-              "url": "https://github.com/motlin/claude-code-prompts",
-              "label": "GitHub"
+              "url": "https://github.com/netty/netty/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
             }
           ],
+          "stars": 34333,
+          "contributionCount": 5,
+          "language": "Java",
+          "license": "Apache-2.0",
           "techStack": [],
-          "features": [
-            "AI Prompts",
-            "Code Generation",
-            "Developer Productivity"
-          ],
-          "githubRepo": "motlin/claude-code-prompts",
-          "iconUrl": "https://avatars.githubusercontent.com/u/76263028?s=200&v=4",
-          "openGraphImageUrl": "https://repository-images.githubusercontent.com/990112581/5fd34aaf-b360-48ce-ba47-695ecfc3aedf"
+          "features": []
         },
         {
-          "id": "dotfiles",
-          "name": "dotfiles",
-          "repoUrl": "https://github.com/motlin/dotfiles",
-          "description": "Command line configuration files for development environment setup. Actively maintained with zsh, vim, and terminal configurations using dotbot.",
-          "links": [
-            { "url": "https://github.com/motlin/dotfiles", "label": "GitHub" }
-          ],
-          "techStack": ["Dotbot"],
-          "features": ["Config Management", "Environment Setup"],
-          "githubRepo": "motlin/dotfiles"
-        },
-        {
-          "id": "jetbrains-settings",
-          "name": "JetBrains Settings",
-          "repoUrl": "https://github.com/motlin/jetbrains-settings",
-          "description": "Custom color schemes for IntelliJ IDEA and JetBrains IDEs with enhanced syntax highlighting for more token types.",
+          "id": "yamadashy-repomix",
+          "name": "repomix",
+          "repoUrl": "https://github.com/yamadashy/repomix",
+          "description": "Contributions to repomix",
           "links": [
             {
-              "url": "https://github.com/motlin/jetbrains-settings",
+              "url": "https://github.com/yamadashy/repomix",
               "label": "GitHub"
             },
             {
-              "url": "https://motlin.com/docs/intellij/jetbrains-syntax-highlighting",
-              "label": "Blog"
+              "url": "https://github.com/yamadashy/repomix/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
             }
           ],
-          "techStack": ["IntelliJ"],
-          "features": [
-            "Color Schemes",
-            "Syntax Highlighting",
-            "IDE Customization"
-          ],
-          "githubRepo": "motlin/jetbrains-settings",
-          "openGraphImageUrl": "https://repository-images.githubusercontent.com/547908373/5080fa4c-427e-4e2d-b526-b340cc4b2e14"
-        },
-        {
-          "id": "development-setup",
-          "name": "development-setup",
-          "repoUrl": "https://github.com/motlin/development-setup",
-          "description": "Development environment setup scripts and configurations for new machines.",
-          "links": [
-            {
-              "url": "https://github.com/motlin/development-setup",
-              "label": "GitHub"
-            }
-          ],
-          "techStack": ["Homebrew"],
-          "features": ["Setup Automation", "Developer Onboarding"],
-          "githubRepo": "motlin/development-setup"
-        }
-      ]
-    },
-    {
-      "id": "ci-cd",
-      "title": "CI/CD & GitHub Actions",
-      "icon": "FaFolder",
-      "projects": [
-        {
-          "id": "checkstyle-results",
-          "name": "CheckStyle Results Reporter",
-          "repoUrl": "https://github.com/motlin/checkstyle-results",
-          "description": "GitHub Action to convert CheckStyle results into annotations for better CI/CD integration and code quality automation.",
-          "links": [
-            {
-              "url": "https://github.com/marketplace/actions/checkstyle-reporter",
-              "label": "Marketplace"
-            },
-            {
-              "url": "https://github.com/motlin/checkstyle-results",
-              "label": "GitHub"
-            }
-          ],
-          "techStack": ["GitHub Actions"],
-          "features": [
-            "Code Quality",
-            "CI/CD Automation",
-            "CheckStyle Integration"
-          ],
-          "githubRepo": "motlin/checkstyle-results",
-          "customIcon": "CheckStyleMarketplaceIcon"
-        },
-        {
-          "id": "forbid-merge-commits-action",
-          "name": "forbid-merge-commits-action",
-          "repoUrl": "https://github.com/motlin/forbid-merge-commits-action",
-          "description": "A GitHub Composite Action to enforce clean commit history by forbidding merge commits inside pull requests.",
-          "links": [
-            {
-              "url": "https://github.com/marketplace/actions/forbid-merge-commits",
-              "label": "Marketplace"
-            },
-            {
-              "url": "https://github.com/motlin/forbid-merge-commits-action",
-              "label": "GitHub"
-            }
-          ],
-          "techStack": ["GitHub Actions"],
-          "features": ["Commit History", "Pull Request Validation"],
-          "githubRepo": "motlin/forbid-merge-commits-action",
-          "customIcon": "ForbidMergeCommitsMarketplaceIcon"
-        },
-        {
-          "id": "aggregator-creator",
-          "name": "aggregator-creator",
-          "repoUrl": "https://github.com/motlin/aggregator-creator",
-          "description": "CLI tool that creates Maven aggregator POMs from a set of repositories. Maven aggregators combine multiple Maven projects into a single build, allowing you to compile and test related modules together.",
-          "links": [
-            {
-              "url": "https://github.com/motlin/aggregator-creator",
-              "label": "GitHub"
-            }
-          ],
+          "stars": 18551,
+          "contributionCount": 1,
+          "language": "",
+          "license": "",
           "techStack": [],
-          "features": [
-            "Data Aggregation",
-            "Maven",
-            "Multi-Module",
-            "Code Generation"
-          ],
-          "githubRepo": "motlin/aggregator-creator",
-          "openGraphImageUrl": "https://repository-images.githubusercontent.com/978289206/e59d26af-4725-496b-aab1-953f0a26ad6c"
+          "features": []
         },
         {
-          "id": "git-test-results-commits",
-          "name": "git-test-results-commits",
-          "repoUrl": "https://github.com/motlin/git-test-results-commits",
-          "description": "Takes the output of [git-test](https://github.com/mhagger/git-test) and adds the commit message to each line of output.",
+          "id": "checkstyle-checkstyle",
+          "name": "Checkstyle",
+          "repoUrl": "https://github.com/checkstyle/checkstyle",
+          "description": "Tool for checking Java source code for adherence to a Code Standard",
           "links": [
             {
-              "url": "https://github.com/motlin/git-test-results-commits",
+              "url": "https://github.com/checkstyle/checkstyle",
               "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/checkstyle/checkstyle/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
             }
           ],
-          "techStack": ["GitHub Actions"],
-          "features": ["Test Results", "Commit Automation", "CI/CD"],
-          "githubRepo": "motlin/git-test-results-commits"
+          "stars": 8651,
+          "contributionCount": 1,
+          "language": "Java",
+          "license": "LGPL-2.1",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "dropwizard-dropwizard",
+          "name": "dropwizard",
+          "repoUrl": "https://github.com/dropwizard/dropwizard",
+          "description": "Contributions to dropwizard",
+          "links": [
+            {
+              "url": "https://github.com/dropwizard/dropwizard",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/dropwizard/dropwizard/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 8550,
+          "contributionCount": 2,
+          "language": "",
+          "license": "",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "junit-team-junit4",
+          "name": "junit4",
+          "repoUrl": "https://github.com/junit-team/junit4",
+          "description": "Contributions to junit4",
+          "links": [
+            {
+              "url": "https://github.com/junit-team/junit4",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/junit-team/junit4/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 8534,
+          "contributionCount": 2,
+          "language": "",
+          "license": "",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "qos-ch-logback",
+          "name": "logback",
+          "repoUrl": "https://github.com/qos-ch/logback",
+          "description": "Contributions to logback",
+          "links": [
+            {
+              "url": "https://github.com/qos-ch/logback",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/qos-ch/logback/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 3140,
+          "contributionCount": 5,
+          "language": "",
+          "license": "",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "qos-ch-slf4j",
+          "name": "slf4j",
+          "repoUrl": "https://github.com/qos-ch/slf4j",
+          "description": "Contributions to slf4j",
+          "links": [
+            {
+              "url": "https://github.com/qos-ch/slf4j",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/qos-ch/slf4j/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 2438,
+          "contributionCount": 3,
+          "language": "",
+          "license": "",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "git-git-scm.com",
+          "name": "git-scm.com",
+          "repoUrl": "https://github.com/git/git-scm.com",
+          "description": "Contributions to git-scm.com",
+          "links": [
+            {
+              "url": "https://github.com/git/git-scm.com",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/git/git-scm.com/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 2285,
+          "contributionCount": 1,
+          "language": "",
+          "license": "",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "jhipster-prettier-java",
+          "name": "prettier-java",
+          "repoUrl": "https://github.com/jhipster/prettier-java",
+          "description": "Contributions to prettier-java",
+          "links": [
+            {
+              "url": "https://github.com/jhipster/prettier-java",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/jhipster/prettier-java/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 1156,
+          "contributionCount": 1,
+          "language": "",
+          "license": "",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "teoxoy-factorio-blueprint-editor",
+          "name": "factorio-blueprint-editor",
+          "repoUrl": "https://github.com/teoxoy/factorio-blueprint-editor",
+          "description": "Contributions to factorio-blueprint-editor",
+          "links": [
+            {
+              "url": "https://github.com/teoxoy/factorio-blueprint-editor",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/teoxoy/factorio-blueprint-editor/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 384,
+          "contributionCount": 1,
+          "language": "",
+          "license": "",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "demipixel-factorio-blueprint",
+          "name": "factorio-blueprint",
+          "repoUrl": "https://github.com/demipixel/factorio-blueprint",
+          "description": "Contributions to factorio-blueprint",
+          "links": [
+            {
+              "url": "https://github.com/demipixel/factorio-blueprint",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/demipixel/factorio-blueprint/pulls?q=is%3Apr+author%3AFactorioBlueprints",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 107,
+          "contributionCount": 1,
+          "language": "",
+          "license": "",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "mhagger-git-test",
+          "name": "git-test",
+          "repoUrl": "https://github.com/mhagger/git-test",
+          "description": "Test your commits in an automated fashion",
+          "links": [
+            {
+              "url": "https://github.com/mhagger/git-test",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/mhagger/git-test/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 74,
+          "contributionCount": 1,
+          "language": "Python",
+          "license": "GPL-2.0",
+          "techStack": [],
+          "features": []
+        },
+        {
+          "id": "georgyo-avalon",
+          "name": "avalon",
+          "repoUrl": "https://github.com/georgyo/avalon",
+          "description": "Contributions to avalon",
+          "links": [
+            {
+              "url": "https://github.com/georgyo/avalon",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://github.com/georgyo/avalon/pulls?q=is%3Apr+author%3Amotlin",
+              "label": "My Contributions"
+            }
+          ],
+          "stars": 1,
+          "contributionCount": 2,
+          "language": "",
+          "license": "",
+          "techStack": [],
+          "features": []
         }
       ]
     }
-  ],
-  "openGraphImageUrls": {
-    "eclipse-collections/eclipse-collections": "https://repository-images.githubusercontent.com/46803767/30a0d313-9984-4580-b587-f899361ca8b8",
-    "liftwizard/liftwizard": "https://repository-images.githubusercontent.com/232442863/68684218-c814-45c3-ba9f-ed9c2835df27",
-    "liftwizard/klass": "https://repository-images.githubusercontent.com/772183375/63ba0f2b-6e03-4754-8e6e-020ddb32373a",
-    "motlin/jetbrains-settings": "https://repository-images.githubusercontent.com/547908373/5080fa4c-427e-4e2d-b526-b340cc4b2e14",
-    "motlin/claude-code-prompts": "https://repository-images.githubusercontent.com/990112581/5fd34aaf-b360-48ce-ba47-695ecfc3aedf",
-    "motlin/aggregator-creator": "https://repository-images.githubusercontent.com/978289206/e59d26af-4725-496b-aab1-953f0a26ad6c",
-    "motlin/dotfiles": "https://repository-images.githubusercontent.com/1726220/cb7542b4-5a01-4edf-956f-ba854b1460de"
-  }
+  ]
 }
