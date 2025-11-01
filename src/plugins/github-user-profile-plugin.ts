@@ -30,60 +30,82 @@ export default function githubProfilePlugin(
 
       console.warn('📝 GitHub User Profile Plugin: No cache found, fetching from API...');
 
-      try {
-        const fetch = (await import('node-fetch')).default;
+      const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+      const headers: Record<string, string> = {
+        'Accept': 'application/vnd.github.v3+json',
+        ...(githubToken && { 'Authorization': `token ${githubToken}` })
+      };
 
-        const profileResponse = await fetch(`https://api.github.com/users/${username}`);
+      try {
+        const profileResponse = await fetch(`https://api.github.com/users/${username}`, { headers });
+
         if (!profileResponse.ok) {
-          if (profileResponse.status === 403 && profileResponse.statusText === 'rate limit exceeded') {
-            console.warn(`📝 GitHub User Profile Plugin: Rate limit exceeded for user ${username}, using fallback data`);
+          const rateLimitRemaining = profileResponse.headers.get('x-ratelimit-remaining');
+          if (profileResponse.status === 403 && rateLimitRemaining === '0') {
+            console.warn(`⚠️  GitHub API rate limit exceeded for user profile fetch. Using fallback empty profile.`);
             return {
               login: username,
-              id: 1,
-              avatar_url: 'https://github.com/github.png',
+              id: 0,
+              avatar_url: `https://github.com/${username}.png`,
               html_url: `https://github.com/${username}`,
-              name: 'Craig Motlin',
+              name: null,
               company: null,
               blog: null,
               location: null,
               email: null,
-              bio: 'Software Engineer',
+              bio: null,
               public_repos: 0,
               public_gists: 0,
               followers: 0,
               following: 0,
-              created_at: '2000-01-01T00:00:00Z',
-              updated_at: '2000-01-01T00:00:00Z',
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString()
             };
           }
-          throw new Error(`Failed to fetch GitHub profile for ${username}: ${profileResponse.statusText}`);
-        }
 
-        const profile = await profileResponse.json();
-        return profile;
-      } catch (error: any) {
-        if (error.message?.includes('rate limit exceeded')) {
-          console.warn(`GitHub API rate limit exceeded for user ${username}, using fallback data`);
+          console.warn(`Failed to fetch GitHub profile for ${username}: ${profileResponse.statusText}`);
           return {
             login: username,
-            id: 1,
-            avatar_url: 'https://github.com/github.png',
+            id: 0,
+            avatar_url: `https://github.com/${username}.png`,
             html_url: `https://github.com/${username}`,
-            name: 'Craig Motlin',
+            name: null,
             company: null,
             blog: null,
             location: null,
             email: null,
-            bio: 'Software Engineer',
+            bio: null,
             public_repos: 0,
             public_gists: 0,
             followers: 0,
             following: 0,
-            created_at: '2000-01-01T00:00:00Z',
-            updated_at: '2000-01-01T00:00:00Z',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
           };
         }
-        throw error;
+
+        const profile = await profileResponse.json();
+        return profile;
+      } catch (error) {
+        console.warn(`Error fetching GitHub profile for ${username}:`, error);
+        return {
+          login: username,
+          id: 0,
+          avatar_url: `https://github.com/${username}.png`,
+          html_url: `https://github.com/${username}`,
+          name: null,
+          company: null,
+          blog: null,
+          location: null,
+          email: null,
+          bio: null,
+          public_repos: 0,
+          public_gists: 0,
+          followers: 0,
+          following: 0,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
       }
     },
     async contentLoaded({content, actions}) {
