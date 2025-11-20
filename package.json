@@ -76,7 +76,7 @@
     "storybook": "^10.0.8",
     "tsx": "^4.20.6",
     "typescript": "~5.8.3",
-    "vitest": "^4.0.9"
+    "vitest": "^4.0.12"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "*"
