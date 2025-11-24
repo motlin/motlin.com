@@ -66,9 +66,9 @@ lint-fix: install
 clear: install
     npm run clear
 
-# `git submodule update --remote`
+# `git submodule update --init --recursive`
 update-submodules:
-    git submodule update --remote
+    git submodule update --init --recursive
 
 # `npm run test`
 test: install

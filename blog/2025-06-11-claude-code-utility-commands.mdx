@@ -9,11 +9,10 @@ description: "Utility commands I use with Claude Code for code maintenance and c
 
 import CodeBlock from '@theme/CodeBlock';
 import GiscusComponent from '@site/src/components/GiscusComponent';
-import CommentRemovalRulesSource from '!!raw-loader!../src/.claude-prompts/shared/comment-removal-rules.md';
-import CommentsCommandSource from '!!raw-loader!../src/.claude-prompts/commands/comments.md';
-import EmojiCommandSource from '!!raw-loader!../src/.claude-prompts/commands/emoji.md';
-import LearnCommandSource from '!!raw-loader!../src/.claude-prompts/commands/learn.md';
-import ConflictsCommandSource from '!!raw-loader!../src/.claude-prompts/commands/conflicts.md';
+import CommentRemovalRulesSource from '!!raw-loader!../src/claude-code-plugins/plugins/code/shared/comment-removal-rules.md';
+import CommentsCommandSource from '!!raw-loader!../src/claude-code-plugins/plugins/code/commands/comments.md';
+import EmojiCommandSource from '!!raw-loader!../src/claude-code-plugins/plugins/code/commands/emoji.md';
+import ConflictsCommandSource from '!!raw-loader!../src/claude-code-plugins/plugins/git/commands/conflicts.md';
 
 Utility commands I use with Claude Code for code maintenance and cleanup, particularly for handling the LLM's tendency to over-comment code.
 
@@ -69,20 +68,6 @@ This command adds emoji!
 ### Usage Patterns {#usage-patterns}
 
 The `/emoji` command follows consistent patterns and avoids duplicates by using a two-pass approach to ensure variety and appropriateness.
-
-## Learn {#learn}
-
-When we solve tricky problems, this command helps document the solution for future reference.
-
-<CodeBlock language="markdown" title=".claude-prompts/commands/learn.md">
-  {LearnCommandSource}
-</CodeBlock>
-
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/learn.md)
-
-### Knowledge Persistence {#knowledge-persistence}
-
-The `/learn` command documents solutions in `CLAUDE.local.md` so the knowledge persists for future sessions, especially useful for CLI commands that required multiple attempts or specific ordering requirements.
 
 ## Conflicts {#conflicts}
 
