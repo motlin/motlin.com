@@ -10,13 +10,7 @@ description: "How to configure Claude Code using CLAUDE.md files and settings.js
 import CodeBlock from '@theme/CodeBlock';
 import GiscusComponent from '@site/src/components/GiscusComponent';
 import settingsContent from '!!raw-loader!../src/.claude-prompts/settings.json';
-import CodeStyleSource from '!!raw-loader!../src/.claude-prompts/instructions/code-style.md';
-import TestsSource from '!!raw-loader!../src/.claude-prompts/instructions/tests.md';
-import ConversationSource from '!!raw-loader!../src/.claude-prompts/instructions/conversation.md';
-import BuildCommandsSource from '!!raw-loader!../src/.claude-prompts/instructions/build-commands.md';
-import LlmContextSource from '!!raw-loader!../src/.claude-prompts/instructions/llm-context.md';
-import LlmCodeStyleSource from '!!raw-loader!../src/.claude-prompts/instructions/llm-code-style.md';
-import LlmGitCommitsSource from '!!raw-loader!../src/.claude-prompts/instructions/llm-git-commits.md';
+import OrchestrationSource from '!!raw-loader!../src/claude-code-plugins/plugins/orchestration/skills/orchestration/SKILL.md';
 
 export const SettingsDenyString = (() => {
   const settings = JSON.parse(settingsContent);
@@ -46,11 +40,11 @@ The global `~/.claude/CLAUDE.md` file sets default behavior for `claude` across 
 
 I start with code style instructions that are applicable to LLMs and human developers.
 
-<CodeBlock language="markdown" title=".claude-prompts/instructions/code-style.md">
-  {CodeStyleSource}
+<CodeBlock language="markdown" title="orchestration/SKILL.md (Code Style section)">
+  {OrchestrationSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/code-style.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/orchestration/skills/orchestration/SKILL.md)
 
 ## Instructions specific to LLMs {#instructions-specific-to-llms}
 
@@ -60,11 +54,11 @@ When writing tests, LLMs remind me of [Mr. Meeseeks](https://en.wikipedia.org/wi
 
 The advice here is applicable to human developers too, but we're getting into LLM quirks now.
 
-<CodeBlock language="markdown" title=".claude-prompts/instructions/tests.md">
-    {TestsSource}
+<CodeBlock language="markdown" title="orchestration/SKILL.md (Testing Philosophy section)">
+    {OrchestrationSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/tests.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/orchestration/skills/orchestration/SKILL.md)
 
 ### Rhetorical questions? {#rhetorical-questions}
 
@@ -74,21 +68,21 @@ GPT-4o had [a now-famous bug](https://openai.com/index/sycophancy-in-gpt-4o/) th
 
 Tackling these these together:
 
-<CodeBlock language="markdown" title=".claude-prompts/instructions/conversation.md">
-  {ConversationSource}
+<CodeBlock language="markdown" title="orchestration/SKILL.md (Conversation Style section)">
+  {OrchestrationSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/conversation.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/orchestration/skills/orchestration/SKILL.md)
 
 ### Long-lived processes {#long-lived-processes}
 
 `claude` handles console output from linters and compiler well. But sometimes it will try to run a long-lived command like `npm run start` and basically hang.
 
-<CodeBlock language="markdown" title=".claude-prompts/instructions/build-commands.md">
-  {BuildCommandsSource}
+<CodeBlock language="markdown" title="orchestration/SKILL.md (Workflow Orchestration section)">
+  {OrchestrationSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/build-commands.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/orchestration/skills/orchestration/SKILL.md)
 
 Sometimes Claude still tries to run long-lived commands so I've started to explicitly deny them.
 
@@ -100,11 +94,11 @@ Sometimes Claude still tries to run long-lived commands so I've started to expli
 
 `claude` can search the internet, and can read files from outside the current git repository, but it's an extra hop. I find it convenient to gather files into a subdirectory just for the LLM.
 
-<CodeBlock language="markdown" title=".claude-prompts/instructions/llm-context.md">
-  {LlmContextSource}
+<CodeBlock language="markdown" title="orchestration/SKILL.md (LLM Context section)">
+  {OrchestrationSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/llm-context.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/orchestration/skills/orchestration/SKILL.md)
 
 These instructions work well. Though I'm deliberate about telling the LLM to look in `.llm/`.
 
@@ -119,11 +113,11 @@ const elapsedTimeMs = Date.now() - startTime
 
 Here are my instructions telling Claude not to, but it really, really likes writing comments. The built-in system prompt flat out says "Do not add comments to the code you write" and that doesn't work either.
 
-<CodeBlock language="markdown" title=".claude-prompts/instructions/llm-code-style.md">
-  {LlmCodeStyleSource}
+<CodeBlock language="markdown" title="orchestration/SKILL.md (Code Style section)">
+  {OrchestrationSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/llm-code-style.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/orchestration/skills/orchestration/SKILL.md)
 
 I've come to accept that comments are crucial to how LLMs "think" and I cannot stop the LLM from writing them, at least in the first draft. My [comment cleanup commands](/blog/claude-code-utility-commands#comments) are great at getting rid of them in a second step.
 
@@ -133,11 +127,11 @@ Claude code's commit messages are remarkably consistent, to the point where you 
 
 The system prompt includes [inconsistent and incorrect information](https://github.com/anthropics/claude-code/issues/1000) about pre-commit hooks and staging changes, so I give my own corrections.
 
-<CodeBlock language="markdown" title=".claude-prompts/instructions/llm-git-commits.md">
-  {LlmGitCommitsSource}
+<CodeBlock language="markdown" title="orchestration/SKILL.md (Workflow Orchestration section)">
+  {OrchestrationSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/instructions/llm-git-commits.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/orchestration/skills/orchestration/SKILL.md)
 
 I didn't expect this to work since it contradicts the system prompt, but it works fine. I hope [the system prompt gets fixed upstream](https://github.com/anthropics/claude-code/issues/1000) anyway.
 
