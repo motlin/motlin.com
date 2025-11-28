@@ -50,7 +50,7 @@ export function getTransitionDescription(fromData: MnemonicaCard, toData: Mnemon
 
 export function getStandardDeckOrder(mnemonicaData: MnemonicaCard[]): MnemonicaCard[] {
   const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'];
-  const suits = ['♠', '♥', '♣', '♦'];
+  const suits = ['S', 'H', 'C', 'D'];
 
   const standardOrder: MnemonicaCard[] = [];
 
