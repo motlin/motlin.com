@@ -18,7 +18,7 @@ export const StandardToMnemonicFlippableCard: React.FC<StandardToMnemonicFlippab
   return (
     <FlippableCard
       frontComponent={<StandardCard card={card} size={size} />}
-      backComponent={<MnemonicCard card={card} size={size} />}
+      backComponent={<MnemonicCard card={card} size={size} showPosition={true} />}
       size={size}
       className={className}
     />
