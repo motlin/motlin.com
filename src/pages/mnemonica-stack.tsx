@@ -1,13 +1,12 @@
-import React from 'react';
-import Layout from '@theme/Layout';
-import MnemonicaStack from '@site/src/components/MnemonicaStack';
+import { useEffect } from 'react';
+import { useHistory } from '@docusaurus/router';
 
 export default function MnemonicaStackPage() {
-  return (
-    <Layout title="Mnemonica Stack" description="Interactive tool to learn and practice the Mnemonica Stack card order">
-      <div style={{ backgroundColor: '#0a5f0a', minHeight: 'calc(100vh - 60px)', padding: '20px', display: 'flex', alignItems: 'center' }}>
-        <MnemonicaStack />
-      </div>
-    </Layout>
-  );
+  const history = useHistory();
+
+  useEffect(() => {
+    history.replace('/mnemonica');
+  }, [history]);
+
+  return null;
 }
