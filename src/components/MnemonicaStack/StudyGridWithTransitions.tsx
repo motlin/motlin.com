@@ -38,7 +38,17 @@ export const StudyGridWithTransitions: React.FC<StudyGridWithTransitionsProps> =
     const transitionItem = (
       <FlippableCard
         key={`transition-${position}`}
-        frontComponent={<div style={{ width: transitionSize, height: transitionSize * 1.4 }} />}
+        frontComponent={
+          <div
+            style={{
+              width: transitionSize,
+              height: transitionSize * 1.4,
+              border: '2px dashed #ccc',
+              borderRadius: '8px',
+              backgroundColor: '#f9f9f9',
+            }}
+          />
+        }
         backComponent={
           <TransitionImage
             fromCard={entry.card}
