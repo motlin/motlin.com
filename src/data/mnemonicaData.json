@@ -1,210 +1,210 @@
 [
   {
-    "card": "4♣",
+    "card": "4C",
     "mnemonic": "Fight Club"
   },
   {
-    "card": "2♥",
+    "card": "2H",
     "mnemonic": "Two Hands"
   },
   {
-    "card": "7♦",
+    "card": "7D",
     "mnemonic": "Seven Dwarfs"
   },
   {
-    "card": "3♣",
+    "card": "3C",
     "mnemonic": "Treasure Chest"
   },
   {
-    "card": "4♥",
+    "card": "4H",
     "mnemonic": "Four Horsemen"
   },
   {
-    "card": "6♦",
+    "card": "6D",
     "mnemonic": "Sitting Duck"
   },
   {
-    "card": "A♠",
+    "card": "AS",
     "mnemonic": "Apple Store"
   },
   {
-    "card": "5♥",
+    "card": "5H",
     "mnemonic": "Fire Hydrant"
   },
   {
-    "card": "9♠",
+    "card": "9S",
     "mnemonic": "Ned Stark"
   },
   {
-    "card": "2♠",
+    "card": "2S",
     "mnemonic": "Tupak Shakur"
   },
   {
-    "card": "Q♥",
+    "card": "QH",
     "mnemonic": "Darth Helmet"
   },
   {
-    "card": "3♦",
+    "card": "3D",
     "mnemonic": "Three Dimensions"
   },
   {
-    "card": "Q♣",
+    "card": "QC",
     "mnemonic": "District of Columbia"
   },
   {
-    "card": "8♥",
+    "card": "8H",
     "mnemonic": "Eight Hours"
   },
   {
-    "card": "6♠",
+    "card": "6S",
     "mnemonic": "Six Shooter"
   },
   {
-    "card": "5♠",
+    "card": "5S",
     "mnemonic": "Five Star"
   },
   {
-    "card": "9♥",
+    "card": "9H",
     "mnemonic": "Neil Harris"
   },
   {
-    "card": "K♣",
+    "card": "KC",
     "mnemonic": "King Cobra"
   },
   {
-    "card": "2♦",
+    "card": "2D",
     "mnemonic": "Two Dollar"
   },
   {
-    "card": "J♥",
+    "card": "JH",
     "mnemonic": "Jack Hammer"
   },
   {
-    "card": "3♠",
+    "card": "3S",
     "mnemonic": "Three Stooges"
   },
   {
-    "card": "8♠",
+    "card": "8S",
     "mnemonic": "Eagle Scout"
   },
   {
-    "card": "6♥",
+    "card": "6H",
     "mnemonic": "Sexual Harassment"
   },
   {
-    "card": "10♣",
+    "card": "TC",
     "mnemonic": "Ten Commandments"
   },
   {
-    "card": "5♦",
+    "card": "5D",
     "mnemonic": "Fire Department"
   },
   {
-    "card": "K♦",
+    "card": "KD",
     "mnemonic": "Kentucky Derby"
   },
   {
-    "card": "2♣",
+    "card": "2C",
     "mnemonic": "Tom Cruise"
   },
   {
-    "card": "3♥",
+    "card": "3H",
     "mnemonic": "Tree House"
   },
   {
-    "card": "8♦",
+    "card": "8D",
     "mnemonic": "Energy Drink"
   },
   {
-    "card": "5♣",
+    "card": "5C",
     "mnemonic": "Final Countdown"
   },
   {
-    "card": "K♠",
+    "card": "KS",
     "mnemonic": "King Size"
   },
   {
-    "card": "J♦",
+    "card": "JD",
     "mnemonic": "Jack Daniels"
   },
   {
-    "card": "8♣",
+    "card": "8C",
     "mnemonic": "Electric Chair"
   },
   {
-    "card": "10♠",
+    "card": "TS",
     "mnemonic": "Ten Speed"
   },
   {
-    "card": "K♥",
+    "card": "KH",
     "mnemonic": "Key Hole"
   },
   {
-    "card": "J♣",
+    "card": "JC",
     "mnemonic": "Jesus Christ"
   },
   {
-    "card": "7♠",
+    "card": "7S",
     "mnemonic": "Seven Seas"
   },
   {
-    "card": "10♥",
+    "card": "TH",
     "mnemonic": "Tin Hat"
   },
   {
-    "card": "A♦",
+    "card": "AD",
     "mnemonic": "Ace Detective"
   },
   {
-    "card": "4♠",
+    "card": "4S",
     "mnemonic": "Four Seasons"
   },
   {
-    "card": "7♥",
+    "card": "7H",
     "mnemonic": "Seventh Heaven"
   },
   {
-    "card": "4♦",
+    "card": "4D",
     "mnemonic": "Four Door"
   },
   {
-    "card": "A♣",
+    "card": "AC",
     "mnemonic": "Alice Cooper"
   },
   {
-    "card": "9♣",
+    "card": "9C",
     "mnemonic": "Nicolas Cage"
   },
   {
-    "card": "J♠",
+    "card": "JS",
     "mnemonic": "Jack Sparrow"
   },
   {
-    "card": "Q♦",
+    "card": "QD",
     "mnemonic": "Donald Duck"
   },
   {
-    "card": "7♣",
+    "card": "7C",
     "mnemonic": "Sean Connery"
   },
   {
-    "card": "Q♠",
+    "card": "QS",
     "mnemonic": "David Spade"
   },
   {
-    "card": "10♦",
+    "card": "TD",
     "mnemonic": "Tenacious D"
   },
   {
-    "card": "6♣",
+    "card": "6C",
     "mnemonic": "Simon Cowell"
   },
   {
-    "card": "A♥",
+    "card": "AH",
     "mnemonic": "Ant Hill"
   },
   {
-    "card": "9♦",
+    "card": "9D",
     "mnemonic": "Napoleon Dynamite"
   }
 ]
