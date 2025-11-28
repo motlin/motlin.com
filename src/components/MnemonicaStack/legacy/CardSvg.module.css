@@ -1,0 +1,27 @@
+.cardSvg {
+  width: 100%;
+  height: 100%;
+  --card-border: #000;
+  --card-black: #000;
+  --card-red: #d32f2f;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px black;
+}
+
+[data-theme='dark'] .cardSvg {
+  --card-border: #fff;
+  --card-black: #fff;
+  --card-red: #ff5252;
+}
+
+.cardBorder {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+[data-theme='dark'] .cardBorder {
+  filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.2));
+}
+
+.cardText {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
