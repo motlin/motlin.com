@@ -12,14 +12,24 @@ export default function MnemonicaIndex() {
       description: 'Interactive card grid with flip animations to explore the Mnemonica Stack'
     },
     {
-      title: 'Pegs Test',
-      path: '/mnemonica/pegs-test',
-      description: 'Test your memory by seeing cards in standard deck order and recalling their mnemonic images'
+      title: 'Quiz Mode',
+      path: '/mnemonica/quiz',
+      description: 'Interactive quiz testing position-to-card or card-to-position recall'
     },
     {
-      title: 'Pegs Revealed',
-      path: '/mnemonica/pegs-revealed',
-      description: 'View all 52 mnemonic images with their corresponding cards'
+      title: 'Test Grid: Position to Card',
+      path: '/mnemonica/test-grid',
+      description: '4×13 grid showing positions 1-52, click to reveal the card at each position'
+    },
+    {
+      title: 'Test Grid: Card to Mnemonic',
+      path: '/mnemonica/test-mnemonic',
+      description: 'See cards in Mnemonica order, click to reveal their mnemonic peg images'
+    },
+    {
+      title: 'Study Grid with Transitions',
+      path: '/mnemonica/study-grid',
+      description: '8-column grid of all 52 cards interleaved with 52 transition images'
     },
     {
       title: 'Ordinals',
