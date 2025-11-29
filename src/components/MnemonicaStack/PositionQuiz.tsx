@@ -115,10 +115,11 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
   };
 
   const feedbackStyle: React.CSSProperties = {
-    padding: '1rem',
+    padding: '0.5rem',
     borderRadius: '4px',
-    marginTop: '1rem',
+    marginTop: '0.5rem',
     fontWeight: 'bold',
+    fontSize: '0.9rem',
     backgroundColor: isCorrect ? '#d4edda' : '#f8d7da',
     color: isCorrect ? '#155724' : '#721c24',
     border: isCorrect ? '1px solid #c3e6cb' : '1px solid #f5c6cb',
@@ -171,18 +172,18 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
   }
 
   return (
-    <div className={className} style={{ textAlign: 'center', padding: '2rem' }}>
-      <div style={{ marginBottom: '1rem', fontSize: '1rem', color: '#666' }}>
+    <div className={className} style={{ textAlign: 'center', padding: '0.5rem' }}>
+      <div style={{ marginBottom: '0.5rem', fontSize: '0.875rem', color: '#666' }}>
         Question {progress} of {totalQuestions}
       </div>
 
       <div style={{
-        marginBottom: '1rem',
-        height: '8px',
+        marginBottom: '0.5rem',
+        height: '6px',
         backgroundColor: '#e9ecef',
         borderRadius: '4px',
         maxWidth: '400px',
-        margin: '0 auto 1.5rem'
+        margin: '0 auto 0.75rem'
       }}>
         <div style={{
           height: '100%',
@@ -193,7 +194,7 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
         }} />
       </div>
 
-      <div style={{ marginBottom: '1.5rem', fontSize: '1.125rem', color: '#666' }}>
+      <div style={{ marginBottom: '0.75rem', fontSize: '0.9rem', color: '#666' }}>
         Score: {correctCount} correct, {incorrectCount} incorrect
       </div>
 
@@ -202,7 +203,7 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: size * 1.4,
-        marginBottom: '1.5rem'
+        marginBottom: '0.75rem'
       }}>
         {mode === 'position-to-card' ? (
           <CardBackWithIndexNumber position={currentQuestion.position} size={size} />
@@ -217,8 +218,8 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '1.5rem' }}>
-          <div style={{ marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: 'bold' }}>
+        <div style={{ marginBottom: '0.75rem' }}>
+          <div style={{ marginBottom: '0.5rem', fontSize: '1rem', fontWeight: 'bold' }}>
             {mode === 'position-to-card'
               ? `What card is at position ${currentQuestion.position}?`
               : `What position is ${currentQuestion.card}?`}
