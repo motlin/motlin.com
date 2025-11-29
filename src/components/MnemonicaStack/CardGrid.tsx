@@ -25,6 +25,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
   const gridStyle: React.CSSProperties = {
     display: 'grid',
     gap,
+    justifyContent: 'center',
     ...(columns
       ? { gridTemplateColumns: `repeat(${columns}, ${cardSize}px)` }
       : { gridTemplateColumns: `repeat(auto-fill, minmax(${cardSize}px, 1fr))` }),
