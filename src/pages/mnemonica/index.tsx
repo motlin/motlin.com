@@ -17,11 +17,6 @@ export default function MnemonicaIndex() {
       description: 'See cards in standard order, click to reveal their mnemonic peg image and position'
     },
     {
-      title: 'Original Mode',
-      path: '/mnemonica/original',
-      description: 'Interactive card grid with flip animations to explore the Mnemonica Stack'
-    },
-    {
       title: 'Quiz Mode',
       path: '/mnemonica/quiz',
       description: 'Interactive quiz testing position-to-card or card-to-position recall'
