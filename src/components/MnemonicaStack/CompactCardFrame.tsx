@@ -3,6 +3,13 @@ import Heading from '@theme/Heading';
 import styles from './CompactCardFrame.module.css';
 import { getCardColorClass } from '../../utils/mnemonicaUtils';
 
+const suitSymbols: Record<string, string> = {
+  C: '♣',
+  H: '♥',
+  D: '♦',
+  S: '♠',
+};
+
 interface CompactCardFrameProps {
   card: string;
   imageSrc: string;
@@ -34,7 +41,7 @@ export default function CompactCardFrame({
             {rank}
           </span>
           <span className={`${styles.suit} ${colorClass}`}>
-            {suit}
+            {suitSymbols[suit] || suit}
           </span>
         </div>
         <div className={styles.cardContent}>
