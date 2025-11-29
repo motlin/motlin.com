@@ -42,7 +42,7 @@ export const StudyGridWithTransitions: React.FC<StudyGridWithTransitionsProps> =
           <div
             style={{
               width: transitionSize,
-              height: transitionSize * 1.4,
+              height: transitionSize,
               border: '2px dashed #ccc',
               borderRadius: '8px',
               backgroundColor: '#f9f9f9',
@@ -69,6 +69,8 @@ export const StudyGridWithTransitions: React.FC<StudyGridWithTransitionsProps> =
     display: 'grid',
     gridTemplateColumns: 'repeat(8, 1fr)',
     gap,
+    justifyItems: 'center',
+    alignItems: 'center',
   };
 
   return (
