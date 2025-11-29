@@ -45,7 +45,7 @@ export default function PegsNavigationPage() {
       description="Navigate through the stack with previous/next cards and transitions"
     >
       <div className={styles.container}>
-        <Heading as="h1">Mnemonica Pegs Navigation</Heading>
+        <Heading as="h1" style={{ fontSize: '1.5rem', marginBottom: '0.5rem', textAlign: 'center' }}>Mnemonica Pegs Navigation</Heading>
         <p className={styles.instructions}>
           Navigate through the mnemonica stack. Use arrow keys or buttons to move between cards.
         </p>
@@ -56,7 +56,7 @@ export default function PegsNavigationPage() {
               <MnemonicCard
                 card={currentCard.card}
                 showPosition={true}
-                size={300}
+                size={200}
                 className={styles.mainCard}
               />
               <div className={styles.cardInfo}>
