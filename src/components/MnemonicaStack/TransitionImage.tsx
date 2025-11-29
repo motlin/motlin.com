@@ -34,7 +34,8 @@ export const TransitionImage: React.FC<TransitionImageProps> = ({
     display: 'block',
     maxWidth: '100%',
     height: 'auto',
-    ...(size && { width: size, height: size }),
+    ...(size && { width: size }),
+    objectFit: 'contain',
     ...style,
   };
 
