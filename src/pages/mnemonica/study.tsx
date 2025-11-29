@@ -20,9 +20,9 @@ const mnemonicaCards = mnemonicaData.map((entry, index) => ({
 export default function StudyModePage() {
   return (
     <Layout title="Mnemonica Stack - Study Mode" description="Slideshow of all peg and transition images for memorization">
-      <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-        <Heading as="h1" style={{ textAlign: 'center', marginBottom: '1rem' }}>Mnemonica Study Mode</Heading>
-        <p style={{ textAlign: 'center', marginBottom: '2rem', color: '#666' }}>
+      <div style={{ padding: '1rem', maxWidth: '1200px', margin: '0 auto' }}>
+        <Heading as="h1" style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '1.5rem' }}>Mnemonica Study Mode</Heading>
+        <p style={{ textAlign: 'center', marginBottom: '1rem', color: '#666', fontSize: '0.9rem' }}>
           Slideshow cycling through all 52 peg images and 52 transition images (104 slides total).
           Use the controls to navigate or enable autoplay for continuous review.
         </p>
@@ -31,7 +31,7 @@ export default function StudyModePage() {
           autoplay={false}
           interval={3000}
           showControls={true}
-          size={400}
+          size={280}
         />
       </div>
     </Layout>
