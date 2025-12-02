@@ -233,7 +233,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -256,13 +257,27 @@
 }
 
 @keyframes rainbow {
-  0% { stroke: #ff0000; }
-  16.66% { stroke: #ff8800; }
-  33.33% { stroke: #ffff00; }
-  50% { stroke: #00ff00; }
-  66.66% { stroke: #0088ff; }
-  83.33% { stroke: #8800ff; }
-  100% { stroke: #ff0000; }
+  0% {
+    stroke: #ff0000;
+  }
+  16.66% {
+    stroke: #ff8800;
+  }
+  33.33% {
+    stroke: #ffff00;
+  }
+  50% {
+    stroke: #00ff00;
+  }
+  66.66% {
+    stroke: #0088ff;
+  }
+  83.33% {
+    stroke: #8800ff;
+  }
+  100% {
+    stroke: #ff0000;
+  }
 }
 
 .footer {

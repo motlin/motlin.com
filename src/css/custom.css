@@ -18,7 +18,7 @@
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --ifm-color-primary: #25c2a0;
   --ifm-color-primary-dark: #21af90;
   --ifm-color-primary-darker: #1fa588;
@@ -43,7 +43,7 @@ body {
   --portfolio-shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.2);
 }
 
-[data-theme='dark'] body {
+[data-theme="dark"] body {
   --portfolio-shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.2);
   --portfolio-shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.3);
   --portfolio-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.4);
@@ -63,7 +63,7 @@ html {
 }
 
 [data-route*="portfolio"] .markdown > h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   left: 50%;

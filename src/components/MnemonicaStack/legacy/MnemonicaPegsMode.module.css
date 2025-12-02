@@ -95,14 +95,21 @@
 }
 
 .transitionTile::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -30px;
   left: 50%;
   transform: translateX(-50%);
   width: 40px;
   height: 30px;
-  background: linear-gradient(to bottom, transparent 0%, transparent 50%, #ccc 50%, #ccc 52%, transparent 52%);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 50%,
+    #ccc 50%,
+    #ccc 52%,
+    transparent 52%
+  );
 }
 
 .transitionTile:first-child::before {

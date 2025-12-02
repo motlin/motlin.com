@@ -1,11 +1,16 @@
 /* Import Infima CSS framework - provides all Docusaurus theme variables */
-@import '../node_modules/infima/dist/css/default/default.css';
+@import "../node_modules/infima/dist/css/default/default.css";
 
 /* Additional Infima variables that Docusaurus sets by default */
 :root {
   /* Typography */
-  --ifm-font-family-base: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --ifm-font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --ifm-font-family-base:
+    system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans,
+    sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --ifm-font-family-monospace:
+    SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
   --ifm-font-size-base: 100%;
   --ifm-line-height-base: 1.65;
   --ifm-font-weight-light: 300;
@@ -21,7 +26,8 @@
   /* Shadows */
   --ifm-global-shadow-lw: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   --ifm-global-shadow-md: 0 5px 40px rgba(0, 0, 0, 0.2);
-  --ifm-global-shadow-tl: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  --ifm-global-shadow-tl:
+    0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 
   /* Borders */
   --ifm-global-radius: 0.4rem;
@@ -91,7 +97,7 @@
 }
 
 /* Dark mode overrides */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --ifm-background-color: #1b1b1d;
   --ifm-background-surface-color: #242526;
   --ifm-card-background-color: #242526;
