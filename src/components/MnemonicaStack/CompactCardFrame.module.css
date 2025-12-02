@@ -21,7 +21,7 @@
   --card-red: #d32f2f;
 }
 
-[data-theme='dark'] .cardFrame {
+[data-theme="dark"] .cardFrame {
   --card-bg: #1e1e1e;
   --card-border: #fff;
   --card-black: #fff;
@@ -77,7 +77,7 @@
   font-size: 14px;
 }
 
-[data-theme='dark'] .position {
+[data-theme="dark"] .position {
   color: #aaa;
 }
 
@@ -88,6 +88,6 @@
   font-weight: 500;
 }
 
-[data-theme='dark'] .mnemonic {
+[data-theme="dark"] .mnemonic {
   color: #fff;
 }

@@ -61,7 +61,7 @@
 .socialLink:hover {
   transform: translateY(-3px);
   border-color: var(--ifm-color-emphasis-400);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   text-decoration: none;
   color: var(--ifm-color-emphasis-700);
 }
