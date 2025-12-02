@@ -48,37 +48,37 @@ You can [enable Reproducible Builds mode for plugins](https://maven.apache.org/g
 </properties>
 ```
 
-You will need to run `mvn artifact:check-buildplan`  and  `mvn verify artifact:compare` as described in the guide to ensure builds are reproducible.
+You will need to run `mvn artifact:check-buildplan` and `mvn verify artifact:compare` as described in the guide to ensure builds are reproducible.
 
 ## Default Goal
 
-You can specify the default goal to run when you run `mvn`  without any arguments.
+You can specify the default goal to run when you run `mvn` without any arguments.
 
 ```xml
 <defaultGoal>verify</defaultGoal>
 ```
 
-`verify` is a better choice than `install` in the presence of concurrent builds that may write to  `.m2/repository`  simultaneously.
+`verify` is a better choice than `install` in the presence of concurrent builds that may write to `.m2/repository` simultaneously.
 
-`verify` is a better choice than `clean verify` because  `clean` is a destructive operation, users may not expect it to be run by default, and it's easy to run `mvn clean` when you need it.
+`verify` is a better choice than `clean verify` because `clean` is a destructive operation, users may not expect it to be run by default, and it's easy to run `mvn clean` when you need it.
 
 ## Plugins which are bound and enabled by default
 
-Maven builds are configured by binding plugins to maven's  [lifecycle phases](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#default-lifecycle).
+Maven builds are configured by binding plugins to maven's [lifecycle phases](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#default-lifecycle).
 
-Maven binds [some plugins](https://maven.apache.org/ref/3.9.6/maven-core/default-bindings.html#plugin-bindings-for-jar-packaging) to the  ["main" phases](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#packaging), even if you don't declare any plugins in your `pom.xml`.
+Maven binds [some plugins](https://maven.apache.org/ref/3.9.6/maven-core/default-bindings.html#plugin-bindings-for-jar-packaging) to the ["main" phases](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#packaging), even if you don't declare any plugins in your `pom.xml`.
 
 The versions of the default plugins changes between maven versions, and even the list of plugins grows over time. Maven 3.9.6 binds:
 
-| Plugin                 | Version| Phase         |
-|------------------------|--------|---------------|
-| maven-resources-plugin | 3.3.1  | resources     |
-| maven-compiler-plugin  | 3.11.0 | compile       |
-| maven-resources-plugin | 3.3.1  | testResources |
-| maven-compiler-plugin  | 3.11.0 | testCompile   |
-| maven-surefire-plugin  | 3.2.2  | test          |
-| maven-jar-plugin       | 3.3.0  | jar           |
-| maven-install-plugin   | 3.1.1  | install       |
-| maven-deploy-plugin    | 3.1.1  | deploy        |
+| Plugin                 | Version | Phase         |
+| ---------------------- | ------- | ------------- |
+| maven-resources-plugin | 3.3.1   | resources     |
+| maven-compiler-plugin  | 3.11.0  | compile       |
+| maven-resources-plugin | 3.3.1   | testResources |
+| maven-compiler-plugin  | 3.11.0  | testCompile   |
+| maven-surefire-plugin  | 3.2.2   | test          |
+| maven-jar-plugin       | 3.3.0   | jar           |
+| maven-install-plugin   | 3.1.1   | install       |
+| maven-deploy-plugin    | 3.1.1   | deploy        |
 
 We can support reproducible builds even with different versions of maven as long as all the plugin versions are the same. To enable plugin consistency across a team, we specify versions of the plugins in the parent pom.

@@ -19,11 +19,11 @@ Here are a few postfix completions I've added for Java. They are available for d
 
 ![Rethrow completion](/img/intellij/postfix-nn.gif)
 
-**Before:**  $EXPR$.rethrow
+**Before:** $EXPR$.rethrow
 
-**After:**  throw new RuntimeException($EXPR$);
+**After:** throw new RuntimeException($EXPR$);
 
-**Applicable type:**  java.lang.Exception
+**Applicable type:** java.lang.Exception
 
 ![Rethrow configuration](/img/intellij/postfix-try.png)
 
@@ -31,11 +31,11 @@ Here are a few postfix completions I've added for Java. They are available for d
 
 ![Adapt completion](/img/intellij/postfix-try-demo.gif)
 
-**Before:**  $EXPR$.adapt
+**Before:** $EXPR$.adapt
 
-**After:**  org.eclipse.collections.impl.list.mutable.ListAdapter.adapt($EXPR$)
+**After:** org.eclipse.collections.impl.list.mutable.ListAdapter.adapt($EXPR$)
 
-**Applicable type:**  java.util.List
+**Applicable type:** java.util.List
 
 ![Adapt configuration](/img/intellij/postfix-var.png)
 
