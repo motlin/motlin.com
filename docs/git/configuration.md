@@ -329,9 +329,9 @@ The `git maintenance` command registers a repository for periodic background opt
 
 > Run tasks to optimize Git repository data, speeding up other Git commands and reducing storage requirements for the repository.
 >
-> Git commands that add repository data, such as  `git add`  or  `git fetch`, are optimized for a responsive user experience. These commands do not take time to optimize the Git data, since such optimizations scale with the full size of the repository while these user commands each perform a relatively small action.
+> Git commands that add repository data, such as `git add` or `git fetch`, are optimized for a responsive user experience. These commands do not take time to optimize the Git data, since such optimizations scale with the full size of the repository while these user commands each perform a relatively small action.
 >
-> The  `git maintenance`  command provides flexibility for how to optimize the Git repository.
+> The `git maintenance` command provides flexibility for how to optimize the Git repository.
 
 ```bash
 git maintenance start

@@ -17,20 +17,20 @@ This post describes the uses for maven's `<packaging>pom</packaging>`.
 
 Pom-only modules have no jar artifact. The pom may serve multiple purposes. Use the artifactId and name to make the purpose clear.
 
-- Internal Bill of Materials:  `<library>-dependencies`
-- Published Bill of Materials:  `<library>-bom`
-- Internal aggregator:  `<library>-project`
-- Published parent:  `<library>-parent`
+- Internal Bill of Materials: `<library>-dependencies`
+- Published Bill of Materials: `<library>-bom`
+- Internal aggregator: `<library>-project`
+- Published parent: `<library>-parent`
 
 ## Bill of Materials
 
-A  [bill of materials](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms) declares a set of dependency versions. Importing a BOM doesn't force a project to use every dependency declared inside. When the importing project  _does_ use one of the dependencies, it gets the version declared in the BOM.
+A [bill of materials](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms) declares a set of dependency versions. Importing a BOM doesn't force a project to use every dependency declared inside. When the importing project _does_ use one of the dependencies, it gets the version declared in the BOM.
 
 There are two flavors of BOMs, ones used inside a library, and ones published for users of the library.
 
 ### Internal Bill of Materials
 
-Internal BOMs have names like  `<library>-dependencies` and are imported or used as a parent elsewhere in the same multi-module project.
+Internal BOMs have names like `<library>-dependencies` and are imported or used as a parent elsewhere in the same multi-module project.
 
 [dropwizard-dependencies/pom.xml](https://github.com/dropwizard/dropwizard/blob/v2.1.12/dropwizard-dependencies/pom.xml) is Dropwizard's internal BOM. It declares versions of the third-party software that Dropwizard depends on.
 
@@ -72,7 +72,7 @@ Internal BOMs have names like  `<library>-dependencies` and are imported or used
 
 ### External Bill of Materials
 
-External BOMs, or just BOMs, have names like  `<library>-bom`. They are designed to be used together with the jars that make up a multi-module library.
+External BOMs, or just BOMs, have names like `<library>-bom`. They are designed to be used together with the jars that make up a multi-module library.
 
 [dropwizard-bom/pom.xml](https://github.com/dropwizard/dropwizard/blob/v2.1.12/dropwizard-bom/pom.xml) is published with Dropwizard. It declares versions of every jar that ships as part of Dropwizard.
 
@@ -137,7 +137,7 @@ Once imported, projects can depend on jars within Dropwizard without repeating t
 
 ## Aggregator pom
 
-In a multi-module project, most leaf nodes have `jar` packaging. All non-leaf nodes have `pom` packaging and are aggregators. [Aggregator poms](https://maven.apache.org/guides/introduction/introduction-to-the-pom.html#Project_Aggregation) are intermediate nodes in multi-module projects that declare a list of modules as children. They can have any artifactId. They should declare a name like  `<n>… (Module Group)</n>`. An example is Liftwizard's [liftwizard-clock/pom.xml](https://github.com/motlin/liftwizard/blob/main/liftwizard-clock/pom.xml) which gathers all the clock-related modules into a subdirectory.
+In a multi-module project, most leaf nodes have `jar` packaging. All non-leaf nodes have `pom` packaging and are aggregators. [Aggregator poms](https://maven.apache.org/guides/introduction/introduction-to-the-pom.html#Project_Aggregation) are intermediate nodes in multi-module projects that declare a list of modules as children. They can have any artifactId. They should declare a name like `<n>… (Module Group)</n>`. An example is Liftwizard's [liftwizard-clock/pom.xml](https://github.com/motlin/liftwizard/blob/main/liftwizard-clock/pom.xml) which gathers all the clock-related modules into a subdirectory.
 
 ```xml
 <artifactId>liftwizard-clock</artifactId>
@@ -157,11 +157,11 @@ Aggregators only affect which modules are included in the build. The included mo
 
 ### Parent pom
 
-Maven supports [inheritance](https://maven.apache.org/guides/introduction/introduction-to-the-pom.html#Project_Inheritance) of configuration from a parent pom. A child declares its parent in a  `parent`  section. Within a multi-module project it's common for the parent to be an aggregator, which includes the child in its list of modules. In other words, it's common for the parent-child relationship to be bidirectional, but this is not required.
+Maven supports [inheritance](https://maven.apache.org/guides/introduction/introduction-to-the-pom.html#Project_Inheritance) of configuration from a parent pom. A child declares its parent in a `parent` section. Within a multi-module project it's common for the parent to be an aggregator, which includes the child in its list of modules. In other words, it's common for the parent-child relationship to be bidirectional, but this is not required.
 
 ### Project pom
 
-A common pattern is for the pom at the root of a multi-module project to be both an aggregator and a parent, and sometimes a grandparent. A parent pom that is meant to be used within a project should have a name like  `<library>-project`, like Dropwizard's [dropwizard-project/pom.xml](https://github.com/dropwizard/dropwizard/blob/v2.1.12/pom.xml). A parent pom that is meant to be used by other projects should have a name like  `<library>-parent`.
+A common pattern is for the pom at the root of a multi-module project to be both an aggregator and a parent, and sometimes a grandparent. A parent pom that is meant to be used within a project should have a name like `<library>-project`, like Dropwizard's [dropwizard-project/pom.xml](https://github.com/dropwizard/dropwizard/blob/v2.1.12/pom.xml). A parent pom that is meant to be used by other projects should have a name like `<library>-parent`.
 
 ## Comments
 

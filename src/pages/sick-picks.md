@@ -3,7 +3,6 @@ title: Sick Picks
 description: Personal recommendations for tools, products, and resources that I find valuable
 ---
 
-
 # Sick Picks
 
 ## What are Sick Picks?
@@ -33,6 +32,7 @@ Fun fact: [Syntax.fm has also featured Overcast as a sick pick](https://syntax.f
 The [DJI Neo](https://www.dji.com/neo) is an ultra-lightweight drone that operates with no remote control required. Even in its protective case, it easily fits in any backpack, making it perfect for spontaneous aerial photography and video.
 
 Key features:
+
 - **No remote needed**: Palm takeoff and landing with gesture controls for complete hands-free operation
 - **Backpack-friendly**: The entire kit including case fits easily in any bag
 - **4K video**: Professional quality footage in an incredibly small package
@@ -55,6 +55,7 @@ Perfect for travel, hiking, or any time you want aerial footage without the bulk
 The Wurkkos TS10 and HD10 are enthusiast-grade everyday carry (EDC) flashlights that punch way above their weight class.
 
 Why they're exceptional:
+
 - **Anduril 2 firmware**: Open-source firmware with incredible customization options
 - **Auxiliary LEDs**: Configurable RGB LEDs for battery indication or locating in the dark
 - **14500 Li-ion battery**: TS10 uses replaceable batteries, HD10 has built-in USB-C charging
@@ -67,6 +68,7 @@ I love the orange color aluminum options - they're bright, fun, and easy to spot
 Color temperature is crucial for a pleasant light. I prefer the 4000K option which provides a warm, natural light that's easy on the eyes. Even better is the 3000K temperature (only available with the copper version) which gives an incredibly warm, candle-like glow that's perfect for evening use.
 
 **Available Options:**
+
 - [TS10 V2 in Orange (4000K)](https://www.amazon.com/dp/B0DXFGN5JG/)
 - [TS10 V2 in Titanium (4000K)](https://www.amazon.com/Wurkkos-TS10-Pocket-Flashlight-Rechargeable/dp/B0CMZJDX2V/)
 - [TS10 V2 in Copper (3000K)](https://wurkkos.com/products/wurkkos-ts10-v2-copper) - The warmest, most candle-like option
@@ -83,6 +85,7 @@ These flashlights have ruined all other flashlights for me. Once you experience 
 The [Olight Oclip Pro in Orange](https://www.amazon.com/dp/B0DDC3M31M/) is the perfect hands-free lighting solution that clips directly to your backpack strap.
 
 What makes it great:
+
 - **Versatile clip design**: Securely attaches to backpack straps, belts, or pockets
 - **Hands-free operation**: Perfect for hiking, camping, or working in dark spaces
 - **Compact and lightweight**: You'll forget it's there until you need it
@@ -100,6 +103,7 @@ This is the flashlight that's always with you because it lives on your backpack 
 After falling in love with my Pint, upgrading to the [Onewheel GT](https://onewheel.com/products/onewheel-gt) was inevitable. Mine is decked out with the highlighter yellow accessories from the launch event - impossible to miss and looks incredible.
 
 Why the GT is exceptional:
+
 - **Powerful performance**: The increased power helps go up inclines with confidence. I can even stand on it together with a kid and it handles the extra weight without breaking a sweat
 - **20 MPH top speed**: The sweet spot for speed - fast enough to be thrilling, but not overwhelming. The 14 MPH limit on the old Pint just wasn't enough
 - **Adult-sized footpads**: Finally, a board big enough for adult feet to not hang over the edges
@@ -108,4 +112,4 @@ Why the GT is exceptional:
 
 ---
 
-*Have a suggestion for a sick pick? Feel free to [open an issue](https://github.com/motlin/motlin.com/issues) on GitHub!*
+_Have a suggestion for a sick pick? Feel free to [open an issue](https://github.com/motlin/motlin.com/issues) on GitHub!_
