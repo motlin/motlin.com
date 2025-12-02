@@ -9,7 +9,7 @@ description: "Utility commands I use with Claude Code for code maintenance and c
 
 import CodeBlock from '@theme/CodeBlock';
 import GiscusComponent from '@site/src/components/GiscusComponent';
-import CommentRemovalRulesSource from '!!raw-loader!../src/claude-code-plugins/plugins/code/shared/comment-removal-rules.md';
+import CommentRemovalRulesSource from '!!raw-loader!../src/claude-code-plugins/plugins/code/commands/all-comments.md';
 import CommentsCommandSource from '!!raw-loader!../src/claude-code-plugins/plugins/code/commands/comments.md';
 import EmojiCommandSource from '!!raw-loader!../src/claude-code-plugins/plugins/code/commands/emoji.md';
 import ConflictsCommandSource from '!!raw-loader!../src/claude-code-plugins/plugins/git/commands/conflicts.md';
@@ -35,11 +35,11 @@ I've come to accept that comments are crucial to how LLMs "think" and I cannot s
 
 The `/all-comments` command asks the LLM to clean up redundant comments across the entire codebase. After Claude deletes all the comments, I run [`git absorb`](https://github.com/tummychow/git-absorb) and it's as if the comments never existed in git history.
 
-<CodeBlock language="markdown" title=".claude-prompts/shared/comment-removal-rules.md">
+<CodeBlock language="markdown" title=".claude-prompts/commands/all-comments.md">
   {CommentRemovalRulesSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/shared/comment-removal-rules.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/code/commands/all-comments.md)
 
 ### `/comments` - Local Comment Cleanup {#comments---local-comment-cleanup}
 
@@ -49,7 +49,7 @@ The `comments` prompt is identical to `all-comments` except it adds the sentence
   {CommentsCommandSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/comments.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/code/commands/comments.md)
 
 This is my preferred command because it integrates with [my workflow](/blog/claude-code-workflow-commands) and is perfect for cleaning up after `/todo`.
 
