@@ -1,15 +1,10 @@
 import React from 'react';
+import OriginalHeading from '@theme-original/Heading';
+import type HeadingType from '@theme/Heading';
+import type {WrapperProps} from '@docusaurus/types';
 
-type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+type Props = WrapperProps<typeof HeadingType>;
 
-interface HeadingProps {
-  as: HeadingTag;
-  children: React.ReactNode;
-  className?: string;
+export default function HeadingWrapper(props: Props): React.JSX.Element {
+  return <OriginalHeading {...props} />;
 }
-
-const Heading: React.FC<HeadingProps> = ({ as: Tag = 'h1', children, className }) => {
-  return <Tag className={className}>{children}</Tag>;
-};
-
-export default Heading;
