@@ -47,7 +47,7 @@
     "zod": "^4.3.5"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.28.5",
+    "@babel/eslint-parser": "^7.28.6",
     "@babel/plugin-transform-modules-commonjs": "^7.28.6",
     "@babel/preset-react": "^7.28.5",
     "@chromatic-com/storybook": "^4.1.3",
