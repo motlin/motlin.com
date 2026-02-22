@@ -4,11 +4,11 @@ default:
 
 # `npm install`
 install:
-    npm install
+    npm install --legacy-peer-deps
 
 # `npm ci`
 install-ci:
-    npm ci
+    npm ci --legacy-peer-deps
 
 # Download GitHub data to .github-cache/ (requires 1Password)
 download-data: install
@@ -100,8 +100,8 @@ build-storybook: install
 
 validate-lockfile:
     @echo "Validating package-lock.json is in sync..."
-    @npm install --package-lock-only --quiet
-    @git diff --exit-code package-lock.json || (echo "Error: package-lock.json is out of sync with package.json. Run 'npm install' and commit the changes." && exit 1)
+    @npm install --package-lock-only --legacy-peer-deps --quiet
+    @git diff --exit-code package-lock.json || (echo "Error: package-lock.json is out of sync with package.json. Run 'npm install --legacy-peer-deps' and commit the changes." && exit 1)
 
 # Run all pre-commit checks
 precommit: update-submodules validate-lockfile lint-fix typecheck test-run build
