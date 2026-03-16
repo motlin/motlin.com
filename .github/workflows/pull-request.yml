@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: "22.x"
 
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@v4
 
       - run: just lint-ci
         id: lint
@@ -41,7 +41,7 @@ jobs:
         with:
           node-version: "22.x"
 
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@v4
 
       - run: just typecheck-ci
 
@@ -56,7 +56,7 @@ jobs:
         with:
           node-version: "22.x"
 
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@v4
 
       - run: just test-run-ci
 
@@ -70,7 +70,7 @@ jobs:
         with:
           node-version: "22.x"
 
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@v4
 
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
