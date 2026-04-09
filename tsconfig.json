@@ -4,6 +4,9 @@
   "compilerOptions": {
     "ignoreDeprecations": "6.0",
     "baseUrl": ".",
+    "paths": {
+      "@site/*": ["./*"]
+    },
     "jsx": "react-jsx",
     "strict": false
   },
