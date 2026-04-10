@@ -1,0 +1,78 @@
+---
+slug: claude-code-mobile-coding
+title: "My laptop I leave at home for Claude"
+authors: [craig]
+tags: [claude-code, developer-productivity]
+date: 2026-04-05
+description: "How AI-assisted coding changed my relationship with my hardware, from battery anxiety to coding from my phone while my MacBook stays home and plugged in."
+---
+
+import GiscusComponent from '@site/src/components/GiscusComponent';
+
+A year ago I bought a MacBook Pro M4 Max and started carrying it with me everywhere. Today I still use it, but it sits on my desk, plugged in, while I write code from my phone at my kids' kickboxing lessons. This isn't a workflow I planned exactly, but it's working for me.
+
+<!-- truncate -->
+
+## Always commit, always test, always rebase
+
+I got into the Claude Code research preview in early 2025. One of the first things I set up was a [completion pipeline](https://github.com/motlin/claude-code-prompts/commit/6ee87fb2effa3ca54e378ae1d840bba3a7c17738#diff-2ae9ee5040fbaddc8114c7d49736c9420069fca56d56d02c19062e6af5371edb) saying to clean up comments, run the build and tests, and commit. [Later](https://github.com/motlin/claude-code-prompts/commit/f97bc3f2dffff787d938dfbe4702c51117ff9033) I added a rebase step, all "before returning control to the user." There were no hooks back then, so this was just markdown instruction, but it worked pretty well.
+
+## Battery life
+
+As Claude became more capable, it started completing tasks faster. I'd bring my laptop to a kids' activity or a nearby coffee shop and by the end of the hour my MacBook would be super hot and the battery would be almost dead.
+
+## Skipping tests on battery
+
+I wrote a [script](https://github.com/motlin/claude-code-plugins/blob/main/plugins/build/scripts/check-battery) to detect battery power and skip the build. On battery Claude reports "⚡ **Skipped precommit checks (on battery power)**". It saved battery, but had obvious problems.
+
+## Coming home to broken commits
+
+I use [git-test](https://github.com/mhagger/git-test) by Michael Haggerty to run tests on every commit in a range. It's like `git bisect`, but stricter. Instead of jumping around, it verifies that every single commit passes. I would wait to get home to run it, and it would find failures throughout. Fixing commits in the middle in the middle of the branch means interactive rebasing, which means potential merge conflicts cascading through the rest. This was tedious and wasteful. Many of the failures wouldn't have happened if tests had run in order after each commit.
+
+## The charger phase
+
+For a while I carried my laptop charger to kids' activities, but outlets aren't always available, and the laptop still ran hot. This wasn't a real solution.
+
+## Remote control and SSH
+
+Around this time, people were already coding from their phones by SSH-ing into their laptops. Anthropic released [Remote Control](https://docs.anthropic.com/en/docs/claude-code/remote-control) for Claude Code, which seemed like a better option. I waited for beta access, but when I got in, the UX wasn't great. You have to run `remote-control`, committing to phone use in advance. If you forgot, you'd need SSH access anyway. So almost as soon as I got into the beta, I decided to switch and give the SSH approach a try.
+
+Following Harper Reed's guide, [Remote Claude Code: programing like it was the early 2000s](https://harper.blog/2026/01/05/claude-code-is-better-on-your-phone/), I set up a remote access stack:
+
+- [Tailscale](https://tailscale.com/) for VPN mesh networking without opening ports
+- [Termius](https://termius.com/) as an SSH client with a good mobile keyboard
+- [Wispr Flow](https://www.wispr.com/) for voice-to-text dictation
+
+This stack works really well. Wispr Flow in particular is surprisingly good — not just for regular dictation, but for things that sound like code. It understands the way programmers say code out loud. You can say "for i equals zero, i less than list dot size, i plus plus" and it will write out `for (int i = 0; i < list.size(); i++)`. You can say "system dot out dot println hello world" and get `System.out.println("Hello world");`.
+
+I'm sure Remote Control will continue to improve but I haven't used it since release.
+
+## Keeping the laptop awake
+
+None of this works if the laptop falls asleep while I'm away. I installed [Amphetamine](https://apps.apple.com/us/app/amphetamine/id937984704) from the Mac App Store and set it to keep the MacBook awake whenever it's on AC power.
+
+## Leaving the laptop behind
+
+Eventually I started leaving my laptop at home on purpose.
+
+I'd head out with just my phone, or sometimes an iPad with a Magic Keyboard. The phone is great for dictating prompts and reviewing output. The iPad adds the ability to do limited coding in vim and interactive rebases.
+
+If you haven't tried it, working from your phone sounds extremely limiting.
+
+## Plan mode
+
+Plan mode wasn't great in its first release, but it's been improved multiple times and it's excellent now. It plays to mobile coding's strengths: dictate what I want with Wispr Flow, read and review the plan, then give feedback again through voice.
+
+Plan mode creates a markdown file. Claude Code renders it with ANSI color codes in the terminal, which isn't bad, but it's not as good as reading rendered markdown in a browser like on GitHub.
+
+I built [claude-code-plans](https://github.com/motlin/claude-code-plans), a local web server to render plan files in the browser. I extended it to render other markdown files like memories and tasks, and eventually non-markdown files like sessions as well. Since it runs on my laptop, it's also available over Tailscale.
+
+## Should I have bought a desktop?
+
+With the benefit of hindsight, I'm basically using my MacBook Pro as a desktop.
+
+But hindsight is 20/20, and I think the bigger lesson is how fast things are moving. A year ago, we were all just starting to use Claude Code. I would not have predicted that today Claude would write 99% of my code and I would no longer have carpal tunnel syndrome. I definitely can't predict what's one year out from today.
+
+I'm happy with my laptop. It gives me the flexibility to change how I work, and that's been the only constant.
+
+<GiscusComponent />
