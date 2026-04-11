@@ -5,7 +5,7 @@ import { CardBack } from '../CardSide/CardBack';
 
 export interface StandardToCardBackFlippableCardProps {
   card: string;
-  position?: number;
+  position: number;
   size?: number;
   className?: string;
 }

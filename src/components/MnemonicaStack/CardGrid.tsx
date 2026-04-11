@@ -7,7 +7,7 @@ export interface CardData {
 
 export interface CardGridProps {
   cards: CardData[];
-  cardComponent: React.ComponentType<{ card: string; position?: number; size?: number }>;
+  cardComponent: React.ComponentType<{ card: string; position: number; size?: number }>;
   columns?: number;
   cardSize?: number;
   gap?: string;
