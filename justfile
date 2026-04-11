@@ -20,11 +20,11 @@ download-data-ci: install-ci
 
 # `npm start`
 start: install
-    npm start -- --port 4000
+    npm start -- --port 4000 --host 0.0.0.0
 
 # Start with drafts enabled: `DOCUSAURUS_DRAFT=true npm start`
 start-drafts: install
-    bash -c 'DOCUSAURUS_DRAFT=true npm start -- --port 4000'
+    bash -c 'DOCUSAURUS_DRAFT=true npm start -- --port 4000 --host 0.0.0.0'
 
 # `npm run build`
 build: install
