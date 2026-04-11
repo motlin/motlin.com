@@ -197,7 +197,7 @@ export const DifferentSizes: Story = {
           }}
         >
           {[1, 2, 3, 4, 5].map((multiplier) => {
-            const size = args.size * multiplier;
+            const size = (args.size ?? 40) * multiplier;
             return (
               <div key={multiplier} style={{ textAlign: 'center' }}>
                 <FlippableCard

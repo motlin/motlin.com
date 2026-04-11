@@ -46,7 +46,7 @@ export const MultipleCards: Story = {
   args: {
     size: 40,
   },
-  render: ({ size }) => {
+  render: ({ size = 40 }) => {
     const sizes = [size * 2, size * 3, size * 4, size * 5];
 
     return (
@@ -79,7 +79,7 @@ export const MultipleCardsDark: Story = {
   args: {
     size: 40,
   },
-  render: ({ size }) => {
+  render: ({ size = 40 }) => {
     const sizes = [size * 2, size * 3, size * 4, size * 5];
 
     return (
