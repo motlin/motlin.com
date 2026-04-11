@@ -118,6 +118,6 @@ export const projectSections: ProjectSection[] = portfolioData.sections.map(sect
   icon: iconMap[section.icon as keyof typeof iconMap],
   projects: section.projects.map(project => ({
     ...project,
-    customIcon: project.customIcon ? customIconMap[project.customIcon as keyof typeof customIconMap] : undefined
+    customIcon: 'customIcon' in project && project.customIcon ? customIconMap[project.customIcon as keyof typeof customIconMap] : undefined
   }))
 }));
