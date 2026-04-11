@@ -50,16 +50,17 @@ const licenseIcons: Record<string, React.ComponentType> = {
   'Apache License 2.0': SiApache
 };
 
+function renderIconForKey(icons: Record<string, React.ComponentType>, key: string | undefined) {
+  if (!key || !icons[key]) return null;
+  return (
+    <span className={styles.linkIcon}>
+      {React.createElement(icons[key])}
+    </span>
+  );
+}
+
 export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
   const repos = useGitHubRepos();
-  const renderIconForKey = (icons: Record<string, React.ComponentType>, key: string | undefined) => {
-    if (!key || !icons[key]) return null;
-    return (
-      <span className={styles.linkIcon}>
-        {React.createElement(icons[key])}
-      </span>
-    );
-  };
 
   const repoData = project.githubRepo ? repos[project.githubRepo] : null;
 
