@@ -51,7 +51,7 @@ export function Portfolio() {
           <div className={styles.socialLinks}>
             {portfolioData.profile.socialLinks.map(link => (
               <Link key={link.platform} href={link.url} className={styles.socialLink}>
-                {iconMap[link.icon]}
+                {iconMap[link.icon as keyof typeof iconMap]}
                 <span>{link.platform}</span>
               </Link>
             ))}

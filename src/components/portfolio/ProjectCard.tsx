@@ -52,6 +52,15 @@ const licenseIcons: Record<string, React.ComponentType> = {
 
 export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
   const repos = useGitHubRepos();
+  const renderIconForKey = (icons: Record<string, React.ComponentType>, key: string | undefined) => {
+    if (!key || !icons[key]) return null;
+    return (
+      <span className={styles.linkIcon}>
+        {React.createElement(icons[key])}
+      </span>
+    );
+  };
+
   const repoData = project.githubRepo ? repos[project.githubRepo] : null;
 
   const description = repoData?.description || project.description;
@@ -165,11 +174,7 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
                   <div className={styles.matrixValues}>
                     {project.techStack.map((tech) => (
                       <span key={tech} className={styles.matrixBadge}>
-                        {techStackIcons[tech] && (
-                          <span className={styles.linkIcon}>
-                            {React.createElement(techStackIcons[tech])}
-                          </span>
-                        )}
+                        {renderIconForKey(techStackIcons, tech)}
                         {tech}
                       </span>
                     ))}
@@ -182,11 +187,7 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
                   <div className={styles.matrixLabel}>Language</div>
                   <div className={styles.matrixValues}>
                     <span className={styles.matrixBadge}>
-                      {languageIcons[repoData?.language || project.language] && (
-                        <span className={styles.linkIcon}>
-                          {React.createElement(languageIcons[repoData?.language || project.language])}
-                        </span>
-                      )}
+                      {renderIconForKey(languageIcons, repoData?.language || project.language)}
                       {repoData?.language || project.language}
                     </span>
                   </div>
@@ -198,11 +199,7 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
                   <div className={styles.matrixLabel}>License</div>
                   <div className={styles.matrixValues}>
                     <span className={styles.matrixBadge}>
-                      {licenseIcons[repoData?.license?.spdx_id || repoData?.license?.name || project.license] && (
-                        <span className={styles.linkIcon}>
-                          {React.createElement(licenseIcons[repoData?.license?.spdx_id || repoData?.license?.name || project.license])}
-                        </span>
-                      )}
+                      {renderIconForKey(licenseIcons, repoData?.license?.spdx_id || repoData?.license?.name || project.license)}
                       {repoData?.license?.spdx_id || repoData?.license?.name || project.license}
                     </span>
                   </div>

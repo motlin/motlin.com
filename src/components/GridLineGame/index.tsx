@@ -2,34 +2,44 @@ import React, { useState, useEffect, useRef } from 'react';
 import Heading from '@theme/Heading';
 import styles from './GridLineGame.module.css';
 
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface Move {
+  direction: string;
+  destination: Position;
+}
+
 const GridLineGame = () => {
   const [gridWidth, setGridWidth] = useState(3);
   const [gridHeight, setGridHeight] = useState(4);
-  const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
-  const [lines, setLines] = useState(new Set());
-  const [path, setPath] = useState([{ x: 0, y: 0 }]);
+  const [currentPos, setCurrentPos] = useState<Position>({ x: 0, y: 0 });
+  const [lines, setLines] = useState(new Set<string>());
+  const [path, setPath] = useState<Position[]>([{ x: 0, y: 0 }]);
   const [gameStatus, setGameStatus] = useState('playing');
-  const [possibleMoves, setPossibleMoves] = useState([]);
-  const [touchStart, setTouchStart] = useState(null);
+  const [possibleMoves, setPossibleMoves] = useState<Move[]>([]);
+  const [touchStart, setTouchStart] = useState<Position | null>(null);
   const [isSwiping, setIsSwiping] = useState(false);
   const [showTouchHint, setShowTouchHint] = useState(true);
   const [cellSize, setCellSize] = useState(100);
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [showSetup, setShowSetup] = useState(true);
   const [tempWidth, setTempWidth] = useState(3);
   const [tempHeight, setTempHeight] = useState(4);
   const [rainbowActive, setRainbowActive] = useState(false);
-  const rainbowTimerRef = useRef(null);
+  const rainbowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const totalPossibleLines = gridWidth * gridHeight * 2;
 
-  const getLineKey = (from, to) => {
+  const getLineKey = (from: Position, to: Position) => {
     const key1 = `${from.x},${from.y}-${to.x},${to.y}`;
     const key2 = `${to.x},${to.y}-${from.x},${from.y}`;
     return [key1, key2];
   };
 
-  const getDestination = (pos, direction) => {
+  const getDestination = (pos: Position, direction: string) => {
     let newX = pos.x;
     let newY = pos.y;
 
@@ -51,12 +61,12 @@ const GridLineGame = () => {
     return { x: newX, y: newY };
   };
 
-  const isValidMove = (from, to) => {
+  const isValidMove = (from: Position, to: Position) => {
     const [key1, key2] = getLineKey(from, to);
     return !lines.has(key1) && !lines.has(key2);
   };
 
-  const getPossibleMoves = (pos) => {
+  const getPossibleMoves = (pos: Position) => {
     const moves = [];
     const directions = ['up', 'down', 'left', 'right'];
 
@@ -93,7 +103,7 @@ const GridLineGame = () => {
   }, [lines, possibleMoves, totalPossibleLines, showSetup]);
 
   // Make a move
-  const makeMove = (direction) => {
+  const makeMove = (direction: string) => {
     if (gameStatus !== 'playing') return;
 
     const destination = getDestination(currentPos, direction);
@@ -115,18 +125,18 @@ const GridLineGame = () => {
   };
 
   // Handle touch events for swipe gestures
-  const handleTouchStart = (e) => {
+  const handleTouchStart = (e: React.TouchEvent) => {
     const touch = e.touches[0];
     setTouchStart({ x: touch.clientX, y: touch.clientY });
     setIsSwiping(true);
   };
 
-  const handleTouchMove = (e) => {
+  const handleTouchMove = (e: React.TouchEvent) => {
     if (!touchStart || !isSwiping) return;
     e.preventDefault(); // Prevent scrolling while swiping
   };
 
-  const handleTouchEnd = (e) => {
+  const handleTouchEnd = (e: React.TouchEvent) => {
     if (!touchStart || !isSwiping || gameStatus !== 'playing') {
       setIsSwiping(false);
       return;
@@ -224,7 +234,7 @@ const GridLineGame = () => {
 
   // Handle keyboard events
   useEffect(() => {
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e: KeyboardEvent) => {
       if (gameStatus !== 'playing' || showSetup) return;
 
       switch (e.key) {

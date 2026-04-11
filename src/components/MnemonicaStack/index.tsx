@@ -170,7 +170,7 @@ export default function MnemonicaStack() {
 
     for (let i = 0; i < mnemonicaData.length; i += cardsPerRow) {
       const rowCards = mnemonicaData.slice(i, i + cardsPerRow);
-      const rowElements = [];
+      const rowElements: React.ReactNode[] = [];
 
       rowCards.forEach((data, idx) => {
         const globalIndex = i + idx;
