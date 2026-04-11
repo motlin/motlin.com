@@ -65,7 +65,7 @@ export const DifferentSizes: Story = {
     position: 1,
     size: 40,
   },
-  render: ({ size }) => {
+  render: ({ size = 40 }) => {
     const sizes = [size * 2, size * 3, size * 4, size * 5];
     const positions = [1, 13, 26, 52];
 
@@ -100,7 +100,7 @@ export const AllPositions: Story = {
     position: 1,
     size: 120,
   },
-  render: ({ size }) => {
+  render: ({ size = 120 }) => {
     const positions = Array.from({ length: 52 }, (_, i) => i + 1);
 
     return (
