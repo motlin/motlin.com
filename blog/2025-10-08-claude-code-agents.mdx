@@ -71,7 +71,7 @@ After using agents for a few weeks, here's what I've found:
 
 ## My Four Main Agents {#my-four-main-agents}
 
-In my [`~/.claude/CLAUDE.md`](https://github.com/motlin/claude-code-prompts/blob/main/instructions/build-commands.md), I specify four agents that should run when code changes are ready:
+In my [`~/.claude/CLAUDE.md`](https://github.com/motlin/claude-code-plugins/tree/main/plugins/build), I specify four agents that should run when code changes are ready:
 
 ```markdown
 - When a code change is ready, and we are about to return control to the user, do these things in order:
@@ -123,7 +123,7 @@ This agent rebases the current branch on top of the upstream branch to ensure ch
 
 ## Putting It All Together: The `/todo` Command {#putting-it-all-together}
 
-As I found myself manually running the same sequence of cleanup agents after implementing each task, I created a `/todo` slash command to gather the entire workflow into a single command. I started keeping a markdown task list in `.llm/todo.md`.  I'd run `/todo` to get Claude to implement one task from the list. The [full slash command](https://github.com/motlin/claude-code-prompts/blob/main/commands/todo.md) is on GitHub. To summarize what it does:
+As I found myself manually running the same sequence of cleanup agents after implementing each task, I created a `/todo` slash command to gather the entire workflow into a single command. I started keeping a markdown task list in `.llm/todo.md`.  I'd run `/todo` to get Claude to implement one task from the list. The [full slash command](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/commands/do-one-task.md) is on GitHub. To summarize what it does:
 
 1. Read `.llm/todo.md` using `todo-get`
 2. Find the first incomplete task
@@ -150,7 +150,7 @@ Complex workflows naturally decompose when agents can call other agents. Instead
 
 ## Try It Yourself {#try-it-yourself}
 
-You can copy my agents directly from [my GitHub repo](https://github.com/motlin/claude-code-prompts/tree/main/agents) or create your own with `/agents`. Start with something simple - maybe just the comment cleaner - and see how it changes your workflow.
+You can copy my agents directly from [my GitHub repo](https://github.com/motlin/claude-code-plugins) or create your own with `/agents`. Start with something simple - maybe just the comment cleaner - and see how it changes your workflow.
 
 I feel like I'm just scratching the surface with agents. If you find different patterns that work well, let me know in the comments below.
 

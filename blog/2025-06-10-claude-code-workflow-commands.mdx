@@ -27,7 +27,7 @@ Claude Code comes with built-in slash commands like `/pr-comments`, which are es
 
 Both are invoked with `/example`. If a command exists in both locations, the project-specific version takes precedence.
 
-You can find more examples and command definitions in the [claude-code-prompts repository](https://github.com/motlin/claude-code-prompts/tree/main/commands).
+You can find more examples and command definitions in the [claude-code-plugins repository](https://github.com/motlin/claude-code-plugins).
 
 ## The Development Loop
 
@@ -67,7 +67,7 @@ This command tells Claude to implement one task from the list.
   {TodoCommandSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/todo.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/commands/do-one-task.md)
 
 "Think hard" is [a magic word](https://simonwillison.net/2025/Apr/19/claude-code-best-practices/) that triggers extended reasoning.
 
@@ -79,7 +79,7 @@ After implementing and testing a task, I use `/commit` to create a commit:
   {CommitCommandSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-prompts/blob/main/commands/commit.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/git/commands/commit.md)
 
 You don't need a custom command to commit - and Claude will offer to commit without being asked. But this gives me control over timing while leveraging Claude's ability to write good summaries.
 
