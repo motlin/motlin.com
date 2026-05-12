@@ -72,7 +72,7 @@
     "eslint-plugin-storybook": "^10.3.6",
     "globals": "^17.6.0",
     "jsdom": "^29.1.1",
-    "playwright": "^1.59.1",
+    "playwright": "^1.60.0",
     "raw-loader": "^4.0.2",
     "storybook": "^10.3.6",
     "tsx": "^4.21.0",
