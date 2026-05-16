@@ -17,3 +17,8 @@ developer-productivity:
   label: Developer Productivity
   permalink: /developer-productivity
   description: Tips and tools for improving software development productivity
+
+plugins:
+  label: Plugins
+  permalink: /plugins
+  description: Posts about Claude Code plugins and extensions
