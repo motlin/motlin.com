@@ -49,7 +49,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.6",
     "@babel/plugin-transform-modules-commonjs": "^7.29.7",
-    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-react": "^7.29.7",
     "@chromatic-com/storybook": "^5.2.1",
     "@docusaurus/eslint-plugin": "^3.10.1",
     "@docusaurus/module-type-aliases": "^3.8.0",
