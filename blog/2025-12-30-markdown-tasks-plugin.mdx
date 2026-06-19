@@ -9,9 +9,9 @@ description: "Built-in todos forget after compaction. Beads brings a versioned d
 
 import GiscusComponent from '@site/src/components/GiscusComponent';
 
-For all the talk of concurrent agent swarms, working concurrently is inconvenient. When I've run agents in parallel, they trample each other's edits and manufacture merge conflicts I get to resolve later. The coordination overhead eats the speedup.
+For all the talk of concurrent agent swarms, working concurrently is inconvenient. When I've run agents in parallel, carefully separating them into different worktrees so they don't trample each other's edits, their changes still cause merge conflicts. The coordination overhead eats any speedup.
 
-So I run my swarm in serial. One agent at a time, working down one markdown file, for hours. The agents never share a working tree. They share a todo list.
+So I typically work on several _projects_ at a time, but work through a single task list for each, in serial, from top to bottom.
 
 That todo list has to live somewhere. Claude Code's built-in todos forget. [Beads](https://github.com/gastownhall/beads) remembers everything, but brings a versioned database to a one-developer problem. A markdown checklist is just right, so I built [markdown-tasks](https://github.com/motlin/claude-code-plugins/tree/main/plugins/markdown-tasks).
 
