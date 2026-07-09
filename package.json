@@ -76,7 +76,7 @@
     "raw-loader": "^4.0.2",
     "storybook": "^10.4.6",
     "tsx": "^4.23.0",
-    "typescript": "~6.0.3",
+    "typescript": "~7.0.2",
     "vitest": "^4.1.10"
   },
   "optionalDependencies": {
