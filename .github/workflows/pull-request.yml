@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: "22.x"
 
-      - uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
+      - uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
 
       - run: just lint-ci
         id: lint
@@ -46,7 +46,7 @@ jobs:
         with:
           node-version: "22.x"
 
-      - uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
+      - uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
 
       - run: just typecheck-ci
 
@@ -62,7 +62,7 @@ jobs:
         with:
           node-version: "22.x"
 
-      - uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
+      - uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
 
       - run: just test-run-ci
 
@@ -77,7 +77,7 @@ jobs:
         with:
           node-version: "22.x"
 
-      - uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
+      - uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
 
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
