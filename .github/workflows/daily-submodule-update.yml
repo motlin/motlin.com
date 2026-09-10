@@ -2,8 +2,8 @@ name: Daily Submodule Update
 
 on:
   schedule:
-    # 8 AM EST / 9 AM EDT
-    - cron: "0 13 * * *"
+    - cron: "0 8 * * *"
+      timezone: "America/New_York"
   workflow_dispatch:
 
 permissions:
