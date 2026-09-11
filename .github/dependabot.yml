@@ -8,8 +8,11 @@ updates:
       timezone: "America/New_York"
     open-pull-requests-limit: 25
     ignore:
+      # TS 7 breaks both lint and typecheck: typescript-eslint refuses to load against
+      # it, and @docusaurus/tsconfig still sets the baseUrl that TS 7 removed. Drop the
+      # >=7.0.0 bound once typescript-eslint ships TS 7 support.
       - dependency-name: "typescript"
-        versions: ["5.9.x"]
+        versions: ["5.9.x", ">=7.0.0"]
     groups:
       typescript-ecosystem:
         patterns:
