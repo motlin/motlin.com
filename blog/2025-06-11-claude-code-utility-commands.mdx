@@ -12,7 +12,7 @@ import GiscusComponent from '@site/src/components/GiscusComponent';
 import CommentRemovalRulesSource from '!!raw-loader!../src/claude-code-plugins/plugins/code/commands/all-comments.md';
 import CommentsCommandSource from '!!raw-loader!../src/claude-code-plugins/plugins/code/commands/comments.md';
 import EmojiCommandSource from '!!raw-loader!../src/claude-code-plugins/plugins/code/commands/emoji.md';
-import ConflictsCommandSource from '!!raw-loader!../src/claude-code-plugins/plugins/git/commands/conflicts.md';
+import ConflictsCommandSource from '!!raw-loader!../src/claude-code-plugins/plugins/git/skills/conflicts/SKILL.md';
 
 Utility commands I use with Claude Code for code maintenance and cleanup, particularly for handling the LLM's tendency to over-comment code.
 
@@ -77,7 +77,7 @@ This command systematically resolves merge conflicts during git rebases.
   {ConflictsCommandSource}
 </CodeBlock>
 
-[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/git/commands/conflicts.md)
+[View on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/git/skills/conflicts/SKILL.md)
 
 ### Conflict Resolution Strategy {#conflict-resolution-strategy}
 

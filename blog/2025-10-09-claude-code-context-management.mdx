@@ -49,7 +49,7 @@ The `/todo-all` command is where the magic happens:
 - Launch the `@do-todo` agent to implement it
 - Repeat until no incomplete tasks remain
 
-There are also some instructions on how to report progress back to the user. You can see the full slash command prompt [on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/commands/do-all-tasks.md).
+There are also some instructions on how to report progress back to the user. You can see the full slash command prompt [on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/skills/do-all-tasks/SKILL.md).
 
 The main conversation stays clean throughout this process. All the verbose output - test failures, build logs, git operations, file edits - happens inside the `@do-todo` agent's separate context and never touches the main window. This context isolation is what makes it possible to run for over an hour without hitting the token limit.
 
@@ -83,7 +83,7 @@ Start with a simple todo list:
 Save it to `.llm/todo.md`, then run `/todo-all`. Watch Claude work through the entire list autonomously.
 
 You can copy my setup from my GitHub repos. You'll need:
-- The [`/todo-all` command](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/commands/do-all-tasks.md)
+- The [`/todo-all` command](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/skills/do-all-tasks/SKILL.md)
 - The [`do-todo` agent](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/agents/do-task.md)
 - The four cleanup agents: [`comment-cleaner`](https://github.com/motlin/claude-code-plugins/blob/main/plugins/code/agents/comment-cleaner.md), [`precommit-runner`](https://github.com/motlin/claude-code-plugins/blob/main/plugins/build/agents/precommit-runner.md), [`git-commit-handler`](https://github.com/motlin/claude-code-plugins/blob/main/plugins/git/agents/commit-handler.md), [`git-rebaser`](https://github.com/motlin/claude-code-plugins/blob/main/plugins/git/agents/rebaser.md)
 - The [`todo-get`](https://github.com/motlin/dotfiles/blob/main/bin/todo-get) and [`todo-complete`](https://github.com/motlin/dotfiles/blob/main/bin/todo-complete) scripts

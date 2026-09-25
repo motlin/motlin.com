@@ -123,7 +123,7 @@ This agent rebases the current branch on top of the upstream branch to ensure ch
 
 ## Putting It All Together: The `/todo` Command {#putting-it-all-together}
 
-As I found myself manually running the same sequence of cleanup agents after implementing each task, I created a `/todo` slash command to gather the entire workflow into a single command. I started keeping a markdown task list in `.llm/todo.md`.  I'd run `/todo` to get Claude to implement one task from the list. The [full slash command](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/commands/do-one-task.md) is on GitHub. To summarize what it does:
+As I found myself manually running the same sequence of cleanup agents after implementing each task, I created a `/todo` slash command to gather the entire workflow into a single command. I started keeping a markdown task list in `.llm/todo.md`.  I'd run `/todo` to get Claude to implement one task from the list. The [full slash command](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/skills/do-one-task/SKILL.md) is on GitHub. To summarize what it does:
 
 1. Read `.llm/todo.md` using `todo-get`
 2. Find the first incomplete task
