@@ -325,6 +325,30 @@
           "license": "MIT"
         },
         {
+          "id": "quarto",
+          "name": "QuartoBot",
+          "repoUrl": "https://github.com/motlin/quarto",
+          "description": "Play Quarto against a perfect-play opponent. Choose your opponent's piece, line up four pieces sharing a trait, and explore move annotations from a Rust solver running in the browser.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/quarto",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://quarto.motlin.com/",
+              "label": "Play"
+            }
+          ],
+          "techStack": ["React", "Rust", "WebAssembly"],
+          "features": [
+            "Perfect-Play Opponent",
+            "Move Annotations",
+            "Two Rule Variants"
+          ],
+          "githubRepo": "motlin/quarto",
+          "language": "TypeScript"
+        },
+        {
           "id": "hex-zero",
           "name": "Hex Zero",
           "repoUrl": "https://github.com/motlin/hex-zero",
