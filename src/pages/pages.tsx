@@ -8,6 +8,7 @@ interface PageItem {
   description: string;
   link: string;
   emoji?: string;
+  iconUrl?: string;
 }
 
 const pages: PageItem[] = [
@@ -22,6 +23,12 @@ const pages: PageItem[] = [
     description: 'Personal recommendations for tools, products, and resources',
     link: '/sick-picks',
     emoji: '🎧'
+  },
+  {
+    title: 'QuartoBot',
+    description: 'Play Quarto against a perfect-play opponent with move annotations',
+    link: 'https://quarto.motlin.com/',
+    iconUrl: '/img/quarto-favicon.svg'
   },
   {
     title: 'Grid Lines',
@@ -54,6 +61,16 @@ export default function PagesIndex() {
               <div className="card shadow--md">
                 <div className="card__header">
                   <Heading as="h2">
+                    {page.iconUrl && (
+                      <img
+                        src={page.iconUrl}
+                        alt=""
+                        width={32}
+                        height={32}
+                        className="margin-right--sm"
+                        style={{ verticalAlign: 'middle' }}
+                      />
+                    )}
                     {page.emoji && <span className="margin-right--sm">{page.emoji}</span>}
                     {page.title}
                   </Heading>

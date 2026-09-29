@@ -346,6 +346,7 @@
             "Two Rule Variants"
           ],
           "githubRepo": "motlin/quarto",
+          "iconUrl": "/img/quarto-favicon.svg",
           "language": "TypeScript"
         },
         {

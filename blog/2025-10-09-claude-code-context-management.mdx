@@ -39,7 +39,7 @@ I ported the `/todo` command to a `do-todo` agent and created a looping `/todo-a
 
 The `do-todo` agent is nearly identical to the [/todo slash command](/blog/claude-code-slash-commands-to-agents#putting-it-all-together) from my previous post. The key difference is that it runs as an agent instead of a slash command, which means it executes in a separate context. This is crucial for the looping mechanism in `/todo-all` since all the verbose output from implementation, builds, tests, and git operations stays out of the main conversation.
 
-[The agent](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/agents/do-task.md) gets a task with `todo-get`, implements it, runs cleanup agents (`comment-cleaner`, `precommit-runner`, `git-commit-handler`, `git-rebaser`), and marks it complete with `todo-complete`.
+[The agent](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/markdown-tasks/agents/do-task.md) gets a task with `todo-get`, implements it, runs cleanup agents (`comment-cleaner`, `precommit-runner`, `git-commit-handler`, `git-rebaser`), and marks it complete with `todo-complete`.
 
 ### The `/todo-all` Command {#todo-all-command}
 
@@ -84,8 +84,8 @@ Save it to `.llm/todo.md`, then run `/todo-all`. Watch Claude work through the e
 
 You can copy my setup from my GitHub repos. You'll need:
 - The [`/todo-all` command](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/skills/do-all-tasks/SKILL.md)
-- The [`do-todo` agent](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/agents/do-task.md)
-- The four cleanup agents: [`comment-cleaner`](https://github.com/motlin/claude-code-plugins/blob/main/plugins/code/agents/comment-cleaner.md), [`precommit-runner`](https://github.com/motlin/claude-code-plugins/blob/main/plugins/build/agents/precommit-runner.md), [`git-commit-handler`](https://github.com/motlin/claude-code-plugins/blob/main/plugins/git/agents/commit-handler.md), [`git-rebaser`](https://github.com/motlin/claude-code-plugins/blob/main/plugins/git/agents/rebaser.md)
+- The [`do-todo` agent](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/markdown-tasks/agents/do-task.md)
+- The four cleanup agents: [`comment-cleaner`](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/code/agents/comment-cleaner.md), [`precommit-runner`](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/build/agents/precommit-runner.md), [`git-commit-handler`](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/git/agents/commit-handler.md), [`git-rebaser`](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/git/agents/rebaser.md)
 - The [`todo-get`](https://github.com/motlin/dotfiles/blob/main/bin/todo-get) and [`todo-complete`](https://github.com/motlin/dotfiles/blob/main/bin/todo-complete) scripts
 
 <GiscusComponent />
