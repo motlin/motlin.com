@@ -37,6 +37,12 @@ const pages: PageItem[] = [
     iconUrl: '/img/elemental-arena-favicon.svg'
   },
   {
+    title: 'Neighbors',
+    description: 'A logic puzzle where every building must agree with the neighbors touching it',
+    link: 'https://neighbors.motlin.com/',
+    iconUrl: '/img/neighbors-favicon.svg'
+  },
+  {
     title: 'Grid Lines',
     description: 'A puzzle game where you draw lines through all connections on a grid',
     link: '/lines',
