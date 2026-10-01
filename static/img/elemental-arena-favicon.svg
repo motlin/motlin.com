@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+	<!-- The arena: four tiles of the starting ground on the void, colours from EL and tokens.css. -->
+	<rect width="32" height="32" rx="7" fill="#0b0e1a"/>
+	<rect x="4" y="4" width="11" height="11" rx="2.5" fill="#ff5a1e"/>
+	<rect x="17" y="4" width="11" height="11" rx="2.5" fill="#2f9dff"/>
+	<rect x="4" y="17" width="11" height="11" rx="2.5" fill="#9c7a4d"/>
+	<rect x="17" y="17" width="11" height="11" rx="2.5" fill="#9ef0dc"/>
+</svg>

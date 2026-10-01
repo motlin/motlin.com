@@ -31,6 +31,12 @@ const pages: PageItem[] = [
     iconUrl: '/img/quarto-favicon.svg'
   },
   {
+    title: 'Elemental Arena',
+    description: 'A hot-seat tactical card game played on a grid of fusing elemental terrain',
+    link: 'https://elemental-arena.motlin.com/',
+    iconUrl: '/img/elemental-arena-favicon.svg'
+  },
+  {
     title: 'Grid Lines',
     description: 'A puzzle game where you draw lines through all connections on a grid',
     link: '/lines',
