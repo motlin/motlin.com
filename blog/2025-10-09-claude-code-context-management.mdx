@@ -23,52 +23,47 @@ The [final slash command](/blog/claude-code-slash-commands-to-agents#putting-it-
 
 I briefly experimented with [worktrees](/blog/claude-code-worktree) to run multiple tasks in parallel, but found it was often more trouble than it was worth.
 
-My next attempt is what I settled on. I converted `/todo` to an agent (`do-todo`), and created a looping `/todo-all` command to run the agent repeatedly. Now my process is:
+My next attempt is what I settled on. `/todo` became the `markdown-tasks:do-one-task` skill, and a looping `markdown-tasks:do-all-tasks` skill runs it repeatedly. Now my process is:
 
 - Create a markdown todo list in `.llm/todo.md`
-- Run `/todo-all` to have Claude work through the entire list
+- Run `/do-all-tasks` to have Claude work through the entire list
 - Occasionally check in, and potentially append or reorder tasks while Claude works
 
 This works well. I've had Claude run for over an hour several times, and much longer on occasion. The longest I've had it run is on a porting task where each todo item took the form "Port file X from JavaScript to TypeScript". Claude worked through the entire list autonomously, with no human intervention, for over 2 hours. If my JavaScript project was bigger, Claude could have kept going for longer.
 
-## The Current Solution: `do-todo` and `/todo-all` {#the-current-solution}
+## The Current Solution: `do-one-task` and `do-all-tasks` {#the-current-solution}
 
-I ported the `/todo` command to a `do-todo` agent and created a looping `/todo-all` command that processes the entire list.
+The `/todo` command is now the `do-one-task` skill, and the looping `do-all-tasks` skill processes the entire list.
 
-### The `do-todo` Agent {#do-todo-agent}
+### The `do-one-task` Skill {#do-todo-agent}
 
-The `do-todo` agent is nearly identical to the [/todo slash command](/blog/claude-code-slash-commands-to-agents#putting-it-all-together) from my previous post. The key difference is that it runs as an agent instead of a slash command, which means it executes in a separate context. This is crucial for the looping mechanism in `/todo-all` since all the verbose output from implementation, builds, tests, and git operations stays out of the main conversation.
+The [`do-one-task` skill](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/skills/do-one-task/SKILL.md) is nearly identical to the [/todo slash command](/blog/claude-code-slash-commands-to-agents#putting-it-all-together) from my previous post. It gets the next task with `task_get.py`, implements it, runs the `orchestration:finish` skill (`git:commit`, `build:precommit`, `git:git-rebase`), and marks it complete with `task_mark.py`.
 
-[The agent](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/markdown-tasks/agents/do-task.md) gets a task with `todo-get`, implements it, runs cleanup agents (`comment-cleaner`, `precommit-runner`, `git-commit-handler`, `git-rebaser`), and marks it complete with `todo-complete`.
+### The `do-all-tasks` Skill {#todo-all-command}
 
-### The `/todo-all` Command {#todo-all-command}
+The [`do-all-tasks` skill](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/skills/do-all-tasks/SKILL.md) is where the magic happens:
 
-The `/todo-all` command is where the magic happens:
-
-- Find whether there is an incomplete task using `todo-get`
-- Launch the `@do-todo` agent to implement it
+- Find whether there is an incomplete task using `task_get.py`
+- Launch a fresh subagent that follows the `do-one-task` skill
+- Check that the subagent left exactly one commit and that it passes precommit
 - Repeat until no incomplete tasks remain
 
-There are also some instructions on how to report progress back to the user. You can see the full slash command prompt [on GitHub](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/skills/do-all-tasks/SKILL.md).
+The main conversation stays clean throughout this process. All the verbose output - test failures, build logs, git operations, file edits - happens inside each subagent's separate context and never touches the main window. This context isolation is what makes it possible to run for over an hour without hitting the token limit.
 
-The main conversation stays clean throughout this process. All the verbose output - test failures, build logs, git operations, file edits - happens inside the `@do-todo` agent's separate context and never touches the main window. This context isolation is what makes it possible to run for over an hour without hitting the token limit.
-
-## Agent Hierarchy: Agents Calling Agents {#agent-hierarchy}
+## Skill Hierarchy: Skills Calling Skills {#agent-hierarchy}
 
 The full hierarchy looks like this:
 
 ```
-/todo-all → launch the @do-todo agent... Repeat until no incomplete tasks
-└── @do-todo → Implement the task... then do these things in order:
-    ├── Remove obvious comments using the @comment-cleaner agent
-    ├── Verify the build passes using the @precommit-runner agent
-    ├── Commit to git using the @git-commit-handler agent
-    └── Rebase on upstream with the @git-rebaser agent
-        └── invoke the @git-rebase-conflict-resolver agent to handle merge conflicts
-            └── If more conflicts arise, repeat the @git-rebase-conflict-resolver agent
+do-all-tasks → launch a subagent per task... Repeat until no incomplete tasks
+└── do-one-task → Implement the task... then run orchestration:finish:
+    ├── Commit to git using git:commit
+    ├── Verify the build passes using build:precommit
+    └── Rebase on upstream with git:git-rebase
+        └── Resolve merge conflicts with git:conflicts
 ```
 
-Each agent has a focused job. The prompts explicitly tell agents when to delegate to other agents. This creates a deep chain of automation where each piece handles one specific concern.
+Each skill has a focused job. The prompts explicitly tell each skill when to hand off to another. This creates a deep chain of automation where each piece handles one specific concern.
 
 ## Try It Yourself {#try-it-yourself}
 
@@ -80,12 +75,8 @@ Start with a simple todo list:
 - [ ] Update documentation
 ```
 
-Save it to `.llm/todo.md`, then run `/todo-all`. Watch Claude work through the entire list autonomously.
+Save it to `.llm/todo.md`, then run `/do-all-tasks`. Watch Claude work through the entire list autonomously.
 
-You can copy my setup from my GitHub repos. You'll need:
-- The [`/todo-all` command](https://github.com/motlin/claude-code-plugins/blob/main/plugins/markdown-tasks/skills/do-all-tasks/SKILL.md)
-- The [`do-todo` agent](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/markdown-tasks/agents/do-task.md)
-- The four cleanup agents: [`comment-cleaner`](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/code/agents/comment-cleaner.md), [`precommit-runner`](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/build/agents/precommit-runner.md), [`git-commit-handler`](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/git/agents/commit-handler.md), [`git-rebaser`](https://github.com/motlin/claude-code-plugins/blob/8b202fa9d93feb809cda78dac2186f73191839e4/plugins/git/agents/rebaser.md)
-- The [`todo-get`](https://github.com/motlin/dotfiles/blob/main/bin/todo-get) and [`todo-complete`](https://github.com/motlin/dotfiles/blob/main/bin/todo-complete) scripts
+You can copy my setup from the [markdown-tasks plugin](https://github.com/motlin/claude-code-plugins/tree/main/plugins/markdown-tasks), along with the `git`, `build`, and `orchestration` plugins its skills call.
 
 <GiscusComponent />
