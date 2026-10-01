@@ -350,6 +350,31 @@
           "language": "TypeScript"
         },
         {
+          "id": "neighbors",
+          "name": "Neighbors",
+          "repoUrl": "https://github.com/motlin/neighbors",
+          "description": "A single-player logic puzzle. Place a bag of numbered buildings on an empty grid until every building's number agrees with the neighbors touching it, or design your own level and share it as a one-line code.",
+          "links": [
+            {
+              "url": "https://github.com/motlin/neighbors",
+              "label": "GitHub"
+            },
+            {
+              "url": "https://neighbors.motlin.com/",
+              "label": "Play"
+            }
+          ],
+          "techStack": ["React", "TypeScript"],
+          "features": [
+            "Six Building Types",
+            "Level Designer",
+            "Shareable Puzzle Codes"
+          ],
+          "githubRepo": "motlin/neighbors",
+          "iconUrl": "/img/neighbors-favicon.svg",
+          "language": "TypeScript"
+        },
+        {
           "id": "hex-zero",
           "name": "Hex Zero",
           "repoUrl": "https://github.com/motlin/hex-zero",
