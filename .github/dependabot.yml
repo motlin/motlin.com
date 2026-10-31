@@ -14,10 +14,8 @@ updates:
     ignore:
       # Renovate's "vite-plus monorepo" group owns vite-plus so its vite alias moves with it.
       - dependency-name: "vite-plus"
-      # TS 7 breaks lint: typescript-eslint refuses to load against it. Drop the >=7.0.0
-      # bound once typescript-eslint ships TS 7 support.
       - dependency-name: "typescript"
-        versions: ["5.9.x", ">=7.0.0"]
+        versions: ["5.9.x"]
     # Only group dependencies that must move in lockstep. typescript was a
     # single-package group, so it gets its own PR either way -- dropped so a
     # breaking bump is labelled by name rather than hidden behind a group.
