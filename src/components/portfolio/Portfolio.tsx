@@ -15,7 +15,7 @@ function ProfileImage() {
 	return (
 		<img
 			className={styles.profileImage}
-			src={profile?.avatar_url || portfolioData.profile.avatarUrl}
+			src={profile?.avatar_url ?? portfolioData.profile.avatarUrl}
 			alt={portfolioData.profile.name}
 		/>
 	);
@@ -23,15 +23,17 @@ function ProfileImage() {
 
 function ProfileName() {
 	const profile = useGitHubUserProfile();
+	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GitHub name falls back to the portfolio name.
 	return profile?.name || portfolioData.profile.name;
 }
 
 function ProfileBio() {
 	const profile = useGitHubUserProfile();
+	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GitHub bio falls back to the portfolio bio.
 	return profile?.bio || portfolioData.profile.bio;
 }
 
-const iconMap = {
+const iconMap: Record<string, React.JSX.Element> = {
 	FaGithub: <FaGithub />,
 	FaStackOverflow: <FaStackOverflow />,
 	FaLinkedinIn: <FaLinkedinIn />,
@@ -51,7 +53,7 @@ export function Portfolio() {
 					<div className={styles.socialLinks}>
 						{portfolioData.profile.socialLinks.map((link) => (
 							<Link key={link.platform} href={link.url} className={styles.socialLink}>
-								{iconMap[link.icon as keyof typeof iconMap]}
+								{iconMap[link.icon]}
 								<span>{link.platform}</span>
 							</Link>
 						))}

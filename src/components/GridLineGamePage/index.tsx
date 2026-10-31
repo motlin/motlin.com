@@ -4,11 +4,11 @@ import GridLineGame from "../GridLineGame";
 const GridLineGamePage = () => {
 	useEffect(() => {
 		// Hide the sidebar and center the content
-		const sidebarElement = document.querySelector("aside.theme-doc-sidebar-container") as HTMLElement;
-		const tocElement = document.querySelector(".theme-doc-toc-desktop") as HTMLElement;
-		const mainElement = document.querySelector("main") as HTMLElement;
-		const articleElement = document.querySelector("article") as HTMLElement;
-		const allContainers = document.querySelectorAll(".container");
+		const sidebarElement = document.querySelector<HTMLElement>("aside.theme-doc-sidebar-container");
+		const tocElement = document.querySelector<HTMLElement>(".theme-doc-toc-desktop");
+		const mainElement = document.querySelector<HTMLElement>("main");
+		const articleElement = document.querySelector<HTMLElement>("article");
+		const allContainers = document.querySelectorAll<HTMLElement>(".container");
 
 		// Hide sidebar and TOC
 		if (sidebarElement) sidebarElement.style.display = "none";
@@ -30,8 +30,7 @@ const GridLineGamePage = () => {
 		}
 
 		// Remove all container constraints
-		allContainers.forEach((container) => {
-			const el = container as HTMLElement;
+		allContainers.forEach((el) => {
 			el.style.maxWidth = "100%";
 			el.style.width = "100%";
 			el.style.margin = "0";
@@ -53,8 +52,7 @@ const GridLineGamePage = () => {
 				articleElement.style.removeProperty("margin");
 				articleElement.style.removeProperty("padding");
 			}
-			allContainers.forEach((container) => {
-				const el = container as HTMLElement;
+			allContainers.forEach((el) => {
 				el.style.removeProperty("max-width");
 				el.style.removeProperty("width");
 				el.style.removeProperty("margin");

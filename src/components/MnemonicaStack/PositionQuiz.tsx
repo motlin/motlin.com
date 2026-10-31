@@ -27,6 +27,7 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 		}
 		const shuffled = [...cards];
 		for (let i = shuffled.length - 1; i > 0; i--) {
+			// oxlint-disable-next-line react/purity -- The shuffle is intentionally random and memoized per deck.
 			const j = Math.floor(Math.random() * (i + 1));
 			[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
 		}
@@ -228,18 +229,38 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 					<input
 						type="text"
 						value={userAnswer}
-						onChange={(e) => setUserAnswer(e.target.value)}
+						onChange={(e) => {
+							setUserAnswer(e.target.value);
+						}}
 						disabled={isAnswered}
 						placeholder={mode === "position-to-card" ? "e.g., 4C, QH, AS" : "e.g., 1, 2, 52"}
 						style={{
 							...inputStyle,
 							backgroundColor: isAnswered ? "#f8f9fa" : "white",
 						}}
+						// oxlint-disable-next-line jsx-a11y/no-autofocus -- The quiz answer input is meant to take focus immediately.
 						autoFocus
 					/>
 				</div>
 
-				{!isAnswered ? (
+				{isAnswered ? (
+					<button
+						type="button"
+						onClick={goToNextQuestion}
+						style={{
+							...buttonStyle,
+							backgroundColor: "#28a745",
+						}}
+						onMouseEnter={(e) => {
+							e.currentTarget.style.backgroundColor = "#218838";
+						}}
+						onMouseLeave={(e) => {
+							e.currentTarget.style.backgroundColor = "#28a745";
+						}}
+					>
+						{isLastQuestion ? "Finish Quiz" : "Next Question →"}
+					</button>
+				) : (
 					<button
 						type="submit"
 						disabled={!userAnswer.trim()}
@@ -260,23 +281,6 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 						}}
 					>
 						Submit Answer
-					</button>
-				) : (
-					<button
-						type="button"
-						onClick={goToNextQuestion}
-						style={{
-							...buttonStyle,
-							backgroundColor: "#28a745",
-						}}
-						onMouseEnter={(e) => {
-							e.currentTarget.style.backgroundColor = "#218838";
-						}}
-						onMouseLeave={(e) => {
-							e.currentTarget.style.backgroundColor = "#28a745";
-						}}
-					>
-						{isLastQuestion ? "Finish Quiz" : "Next Question →"}
 					</button>
 				)}
 			</form>

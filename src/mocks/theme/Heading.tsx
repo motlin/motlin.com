@@ -11,7 +11,7 @@ interface HeadingProps {
 }
 
 // Simple mock of Docusaurus Heading component for Storybook
-const Heading: React.FC<HeadingProps> = ({as: Tag = "h1", children, className, style, id}) => {
+const Heading: React.FC<HeadingProps> = ({as: Tag, children, className, style, id}) => {
 	return (
 		<Tag className={className} style={style} id={id}>
 			{children}

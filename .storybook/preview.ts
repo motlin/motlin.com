@@ -40,15 +40,17 @@ const preview: Preview = {
 	},
 	decorators: [
 		(Story, context) => {
+			const theme = String(context.globals.theme);
+
 			// Apply theme class to the story
 			React.useEffect(() => {
-				document.documentElement.setAttribute("data-theme", context.globals.theme);
-			}, [context.globals.theme]);
+				document.documentElement.setAttribute("data-theme", theme);
+			}, [theme]);
 
 			return React.createElement(
 				"div",
 				{
-					"data-theme": context.globals.theme,
+					"data-theme": theme,
 					style: {
 						padding: "1rem",
 						minHeight: "100vh",

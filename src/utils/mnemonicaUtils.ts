@@ -26,13 +26,13 @@ export function getTransitionImagePath(
 	const toRank = toData.card.slice(0, -1);
 	const toSuit = toData.card.slice(-1);
 
-	const validSuits = ["S", "H", "C", "D"];
+	const validSuits = new Set(["S", "H", "C", "D"]);
 
-	if (!validSuits.includes(fromSuit)) {
+	if (!validSuits.has(fromSuit)) {
 		throw new Error(`Invalid suit in fromCard: ${fromData.card}. Expected S, H, C, or D.`);
 	}
 
-	if (!validSuits.includes(toSuit)) {
+	if (!validSuits.has(toSuit)) {
 		throw new Error(`Invalid suit in toCard: ${toData.card}. Expected S, H, C, or D.`);
 	}
 

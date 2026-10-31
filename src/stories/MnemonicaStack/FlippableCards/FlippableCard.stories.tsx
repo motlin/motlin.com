@@ -180,10 +180,10 @@ export const StandardDeckOrder: Story = {
 						gap: "1.5rem",
 					}}
 				>
-					{standardDeckOrder.map((card, index) => {
+					{standardDeckOrder.map((card) => {
 						const cardSize = 150;
 						return (
-							<div key={index} style={{textAlign: "center"}}>
+							<div key={card} style={{textAlign: "center"}}>
 								<FlippableCard
 									frontComponent={<StandardCard card={card} />}
 									backComponent={<MnemonicCard card={card} />}
