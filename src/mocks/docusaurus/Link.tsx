@@ -9,7 +9,7 @@ const Link: React.FC<LinkProps> = ({href, to, children, ...props}) => {
 	const url = href || to || "#";
 
 	return (
-		// eslint-disable-next-line @docusaurus/no-html-links
+		// oxlint-disable-next-line @docusaurus/no-html-links
 		<a href={url} {...props}>
 			{children}
 		</a>
