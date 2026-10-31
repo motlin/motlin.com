@@ -3,6 +3,8 @@ import type {Config} from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 import portfolioData from "./src/data/portfolio.json";
 
+process.title = "motlin.com";
+
 const config: Config = {
 	title: "motlin.com",
 	tagline: "developer productivity blog",
