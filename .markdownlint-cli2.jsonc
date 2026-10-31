@@ -9,6 +9,7 @@
 		".claude/**",
 		"dist/**",
 		"CLAUDE.md",
+		"CLAUDE.local.md",
 		"docs/**",
 		"blog/**",
 		"src/pages/**",
