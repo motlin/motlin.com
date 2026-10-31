@@ -14,9 +14,9 @@ import ColorSwatch from '@site/src/components/ColorSwatch';
 
 After I shared [JetBrains IDEs hidden features: Syntax Highlighting](./jetbrains-syntax-highlighting.mdx), my coworker asked these thought-provoking questions.
 
-* How did you pick the colors?
-* What is the relationship of the colors to each other?
-* Do you see the code differently?
+- How did you pick the colors?
+- What is the relationship of the colors to each other?
+- Do you see the code differently?
 
 I'll share my answers here.
 
@@ -64,6 +64,7 @@ We've already used <ColorSwatch color="#AA0000" label={false} /> maroon and <Col
 We still have 5 colors left with plenty of contrast: <ColorSwatch color="#FF8800" /> orange, <ColorSwatch color="#00AA00" /> green, <ColorSwatch color="#1750EB" /> blue, <ColorSwatch color="#871094" /> purple, and <ColorSwatch color="#FF15B4" /> pink.
 
 But there are more than 5 token types left. We have two options:
+
 - Squeeze in more colors, by using two shades of blue, two shades of green, etc.
 - Assign the same color to multiple token types where they won't get confused with each other.
 
@@ -79,9 +80,9 @@ There's a chance that keywords could be confused with an identifier, at a glance
 
 This leads to my main point about the relationship of the colors to each other. We have a finite palette of visually distinct colors. **Contrast is a scarce resource which we only spend to resolve ambiguity.**
 
-* Classes, interfaces, and generic type parameters should use distinct colors.
-* Javadoc comments should have a color distinct from line and block comments.
-* Keywords, parameters, locals, and fields should use distinct colors.
+- Classes, interfaces, and generic type parameters should use distinct colors.
+- Javadoc comments should have a color distinct from line and block comments.
+- Keywords, parameters, locals, and fields should use distinct colors.
 
 We should not reuse a color within each group, but it's ok to reuse colors across groups.
 
@@ -124,8 +125,8 @@ However, JetBrains did add a keyboard shortcut <kbd>Ctrl</kbd> + <kbd>`</kbd> fo
 My first thought was there must exist an algorithm that can automatically convert a light theme into a dark theme. I couldn't find such an algorithm. Yet I think I came up with something close.
 
 - I took basic colors and fully saturated them.
-  - <ColorSwatch color="#00AA00" /> → <ColorSwatch color="#00FF00" /> green
-  - <ColorSwatch color="#00AAAA" /> → <ColorSwatch color="#00FFFF" /> teal
+    - <ColorSwatch color="#00AA00" /> → <ColorSwatch color="#00FF00" /> green
+    - <ColorSwatch color="#00AAAA" /> → <ColorSwatch color="#00FFFF" /> teal
 - Some Darcula choices also are lighter, more saturated versions of their IntelliJ Light counterparts. For example, numbers use a lighter, more saturated blue.
 - Other Darcula choices are quite different than their IntelliJ light counterparts. Keywords are orange and method/function declarations are yellow. I kept the defaults and played a bit of musical chairs with the colors.
 - I couldn't just fully saturate maroon <ColorSwatch color="#AA0000" /> because that would give red <ColorSwatch color="#FF0000" /> which is used for errors. I just kept lightening till I got pink <ColorSwatch color="#DD4488" />
