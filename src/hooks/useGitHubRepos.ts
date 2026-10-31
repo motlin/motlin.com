@@ -1,7 +1,7 @@
-import {usePluginData} from '@docusaurus/useGlobalData';
-import { z } from 'zod';
+import { usePluginData } from "@docusaurus/useGlobalData";
+import { z } from "zod";
 
-export const GitHubRepoSchema = z.object({
+const GitHubRepoSchema = z.object({
   id: z.number(),
   node_id: z.string(),
   name: z.string(),
@@ -40,13 +40,15 @@ export const GitHubRepoSchema = z.object({
   archived: z.boolean(),
   disabled: z.boolean(),
   open_issues_count: z.number(),
-  license: z.object({
-    key: z.string(),
-    name: z.string(),
-    spdx_id: z.string(),
-    url: z.string().nullable(),
-    node_id: z.string(),
-  }).nullable(),
+  license: z
+    .object({
+      key: z.string(),
+      name: z.string(),
+      spdx_id: z.string(),
+      url: z.string().nullable(),
+      node_id: z.string(),
+    })
+    .nullable(),
   allow_forking: z.boolean().optional(),
   is_template: z.boolean().optional(),
   web_commit_signoff_required: z.boolean().optional(),
@@ -66,7 +68,7 @@ export type GitHubRepo = z.infer<typeof GitHubRepoSchema>;
 
 export function useGitHubRepos(): Record<string, GitHubRepo> {
   try {
-    const data = usePluginData('github-repos-plugin') as Record<string, unknown>;
+    const data = usePluginData("github-repos-plugin") as Record<string, unknown>;
     if (!data || Object.keys(data).length === 0) {
       return {};
     }
@@ -78,8 +80,11 @@ export function useGitHubRepos(): Record<string, GitHubRepo> {
         validRepos[key] = GitHubRepoSchema.parse(value);
       } catch (error) {
         // In Storybook or development, continue without throwing
-        if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-          console.warn(`GitHub repo data not available for ${key} in development/Storybook:`, error);
+        if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+          console.warn(
+            `GitHub repo data not available for ${key} in development/Storybook:`,
+            error,
+          );
           continue;
         }
         // In production, continue gracefully instead of throwing
@@ -91,11 +96,11 @@ export function useGitHubRepos(): Record<string, GitHubRepo> {
     return validRepos;
   } catch (error) {
     // Handle plugin data access errors gracefully
-    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-      console.warn('GitHub repos data not available in development/Storybook:', error);
+    if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+      console.warn("GitHub repos data not available in development/Storybook:", error);
       return {};
     }
-    console.error('Failed to access GitHub repos data:', error);
+    console.error("Failed to access GitHub repos data:", error);
     return {};
   }
 }
