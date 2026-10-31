@@ -27,8 +27,6 @@
 		"build-storybook": "storybook build",
 		"test": "node node_modules/vitest/dist/cli.js",
 		"test:ui": "node node_modules/vitest/dist/cli.js --ui",
-		"test:watch": "vp test watch",
-		"test:coverage": "vp test run --coverage",
 		"prepare": "VITE_GIT_HOOKS=0 vp config"
 	},
 	"dependencies": {
