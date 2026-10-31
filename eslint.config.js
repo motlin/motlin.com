@@ -14,6 +14,7 @@ export default [
       '.docusaurus/',
       'node_modules/',
       'storybook-static/',
+      'src/claude-code-plugins/',
       '**/*.mdx',
       '**/*.md',
     ],
