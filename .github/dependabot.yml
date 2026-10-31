@@ -7,22 +7,49 @@ updates:
       time: "07:00"
       timezone: "America/New_York"
     open-pull-requests-limit: 25
+    cooldown:
+      default-days: 7
+    labels:
+      - "dependencies"
     ignore:
+      # Renovate's "vite-plus monorepo" group owns vite-plus so its vite alias moves with it.
+      - dependency-name: "vite-plus"
       # TS 7 breaks lint: typescript-eslint refuses to load against it. Drop the >=7.0.0
       # bound once typescript-eslint ships TS 7 support.
       - dependency-name: "typescript"
         versions: ["5.9.x", ">=7.0.0"]
+    # Only group dependencies that must move in lockstep. typescript was a
+    # single-package group, so it gets its own PR either way -- dropped so a
+    # breaking bump is labelled by name rather than hidden behind a group.
     groups:
-      typescript-ecosystem:
-        patterns:
-          - "typescript"
-          - "@typescript-eslint/*"
       docusaurus:
         patterns:
           - "@docusaurus/*"
+      vite-ecosystem:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+      testing:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+          - "@testing-library/*"
+          - "playwright"
+      # Storybook ships its core, addons and eslint plugin on one release train,
+      # so they have to move together. @chromatic-com/storybook is deliberately
+      # excluded: different vendor, independent versioning.
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+          - "eslint-plugin-storybook"
+      react-ecosystem:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react*"
     commit-message:
       prefix: "dependabot"
-      prefix-development: "dependabot"
       include: "scope"
 
   - package-ecosystem: "github-actions"
@@ -32,8 +59,10 @@ updates:
       time: "07:00"
       timezone: "America/New_York"
     open-pull-requests-limit: 25
-    ignore:
-      - dependency-name: "ataylorme/eslint-annotate-action"
+    cooldown:
+      default-days: 7
+    labels:
+      - "dependencies"
     commit-message:
       prefix: "dependabot"
       include: "scope"
