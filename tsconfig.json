@@ -16,6 +16,7 @@
     "scripts/**/*",
     "docusaurus.config.ts",
     "sidebars.ts",
+    "vite.config.ts",
     "vitest.config.ts",
     "vitest.setup.ts"
   ],

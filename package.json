@@ -20,11 +20,11 @@
     "build:with-download": "pnpm run download-github-data && pnpm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:run": "vitest run",
-    "test:watch": "vitest watch",
-    "test:coverage": "vitest run --coverage"
+    "test": "vp test",
+    "test:ui": "vp test --ui",
+    "test:run": "vp test run",
+    "test:watch": "vp test watch",
+    "test:coverage": "vp test run --coverage"
   },
   "dependencies": {
     "@docusaurus/core": "^3.10.2",
@@ -69,7 +69,6 @@
     "@types/react": "19.1.2",
     "@typescript-eslint/eslint-plugin": "^8.72.1",
     "@typescript-eslint/parser": "^8.72.1",
-    "@vitest/browser": "^5.1.0",
     "eslint": "^10.14.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-storybook": "^10.6.5",
@@ -81,9 +80,9 @@
     "storybook": "^10.6.5",
     "tsx": "^4.23.15",
     "typescript": "~6.0.3",
-    "vite": "^8.3.5",
+    "vite": "catalog:",
     "vite-plus": "catalog:",
-    "vitest": "^5.1.0"
+    "vitest": "catalog:"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "*"
