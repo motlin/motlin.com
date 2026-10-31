@@ -24,6 +24,7 @@ jobs:
           fetch-depth: 0
           submodules: recursive
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       - name: Configure Git
         run: |
