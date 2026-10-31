@@ -36,5 +36,3 @@ export const PegImage: React.FC<PegImageProps> = ({card, className = "", style})
 		/>
 	);
 };
-
-export default PegImage;

@@ -79,5 +79,3 @@ export const StudyGridWithTransitions: React.FC<StudyGridWithTransitionsProps> =
 		</div>
 	);
 };
-
-export default StudyGridWithTransitions;

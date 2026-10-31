@@ -79,5 +79,3 @@ export const IndexWithMnemonicCard: React.FC<IndexWithMnemonicCardProps> = ({
 		</div>
 	);
 };
-
-export default IndexWithMnemonicCard;

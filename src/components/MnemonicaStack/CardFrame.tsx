@@ -27,5 +27,3 @@ export const CardFrame: React.FC<CardFrameProps> = ({size, className = "", child
 		</div>
 	);
 };
-
-export default CardFrame;

@@ -79,5 +79,3 @@ export const IndexWithStandardCard: React.FC<IndexWithStandardCardProps> = ({
 		</div>
 	);
 };
-
-export default IndexWithStandardCard;

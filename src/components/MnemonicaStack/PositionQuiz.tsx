@@ -301,5 +301,3 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 		</div>
 	);
 };
-
-export default PositionQuiz;

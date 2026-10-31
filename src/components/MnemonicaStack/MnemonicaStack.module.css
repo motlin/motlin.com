@@ -41,14 +41,6 @@
 	background-color: var(--ifm-color-primary-dark);
 }
 
-.cardGrid {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	gap: 15px;
-	max-width: 500px;
-	margin: 0 auto;
-}
-
 .cardGridWithTransitions {
 	display: flex;
 	flex-direction: column;

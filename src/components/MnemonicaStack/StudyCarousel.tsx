@@ -184,5 +184,3 @@ export const StudyCarousel: React.FC<StudyCarouselProps> = ({
 		</div>
 	);
 };
-
-export default StudyCarousel;

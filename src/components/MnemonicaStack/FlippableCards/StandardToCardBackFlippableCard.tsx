@@ -24,5 +24,3 @@ export const StandardToCardBackFlippableCard: React.FC<StandardToCardBackFlippab
 		/>
 	);
 };
-
-export default StandardToCardBackFlippableCard;

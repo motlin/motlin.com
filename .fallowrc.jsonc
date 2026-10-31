@@ -4,7 +4,6 @@
 		"docusaurus.config.ts",
 		"sidebars.ts",
 		"src/pages/**",
-		"src/theme/**",
 		"src/plugins/**",
 		"scripts/**/*.ts",
 		"scripts/**/*.mjs",
