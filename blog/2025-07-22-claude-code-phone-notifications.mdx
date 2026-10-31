@@ -34,6 +34,7 @@ In my `~/.dotfiles/claude/settings.json`, I have a hook that runs when Claude Co
 ```
 
 This hook:
+
 - Checks if the `NOTIFICATIONS` environment variable is set to `true`
 - If so, calls a script called `woof` with a message containing the current directory name
 - Otherwise, just echoes the current notification status
@@ -71,6 +72,7 @@ curl --silent \
 ```
 
 This script does three things:
+
 1. **Echoes** the message to the terminal
 2. **Speaks** the message using macOS's text-to-speech with an AI voice (Serena Premium by default)
 3. **Sends a push notification** to my phone using [Pushover](https://pushover.net/)
@@ -80,6 +82,7 @@ This script does three things:
 [Pushover](https://pushover.net/) is a simple notification service that sends real-time notifications to your Android, iPhone, iPad, and Desktop devices. It has a straightforward API that makes it perfect for this use case - just a simple HTTP POST with your API token, user key, and message.
 
 To use Pushover:
+
 1. Sign up at [pushover.net](https://pushover.net/)
 2. Create an application to get an API token
 3. Get your user key from your account settings

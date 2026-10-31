@@ -1,29 +1,24 @@
 {
-  // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@docusaurus/tsconfig",
-  "compilerOptions": {
-    "ignoreDeprecations": "6.0",
-    "baseUrl": ".",
-    "paths": {
-      "@site/*": ["./*"]
-    },
-    "jsx": "react-jsx",
-    "strict": false
-  },
-  "include": [
-    "src/**/*",
-    ".storybook/**/*",
-    "scripts/**/*",
-    "docusaurus.config.ts",
-    "sidebars.ts",
-    "vite.config.ts",
-    "vitest.config.ts",
-    "vitest.setup.ts"
-  ],
-  "exclude": [
-    ".docusaurus",
-    "build",
-    "storybook-static",
-    "src/claude-code-plugins"
-  ]
+	// This file is not used in compilation. It is here just for a nice editor experience.
+	"extends": "@docusaurus/tsconfig",
+	"compilerOptions": {
+		"ignoreDeprecations": "6.0",
+		"baseUrl": ".",
+		"paths": {
+			"@site/*": ["./*"]
+		},
+		"jsx": "react-jsx",
+		"strict": false
+	},
+	"include": [
+		"src/**/*",
+		".storybook/**/*",
+		"scripts/**/*",
+		"docusaurus.config.ts",
+		"sidebars.ts",
+		"vite.config.ts",
+		"vitest.config.ts",
+		"vitest.setup.ts"
+	],
+	"exclude": [".docusaurus", "build", "storybook-static", "src/claude-code-plugins"]
 }
