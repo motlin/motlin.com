@@ -25,5 +25,3 @@ export const CardBack: React.FC<CardBackProps> = ({size = 200, className = ""}) 
 		</CardFrame>
 	);
 };
-
-export default CardBack;

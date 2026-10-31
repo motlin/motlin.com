@@ -31,5 +31,3 @@ export const TestGridIndexToCard: React.FC<TestGridIndexToCardProps> = ({
 		/>
 	);
 };
-
-export default TestGridIndexToCard;

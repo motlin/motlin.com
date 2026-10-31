@@ -63,5 +63,3 @@ export const CardBackWithIndexNumber: React.FC<CardBackWithIndexNumberProps> = (
 		</CardFrame>
 	);
 };
-
-export default CardBackWithIndexNumber;

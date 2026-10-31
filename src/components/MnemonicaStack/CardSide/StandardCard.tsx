@@ -27,5 +27,3 @@ export const StandardCard: React.FC<StandardCardProps> = ({card, size = 200, cla
 		</CardFrame>
 	);
 };
-
-export default StandardCard;

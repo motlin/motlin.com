@@ -67,5 +67,3 @@ export const StudyGridIndexPegTransitions: React.FC<StudyGridIndexPegTransitions
 		</div>
 	);
 };
-
-export default StudyGridIndexPegTransitions;
