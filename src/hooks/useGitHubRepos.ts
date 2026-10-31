@@ -68,7 +68,8 @@ export type GitHubRepo = z.infer<typeof GitHubRepoSchema>;
 
 export function useGitHubRepos(): Record<string, GitHubRepo> {
 	try {
-		const data = usePluginData("github-repos-plugin") as Record<string, unknown>;
+		// oxlint-disable-next-line react/hooks, react-hooks/rules-of-hooks -- Keeps pages rendering when the plugin data is absent, as in Storybook.
+		const data = usePluginData("github-repos-plugin");
 		if (!data || Object.keys(data).length === 0) {
 			return {};
 		}
@@ -80,6 +81,8 @@ export function useGitHubRepos(): Record<string, GitHubRepo> {
 				validRepos[key] = GitHubRepoSchema.parse(value);
 			} catch (error) {
 				// In Storybook or development, continue without throwing
+				// oxlint-disable-next-line typescript/no-unnecessary-condition, typescript/prefer-optional-chain -- window is undefined during server-side rendering.
+				// oxlint-disable-next-line typescript/no-unnecessary-condition, typescript/prefer-optional-chain -- window is undefined during server-side rendering.
 				if (typeof window !== "undefined" && window.location.hostname === "localhost") {
 					console.warn(`GitHub repo data not available for ${key} in development/Storybook:`, error);
 					continue;
@@ -93,6 +96,7 @@ export function useGitHubRepos(): Record<string, GitHubRepo> {
 		return validRepos;
 	} catch (error) {
 		// Handle plugin data access errors gracefully
+		// oxlint-disable-next-line typescript/no-unnecessary-condition, typescript/prefer-optional-chain -- window is undefined during server-side rendering.
 		if (typeof window !== "undefined" && window.location.hostname === "localhost") {
 			console.warn("GitHub repos data not available in development/Storybook:", error);
 			return {};

@@ -21,7 +21,7 @@ export const IndexWithStandardCard: React.FC<IndexWithStandardCardProps> = ({
 }) => {
 	const [internalIsFlipped, setInternalIsFlipped] = useState(false);
 
-	const isFlipped = controlledIsFlipped !== undefined ? controlledIsFlipped : internalIsFlipped;
+	const isFlipped = controlledIsFlipped ?? internalIsFlipped;
 
 	const handleClick = () => {
 		if (controlledIsFlipped === undefined) {
@@ -33,6 +33,7 @@ export const IndexWithStandardCard: React.FC<IndexWithStandardCardProps> = ({
 	};
 
 	return (
+		// oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Mouse and touch only today; keyboard support would be a behavior change.
 		<div
 			className={className}
 			onClick={handleClick}

@@ -14,17 +14,13 @@ export default function PegsNavigationPage() {
 	const previousCard = currentIndex > 0 ? mnemonicaData[currentIndex - 1] : null;
 	const nextCard = currentIndex < totalCards - 1 ? mnemonicaData[currentIndex + 1] : null;
 
-	const handlePrevious = () => {
-		if (currentIndex > 0) {
-			setCurrentIndex(currentIndex - 1);
-		}
-	};
+	const handlePrevious = React.useCallback(() => {
+		setCurrentIndex((index) => (index > 0 ? index - 1 : index));
+	}, []);
 
-	const handleNext = () => {
-		if (currentIndex < totalCards - 1) {
-			setCurrentIndex(currentIndex + 1);
-		}
-	};
+	const handleNext = React.useCallback(() => {
+		setCurrentIndex((index) => (index < totalCards - 1 ? index + 1 : index));
+	}, [totalCards]);
 
 	React.useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
@@ -36,8 +32,10 @@ export default function PegsNavigationPage() {
 		};
 
 		window.addEventListener("keydown", handleKeyDown);
-		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [currentIndex]);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [handlePrevious, handleNext]);
 
 	return (
 		<Layout

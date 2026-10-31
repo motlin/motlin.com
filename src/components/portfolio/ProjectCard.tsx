@@ -28,7 +28,11 @@ import {
 	SiGithubactions,
 } from "react-icons/si";
 import Link from "@docusaurus/Link";
-import Markdown from "react-markdown";
+import Markdown, {type Components} from "react-markdown";
+
+const markdownComponents: Components = {
+	p: ({children}) => <div className={styles.descriptionText}>{children}</div>,
+};
 
 interface ProjectCardProps {
 	project: Project;
@@ -72,9 +76,10 @@ const licenseIcons: Record<string, React.ComponentType> = {
 	"Apache License 2.0": SiApache,
 };
 
-function renderIconForKey(icons: Record<string, React.ComponentType>, key: string | undefined) {
-	if (!key || !icons[key]) return null;
-	return <span className={styles.linkIcon}>{React.createElement(icons[key])}</span>;
+function renderIconForKey(icons: Partial<Record<string, React.ComponentType>>, key: string | undefined) {
+	const icon = key ? icons[key] : undefined;
+	if (!icon) return null;
+	return <span className={styles.linkIcon}>{React.createElement(icon)}</span>;
 }
 
 export function ProjectCard({project}: ProjectCardProps): React.JSX.Element {
@@ -82,24 +87,27 @@ export function ProjectCard({project}: ProjectCardProps): React.JSX.Element {
 
 	const repoData = project.githubRepo ? repos[project.githubRepo] : null;
 
+	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GitHub description falls back to the project description.
 	const description = repoData?.description || project.description;
 
 	// Priority order: Play/Demo/Website links > Marketplace > Homepage > GitHub repo
-	const priorityLabels = ["Play", "Demo", "Website", "Marketplace", "Homepage"];
-	const priorityLink = project.links.find((link) => priorityLabels.includes(link.label));
+	const priorityLabels = new Set(["Play", "Demo", "Website", "Marketplace", "Homepage"]);
+	const priorityLink = project.links.find((link) => priorityLabels.has(link.label));
 
+	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- GitHub returns an empty homepage for repos without one.
 	const mainLink = priorityLink?.url || repoData?.homepage || project.repoUrl;
 
 	const links = project.links;
 
 	const handleCardClick = (e: React.MouseEvent) => {
 		// Don't navigate if clicking on text or interactive elements
-		const target = e.target as HTMLElement;
+		const target = e.target;
+		if (window.getSelection()?.toString()) {
+			return;
+		}
 		if (
-			target.tagName === "A" ||
-			target.closest("a") ||
-			window.getSelection()?.toString() ||
-			target.classList.contains(styles.matrixBadge)
+			target instanceof Element &&
+			(target.tagName === "A" || target.closest("a") || target.classList.contains(styles.matrixBadge))
 		) {
 			return;
 		}
@@ -114,15 +122,14 @@ export function ProjectCard({project}: ProjectCardProps): React.JSX.Element {
 	};
 
 	return (
+		// oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Mouse and touch only today; keyboard support would be a behavior change.
 		<div className={styles.projectCard} onClick={handleCardClick}>
 			<div className={styles.project}>
 				<div className={styles.projectContent}>
 					<div className={styles.projectHeader}>
-						{(project.customIcon || project.iconUrl) && (
+						{(project.customIcon ?? project.iconUrl) && (
 							<div className={styles.projectLogo}>
-								{project.customIcon ? (
-									project.customIcon
-								) : (
+								{project.customIcon ?? (
 									<img
 										src={project.iconUrl}
 										alt={`${project.name} logo`}
@@ -135,13 +142,7 @@ export function ProjectCard({project}: ProjectCardProps): React.JSX.Element {
 					</div>
 
 					<div className={styles.projectDescription}>
-						<Markdown
-							components={{
-								p: ({children}) => <div className={styles.descriptionText}>{children}</div>,
-							}}
-						>
-							{description}
-						</Markdown>
+						<Markdown components={markdownComponents}>{description}</Markdown>
 					</div>
 
 					{project.openGraphImageUrl && (
@@ -165,7 +166,9 @@ export function ProjectCard({project}: ProjectCardProps): React.JSX.Element {
 											key={link.label}
 											href={link.url}
 											className={styles.matrixBadge}
-											onClick={(e) => e.stopPropagation()}
+											onClick={(e) => {
+												e.stopPropagation();
+											}}
 										>
 											{link.label === "GitHub" && <FaGithub className={styles.linkIcon} />}
 											{link.label === "Docs" && <FaBook className={styles.linkIcon} />}
@@ -208,28 +211,28 @@ export function ProjectCard({project}: ProjectCardProps): React.JSX.Element {
 							</>
 						)}
 
-						{(repoData?.language || project.language) && (
+						{(repoData?.language ?? project.language) && (
 							<>
 								<div className={styles.matrixLabel}>Language</div>
 								<div className={styles.matrixValues}>
 									<span className={styles.matrixBadge}>
-										{renderIconForKey(languageIcons, repoData?.language || project.language)}
-										{repoData?.language || project.language}
+										{renderIconForKey(languageIcons, repoData?.language ?? project.language)}
+										{repoData?.language ?? project.language}
 									</span>
 								</div>
 							</>
 						)}
 
-						{(repoData?.license || project.license) && (
+						{(repoData?.license ?? project.license) && (
 							<>
 								<div className={styles.matrixLabel}>License</div>
 								<div className={styles.matrixValues}>
 									<span className={styles.matrixBadge}>
 										{renderIconForKey(
 											licenseIcons,
-											repoData?.license?.spdx_id || repoData?.license?.name || project.license,
+											repoData?.license?.spdx_id ?? repoData?.license?.name ?? project.license,
 										)}
-										{repoData?.license?.spdx_id || repoData?.license?.name || project.license}
+										{repoData?.license?.spdx_id ?? repoData?.license?.name ?? project.license}
 									</span>
 								</div>
 							</>

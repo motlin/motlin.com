@@ -16,14 +16,20 @@ export interface StudyCarouselProps {
 	mode?: StudyMode;
 }
 
-type SlideType = "card" | "transition";
-
-interface Slide {
-	type: SlideType;
+interface CardSlide {
+	type: "card";
 	card: string;
 	position: number;
-	nextCard?: string;
 }
+
+interface TransitionSlide {
+	type: "transition";
+	card: string;
+	position: number;
+	nextCard: string;
+}
+
+type Slide = CardSlide | TransitionSlide;
 
 export const StudyCarousel: React.FC<StudyCarouselProps> = ({
 	autoplay = false,
@@ -69,7 +75,7 @@ export const StudyCarousel: React.FC<StudyCarouselProps> = ({
 
 	useEffect(() => {
 		if (!isPlaying) {
-			return;
+			return undefined;
 		}
 
 		const timer = setInterval(() => {
@@ -119,7 +125,7 @@ export const StudyCarousel: React.FC<StudyCarouselProps> = ({
 				) : (
 					<TransitionImage
 						fromCard={currentSlide.card}
-						toCard={currentSlide.nextCard!}
+						toCard={currentSlide.nextCard}
 						fromPosition={currentSlide.position}
 						size={size}
 					/>

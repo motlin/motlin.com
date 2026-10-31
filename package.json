@@ -55,7 +55,6 @@
 	"devDependencies": {
 		"@chromatic-com/storybook": "^5.5.1",
 		"@docusaurus/eslint-plugin": "^3.10.2",
-		"@docusaurus/tsconfig": "^3.10.2",
 		"@docusaurus/types": "^3.8.0",
 		"@eslint/js": "^10.0.1",
 		"@storybook/addon-a11y": "^10.6.5",

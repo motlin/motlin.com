@@ -3,6 +3,11 @@ import React from "react";
 import {MnemonicCard} from "../../../components/MnemonicaStack/CardSide/MnemonicCard";
 import mnemonicaData from "../../../data/mnemonicaData.json";
 
+const isRedSuit = (card: string): boolean => {
+	const suit = card.charAt(card.length - 1);
+	return suit === "H" || suit === "D";
+};
+
 const meta = {
 	title: "MnemonicaStack/CardSide/MnemonicCard",
 	component: MnemonicCard,
@@ -71,11 +76,6 @@ export const All52Cards: Story = {
 		size: 200,
 	},
 	render: (args) => {
-		const isRedSuit = (card: string): boolean => {
-			const suit = card.charAt(card.length - 1);
-			return suit === "H" || suit === "D";
-		};
-
 		return (
 			<div style={{padding: "2rem"}}>
 				<h2 style={{marginBottom: "1rem"}}>All 52 Mnemonic Cards (in Mnemonica order)</h2>
@@ -137,11 +137,6 @@ export const FirstTenCards: Story = {
 		card: "4C",
 	},
 	render: () => {
-		const isRedSuit = (card: string): boolean => {
-			const suit = card.charAt(card.length - 1);
-			return suit === "H" || suit === "D";
-		};
-
 		return (
 			<div style={{padding: "2rem"}}>
 				<h2 style={{marginBottom: "1rem"}}>First 10 Mnemonic Cards</h2>
@@ -188,11 +183,6 @@ export const WithoutPositionBadges: Story = {
 		card: "4C",
 	},
 	render: () => {
-		const isRedSuit = (card: string): boolean => {
-			const suit = card.charAt(card.length - 1);
-			return suit === "H" || suit === "D";
-		};
-
 		return (
 			<div style={{padding: "2rem"}}>
 				<h2 style={{marginBottom: "1rem"}}>Mnemonic Cards (without position badges)</h2>

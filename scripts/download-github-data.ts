@@ -6,14 +6,16 @@ import {fileURLToPath} from "node:url";
 import fetch from "node-fetch";
 import portfolioData from "../src/data/portfolio.json";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CACHE_DIR = path.join(__dirname, "..", ".github-cache");
+const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
+const CACHE_DIR = path.join(scriptDirectory, "..", ".github-cache");
 
 interface Repository {
 	full_name: string;
 	openGraphImageUrl?: string;
 	usesCustomOpenGraphImage?: boolean;
-	[key: string]: any;
+	language?: string | null;
+	license?: {name: string} | null;
+	[key: string]: unknown;
 }
 
 interface GitHubSearchResponse {
@@ -33,10 +35,15 @@ interface GraphQLResponse {
 interface GitHubProfile {
 	login: string;
 	name: string;
-	[key: string]: any;
+	[key: string]: unknown;
 }
 
-async function ensureCacheDirectory() {
+async function readJson<T>(response: {json(): Promise<unknown>}): Promise<T> {
+	// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- GitHub API responses are trusted to match these interfaces.
+	return (await response.json()) as T;
+}
+
+function ensureCacheDirectory() {
 	if (!fs.existsSync(CACHE_DIR)) {
 		fs.mkdirSync(CACHE_DIR, {recursive: true});
 		console.log(`Created cache directory: ${CACHE_DIR}`);
@@ -46,6 +53,7 @@ async function ensureCacheDirectory() {
 async function downloadUserProfile(username: string): Promise<void> {
 	console.log(`\n📥 Downloading GitHub profile for ${username}...`);
 
+	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GITHUB_TOKEN falls through to GH_TOKEN.
 	const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 	const headers: Record<string, string> = {
 		Accept: "application/vnd.github.v3+json",
@@ -59,7 +67,7 @@ async function downloadUserProfile(username: string): Promise<void> {
 			throw new Error(`Failed to fetch GitHub profile: ${response.status} ${response.statusText}`);
 		}
 
-		const profile = (await response.json()) as GitHubProfile;
+		const profile = await readJson<GitHubProfile>(response);
 		const cachePath = path.join(CACHE_DIR, "user-profile.json");
 
 		fs.writeFileSync(cachePath, JSON.stringify(profile, null, 2));
@@ -73,6 +81,7 @@ async function downloadUserProfile(username: string): Promise<void> {
 async function downloadRepositories(): Promise<void> {
 	console.log("\n📥 Downloading repository data...");
 
+	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GITHUB_TOKEN falls through to GH_TOKEN.
 	const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 	console.log(`GitHub token available: ${githubToken ? "Yes" : "No"}`);
 
@@ -82,7 +91,7 @@ async function downloadRepositories(): Promise<void> {
 	};
 
 	const repos = new Map<string, Repository>();
-	const hardCodedOpenGraphUrls: Record<string, string> = portfolioData.openGraphImageUrls || {};
+	const hardCodedOpenGraphUrls: Record<string, string> = portfolioData.openGraphImageUrls;
 
 	const searchQuery = "user:motlin user:liftwizard user:FactorioBlueprints is:public fork:false archived:false";
 	const searchUrl = `https://api.github.com/search/repositories?q=${encodeURIComponent(searchQuery)}&per_page=100&sort=created&order=asc`;
@@ -94,15 +103,16 @@ async function downloadRepositories(): Promise<void> {
 			throw new Error(`Failed to search repositories: ${searchResponse.status} ${searchResponse.statusText}`);
 		}
 
-		const searchData = (await searchResponse.json()) as GitHubSearchResponse;
+		const searchData = await readJson<GitHubSearchResponse>(searchResponse);
 		console.log(`Found ${searchData.items.length} repositories via search`);
 
+		/* oxlint-disable no-await-in-loop -- Serial GitHub API requests avoid rate limits; parallel requests would change behavior. */
 		for (const repo of searchData.items) {
 			try {
 				const fullRepoResponse = await fetch(`https://api.github.com/repos/${repo.full_name}`, {headers});
 
 				if (fullRepoResponse.ok) {
-					const fullRepoData = (await fullRepoResponse.json()) as Repository;
+					const fullRepoData = await readJson<Repository>(fullRepoResponse);
 
 					if (githubToken) {
 						await fetchOpenGraphData(repo.full_name, fullRepoData, githubToken, hardCodedOpenGraphUrls);
@@ -119,23 +129,23 @@ async function downloadRepositories(): Promise<void> {
 				repos.set(repo.full_name, repo);
 			}
 		}
+		/* oxlint-enable no-await-in-loop */
 
-		const portfolioProjects = [
-			...portfolioData.sections.flatMap((section: any) =>
-				section.projects.filter((project: any) => project.githubRepo).map((project: any) => project.githubRepo),
-			),
-		];
+		const portfolioProjects = portfolioData.sections.flatMap((section) =>
+			section.projects.flatMap((project) => (project.githubRepo ? [project.githubRepo] : [])),
+		);
 
 		const additionalRepos = portfolioProjects.filter((repoName: string) => !repos.has(repoName));
 
 		console.log(`\nFetching ${additionalRepos.length} additional repos from portfolio...`);
 
+		/* oxlint-disable no-await-in-loop -- Serial GitHub API requests avoid rate limits; parallel requests would change behavior. */
 		for (const repoName of additionalRepos) {
 			try {
 				const response = await fetch(`https://api.github.com/repos/${repoName}`, {headers});
 
 				if (response.ok) {
-					const data = (await response.json()) as Repository;
+					const data = await readJson<Repository>(response);
 
 					if (githubToken) {
 						await fetchOpenGraphData(repoName, data, githubToken, hardCodedOpenGraphUrls);
@@ -150,6 +160,7 @@ async function downloadRepositories(): Promise<void> {
 				console.warn(`⚠️  Error fetching ${repoName}:`, error);
 			}
 		}
+		/* oxlint-enable no-await-in-loop */
 
 		const cachePath = path.join(CACHE_DIR, "repositories.json");
 		const reposObject = Object.fromEntries(repos);
@@ -197,7 +208,7 @@ async function fetchOpenGraphData(
 		});
 
 		if (graphqlResponse.ok) {
-			const graphqlData = (await graphqlResponse.json()) as GraphQLResponse;
+			const graphqlData = await readJson<GraphQLResponse>(graphqlResponse);
 			if (graphqlData.data?.repository) {
 				repoData.openGraphImageUrl = graphqlData.data.repository.openGraphImageUrl;
 				repoData.usesCustomOpenGraphImage = graphqlData.data.repository.usesCustomOpenGraphImage;
@@ -221,7 +232,7 @@ async function main() {
 		console.log("🚀 GitHub Data Downloader");
 		console.log("========================\n");
 
-		await ensureCacheDirectory();
+		ensureCacheDirectory();
 
 		const username = portfolioData.profile.username;
 		await downloadUserProfile(username);
@@ -236,4 +247,4 @@ async function main() {
 	}
 }
 
-main();
+void main();

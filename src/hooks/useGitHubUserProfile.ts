@@ -24,6 +24,7 @@ export type GitHubProfile = z.infer<typeof GitHubProfileSchema>;
 
 export function useGitHubUserProfile(): GitHubProfile | null {
 	try {
+		// oxlint-disable-next-line react/hooks, react-hooks/rules-of-hooks -- Keeps pages rendering when the plugin data is absent, as in Storybook.
 		const data = usePluginData("github-user-profile-plugin");
 		if (!data || Object.keys(data).length === 0) {
 			return null;
@@ -31,6 +32,7 @@ export function useGitHubUserProfile(): GitHubProfile | null {
 		return GitHubProfileSchema.parse(data);
 	} catch (error) {
 		// In Storybook or development, continue without throwing
+		// oxlint-disable-next-line typescript/no-unnecessary-condition, typescript/prefer-optional-chain -- window is undefined during server-side rendering.
 		if (typeof window !== "undefined" && window.location.hostname === "localhost") {
 			console.warn("GitHub user profile data not available in development/Storybook:", error);
 			return null;

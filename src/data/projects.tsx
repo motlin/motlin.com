@@ -68,7 +68,7 @@ const ForbidMergeCommitsMarketplaceIcon = () => (
 );
 
 // Icon mapping
-const iconMap = {
+const iconMap: Record<string, React.JSX.Element> = {
 	FaCircleDot: <FaCircleDot size={24} />,
 	FaCube: <FaCube size={24} />,
 	FaFolder: <FaFolder size={24} />,
@@ -76,7 +76,7 @@ const iconMap = {
 };
 
 // Custom icon mapping
-const customIconMap = {
+const customIconMap: Record<string, React.JSX.Element> = {
 	CheckStyleMarketplaceIcon: <CheckStyleMarketplaceIcon />,
 	ForbidMergeCommitsMarketplaceIcon: <ForbidMergeCommitsMarketplaceIcon />,
 };
@@ -113,11 +113,12 @@ export interface ProjectSection {
 	projects: Project[];
 }
 
+// oxlint-disable-next-line oxc/no-map-spread -- Copies rather than mutates the shared imported portfolio JSON.
 export const projectSections: ProjectSection[] = portfolioData.sections.map((section) => ({
 	...section,
-	icon: iconMap[section.icon as keyof typeof iconMap],
+	icon: iconMap[section.icon],
 	projects: section.projects.map((project) => ({
 		...project,
-		customIcon: project.customIcon ? customIconMap[project.customIcon as keyof typeof customIconMap] : undefined,
+		customIcon: "customIcon" in project && project.customIcon ? customIconMap[project.customIcon] : undefined,
 	})),
 }));
