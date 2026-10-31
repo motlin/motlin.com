@@ -3,8 +3,11 @@ repos:
     rev: v5.0.0
     hooks:
       - id: check-yaml
+        args: ["--allow-multiple-documents"]
       - id: end-of-file-fixer
+        exclude: "pnpm-lock\\.yaml"
       - id: trailing-whitespace
+        exclude: "pnpm-lock\\.yaml"
   - repo: local
     hooks:
       - id: just-fmt
@@ -19,3 +22,4 @@ repos:
         language: system
         types: [text]
         files: \.(json|json5|yaml|yml|md|html|css|scss)$
+        exclude: pnpm-lock\.yaml
