@@ -1,12 +1,15 @@
 import type {Plugin} from "@docusaurus/types";
 import fs from "node:fs";
 import path from "node:path";
+import portfolioData from "../data/portfolio.json";
 
 interface Repository {
 	full_name: string;
 	openGraphImageUrl?: string;
 	usesCustomOpenGraphImage?: boolean;
-	[key: string]: any;
+	language?: string | null;
+	license?: {name: string} | null;
+	[key: string]: unknown;
 }
 
 interface GitHubSearchResponse {
@@ -23,6 +26,11 @@ interface GraphQLResponse {
 	};
 }
 
+async function readJson<T>(response: {json(): Promise<unknown>}): Promise<T> {
+	// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- GitHub API responses are trusted to match these interfaces.
+	return (await response.json()) as T;
+}
+
 export default function githubReposPlugin(): Plugin {
 	return {
 		name: "github-repos-plugin",
@@ -35,10 +43,11 @@ export default function githubReposPlugin(): Plugin {
 			if (fs.existsSync(cachePath)) {
 				console.log(`📦 GitHub Repos Plugin: Using cached data from ${cachePath}`);
 				const cachedData = fs.readFileSync(cachePath, "utf-8");
-				const repos = JSON.parse(cachedData);
+				// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- The cache file is written by scripts/download-github-data.ts.
+				const repos = JSON.parse(cachedData) as Record<string, Repository>;
 
 				const repoCount = Object.keys(repos).length;
-				const reposWithOpenGraph = Object.values(repos).filter((repo: any) => repo.openGraphImageUrl).length;
+				const reposWithOpenGraph = Object.values(repos).filter((repo) => repo.openGraphImageUrl).length;
 
 				console.log(
 					`📦 GitHub Repos Plugin: ${repoCount} repos cached (${reposWithOpenGraph} with OpenGraph images)`,
@@ -53,9 +62,9 @@ export default function githubReposPlugin(): Plugin {
 
 			const repos = new Map<string, Repository>();
 
-			const portfolioData = require("../data/portfolio.json");
 			const hardCodedOpenGraphUrls: Record<string, string> = portfolioData.openGraphImageUrls;
 
+			// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GITHUB_TOKEN falls through to GH_TOKEN.
 			const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 			console.log(`GitHub token available: ${githubToken ? "Yes" : "No"}`);
 
@@ -77,7 +86,9 @@ export default function githubReposPlugin(): Plugin {
 			let searchData: GitHubSearchResponse;
 
 			const searchResponse = await fetch(searchUrl, {headers});
-			if (!searchResponse.ok) {
+			if (searchResponse.ok) {
+				searchData = await readJson<GitHubSearchResponse>(searchResponse);
+			} else {
 				console.warn(`📦 GitHub Repos Plugin: Search failed - ${searchResponse.statusText}`);
 				if (searchResponse.status === 401 && githubToken) {
 					console.log("📦 GitHub Repos Plugin: Retrying without authentication token...");
@@ -88,14 +99,13 @@ export default function githubReposPlugin(): Plugin {
 						console.warn(`📦 GitHub Repos Plugin: Retry also failed - ${retryResponse.statusText}`);
 						return {};
 					}
-					searchData = (await retryResponse.json()) as GitHubSearchResponse;
+					searchData = await readJson<GitHubSearchResponse>(retryResponse);
 				} else {
 					return {};
 				}
-			} else {
-				searchData = (await searchResponse.json()) as GitHubSearchResponse;
 			}
 
+			/* oxlint-disable no-await-in-loop -- Serial GitHub API requests avoid rate limits; parallel requests would change behavior. */
 			for (const repo of searchData.items) {
 				try {
 					let fullRepoResponse = await fetch(`https://api.github.com/repos/${repo.full_name}`, {headers});
@@ -106,7 +116,7 @@ export default function githubReposPlugin(): Plugin {
 					}
 
 					if (fullRepoResponse.ok) {
-						const fullRepoData = (await fullRepoResponse.json()) as Repository;
+						const fullRepoData = await readJson<Repository>(fullRepoResponse);
 
 						if (githubToken) {
 							try {
@@ -133,8 +143,8 @@ export default function githubReposPlugin(): Plugin {
 								});
 
 								if (graphqlResponse.ok) {
-									const graphqlData = (await graphqlResponse.json()) as GraphQLResponse;
-									if (graphqlData.data && graphqlData.data.repository) {
+									const graphqlData = await readJson<GraphQLResponse>(graphqlResponse);
+									if (graphqlData.data?.repository) {
 										fullRepoData.openGraphImageUrl = graphqlData.data.repository.openGraphImageUrl;
 										fullRepoData.usesCustomOpenGraphImage =
 											graphqlData.data.repository.usesCustomOpenGraphImage;
@@ -149,22 +159,22 @@ export default function githubReposPlugin(): Plugin {
 										if (hardCodedOpenGraphUrls[repo.full_name]) {
 											const hardCoded = hardCodedOpenGraphUrls[repo.full_name];
 											const fetched = fullRepoData.openGraphImageUrl;
-											if (hardCoded !== fetched) {
-												console.warn(`[${repo.full_name}] MISMATCH in openGraphImageUrl:`);
-												console.warn(`  Hard-coded: ${hardCoded}`);
-												console.warn(`  Fetched:    ${fetched}`);
-											} else {
+											if (hardCoded === fetched) {
 												console.log(
 													`[${repo.full_name}] ✓ openGraphImageUrl matches hard-coded value`,
 												);
+											} else {
+												console.warn(`[${repo.full_name}] MISMATCH in openGraphImageUrl:`);
+												console.warn(`  Hard-coded: ${hardCoded}`);
+												console.warn(`  Fetched:    ${fetched}`);
 											}
 										}
 									}
 								}
-							} catch (graphqlError: any) {
+							} catch (graphqlError) {
 								console.warn(
 									`Failed to fetch GraphQL data for ${repo.full_name}:`,
-									graphqlError.message,
+									graphqlError instanceof Error ? graphqlError.message : graphqlError,
 								);
 							}
 						}
@@ -178,6 +188,7 @@ export default function githubReposPlugin(): Plugin {
 					repos.set(repo.full_name, repo);
 				}
 			}
+			/* oxlint-enable no-await-in-loop */
 
 			console.log(`📦 GitHub Repos Plugin: Found ${searchData.items.length} repositories via search`);
 			if (!githubToken) {
@@ -186,13 +197,9 @@ export default function githubReposPlugin(): Plugin {
 				);
 			}
 
-			const portfolioProjects = [
-				...portfolioData.sections.flatMap((section: any) =>
-					section.projects
-						.filter((project: any) => project.githubRepo)
-						.map((project: any) => project.githubRepo),
-				),
-			];
+			const portfolioProjects = portfolioData.sections.flatMap((section) =>
+				section.projects.flatMap((project) => (project.githubRepo ? [project.githubRepo] : [])),
+			);
 
 			const additionalRepos = portfolioProjects.filter((repoName: string) => !repos.has(repoName));
 
@@ -200,6 +207,7 @@ export default function githubReposPlugin(): Plugin {
 				`📦 GitHub Repos Plugin: Fetching ${additionalRepos.length} additional repos from portfolio...`,
 			);
 
+			/* oxlint-disable no-await-in-loop -- Serial GitHub API requests avoid rate limits; parallel requests would change behavior. */
 			for (const repoName of additionalRepos) {
 				try {
 					let response = await fetch(`https://api.github.com/repos/${repoName}`, {headers});
@@ -208,7 +216,7 @@ export default function githubReposPlugin(): Plugin {
 					}
 
 					if (response.ok) {
-						const data = (await response.json()) as Repository;
+						const data = await readJson<Repository>(response);
 						console.log(`📦 GitHub Repos Plugin: ✓ Fetched ${repoName}`);
 
 						if (githubToken) {
@@ -235,8 +243,8 @@ export default function githubReposPlugin(): Plugin {
 								});
 
 								if (graphqlResponse.ok) {
-									const graphqlData = (await graphqlResponse.json()) as GraphQLResponse;
-									if (graphqlData.data && graphqlData.data.repository) {
+									const graphqlData = await readJson<GraphQLResponse>(graphqlResponse);
+									if (graphqlData.data?.repository) {
 										data.openGraphImageUrl = graphqlData.data.repository.openGraphImageUrl;
 										data.usesCustomOpenGraphImage =
 											graphqlData.data.repository.usesCustomOpenGraphImage;
@@ -249,14 +257,17 @@ export default function githubReposPlugin(): Plugin {
 										);
 									}
 								}
-							} catch (graphqlError: any) {
-								console.warn(`Failed to fetch GraphQL data for ${repoName}:`, graphqlError.message);
+							} catch (graphqlError) {
+								console.warn(
+									`Failed to fetch GraphQL data for ${repoName}:`,
+									graphqlError instanceof Error ? graphqlError.message : graphqlError,
+								);
 							}
 						}
 
 						repos.set(repoName, data);
 						console.log(
-							`Stored ${repoName} with language: ${data.language || "none"}, license: ${data.license?.name || "none"}`,
+							`Stored ${repoName} with language: ${data.language ?? "none"}, license: ${data.license?.name ?? "none"}`,
 						);
 					} else {
 						console.warn(`📦 GitHub Repos Plugin: Failed to fetch ${repoName} - ${response.statusText}`);
@@ -265,6 +276,7 @@ export default function githubReposPlugin(): Plugin {
 					console.warn(`📦 GitHub Repos Plugin: Failed to fetch ${repoName} -`, error);
 				}
 			}
+			/* oxlint-enable no-await-in-loop */
 
 			console.log("\n=== OpenGraph Image URL Summary ===");
 			const reposWithOpenGraph = Array.from(repos.entries())
@@ -288,7 +300,7 @@ export default function githubReposPlugin(): Plugin {
 
 			return Object.fromEntries(repos);
 		},
-		async contentLoaded({content, actions}) {
+		contentLoaded({content, actions}) {
 			const {setGlobalData} = actions;
 			setGlobalData(content);
 		},

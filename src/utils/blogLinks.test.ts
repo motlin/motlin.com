@@ -3,7 +3,7 @@ import {readdirSync, readFileSync} from "fs";
 import {join} from "path";
 
 const BLOG_DIR = join(__dirname, "../../blog");
-const GITHUB_ORGS = ["motlin", "liftwizard", "eclipse-collections"];
+const GITHUB_ORGS = new Set(["motlin", "liftwizard", "eclipse-collections"]);
 const URL_REGEX = /https?:\/\/github\.com\/[^\s)"'>]+/g;
 
 function extractGitHubUrls(): Map<string, string[]> {
@@ -19,7 +19,7 @@ function extractGitHubUrls(): Map<string, string[]> {
 			const url = rawUrl.replace(/[.),]+$/, "");
 
 			const orgMatch = url.match(/github\.com\/([^/]+)/);
-			if (!orgMatch || !GITHUB_ORGS.includes(orgMatch[1])) continue;
+			if (!orgMatch || !GITHUB_ORGS.has(orgMatch[1])) continue;
 
 			const existing = urlToFiles.get(url) ?? [];
 			if (!existing.includes(file)) {

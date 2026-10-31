@@ -22,11 +22,13 @@ export default function githubProfilePlugin(context: LoadContext, options: GitHu
 			if (fs.existsSync(cachePath)) {
 				console.log(`📝 GitHub User Profile Plugin: Using cached data from ${cachePath}`);
 				const cachedData = fs.readFileSync(cachePath, "utf-8");
-				return JSON.parse(cachedData);
+				const profile: unknown = JSON.parse(cachedData);
+				return profile;
 			}
 
 			console.warn("📝 GitHub User Profile Plugin: No cache found, fetching from API...");
 
+			// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GITHUB_TOKEN falls through to GH_TOKEN.
 			const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 			const headers: Record<string, string> = {
 				Accept: "application/vnd.github.v3+json",
@@ -83,7 +85,7 @@ export default function githubProfilePlugin(context: LoadContext, options: GitHu
 					};
 				}
 
-				const profile = await profileResponse.json();
+				const profile: unknown = await profileResponse.json();
 				return profile;
 			} catch (error) {
 				console.warn(`Error fetching GitHub profile for ${username}:`, error);
@@ -107,7 +109,7 @@ export default function githubProfilePlugin(context: LoadContext, options: GitHu
 				};
 			}
 		},
-		async contentLoaded({content, actions}) {
+		contentLoaded({content, actions}) {
 			const {setGlobalData} = actions;
 			setGlobalData(content);
 		},

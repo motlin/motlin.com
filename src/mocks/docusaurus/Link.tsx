@@ -1,15 +1,11 @@
 import React from "react";
 
-interface LinkProps {
-	href?: string;
+interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 	to?: string;
-	children: React.ReactNode;
-	className?: string;
-	onClick?: (e: React.MouseEvent) => void;
-	[key: string]: any;
 }
 
 const Link: React.FC<LinkProps> = ({href, to, children, ...props}) => {
+	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty href falls through like the real Link.
 	const url = href || to || "#";
 
 	return (

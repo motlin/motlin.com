@@ -1,14 +1,20 @@
 {
 	// This file is not used in compilation. It is here just for a nice editor experience.
-	"extends": "@docusaurus/tsconfig",
+	// Inlined from @docusaurus/tsconfig because it sets baseUrl, which tsgolint rejects.
 	"compilerOptions": {
-		"ignoreDeprecations": "6.0",
-		"baseUrl": ".",
+		"allowJs": true,
+		"esModuleInterop": true,
+		"target": "ES2022",
+		"lib": ["ES2022", "DOM"],
+		"moduleResolution": "bundler",
+		"module": "esnext",
+		"noEmit": true,
+		"skipLibCheck": true,
 		"paths": {
 			"@site/*": ["./*"]
 		},
 		"jsx": "react-jsx",
-		"strict": false
+		"strictNullChecks": true
 	},
 	"include": [
 		"src/**/*",

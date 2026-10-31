@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, useCallback} from "react";
 import Heading from "@theme/Heading";
 import styles from "./GridLineGame.module.css";
 
@@ -11,6 +11,12 @@ interface Move {
 	direction: string;
 	destination: Position;
 }
+
+const getLineKey = (from: Position, to: Position) => {
+	const key1 = `${from.x},${from.y}-${to.x},${to.y}`;
+	const key2 = `${to.x},${to.y}-${from.x},${from.y}`;
+	return [key1, key2];
+};
 
 const GridLineGame = () => {
 	const [gridWidth, setGridWidth] = useState(3);
@@ -33,63 +39,68 @@ const GridLineGame = () => {
 
 	const totalPossibleLines = gridWidth * gridHeight * 2;
 
-	const getLineKey = (from: Position, to: Position) => {
-		const key1 = `${from.x},${from.y}-${to.x},${to.y}`;
-		const key2 = `${to.x},${to.y}-${from.x},${from.y}`;
-		return [key1, key2];
-	};
+	const getDestination = useCallback(
+		(pos: Position, direction: string) => {
+			let newX = pos.x;
+			let newY = pos.y;
 
-	const getDestination = (pos: Position, direction: string) => {
-		let newX = pos.x;
-		let newY = pos.y;
-
-		switch (direction) {
-			case "up":
-				newY = (pos.y - 1 + gridHeight) % gridHeight;
-				break;
-			case "down":
-				newY = (pos.y + 1) % gridHeight;
-				break;
-			case "left":
-				newX = (pos.x - 1 + gridWidth) % gridWidth;
-				break;
-			case "right":
-				newX = (pos.x + 1) % gridWidth;
-				break;
-		}
-
-		return {x: newX, y: newY};
-	};
-
-	const isValidMove = (from: Position, to: Position) => {
-		const [key1, key2] = getLineKey(from, to);
-		return !lines.has(key1) && !lines.has(key2);
-	};
-
-	const getPossibleMoves = (pos: Position) => {
-		const moves = [];
-		const directions = ["up", "down", "left", "right"];
-
-		for (const dir of directions) {
-			const dest = getDestination(pos, dir);
-			if (isValidMove(pos, dest)) {
-				moves.push({direction: dir, destination: dest});
+			switch (direction) {
+				case "up":
+					newY = (pos.y - 1 + gridHeight) % gridHeight;
+					break;
+				case "down":
+					newY = (pos.y + 1) % gridHeight;
+					break;
+				case "left":
+					newX = (pos.x - 1 + gridWidth) % gridWidth;
+					break;
+				case "right":
+					newX = (pos.x + 1) % gridWidth;
+					break;
 			}
-		}
 
-		return moves;
-	};
+			return {x: newX, y: newY};
+		},
+		[gridWidth, gridHeight],
+	);
+
+	const isValidMove = useCallback(
+		(from: Position, to: Position) => {
+			const [key1, key2] = getLineKey(from, to);
+			return !lines.has(key1) && !lines.has(key2);
+		},
+		[lines],
+	);
+
+	const getPossibleMoves = useCallback(
+		(pos: Position) => {
+			const moves = [];
+			const directions = ["up", "down", "left", "right"];
+
+			for (const dir of directions) {
+				const dest = getDestination(pos, dir);
+				if (isValidMove(pos, dest)) {
+					moves.push({direction: dir, destination: dest});
+				}
+			}
+
+			return moves;
+		},
+		[getDestination, isValidMove],
+	);
 
 	// Update possible moves whenever position or lines change
 	useEffect(() => {
 		if (!showSetup) {
+			// oxlint-disable-next-line react/set-state-in-effect -- Possible moves are recomputed after each position or line change.
 			setPossibleMoves(getPossibleMoves(currentPos));
 		}
-	}, [currentPos, lines, showSetup, gridWidth, gridHeight]);
+	}, [currentPos, showSetup, getPossibleMoves]);
 
 	useEffect(() => {
 		if (!showSetup && lines.size > 0) {
 			if (lines.size === totalPossibleLines) {
+				// oxlint-disable-next-line react/set-state-in-effect -- Win and loss are detected after the move state settles.
 				setGameStatus("won");
 				setRainbowActive(true);
 				// Stop rainbow effect after 10 seconds
@@ -103,26 +114,29 @@ const GridLineGame = () => {
 	}, [lines, possibleMoves, totalPossibleLines, showSetup]);
 
 	// Make a move
-	const makeMove = (direction: string) => {
-		if (gameStatus !== "playing") return;
+	const makeMove = useCallback(
+		(direction: string) => {
+			if (gameStatus !== "playing") return;
 
-		const destination = getDestination(currentPos, direction);
+			const destination = getDestination(currentPos, direction);
 
-		if (!isValidMove(currentPos, destination)) {
-			return;
-		}
+			if (!isValidMove(currentPos, destination)) {
+				return;
+			}
 
-		const [key1] = getLineKey(currentPos, destination);
+			const [key1] = getLineKey(currentPos, destination);
 
-		setLines((prev) => {
-			const newLines = new Set(prev);
-			newLines.add(key1);
-			return newLines;
-		});
+			setLines((prev) => {
+				const newLines = new Set(prev);
+				newLines.add(key1);
+				return newLines;
+			});
 
-		setPath((prev) => [...prev, destination]);
-		setCurrentPos(destination);
-	};
+			setPath((prev) => [...prev, destination]);
+			setCurrentPos(destination);
+		},
+		[gameStatus, currentPos, getDestination, isValidMove],
+	);
 
 	// Handle touch events for swipe gestures
 	const handleTouchStart = (e: React.TouchEvent) => {
@@ -196,7 +210,7 @@ const GridLineGame = () => {
 		setShowSetup(true);
 	};
 
-	const calculateCellSize = () => {
+	const calculateCellSize = useCallback(() => {
 		if (!containerRef.current) return;
 
 		const availableWidth = window.innerWidth - 40;
@@ -211,7 +225,7 @@ const GridLineGame = () => {
 		// Use the smaller dimension to ensure it fits, with generous sizing
 		const newCellSize = Math.max(60, Math.min(maxCellWidth, maxCellHeight));
 		setCellSize(newCellSize);
-	};
+	}, [gridWidth, gridHeight]);
 
 	// Recalculate cell size on mount, window resize, and grid size change
 	useEffect(() => {
@@ -222,12 +236,15 @@ const GridLineGame = () => {
 		};
 
 		window.addEventListener("resize", handleResize);
-		return () => window.removeEventListener("resize", handleResize);
-	}, [gridWidth, gridHeight]);
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, [calculateCellSize]);
 
 	// Hide touch hint after first move
 	useEffect(() => {
 		if (lines.size > 0) {
+			// oxlint-disable-next-line react/set-state-in-effect -- The hint hides after the first move, however that move was made.
 			setShowTouchHint(false);
 		}
 	}, [lines]);
@@ -258,8 +275,10 @@ const GridLineGame = () => {
 		};
 
 		window.addEventListener("keydown", handleKeyPress);
-		return () => window.removeEventListener("keydown", handleKeyPress);
-	}, [gameStatus, showSetup, currentPos, lines]);
+		return () => {
+			window.removeEventListener("keydown", handleKeyPress);
+		};
+	}, [gameStatus, showSetup, makeMove]);
 
 	const getSVGPath = () => {
 		if (path.length < 2) return "";
@@ -331,7 +350,9 @@ const GridLineGame = () => {
 										min="2"
 										max="10"
 										value={tempWidth}
-										onChange={(e) => setTempWidth(parseInt(e.target.value))}
+										onChange={(e) => {
+											setTempWidth(parseInt(e.target.value));
+										}}
 										className={styles.slider}
 									/>
 								</div>
@@ -343,7 +364,9 @@ const GridLineGame = () => {
 										min="2"
 										max="8"
 										value={tempHeight}
-										onChange={(e) => setTempHeight(parseInt(e.target.value))}
+										onChange={(e) => {
+											setTempHeight(parseInt(e.target.value));
+										}}
 										className={styles.slider}
 									/>
 								</div>
@@ -486,7 +509,7 @@ const GridLineGame = () => {
 
 									{/* Grid squares */}
 									{Array.from({length: gridHeight}, (_, y) =>
-										Array.from({length: gridWidth}, (_, x) => (
+										Array.from({length: gridWidth}, (_cell, x) => (
 											<g key={`${x}-${y}`}>
 												<rect
 													x={x * cellSize}
@@ -554,7 +577,9 @@ const GridLineGame = () => {
 											{Array.from({length: 8}, (_, i) => (
 												<circle
 													key={`sparkle-${i}`}
+													// oxlint-disable-next-line react/purity -- Sparkles are intentionally placed at random.
 													cx={Math.random() * gridWidth * cellSize}
+													// oxlint-disable-next-line react/purity -- Sparkles are intentionally placed at random.
 													cy={Math.random() * gridHeight * cellSize}
 													r="2"
 													fill="#ffff00"

@@ -33,6 +33,7 @@ function TransitionCard({image, description, state, onStateChange, onImageHover}
 	const isFlipped = state === "image" || state === "card";
 
 	React.useEffect(() => {
+		// oxlint-disable-next-line react/set-state-in-effect -- Preserves the existing effect-driven face rendering.
 		setFrontContent(
 			<div className={styles.transitionPlaceholder}>
 				<span>→</span>
@@ -41,12 +42,17 @@ function TransitionCard({image, description, state, onStateChange, onImageHover}
 
 		if (image) {
 			setBackContent(
+				// oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Hover only previews the image; there is no keyboard equivalent to preserve.
 				<img
 					src={image}
-					alt={description || "Transition"}
+					alt={description ?? "Transition"}
 					title={description}
-					onMouseEnter={() => onImageHover({src: image, alt: description || "Transition"})}
-					onMouseLeave={() => onImageHover(null)}
+					onMouseEnter={() => {
+						onImageHover({src: image, alt: description ?? "Transition"});
+					}}
+					onMouseLeave={() => {
+						onImageHover(null);
+					}}
 				/>,
 			);
 		} else {
@@ -67,6 +73,7 @@ function TransitionCard({image, description, state, onStateChange, onImageHover}
 	};
 
 	return (
+		// oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Mouse and touch only today; keyboard support would be a behavior change.
 		<div className={styles.transitionContainer} onClick={handleClick}>
 			<div className={`${styles.transitionInner} ${isFlipped ? styles.flipped : ""}`}>
 				<div className={`${styles.transitionFace} ${styles.transitionFront}`}>{frontContent}</div>
@@ -86,16 +93,22 @@ function Card({position, data, state, onStateChange, onImageHover}: CardProps) {
 	React.useEffect(() => {
 		switch (state) {
 			case "position":
+				// oxlint-disable-next-line react/set-state-in-effect -- Back and front faces keep their last content while the card flips.
 				setFrontContent(<span style={{fontSize: "28px"}}>{position}</span>);
 				break;
 			case "image": {
 				const imagePath = getActualImagePath(data, position);
 				setBackContent(
+					// oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Hover only previews the image; there is no keyboard equivalent to preserve.
 					<img
 						src={imagePath}
 						alt={`Mnemonic for ${data.card}`}
-						onMouseEnter={() => onImageHover({src: imagePath, alt: `Mnemonic for ${data.card}`})}
-						onMouseLeave={() => onImageHover(null)}
+						onMouseEnter={() => {
+							onImageHover({src: imagePath, alt: `Mnemonic for ${data.card}`});
+						}}
+						onMouseLeave={() => {
+							onImageHover(null);
+						}}
 					/>,
 				);
 				break;
@@ -121,6 +134,7 @@ function Card({position, data, state, onStateChange, onImageHover}: CardProps) {
 	};
 
 	return (
+		// oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Mouse and touch only today; keyboard support would be a behavior change.
 		<div className={styles.cardContainer} onClick={handleClick}>
 			<div className={`${styles.card} ${isFlipped ? styles.flipped : ""}`}>
 				<div className={`${styles.cardFace} ${styles.cardFront}`}>{frontContent}</div>
@@ -172,7 +186,9 @@ export default function MnemonicaStack() {
 						position={globalIndex + 1}
 						data={data}
 						state={cardStates[globalIndex]}
-						onStateChange={(newState) => handleCardStateChange(globalIndex, newState)}
+						onStateChange={(newState) => {
+							handleCardStateChange(globalIndex, newState);
+						}}
 						onImageHover={setHoveredImage}
 					/>,
 				);
@@ -188,7 +204,9 @@ export default function MnemonicaStack() {
 						image={transitionImage}
 						description={transitionDescription}
 						state={transitionStates[globalIndex]}
-						onStateChange={(newState) => handleTransitionStateChange(globalIndex, newState)}
+						onStateChange={(newState) => {
+							handleTransitionStateChange(globalIndex, newState);
+						}}
 						onImageHover={setHoveredImage}
 					/>,
 				);
@@ -209,16 +227,36 @@ export default function MnemonicaStack() {
 			<Heading as="h1">Interactive Mnemonica Stack</Heading>
 			<p className={styles.instructions}>Click cards to cycle through: Position → Image → Mnemonic → Card</p>
 			<div className={styles.buttonContainer}>
-				<button onClick={() => showAll("position")} className={styles.controlButton}>
+				<button
+					onClick={() => {
+						showAll("position");
+					}}
+					className={styles.controlButton}
+				>
 					Positions
 				</button>
-				<button onClick={() => showAll("image")} className={styles.controlButton}>
+				<button
+					onClick={() => {
+						showAll("image");
+					}}
+					className={styles.controlButton}
+				>
 					Images
 				</button>
-				<button onClick={() => showAll("mnemonic")} className={styles.controlButton}>
+				<button
+					onClick={() => {
+						showAll("mnemonic");
+					}}
+					className={styles.controlButton}
+				>
 					Mnemonics
 				</button>
-				<button onClick={() => showAll("card")} className={styles.controlButton}>
+				<button
+					onClick={() => {
+						showAll("card");
+					}}
+					className={styles.controlButton}
+				>
 					Cards
 				</button>
 			</div>

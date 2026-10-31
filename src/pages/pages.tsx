@@ -66,8 +66,8 @@ export default function PagesIndex() {
 				</p>
 
 				<div className="row">
-					{pages.map((page, idx) => (
-						<div key={idx} className="col col--6 margin-bottom--lg">
+					{pages.map((page) => (
+						<div key={page.title} className="col col--6 margin-bottom--lg">
 							<div className="card shadow--md">
 								<div className="card__header">
 									<Heading as="h2">

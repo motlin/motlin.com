@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 
 export interface FlippableCardProps {
-	frontComponent: React.ReactElement;
-	backComponent: React.ReactElement;
+	frontComponent: React.ReactElement<{size?: number}>;
+	backComponent: React.ReactElement<{size?: number}>;
 	size?: number;
 	className?: string;
 }
@@ -19,10 +19,11 @@ export const FlippableCard: React.FC<FlippableCardProps> = ({
 		setIsFlipped(!isFlipped);
 	};
 
-	const clonedFrontComponent = React.cloneElement(frontComponent, {size} as any);
-	const clonedBackComponent = React.cloneElement(backComponent, {size} as any);
+	const clonedFrontComponent = React.cloneElement(frontComponent, {size});
+	const clonedBackComponent = React.cloneElement(backComponent, {size});
 
 	return (
+		// oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Mouse and touch only today; keyboard support would be a behavior change.
 		<div
 			className={className}
 			onClick={handleClick}
