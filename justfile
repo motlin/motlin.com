@@ -2,106 +2,105 @@
 default:
     @just --list --unsorted
 
-# `npm install`
+# `pnpm install`
 install:
-    npm install
+    pnpm install
 
-# `npm ci`
+# `pnpm install --frozen-lockfile`
 install-ci:
-    npm ci
+    pnpm install --frozen-lockfile
 
 # Download GitHub data to .github-cache/ (requires 1Password)
 download-data: install
-    op run -- npm run download-github-data
+    op run -- pnpm run download-github-data
 
 # Download GitHub data to .github-cache/ (requires GITHUB_TOKEN)
 download-data-ci: install-ci
-    npm run download-github-data
+    pnpm run download-github-data
 
-# `npm start`
+# `pnpm start`
 start: install
-    npm start -- --port 4000 --host 0.0.0.0
+    pnpm start --port 4000 --host 0.0.0.0
 
-# Start with drafts enabled: `DOCUSAURUS_DRAFT=true npm start`
+# Start with drafts enabled: `DOCUSAURUS_DRAFT=true pnpm start`
 start-drafts: install
-    bash -c 'DOCUSAURUS_DRAFT=true npm start -- --port 4000 --host 0.0.0.0'
+    bash -c 'DOCUSAURUS_DRAFT=true pnpm start --port 4000 --host 0.0.0.0'
 
-# `npm run build`
+# `pnpm run build`
 build: install
-    npm run build
+    pnpm run build
 
-# `npm run build`
+# `pnpm run build`
 build-ci: install-ci
-    npm run build
+    pnpm run build
 
-# `npm run serve`
+# `pnpm run serve`
 serve: build
-    npm run serve -- --port 4000
+    pnpm run serve --port 4000
 
-# `npm run deploy`
+# `pnpm run deploy`
 deploy: install
-    npm run deploy
+    pnpm run deploy
 
-# `npm run typecheck`
+# `pnpm run typecheck`
 typecheck: install
-    npm run typecheck
+    pnpm run typecheck
 
-# `npm run typecheck`
+# `pnpm run typecheck`
 typecheck-ci: install-ci
-    npm run typecheck
+    pnpm run typecheck
 
-# `npm run ci:eslint`
+# `pnpm run ci:eslint`
 lint: install
-    npm run ci:eslint
+    pnpm run ci:eslint
 
-# `npm run ci:eslint`
+# `pnpm run ci:eslint`
 lint-ci: install-ci
-    npm run ci:eslint
+    pnpm run ci:eslint
 
-# `npm run lint:fix`
+# `pnpm run lint:fix`
 lint-fix: install
-    npm run lint:fix
+    pnpm run lint:fix
 
-# `npm run clear`
+# `pnpm run clear`
 clear: install
-    npm run clear
+    pnpm run clear
 
 # `git submodule update --init --recursive`
 update-submodules:
     git submodule update --init --recursive
 
-# `npm run test`
+# `pnpm run test`
 test: install
-    npm run test
+    pnpm run test
 
-# `npm run test:run`
+# `pnpm run test:run`
 test-run: install
-    npm run test:run
+    pnpm run test:run
 
-# `npm run test:run`
+# `pnpm run test:run`
 test-run-ci: install-ci
-    npm run test:run
+    pnpm run test:run
 
-# `npm run test:watch`
+# `pnpm run test:watch`
 test-watch: install
-    npm run test:watch
+    pnpm run test:watch
 
-# `npm run test:ui`
+# `pnpm run test:ui`
 test-ui: install
-    npm run test:ui
+    pnpm run test:ui
 
-# `npm run storybook`
+# `pnpm run storybook`
 storybook: install
-    npm run storybook
+    pnpm run storybook
 
-# `npm run build-storybook`
+# `pnpm run build-storybook`
 build-storybook: install
-    npm run build-storybook
+    pnpm run build-storybook
 
 validate-lockfile:
-    @echo "Validating package-lock.json is in sync..."
-    @npm install --package-lock-only --quiet
-    @git diff --exit-code package-lock.json || (echo "Error: package-lock.json is out of sync with package.json. Run 'npm install' and commit the changes." && exit 1)
+    @echo "Validating pnpm-lock.yaml is in sync..."
+    @pnpm install --frozen-lockfile --lockfile-only --silent || (echo "Error: pnpm-lock.yaml is out of sync with package.json. Run 'pnpm install' and commit the changes." && exit 1)
 
 # Run all pre-commit checks
 precommit: update-submodules validate-lockfile lint-fix typecheck test-run build
