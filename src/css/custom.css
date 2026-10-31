@@ -6,79 +6,79 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+	--ifm-color-primary: #2e8555;
+	--ifm-color-primary-dark: #29784c;
+	--ifm-color-primary-darker: #277148;
+	--ifm-color-primary-darkest: #205d3b;
+	--ifm-color-primary-light: #33925d;
+	--ifm-color-primary-lighter: #359962;
+	--ifm-color-primary-lightest: #3cad6e;
+	--ifm-code-font-size: 95%;
+	--docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme="dark"] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+	--ifm-color-primary: #25c2a0;
+	--ifm-color-primary-dark: #21af90;
+	--ifm-color-primary-darker: #1fa588;
+	--ifm-color-primary-darkest: #1a8870;
+	--ifm-color-primary-light: #29d5b0;
+	--ifm-color-primary-lighter: #32d8b4;
+	--ifm-color-primary-lightest: #4fddbf;
+	--docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
 .prism-code {
-  tab-size: 4;
-  white-space: pre-wrap;
+	tab-size: 4;
+	white-space: pre-wrap;
 }
 
 /* Portfolio page enhancements */
 body {
-  --portfolio-shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.06);
-  --portfolio-shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.08);
-  --portfolio-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.1);
-  --portfolio-shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.15);
-  --portfolio-shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.2);
+	--portfolio-shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.06);
+	--portfolio-shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.08);
+	--portfolio-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.1);
+	--portfolio-shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.15);
+	--portfolio-shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.2);
 }
 
 [data-theme="dark"] body {
-  --portfolio-shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.2);
-  --portfolio-shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.3);
-  --portfolio-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.4);
-  --portfolio-shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.5);
-  --portfolio-shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
+	--portfolio-shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.2);
+	--portfolio-shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.3);
+	--portfolio-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.4);
+	--portfolio-shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.5);
+	--portfolio-shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 html {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 
 [data-route*="portfolio"] .markdown > h2 {
-  position: relative;
-  text-align: center;
-  margin-top: 3rem;
-  margin-bottom: 2rem;
+	position: relative;
+	text-align: center;
+	margin-top: 3rem;
+	margin-bottom: 2rem;
 }
 
 [data-route*="portfolio"] .markdown > h2::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: var(--ifm-color-primary);
-  border-radius: 2px;
+	content: "";
+	position: absolute;
+	bottom: -10px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 60px;
+	height: 3px;
+	background: var(--ifm-color-primary);
+	border-radius: 2px;
 }
 
 /* Ensure portfolio content doesn't overflow */
 [data-route*="portfolio"] .theme-doc-markdown {
-  overflow-x: hidden;
+	overflow-x: hidden;
 }
 
 [data-route*="portfolio"] .container {
-  max-width: 100%;
+	max-width: 100%;
 }

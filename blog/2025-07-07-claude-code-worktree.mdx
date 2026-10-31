@@ -20,6 +20,7 @@ This post is part of my [Claude Code setup series](/blog/claude-code-setup).
 ## Evolution of My Workflow
 
 I started with a simple pattern: maintain a todo list and repeatedly run [three commands](/blog/claude-code-workflow-commands):
+
 - `/todo` - Implement one task
 - `/commit` - Create a commit
 - `/compact` - Manage the context window
@@ -55,20 +56,25 @@ claude --dangerously-skip-permissions /todo
 The `/worktree` command automates several key steps:
 
 ### 1. Find and mark the next available todo
+
 ```markdown
 - [ ] Implement user authentication with JWT
 ```
+
 becomes:
+
 ```markdown
 - [>] Implement user authentication with JWT <!-- worktree: implement-user-auth-jwt -->
 ```
 
 ### 2. Create the worktree
+
 ```bash
 git worktree add ../my-app-implement-user-auth-jwt -b task/implement-user-auth-jwt HEAD
 ```
 
 ### 3. Set up the worktree environment
+
 ```bash
 # Copy environment files if they exist
 cp .envrc ../my-app-implement-user-auth-jwt/
@@ -79,6 +85,7 @@ mise trust ../my-app-implement-user-auth-jwt
 ```
 
 ### 4. Create a focused todo file
+
 ```bash
 mkdir ../my-app-implement-user-auth-jwt/.llm
 echo "- [ ] Implement user authentication with JWT" > .llm/todo.md
@@ -115,7 +122,7 @@ If I'm going step away for a while, I can also use the `sleep` command to space 
 
 ```bash
 for i in $(seq 1 11); do claude --dangerously-skip-permissions --print /worktree; sleep 1200; done
-  ```
+```
 
 ## Finishing Up
 
