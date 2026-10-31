@@ -23,8 +23,9 @@ const config: StorybookConfig = {
 		config.resolve.alias = {
 			...config.resolve.alias,
 			"@site": path.resolve(__dirname, "../"),
-			"@theme": path.resolve(__dirname, "../src/theme"),
+			// Prefix matching takes the first hit, so the specific mock must come before "@theme".
 			"@theme/Heading": path.resolve(__dirname, "../src/mocks/theme/Heading.tsx"),
+			"@theme": path.resolve(__dirname, "../src/theme"),
 			"@docusaurus/Link": path.resolve(__dirname, "../src/mocks/docusaurus/Link.tsx"),
 			"@docusaurus/useGlobalData": path.resolve(__dirname, "../src/mocks/docusaurus/useGlobalData.ts"),
 		};

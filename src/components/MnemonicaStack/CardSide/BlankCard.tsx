@@ -27,5 +27,3 @@ export const BlankCard: React.FC<BlankCardProps> = ({card, size = 200, className
 		</CardFrame>
 	);
 };
-
-export default BlankCard;

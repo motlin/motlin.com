@@ -20,8 +20,6 @@
 
 .projectDescription,
 .projectTitle,
-.badgeLabel,
-.badgeValue,
 .matrixLabel {
 	user-select: text;
 	-webkit-user-select: text;

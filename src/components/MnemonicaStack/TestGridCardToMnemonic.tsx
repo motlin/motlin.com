@@ -34,5 +34,3 @@ export const TestGridCardToMnemonic: React.FC<TestGridCardToMnemonicProps> = ({
 		/>
 	);
 };
-
-export default TestGridCardToMnemonic;

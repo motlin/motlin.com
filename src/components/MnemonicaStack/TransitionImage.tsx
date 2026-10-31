@@ -49,5 +49,3 @@ export const TransitionImage: React.FC<TransitionImageProps> = ({
 		</div>
 	);
 };
-
-export default TransitionImage;

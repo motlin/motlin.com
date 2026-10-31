@@ -68,5 +68,3 @@ export const MnemonicCard: React.FC<MnemonicCardProps> = ({card, showPosition = 
 		</div>
 	);
 };
-
-export default MnemonicCard;

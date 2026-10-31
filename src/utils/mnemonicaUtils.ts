@@ -70,11 +70,6 @@ export function getStandardDeckOrder(mnemonicaData: MnemonicaCard[]): MnemonicaC
 	return standardOrder;
 }
 
-export function getMnemonicaPosition(card: MnemonicaCard, mnemonicaData: MnemonicaCard[]): number {
-	const index = mnemonicaData.findIndex((item) => item.card === card.card);
-	return index !== -1 ? index + 1 : 0;
-}
-
 export type CardType = "standard" | "outline";
 
 export function getCardSvgPath(card: string, type: CardType = "standard"): string {

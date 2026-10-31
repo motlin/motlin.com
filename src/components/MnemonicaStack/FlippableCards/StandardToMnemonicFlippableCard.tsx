@@ -24,5 +24,3 @@ export const StandardToMnemonicFlippableCard: React.FC<StandardToMnemonicFlippab
 		/>
 	);
 };
-
-export default StandardToMnemonicFlippableCard;

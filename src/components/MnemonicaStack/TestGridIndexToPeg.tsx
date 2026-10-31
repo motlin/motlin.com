@@ -31,5 +31,3 @@ export const TestGridIndexToPeg: React.FC<TestGridIndexToPegProps> = ({
 		/>
 	);
 };
-
-export default TestGridIndexToPeg;

@@ -31,5 +31,3 @@ export const CompactCardWithLabel: React.FC<CompactCardWithLabelProps> = ({
 		</div>
 	);
 };
-
-export default CompactCardWithLabel;
