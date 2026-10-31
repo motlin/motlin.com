@@ -1,22 +1,25 @@
 # `just --list --unsorted`
+[group('default')]
 default:
     @just --list --unsorted
 
-# `pnpm install`
+ci := env("CI", "")
+
+export PATH := justfile_directory() / "node_modules/.bin" + ":" + env("PATH")
+
+# Install dependencies
+[group('setup')]
 install:
     pnpm install
+    vp fmt --no-error-on-unmatched-pattern CLAUDE.md
 
-# `pnpm install --frozen-lockfile`
-install-ci:
-    pnpm install --frozen-lockfile
-
-# Download GitHub data to .github-cache/ (requires 1Password)
+# Download GitHub data to .github-cache/ (requires 1Password locally, GITHUB_TOKEN in CI)
 download-data: install
-    op run -- pnpm run download-github-data
+    {{ if ci != "" { "" } else { "op run --" } }} pnpm run download-github-data
 
-# Download GitHub data to .github-cache/ (requires GITHUB_TOKEN)
-download-data-ci: install-ci
-    pnpm run download-github-data
+# Run dev server
+dev *args: install
+    pnpm start --port 4000 --host 0.0.0.0 {{ args }}
 
 # `pnpm start`
 start: install
@@ -26,14 +29,6 @@ start: install
 start-drafts: install
     bash -c 'DOCUSAURUS_DRAFT=true pnpm start --port 4000 --host 0.0.0.0'
 
-# `pnpm run build`
-build: install
-    pnpm run build
-
-# `pnpm run build`
-build-ci: install-ci
-    pnpm run build
-
 # `pnpm run serve`
 serve: build
     pnpm run serve --port 4000
@@ -41,26 +36,6 @@ serve: build
 # `pnpm run deploy`
 deploy: install
     pnpm run deploy
-
-# `pnpm run typecheck`
-typecheck: install
-    pnpm run typecheck
-
-# `pnpm run typecheck`
-typecheck-ci: install-ci
-    pnpm run typecheck
-
-# `pnpm run ci:eslint`
-lint: install
-    pnpm run ci:eslint
-
-# `pnpm run ci:eslint`
-lint-ci: install-ci
-    pnpm run ci:eslint
-
-# `pnpm run lint:fix`
-lint-fix: install
-    pnpm run lint:fix
 
 # `pnpm run clear`
 clear: install
@@ -70,37 +45,58 @@ clear: install
 update-submodules:
     git submodule update --init --recursive
 
-# `pnpm run test`
-test: install
-    pnpm run test
+# Run linter
+lint: install
+    vp lint {{ if ci != "" { "--format github" } else { "--fix" } }}
 
-# `pnpm run test:run`
-test-run: install
-    pnpm run test:run
+# Run formatter
+format: install
+    pre-commit run just-fmt --all-files
+    vp fmt {{ if ci != "" { "--check" } else { "" } }}
 
-# `pnpm run test:run`
-test-run-ci: install-ci
-    pnpm run test:run
+# Run checks (format + lint + typecheck)
+check *args: install
+    vp run --cache check {{ if ci != "" { "" } else { "--fix" } }} {{ args }}
 
-# `pnpm run test:watch`
-test-watch: install
-    pnpm run test:watch
+# Run tests
+test *args: install
+    vp run --cache test:run {{ args }}
 
-# `pnpm run test:ui`
-test-ui: install
-    pnpm run test:ui
+# Type-check the project
+typecheck: install
+    vp run typecheck
 
-# `pnpm run storybook`
-storybook: install
-    pnpm run storybook
+# Build the project
+build: install
+    vp run --cache build
+
+# Apply safe Fallow fixes locally, then reject remaining dead code
+fallow: install
+    {{ if ci == "" { "vp run fallow" } else { "true" } }}
+    vp run fallow:ci
+
+# vp run fallow:ci
+fallow-check: install
+    vp run fallow:ci
+
+# Run Storybook
+storybook *args: install
+    vp run storybook {{ args }}
 
 # `pnpm run build-storybook`
 build-storybook: install
     pnpm run build-storybook
 
-validate-lockfile:
-    @echo "Validating pnpm-lock.yaml is in sync..."
-    @pnpm install --frozen-lockfile --lockfile-only --silent || (echo "Error: pnpm-lock.yaml is out of sync with package.json. Run 'pnpm install' and commit the changes." && exit 1)
+# Run pre-commit hooks on all files (same as CI's pre-commit job)
+pre-commit: install
+    pre-commit run --all-files
 
 # Run all pre-commit checks
-precommit: update-submodules validate-lockfile lint-fix typecheck test-run build
+[arg("quick", long, value="true", help="Skip tests")]
+verify quick="": update-submodules check build fallow pre-commit
+    {{ if quick != "true" { "just test" } else { "true" } }}
+    @echo "All pre-commit checks passed!"
+
+# Deprecated alias for `verify`
+[arg("quick", long, value="true", help="Skip tests")]
+precommit quick="": (verify quick)

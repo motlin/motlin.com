@@ -27,7 +27,7 @@ jobs:
         with:
           path: ~/.local/share/pnpm/store
           key: pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-      - run: just download-data-ci
+      - run: just download-data
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - run: just build-ci
+      - run: just build
