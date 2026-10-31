@@ -1,8 +1,12 @@
 # Dependencies
 /node_modules
 
+# Testing
+/coverage
+
 # Production
 /build
+/dist
 
 # Generated files
 .docusaurus
@@ -14,18 +18,27 @@
 .env.development.local
 .env.test.local
 .env.production.local
+JUSTFILE_BRANCH
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+.envrc
+/.vite/
+
+# Local documentation and context
+.llm/
+/.claude/*
+!/.claude/commands/
+!/.claude/includes/
+/.claude/settings.local.json
+
 # GitHub data cache
 .github-cache
 
-# Data directory with fetched JSON files
-/data
-
 # Storybook
 *storybook.log
-storybook-static
+/storybook-static
 .vitest/
+.fallow/
