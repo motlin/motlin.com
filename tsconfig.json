@@ -19,5 +19,10 @@
     "vitest.config.ts",
     "vitest.setup.ts"
   ],
-  "exclude": [".docusaurus", "build", "storybook-static"]
+  "exclude": [
+    ".docusaurus",
+    "build",
+    "storybook-static",
+    "src/claude-code-plugins"
+  ]
 }
