@@ -1,0 +1,31 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "entry": [
+    "docusaurus.config.ts",
+    "sidebars.ts",
+    "src/pages/**",
+    "src/theme/**",
+    "src/plugins/**",
+    "scripts/**/*.ts",
+    "scripts/**/*.mjs",
+    // Storybook swaps these in through viteFinal aliases in .storybook/main.ts, which is ignored below.
+    "src/mocks/**",
+  ],
+  // src/claude-code-plugins is a git submodule, so its code is not this project's to analyze.
+  "ignorePatterns": [".storybook/**", "src/claude-code-plugins/**"],
+  "ignoreDependencies": [
+    // Loaded by string from .storybook/main.ts, which is ignored above.
+    "@chromatic-com/storybook",
+    "@storybook/addon-a11y",
+    "@storybook/addon-docs",
+    "@storybook/addon-onboarding",
+    "@storybook/react-vite",
+    // Imported by CSS path from .storybook/styles.css, which is ignored above.
+    "infima",
+    // Imported by docusaurus.config.ts for the production build, which fallow classifies as test-only.
+    "prism-react-renderer",
+  ],
+  "rules": {
+    "unused-dependencies": "error",
+  },
+}
