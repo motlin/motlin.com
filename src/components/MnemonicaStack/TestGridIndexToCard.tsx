@@ -2,8 +2,13 @@ import React from "react";
 import {CardGrid} from "./CardGrid";
 import {IndexWithStandardCard} from "./FlippableCards/IndexWithStandardCard";
 
-export interface TestGridIndexToCardProps {
-	mnemonicaData: Array<{card: string; mnemonic: string}>;
+export interface TestGridIndexToCardProps
+{
+	mnemonicaData: Array<
+	{
+		card: string;
+		mnemonic: string;
+	}>;
 	cardSize?: number;
 	gap?: string;
 	className?: string;
@@ -14,8 +19,10 @@ export const TestGridIndexToCard: React.FC<TestGridIndexToCardProps> = ({
 	cardSize = 150,
 	gap = "1.5rem",
 	className = "",
-}) => {
-	const cards = mnemonicaData.map((entry, index) => ({
+}) =>
+{
+	const cards = mnemonicaData.map((entry, index) => (
+	{
 		card: entry.card,
 		position: index + 1,
 	}));

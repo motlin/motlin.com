@@ -2,24 +2,29 @@ import type {LoadContext, Plugin} from "@docusaurus/types";
 import fs from "node:fs";
 import path from "node:path";
 
-interface GitHubProfilePluginOptions {
+interface GitHubProfilePluginOptions
+{
 	username: string;
 }
 
-export default function githubProfilePlugin(context: LoadContext, options: GitHubProfilePluginOptions): Plugin {
+export default function githubProfilePlugin(context: LoadContext, options: GitHubProfilePluginOptions): Plugin
+{
 	const {username} = options;
 
-	if (!username) {
+	if (!username)
+	{
 		throw new Error("github-user-profile-plugin requires a username option");
 	}
 
 	return {
 		name: "github-user-profile-plugin",
-		async loadContent() {
+		async loadContent()
+		{
 			const cacheDir = path.join(context.siteDir, ".github-cache");
 			const cachePath = path.join(cacheDir, "user-profile.json");
 
-			if (fs.existsSync(cachePath)) {
+			if (fs.existsSync(cachePath))
+			{
 				console.log(`📝 GitHub User Profile Plugin: Using cached data from ${cachePath}`);
 				const cachedData = fs.readFileSync(cachePath, "utf-8");
 				const profile: unknown = JSON.parse(cachedData);
@@ -30,17 +35,29 @@ export default function githubProfilePlugin(context: LoadContext, options: GitHu
 
 			// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GITHUB_TOKEN falls through to GH_TOKEN.
 			const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
-			const headers: Record<string, string> = {
+			const headers: Record<string, string> =
+			{
 				Accept: "application/vnd.github.v3+json",
-				...(githubToken && {Authorization: `token ${githubToken}`}),
+				...(githubToken &&
+				{
+					Authorization: `token ${githubToken}`,
+				}),
 			};
 
-			try {
-				const profileResponse = await fetch(`https://api.github.com/users/${username}`, {headers});
+			try
+			{
+				const profileResponse = await fetch(
+					`https://api.github.com/users/${username}`,
+					{
+						headers,
+					},
+				);
 
-				if (!profileResponse.ok) {
+				if (!profileResponse.ok)
+				{
 					const rateLimitRemaining = profileResponse.headers.get("x-ratelimit-remaining");
-					if (profileResponse.status === 403 && rateLimitRemaining === "0") {
+					if (profileResponse.status === 403 && rateLimitRemaining === "0")
+					{
 						console.warn(
 							`⚠️  GitHub API rate limit exceeded for user profile fetch. Using fallback empty profile.`,
 						);
@@ -87,7 +104,9 @@ export default function githubProfilePlugin(context: LoadContext, options: GitHu
 
 				const profile: unknown = await profileResponse.json();
 				return profile;
-			} catch (error) {
+			}
+			catch (error)
+			{
 				console.warn(`Error fetching GitHub profile for ${username}:`, error);
 				return {
 					login: username,
@@ -109,7 +128,8 @@ export default function githubProfilePlugin(context: LoadContext, options: GitHu
 				};
 			}
 		},
-		contentLoaded({content, actions}) {
+		contentLoaded({content, actions})
+		{
 			const {setGlobalData} = actions;
 			setGlobalData(content);
 		},

@@ -4,7 +4,8 @@ import {fileURLToPath} from "url";
 
 const storybookDirectory = path.dirname(fileURLToPath(import.meta.url));
 
-const config: StorybookConfig = {
+const config: StorybookConfig =
+{
 	stories: ["../src/stories/**/*.mdx", "../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
 	addons: [
 		"@chromatic-com/storybook",
@@ -12,14 +13,17 @@ const config: StorybookConfig = {
 		"@storybook/addon-onboarding",
 		"@storybook/addon-a11y",
 	],
-	framework: {
+	framework:
+	{
 		name: "@storybook/react-vite",
 		options: {},
 	},
 	staticDirs: ["../static"],
-	viteFinal: (viteConfig) => {
+	viteFinal: (viteConfig) =>
+	{
 		viteConfig.resolve = viteConfig.resolve ?? {};
-		viteConfig.resolve.alias = {
+		viteConfig.resolve.alias =
+		{
 			// oxlint-disable-next-line typescript/no-misused-spread -- Storybook supplies aliases as an object here.
 			...viteConfig.resolve.alias,
 			"@site": path.resolve(storybookDirectory, "../"),

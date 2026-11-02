@@ -1,7 +1,8 @@
 {
 	"label": "Maven",
 	"position": 50,
-	"link": {
+	"link":
+	{
 		"type": "generated-index",
 		"description": "Best practices and guides for Apache Maven"
 	}

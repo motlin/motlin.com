@@ -3,24 +3,28 @@ import {BlankCard} from "./BlankCard";
 import {PegImage} from "../PegImage";
 import mnemonicaData from "../../../data/mnemonicaData.json";
 
-export interface MnemonicCardProps {
+export interface MnemonicCardProps
+{
 	card: string;
 	showPosition?: boolean;
 	size?: number;
 	className?: string;
 }
 
-export const MnemonicCard: React.FC<MnemonicCardProps> = ({card, showPosition = false, size = 200, className = ""}) => {
+export const MnemonicCard: React.FC<MnemonicCardProps> = ({card, showPosition = false, size = 200, className = ""}) =>
+{
 	const position = mnemonicaData.findIndex((entry) => entry.card === card) + 1;
 
-	if (position === 0) {
+	if (position === 0)
+	{
 		throw new Error(`Card "${card}" not found in mnemonica data`);
 	}
 
 	return (
 		<div
 			className={className}
-			style={{
+			style={
+			{
 				position: "relative",
 				width: size,
 				display: "inline-block",
@@ -28,7 +32,8 @@ export const MnemonicCard: React.FC<MnemonicCardProps> = ({card, showPosition = 
 		>
 			<BlankCard card={card} size={size} />
 			<div
-				style={{
+				style={
+				{
 					position: "absolute",
 					top: "15%",
 					left: "12%",
@@ -41,7 +46,8 @@ export const MnemonicCard: React.FC<MnemonicCardProps> = ({card, showPosition = 
 			>
 				<PegImage
 					card={card}
-					style={{
+					style={
+					{
 						maxWidth: "100%",
 						maxHeight: "100%",
 						objectFit: "contain",
@@ -50,7 +56,8 @@ export const MnemonicCard: React.FC<MnemonicCardProps> = ({card, showPosition = 
 			</div>
 			{showPosition && (
 				<div
-					style={{
+					style={
+					{
 						position: "absolute",
 						top: "6%",
 						right: "10%",

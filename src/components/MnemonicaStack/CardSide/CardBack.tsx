@@ -1,12 +1,14 @@
 import React from "react";
 import {CardFrame} from "../CardFrame";
 
-export interface CardBackProps {
+export interface CardBackProps
+{
 	size?: number;
 	className?: string;
 }
 
-export const CardBack: React.FC<CardBackProps> = ({size = 200, className = ""}) => {
+export const CardBack: React.FC<CardBackProps> = ({size = 200, className = ""}) =>
+{
 	const svgPath = "/img/mnemonica/cards/standard/2B.svg";
 
 	return (
@@ -16,7 +18,8 @@ export const CardBack: React.FC<CardBackProps> = ({size = 200, className = ""}) 
 				alt="Card back"
 				width={size}
 				height={size * 1.4}
-				style={{
+				style={
+				{
 					display: "block",
 					width: "100%",
 					height: "100%",

@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import {CardBackWithIndexNumber} from "../CardSide/CardBackWithIndexNumber";
 import {StandardCard} from "../CardSide/StandardCard";
 
-export interface IndexWithStandardCardProps {
+export interface IndexWithStandardCardProps
+{
 	card: string;
 	position: number;
 	size?: number;
@@ -18,16 +19,20 @@ export const IndexWithStandardCard: React.FC<IndexWithStandardCardProps> = ({
 	className = "",
 	isFlipped: controlledIsFlipped,
 	onFlip,
-}) => {
+}) =>
+{
 	const [internalIsFlipped, setInternalIsFlipped] = useState(false);
 
 	const isFlipped = controlledIsFlipped ?? internalIsFlipped;
 
-	const handleClick = () => {
-		if (controlledIsFlipped === undefined) {
+	const handleClick = () =>
+	{
+		if (controlledIsFlipped === undefined)
+		{
 			setInternalIsFlipped(!internalIsFlipped);
 		}
-		if (onFlip) {
+		if (onFlip)
+		{
 			onFlip(!isFlipped);
 		}
 	};
@@ -37,7 +42,8 @@ export const IndexWithStandardCard: React.FC<IndexWithStandardCardProps> = ({
 		<div
 			className={className}
 			onClick={handleClick}
-			style={{
+			style={
+			{
 				width: size,
 				height: size * 1.4,
 				perspective: "1000px",
@@ -46,7 +52,8 @@ export const IndexWithStandardCard: React.FC<IndexWithStandardCardProps> = ({
 			}}
 		>
 			<div
-				style={{
+				style={
+				{
 					position: "relative",
 					width: "100%",
 					height: "100%",
@@ -56,7 +63,8 @@ export const IndexWithStandardCard: React.FC<IndexWithStandardCardProps> = ({
 				}}
 			>
 				<div
-					style={{
+					style={
+					{
 						position: "absolute",
 						width: "100%",
 						height: "100%",
@@ -66,7 +74,8 @@ export const IndexWithStandardCard: React.FC<IndexWithStandardCardProps> = ({
 					<CardBackWithIndexNumber position={position} size={size} />
 				</div>
 				<div
-					style={{
+					style={
+					{
 						position: "absolute",
 						width: "100%",
 						height: "100%",

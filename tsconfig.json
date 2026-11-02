@@ -1,7 +1,8 @@
 {
 	// This file is not used in compilation. It is here just for a nice editor experience.
 	// Inlined from @docusaurus/tsconfig because it sets baseUrl, which tsgolint rejects.
-	"compilerOptions": {
+	"compilerOptions":
+	{
 		"allowJs": true,
 		"esModuleInterop": true,
 		"target": "ES2022",
@@ -10,7 +11,8 @@
 		"module": "esnext",
 		"noEmit": true,
 		"skipLibCheck": true,
-		"paths": {
+		"paths":
+		{
 			"@site/*": ["./*"]
 		},
 		"jsx": "react-jsx",

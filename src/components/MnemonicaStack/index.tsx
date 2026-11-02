@@ -4,35 +4,52 @@ import styles from "./MnemonicaStack.module.css";
 import mnemonicaData from "@site/src/data/mnemonicaData.json";
 import {getActualImagePath, getTransitionImagePath, getTransitionDescription} from "@site/src/utils/mnemonicaUtils";
 
-interface CardData {
+interface CardData
+{
 	card: string;
 	mnemonic: string;
 }
 
 type CardState = "position" | "image" | "mnemonic" | "card";
 
-interface CardProps {
+interface CardProps
+{
 	position: number;
 	data: CardData;
 	state: CardState;
 	onStateChange: (_state: CardState) => void;
-	onImageHover: (_image: {src: string; alt: string} | null) => void;
+	onImageHover: (
+		_image:
+		{
+			src: string;
+			alt: string;
+		} | null,
+	) => void;
 }
 
-interface TransitionProps {
+interface TransitionProps
+{
 	image?: string | undefined;
 	description?: string;
 	state: CardState;
 	onStateChange: (_state: CardState) => void;
-	onImageHover: (_image: {src: string; alt: string} | null) => void;
+	onImageHover: (
+		_image:
+		{
+			src: string;
+			alt: string;
+		} | null,
+	) => void;
 }
 
-function TransitionCard({image, description, state, onStateChange, onImageHover}: TransitionProps) {
+function TransitionCard({image, description, state, onStateChange, onImageHover}: TransitionProps)
+{
 	const [frontContent, setFrontContent] = useState<React.ReactNode>(null);
 	const [backContent, setBackContent] = useState<React.ReactNode>(null);
 	const isFlipped = state === "image" || state === "card";
 
-	React.useEffect(() => {
+	React.useEffect(() =>
+	{
 		// oxlint-disable-next-line react/set-state-in-effect -- Preserves the existing effect-driven face rendering.
 		setFrontContent(
 			<div className={styles.transitionPlaceholder}>
@@ -40,22 +57,32 @@ function TransitionCard({image, description, state, onStateChange, onImageHover}
 			</div>,
 		);
 
-		if (image) {
+		if (image)
+		{
 			setBackContent(
 				// oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Hover only previews the image; there is no keyboard equivalent to preserve.
 				<img
 					src={image}
 					alt={description ?? "Transition"}
 					title={description}
-					onMouseEnter={() => {
-						onImageHover({src: image, alt: description ?? "Transition"});
+					onMouseEnter={() =>
+					{
+						onImageHover(
+							{
+								src: image,
+								alt: description ?? "Transition",
+							},
+						);
 					}}
-					onMouseLeave={() => {
+					onMouseLeave={() =>
+					{
 						onImageHover(null);
 					}}
 				/>,
 			);
-		} else {
+		}
+		else
+		{
 			setBackContent(
 				<div className={styles.transitionPlaceholder}>
 					<span>→</span>
@@ -64,10 +91,14 @@ function TransitionCard({image, description, state, onStateChange, onImageHover}
 		}
 	}, [image, description, onImageHover]);
 
-	const handleClick = () => {
-		if (state === "position" || state === "mnemonic") {
+	const handleClick = () =>
+	{
+		if (state === "position" || state === "mnemonic")
+		{
 			onStateChange("image");
-		} else {
+		}
+		else
+		{
 			onStateChange("position");
 		}
 	};
@@ -83,30 +114,50 @@ function TransitionCard({image, description, state, onStateChange, onImageHover}
 	);
 }
 
-function Card({position, data, state, onStateChange, onImageHover}: CardProps) {
+function Card({position, data, state, onStateChange, onImageHover}: CardProps)
+{
 	const [frontContent, setFrontContent] = useState<React.ReactNode>(null);
 	const [backContent, setBackContent] = useState<React.ReactNode>(null);
 	const isRed = data.card.includes("♥") || data.card.includes("♦");
 
 	const isFlipped = state === "image" || state === "card";
 
-	React.useEffect(() => {
-		switch (state) {
+	React.useEffect(() =>
+	{
+		switch (state)
+		{
 			case "position":
 				// oxlint-disable-next-line react/set-state-in-effect -- Back and front faces keep their last content while the card flips.
-				setFrontContent(<span style={{fontSize: "28px"}}>{position}</span>);
+				setFrontContent(
+					<span
+						style={
+						{
+							fontSize: "28px",
+						}}
+					>
+						{position}
+					</span>,
+				);
 				break;
-			case "image": {
+			case "image":
+			{
 				const imagePath = getActualImagePath(data, position);
 				setBackContent(
 					// oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Hover only previews the image; there is no keyboard equivalent to preserve.
 					<img
 						src={imagePath}
 						alt={`Mnemonic for ${data.card}`}
-						onMouseEnter={() => {
-							onImageHover({src: imagePath, alt: `Mnemonic for ${data.card}`});
+						onMouseEnter={() =>
+						{
+							onImageHover(
+								{
+									src: imagePath,
+									alt: `Mnemonic for ${data.card}`,
+								},
+							);
 						}}
-						onMouseLeave={() => {
+						onMouseLeave={() =>
+						{
 							onImageHover(null);
 						}}
 					/>,
@@ -118,7 +169,13 @@ function Card({position, data, state, onStateChange, onImageHover}: CardProps) {
 				break;
 			case "card":
 				setBackContent(
-					<span className={isRed ? styles.red : styles.black} style={{fontSize: "32px"}}>
+					<span
+						className={isRed ? styles.red : styles.black}
+						style={
+						{
+							fontSize: "32px",
+						}}
+					>
 						{data.card}
 					</span>,
 				);
@@ -126,7 +183,8 @@ function Card({position, data, state, onStateChange, onImageHover}: CardProps) {
 		}
 	}, [state, position, data, isRed, onImageHover]);
 
-	const handleClick = () => {
+	const handleClick = () =>
+	{
 		const stateOrder: CardState[] = ["position", "image", "mnemonic", "card"];
 		const currentIndex = stateOrder.indexOf(state);
 		const nextIndex = (currentIndex + 1) % stateOrder.length;
@@ -144,41 +202,54 @@ function Card({position, data, state, onStateChange, onImageHover}: CardProps) {
 	);
 }
 
-export default function MnemonicaStack() {
+export default function MnemonicaStack()
+{
 	const [cardStates, setCardStates] = useState<CardState[]>(mnemonicaData.map(() => "position"));
 	const [transitionStates, setTransitionStates] = useState<CardState[]>(mnemonicaData.map(() => "position"));
-	const [hoveredImage, setHoveredImage] = useState<{src: string; alt: string} | null>(null);
+	const [hoveredImage, setHoveredImage] = useState<
+	{
+		src: string;
+		alt: string;
+	} | null>(null);
 
-	const handleCardStateChange = (index: number, newState: CardState) => {
-		setCardStates((prev) => {
+	const handleCardStateChange = (index: number, newState: CardState) =>
+	{
+		setCardStates((prev) =>
+		{
 			const newStates = [...prev];
 			newStates[index] = newState;
 			return newStates;
 		});
 	};
 
-	const handleTransitionStateChange = (index: number, newState: CardState) => {
-		setTransitionStates((prev) => {
+	const handleTransitionStateChange = (index: number, newState: CardState) =>
+	{
+		setTransitionStates((prev) =>
+		{
 			const newStates = [...prev];
 			newStates[index] = newState;
 			return newStates;
 		});
 	};
 
-	const showAll = (targetState: CardState) => {
+	const showAll = (targetState: CardState) =>
+	{
 		setCardStates(mnemonicaData.map(() => targetState));
 		setTransitionStates(mnemonicaData.map(() => targetState));
 	};
 
-	const renderRows = () => {
+	const renderRows = () =>
+	{
 		const rows = [];
 		const cardsPerRow = 4;
 
-		for (let i = 0; i < mnemonicaData.length; i += cardsPerRow) {
+		for (let i = 0; i < mnemonicaData.length; i += cardsPerRow)
+		{
 			const rowCards = mnemonicaData.slice(i, i + cardsPerRow);
 			const rowElements: React.ReactNode[] = [];
 
-			rowCards.forEach((data, idx) => {
+			rowCards.forEach((data, idx) =>
+			{
 				const globalIndex = i + idx;
 				rowElements.push(
 					<Card
@@ -186,7 +257,8 @@ export default function MnemonicaStack() {
 						position={globalIndex + 1}
 						data={data}
 						state={cardStates[globalIndex]}
-						onStateChange={(newState) => {
+						onStateChange={(newState) =>
+						{
 							handleCardStateChange(globalIndex, newState);
 						}}
 						onImageHover={setHoveredImage}
@@ -204,7 +276,8 @@ export default function MnemonicaStack() {
 						image={transitionImage}
 						description={transitionDescription}
 						state={transitionStates[globalIndex]}
-						onStateChange={(newState) => {
+						onStateChange={(newState) =>
+						{
 							handleTransitionStateChange(globalIndex, newState);
 						}}
 						onImageHover={setHoveredImage}
@@ -228,7 +301,8 @@ export default function MnemonicaStack() {
 			<p className={styles.instructions}>Click cards to cycle through: Position → Image → Mnemonic → Card</p>
 			<div className={styles.buttonContainer}>
 				<button
-					onClick={() => {
+					onClick={() =>
+					{
 						showAll("position");
 					}}
 					className={styles.controlButton}
@@ -236,7 +310,8 @@ export default function MnemonicaStack() {
 					Positions
 				</button>
 				<button
-					onClick={() => {
+					onClick={() =>
+					{
 						showAll("image");
 					}}
 					className={styles.controlButton}
@@ -244,7 +319,8 @@ export default function MnemonicaStack() {
 					Images
 				</button>
 				<button
-					onClick={() => {
+					onClick={() =>
+					{
 						showAll("mnemonic");
 					}}
 					className={styles.controlButton}
@@ -252,7 +328,8 @@ export default function MnemonicaStack() {
 					Mnemonics
 				</button>
 				<button
-					onClick={() => {
+					onClick={() =>
+					{
 						showAll("card");
 					}}
 					className={styles.controlButton}

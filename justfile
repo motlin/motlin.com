@@ -11,7 +11,7 @@ export PATH := justfile_directory() / "node_modules/.bin" + ":" + env("PATH")
 [group('setup')]
 install:
     pnpm install
-    vp fmt --no-error-on-unmatched-pattern CLAUDE.md
+    oxfmt-next-line --no-error-on-unmatched-pattern CLAUDE.md
 
 # Download GitHub data to .github-cache/ (requires 1Password locally, GITHUB_TOKEN in CI)
 download-data: install
@@ -52,9 +52,9 @@ lint: install
 # Run formatter
 format: install
     pre-commit run just-fmt --all-files
-    vp fmt {{ if ci != "" { "--check" } else { "" } }}
+    oxfmt-next-line {{ if ci != "" { "--check" } else { "" } }}
 
-# Run checks (format + lint + typecheck)
+# Run checks (lint + typecheck; formatting is `just format`)
 check *args: install
     vp run --cache check {{ if ci != "" { "" } else { "--fix" } }} {{ args }}
 

@@ -7,15 +7,19 @@ import {CardBack} from "../../../components/MnemonicaStack/CardSide/CardBack";
 import {CardBackWithIndexNumber} from "../../../components/MnemonicaStack/CardSide/CardBackWithIndexNumber";
 import mnemonicaData from "../../../data/mnemonicaData.json";
 
-const meta = {
+const meta =
+{
 	title: "MnemonicaStack/FlippableCards/FlippableCard",
 	component: FlippableCard,
-	parameters: {
+	parameters:
+	{
 		layout: "centered",
 	},
 	tags: ["autodocs"],
-	argTypes: {
-		size: {
+	argTypes:
+	{
+		size:
+		{
 			control: "number",
 			description: "Card width in pixels",
 		},
@@ -25,8 +29,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const StandardToCardBack: Story = {
-	args: {
+export const StandardToCardBack: Story =
+{
+	args:
+	{
 		frontComponent: <StandardCard card="QH" size={200} />,
 		backComponent: <CardBack size={200} />,
 		size: 200,
@@ -40,8 +46,10 @@ export const StandardToCardBack: Story = {
 	),
 };
 
-export const StandardToMnemonic: Story = {
-	args: {
+export const StandardToMnemonic: Story =
+{
+	args:
+	{
 		frontComponent: <StandardCard card="4C" size={200} />,
 		backComponent: <MnemonicCard card="4C" size={200} />,
 		size: 200,
@@ -55,8 +63,10 @@ export const StandardToMnemonic: Story = {
 	),
 };
 
-export const IndexToStandard: Story = {
-	args: {
+export const IndexToStandard: Story =
+{
+	args:
+	{
 		frontComponent: <CardBackWithIndexNumber position={1} size={200} />,
 		backComponent: <StandardCard card="4C" size={200} />,
 		size: 200,
@@ -70,8 +80,10 @@ export const IndexToStandard: Story = {
 	),
 };
 
-export const IndexToMnemonic: Story = {
-	args: {
+export const IndexToMnemonic: Story =
+{
+	args:
+	{
 		frontComponent: <CardBackWithIndexNumber position={11} size={200} />,
 		backComponent: <MnemonicCard card="QH" size={200} />,
 		size: 200,
@@ -85,8 +97,10 @@ export const IndexToMnemonic: Story = {
 	),
 };
 
-export const CardBackToMnemonic: Story = {
-	args: {
+export const CardBackToMnemonic: Story =
+{
+	args:
+	{
 		frontComponent: <CardBack size={200} />,
 		backComponent: <MnemonicCard card="AS" size={200} />,
 		size: 200,
@@ -100,7 +114,8 @@ export const CardBackToMnemonic: Story = {
 	),
 };
 
-const convertCardNotation = (unicodeCard: string): string => {
+const convertCardNotation = (unicodeCard: string): string =>
+{
 	return unicodeCard.replace("♠", "S").replace("♥", "H").replace("♣", "C").replace("♦", "D");
 };
 
@@ -159,31 +174,59 @@ const standardDeckOrder = [
 	"KD",
 ];
 
-export const StandardDeckOrder: Story = {
-	args: {
+export const StandardDeckOrder: Story =
+{
+	args:
+	{
 		frontComponent: <StandardCard card="AS" size={150} />,
 		backComponent: <MnemonicCard card="AS" size={150} />,
 		size: 150,
 	},
-	render: () => {
+	render: () =>
+	{
 		return (
-			<div style={{padding: "2rem"}}>
-				<h2 style={{marginBottom: "1rem"}}>Test Mnemonic Recall (Standard Deck Order)</h2>
-				<p style={{marginBottom: "1rem"}}>
+			<div
+				style={
+				{
+					padding: "2rem",
+				}}
+			>
+				<h2
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
+					Test Mnemonic Recall (Standard Deck Order)
+				</h2>
+				<p
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
 					All 52 cards in standard deck order. Click any card to flip and reveal its mnemonic peg image and
 					position in the Mnemonica stack.
 				</p>
 				<div
-					style={{
+					style={
+					{
 						display: "grid",
 						gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
 						gap: "1.5rem",
 					}}
 				>
-					{standardDeckOrder.map((card) => {
+					{standardDeckOrder.map((card) =>
+					{
 						const cardSize = 150;
 						return (
-							<div key={card} style={{textAlign: "center"}}>
+							<div
+								key={card}
+								style={
+								{
+									textAlign: "center",
+								}}
+							>
 								<FlippableCard
 									frontComponent={<StandardCard card={card} />}
 									backComponent={<MnemonicCard card={card} />}
@@ -196,44 +239,73 @@ export const StandardDeckOrder: Story = {
 			</div>
 		);
 	},
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 };
 
-export const StandardDeckOrderDark: Story = {
-	args: {
+export const StandardDeckOrderDark: Story =
+{
+	args:
+	{
 		frontComponent: <StandardCard card="AS" size={150} />,
 		backComponent: <MnemonicCard card="AS" size={150} />,
 		size: 150,
 	},
 	render: StandardDeckOrder.render,
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
-		backgrounds: {default: "dark"},
+		backgrounds:
+		{
+			default: "dark",
+		},
 	},
-	globals: {
+	globals:
+	{
 		theme: "dark",
 	},
 };
 
-export const DifferentSizes: Story = {
-	args: {
+export const DifferentSizes: Story =
+{
+	args:
+	{
 		frontComponent: <StandardCard card="4C" size={40} />,
 		backComponent: <MnemonicCard card="4C" size={40} />,
 		size: 40,
 	},
-	render: (args) => {
+	render: (args) =>
+	{
 		const card = convertCardNotation(mnemonicaData[0].card);
 
 		return (
-			<div style={{padding: "2rem"}}>
-				<h2 style={{marginBottom: "1rem"}}>FlippableCard at Different Sizes</h2>
-				<p style={{marginBottom: "1rem"}}>
+			<div
+				style={
+				{
+					padding: "2rem",
+				}}
+			>
+				<h2
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
+					FlippableCard at Different Sizes
+				</h2>
+				<p
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
 					Testing size propagation to child components. The flip animation should work correctly at all sizes.
 				</p>
 				<div
-					style={{
+					style={
+					{
 						display: "flex",
 						gap: "2rem",
 						flexWrap: "wrap",
@@ -241,16 +313,30 @@ export const DifferentSizes: Story = {
 						alignItems: "flex-end",
 					}}
 				>
-					{[1, 2, 3, 4, 5].map((multiplier) => {
+					{[1, 2, 3, 4, 5].map((multiplier) =>
+					{
 						const size = (args.size ?? 40) * multiplier;
 						return (
-							<div key={multiplier} style={{textAlign: "center"}}>
+							<div
+								key={multiplier}
+								style={
+								{
+									textAlign: "center",
+								}}
+							>
 								<FlippableCard
 									frontComponent={<StandardCard card={card} size={size} />}
 									backComponent={<MnemonicCard card={card} size={size} />}
 									size={size}
 								/>
-								<div style={{marginTop: "0.5rem", fontSize: "0.875rem", fontWeight: "bold"}}>
+								<div
+									style={
+									{
+										marginTop: "0.5rem",
+										fontSize: "0.875rem",
+										fontWeight: "bold",
+									}}
+								>
 									Size: {size}px
 								</div>
 							</div>
@@ -260,7 +346,8 @@ export const DifferentSizes: Story = {
 			</div>
 		);
 	},
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 };

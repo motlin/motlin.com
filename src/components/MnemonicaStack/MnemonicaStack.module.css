@@ -1,4 +1,5 @@
-.container {
+.container
+{
 	background-color: var(--ifm-background-surface-color);
 	padding: 30px;
 	border-radius: 10px;
@@ -7,18 +8,21 @@
 	margin: 0 auto;
 }
 
-.container h1 {
+.container h1
+{
 	text-align: center;
 }
 
-.instructions {
+.instructions
+{
 	text-align: center;
 	color: var(--ifm-color-emphasis-700);
 	margin-bottom: 20px;
 	font-size: 14px;
 }
 
-.buttonContainer {
+.buttonContainer
+{
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: 10px;
@@ -26,7 +30,8 @@
 	margin: 0 auto 20px;
 }
 
-.controlButton {
+.controlButton
+{
 	background-color: var(--ifm-color-primary);
 	color: var(--ifm-button-color);
 	border: none;
@@ -37,11 +42,13 @@
 	transition: background-color 0.3s;
 }
 
-.controlButton:hover {
+.controlButton:hover
+{
 	background-color: var(--ifm-color-primary-dark);
 }
 
-.cardGridWithTransitions {
+.cardGridWithTransitions
+{
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
@@ -49,21 +56,24 @@
 	margin: 0 auto;
 }
 
-.cardRow {
+.cardRow
+{
 	display: flex;
 	gap: 10px;
 	justify-content: center;
 	align-items: center;
 }
 
-.cardContainer {
+.cardContainer
+{
 	width: 100px;
 	height: 140px;
 	perspective: 1000px;
 	cursor: pointer;
 }
 
-.card {
+.card
+{
 	width: 100%;
 	height: 100%;
 	position: relative;
@@ -71,11 +81,13 @@
 	transition: transform 0.6s;
 }
 
-.card.flipped {
+.card.flipped
+{
 	transform: rotateY(180deg);
 }
 
-.cardFace {
+.cardFace
+{
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -93,34 +105,40 @@
 	padding: 8px;
 }
 
-.cardFront {
+.cardFront
+{
 	background-color: var(--ifm-color-emphasis-100);
 	color: var(--ifm-font-color-base);
 	border: 2px solid var(--ifm-color-emphasis-400);
 }
 
-.cardBack {
+.cardBack
+{
 	transform: rotateY(180deg);
 	background-color: var(--ifm-background-surface-color);
 	color: var(--ifm-font-color-base);
 	padding: 0;
 }
 
-.cardBack img {
+.cardBack img
+{
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
 }
 
-.red {
+.red
+{
 	color: #d32f2f;
 }
 
-.black {
+.black
+{
 	color: var(--ifm-font-color-base);
 }
 
-.transitionContainer {
+.transitionContainer
+{
 	width: 120px;
 	height: 100px;
 	perspective: 1000px;
@@ -128,7 +146,8 @@
 	flex-shrink: 0;
 }
 
-.transitionInner {
+.transitionInner
+{
 	width: 100%;
 	height: 100%;
 	position: relative;
@@ -136,11 +155,13 @@
 	transition: transform 0.6s;
 }
 
-.transitionInner.flipped {
+.transitionInner.flipped
+{
 	transform: rotateY(180deg);
 }
 
-.transitionFace {
+.transitionFace
+{
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -155,24 +176,28 @@
 	padding: 4px;
 }
 
-.transitionFront {
+.transitionFront
+{
 	background-color: var(--ifm-color-emphasis-100);
 	border: 1px solid var(--ifm-color-emphasis-300);
 }
 
-.transitionBack {
+.transitionBack
+{
 	transform: rotateY(180deg);
 	background-color: var(--ifm-background-surface-color);
 	padding: 0;
 }
 
-.transitionBack img {
+.transitionBack img
+{
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
 }
 
-.transitionPlaceholder {
+.transitionPlaceholder
+{
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -182,7 +207,8 @@
 	color: var(--ifm-color-emphasis-400);
 }
 
-.imageOverlay {
+.imageOverlay
+{
 	position: fixed;
 	top: 50%;
 	left: 50%;
@@ -195,7 +221,8 @@
 	pointer-events: none;
 }
 
-.imageOverlay img {
+.imageOverlay img
+{
 	max-width: 80vw;
 	max-height: 80vh;
 	width: auto;

@@ -6,7 +6,8 @@ import {TransitionImage} from "@site/src/components/MnemonicaStack/TransitionIma
 import mnemonicaData from "@site/src/data/mnemonicaData.json";
 import styles from "./pegs.module.css";
 
-export default function PegsNavigationPage() {
+export default function PegsNavigationPage()
+{
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const totalCards = mnemonicaData.length;
 
@@ -14,25 +15,33 @@ export default function PegsNavigationPage() {
 	const previousCard = currentIndex > 0 ? mnemonicaData[currentIndex - 1] : null;
 	const nextCard = currentIndex < totalCards - 1 ? mnemonicaData[currentIndex + 1] : null;
 
-	const handlePrevious = React.useCallback(() => {
+	const handlePrevious = React.useCallback(() =>
+	{
 		setCurrentIndex((index) => (index > 0 ? index - 1 : index));
 	}, []);
 
-	const handleNext = React.useCallback(() => {
+	const handleNext = React.useCallback(() =>
+	{
 		setCurrentIndex((index) => (index < totalCards - 1 ? index + 1 : index));
 	}, [totalCards]);
 
-	React.useEffect(() => {
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === "ArrowLeft") {
+	React.useEffect(() =>
+	{
+		const handleKeyDown = (event: KeyboardEvent) =>
+		{
+			if (event.key === "ArrowLeft")
+			{
 				handlePrevious();
-			} else if (event.key === "ArrowRight") {
+			}
+			else if (event.key === "ArrowRight")
+			{
 				handleNext();
 			}
 		};
 
 		window.addEventListener("keydown", handleKeyDown);
-		return () => {
+		return () =>
+		{
 			window.removeEventListener("keydown", handleKeyDown);
 		};
 	}, [handlePrevious, handleNext]);
@@ -43,7 +52,15 @@ export default function PegsNavigationPage() {
 			description="Navigate through the stack with previous/next cards and transitions"
 		>
 			<div className={styles.container}>
-				<Heading as="h1" style={{fontSize: "1.5rem", marginBottom: "0.5rem", textAlign: "center"}}>
+				<Heading
+					as="h1"
+					style={
+					{
+						fontSize: "1.5rem",
+						marginBottom: "0.5rem",
+						textAlign: "center",
+					}}
+				>
 					Mnemonica Pegs Navigation
 				</Heading>
 				<p className={styles.instructions}>

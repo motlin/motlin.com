@@ -2,10 +2,12 @@ import type {Meta, StoryObj} from "@storybook/react";
 import {TalksSection} from "../../components/portfolio/TalksSection";
 import portfolioData from "../../data/portfolio.json";
 
-const meta = {
+const meta =
+{
 	title: "Portfolio/TalksSection",
 	component: TalksSection,
-	parameters: {
+	parameters:
+	{
 		layout: "padded",
 	},
 	tags: ["autodocs"],
@@ -14,44 +16,64 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-	args: {
+export const Default: Story =
+{
+	args:
+	{
 		talks: portfolioData.talks,
 	},
 };
 
-export const DefaultDark: Story = {
-	args: {
+export const DefaultDark: Story =
+{
+	args:
+	{
 		talks: portfolioData.talks,
 	},
-	parameters: {
-		backgrounds: {default: "dark"},
+	parameters:
+	{
+		backgrounds:
+		{
+			default: "dark",
+		},
 	},
-	globals: {
+	globals:
+	{
 		theme: "dark",
 	},
 };
 
-export const SingleTalk: Story = {
-	args: {
+export const SingleTalk: Story =
+{
+	args:
+	{
 		talks: [portfolioData.talks[0]],
 	},
 };
 
-export const SingleTalkDark: Story = {
-	args: {
+export const SingleTalkDark: Story =
+{
+	args:
+	{
 		talks: [portfolioData.talks[0]],
 	},
-	parameters: {
-		backgrounds: {default: "dark"},
+	parameters:
+	{
+		backgrounds:
+		{
+			default: "dark",
+		},
 	},
-	globals: {
+	globals:
+	{
 		theme: "dark",
 	},
 };
 
-export const TalksWithoutVideo: Story = {
-	args: {
+export const TalksWithoutVideo: Story =
+{
+	args:
+	{
 		talks: [
 			{
 				id: "no-video-1",
@@ -69,8 +91,10 @@ export const TalksWithoutVideo: Story = {
 	},
 };
 
-export const TalksWithoutVideoDark: Story = {
-	args: {
+export const TalksWithoutVideoDark: Story =
+{
+	args:
+	{
 		talks: [
 			{
 				id: "no-video-1",
@@ -86,16 +110,23 @@ export const TalksWithoutVideoDark: Story = {
 			},
 		],
 	},
-	parameters: {
-		backgrounds: {default: "dark"},
+	parameters:
+	{
+		backgrounds:
+		{
+			default: "dark",
+		},
 	},
-	globals: {
+	globals:
+	{
 		theme: "dark",
 	},
 };
 
-export const MixedTalks: Story = {
-	args: {
+export const MixedTalks: Story =
+{
+	args:
+	{
 		talks: [
 			portfolioData.talks[0],
 			{
@@ -109,8 +140,10 @@ export const MixedTalks: Story = {
 	},
 };
 
-export const MixedTalksDark: Story = {
-	args: {
+export const MixedTalksDark: Story =
+{
+	args:
+	{
 		talks: [
 			portfolioData.talks[0],
 			{
@@ -122,16 +155,23 @@ export const MixedTalksDark: Story = {
 			portfolioData.talks[1],
 		],
 	},
-	parameters: {
-		backgrounds: {default: "dark"},
+	parameters:
+	{
+		backgrounds:
+		{
+			default: "dark",
+		},
 	},
-	globals: {
+	globals:
+	{
 		theme: "dark",
 	},
 };
 
-export const TalksWithoutYear: Story = {
-	args: {
+export const TalksWithoutYear: Story =
+{
+	args:
+	{
 		talks: [
 			{
 				id: "timeless-1",
@@ -148,8 +188,10 @@ export const TalksWithoutYear: Story = {
 	},
 };
 
-export const TalksWithoutYearDark: Story = {
-	args: {
+export const TalksWithoutYearDark: Story =
+{
+	args:
+	{
 		talks: [
 			{
 				id: "timeless-1",
@@ -164,10 +206,15 @@ export const TalksWithoutYearDark: Story = {
 			},
 		],
 	},
-	parameters: {
-		backgrounds: {default: "dark"},
+	parameters:
+	{
+		backgrounds:
+		{
+			default: "dark",
+		},
 	},
-	globals: {
+	globals:
+	{
 		theme: "dark",
 	},
 };

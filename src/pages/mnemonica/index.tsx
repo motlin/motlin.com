@@ -4,7 +4,8 @@ import Link from "@docusaurus/Link";
 import Heading from "@theme/Heading";
 import styles from "./index.module.css";
 
-export default function MnemonicaIndex() {
+export default function MnemonicaIndex()
+{
 	const modes = [
 		{
 			title: "Test Grid: Position to Card",

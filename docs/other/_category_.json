@@ -1,7 +1,8 @@
 {
 	"label": "Other Topics",
 	"position": 70,
-	"link": {
+	"link":
+	{
 		"type": "generated-index",
 		"description": "Miscellaneous development topics and best practices"
 	}

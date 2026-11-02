@@ -2,10 +2,12 @@ import type {Meta, StoryObj} from "@storybook/react";
 import React from "react";
 import GridLineGame from "../components/GridLineGame";
 
-const meta = {
+const meta =
+{
 	title: "Components/GridLineGame",
 	component: GridLineGame,
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 	tags: ["autodocs"],
@@ -14,24 +16,33 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Default: Story =
+{
 	render: () => <GridLineGame />,
 };
 
-export const DefaultDark: Story = {
+export const DefaultDark: Story =
+{
 	render: () => <GridLineGame />,
-	parameters: {
-		backgrounds: {default: "dark"},
+	parameters:
+	{
+		backgrounds:
+		{
+			default: "dark",
+		},
 	},
-	globals: {
+	globals:
+	{
 		theme: "dark",
 	},
 };
 
-export const InContainer: Story = {
+export const InContainer: Story =
+{
 	render: () => (
 		<div
-			style={{
+			style={
+			{
 				padding: "2rem",
 				maxWidth: "800px",
 				margin: "0 auto",
@@ -44,10 +55,12 @@ export const InContainer: Story = {
 	),
 };
 
-export const InContainerDark: Story = {
+export const InContainerDark: Story =
+{
 	render: () => (
 		<div
-			style={{
+			style={
+			{
 				padding: "2rem",
 				maxWidth: "800px",
 				margin: "0 auto",
@@ -58,10 +71,15 @@ export const InContainerDark: Story = {
 			<GridLineGame />
 		</div>
 	),
-	parameters: {
-		backgrounds: {default: "dark"},
+	parameters:
+	{
+		backgrounds:
+		{
+			default: "dark",
+		},
 	},
-	globals: {
+	globals:
+	{
 		theme: "dark",
 	},
 };

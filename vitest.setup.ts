@@ -1,6 +1,7 @@
 import {beforeAll} from "vite-plus/test";
 
-beforeAll(() => {
+beforeAll(() =>
+{
 	const style = document.createElement("style");
 	style.innerHTML = `
     :root {

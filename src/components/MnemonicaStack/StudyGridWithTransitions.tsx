@@ -4,8 +4,13 @@ import {CardBackWithIndexNumber} from "./CardSide/CardBackWithIndexNumber";
 import {StandardCard} from "./CardSide/StandardCard";
 import {TransitionImage} from "./TransitionImage";
 
-export interface StudyGridWithTransitionsProps {
-	mnemonicaData: Array<{card: string; mnemonic: string}>;
+export interface StudyGridWithTransitionsProps
+{
+	mnemonicaData: Array<
+	{
+		card: string;
+		mnemonic: string;
+	}>;
 	cardSize?: number;
 	transitionSize?: number;
 	gap?: string;
@@ -18,10 +23,12 @@ export const StudyGridWithTransitions: React.FC<StudyGridWithTransitionsProps> =
 	transitionSize = 100,
 	gap = "1rem",
 	className = "",
-}) => {
+}) =>
+{
 	const gridItems: React.ReactNode[] = [];
 
-	for (let index = 0; index < mnemonicaData.length; index++) {
+	for (let index = 0; index < mnemonicaData.length; index++)
+	{
 		const entry = mnemonicaData[index];
 		const position = index + 1;
 		const nextEntry = mnemonicaData[(index + 1) % mnemonicaData.length];
@@ -40,7 +47,8 @@ export const StudyGridWithTransitions: React.FC<StudyGridWithTransitionsProps> =
 				key={`transition-${position}`}
 				frontComponent={
 					<div
-						style={{
+						style={
+						{
 							width: transitionSize,
 							height: transitionSize,
 							border: "2px dashed #ccc",
@@ -65,7 +73,8 @@ export const StudyGridWithTransitions: React.FC<StudyGridWithTransitionsProps> =
 		gridItems.push(transitionItem);
 	}
 
-	const gridStyle: React.CSSProperties = {
+	const gridStyle: React.CSSProperties =
+	{
 		display: "grid",
 		gridTemplateColumns: "repeat(8, 1fr)",
 		gap,

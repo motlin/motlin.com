@@ -9,61 +9,90 @@ import portfolioData from "../src/data/portfolio.json";
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const CACHE_DIR = path.join(scriptDirectory, "..", ".github-cache");
 
-interface Repository {
+interface Repository
+{
 	full_name: string;
 	openGraphImageUrl?: string;
 	usesCustomOpenGraphImage?: boolean;
 	language?: string | null;
-	license?: {name: string} | null;
+	license?:
+	{
+		name: string;
+	} | null;
 	[key: string]: unknown;
 }
 
-interface GitHubSearchResponse {
+interface GitHubSearchResponse
+{
 	items: Repository[];
 	total_count: number;
 }
 
-interface GraphQLResponse {
-	data?: {
-		repository?: {
+interface GraphQLResponse
+{
+	data?:
+	{
+		repository?:
+		{
 			openGraphImageUrl: string;
 			usesCustomOpenGraphImage: boolean;
 		};
 	};
 }
 
-interface GitHubProfile {
+interface GitHubProfile
+{
 	login: string;
 	name: string;
 	[key: string]: unknown;
 }
 
-async function readJson<T>(response: {json(): Promise<unknown>}): Promise<T> {
+async function readJson<T>(response: {json(): Promise<unknown>}): Promise<T>
+{
 	// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- GitHub API responses are trusted to match these interfaces.
 	return (await response.json()) as T;
 }
 
-function ensureCacheDirectory() {
-	if (!fs.existsSync(CACHE_DIR)) {
-		fs.mkdirSync(CACHE_DIR, {recursive: true});
+function ensureCacheDirectory()
+{
+	if (!fs.existsSync(CACHE_DIR))
+	{
+		fs.mkdirSync(
+			CACHE_DIR,
+			{
+				recursive: true,
+			},
+		);
 		console.log(`Created cache directory: ${CACHE_DIR}`);
 	}
 }
 
-async function downloadUserProfile(username: string): Promise<void> {
+async function downloadUserProfile(username: string): Promise<void>
+{
 	console.log(`\n📥 Downloading GitHub profile for ${username}...`);
 
 	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GITHUB_TOKEN falls through to GH_TOKEN.
 	const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
-	const headers: Record<string, string> = {
+	const headers: Record<string, string> =
+	{
 		Accept: "application/vnd.github.v3+json",
-		...(githubToken && {Authorization: `token ${githubToken}`}),
+		...(githubToken &&
+		{
+			Authorization: `token ${githubToken}`,
+		}),
 	};
 
-	try {
-		const response = await fetch(`https://api.github.com/users/${username}`, {headers});
+	try
+	{
+		const response = await fetch(
+			`https://api.github.com/users/${username}`,
+			{
+				headers,
+			},
+		);
 
-		if (!response.ok) {
+		if (!response.ok)
+		{
 			throw new Error(`Failed to fetch GitHub profile: ${response.status} ${response.statusText}`);
 		}
 
@@ -72,22 +101,29 @@ async function downloadUserProfile(username: string): Promise<void> {
 
 		fs.writeFileSync(cachePath, JSON.stringify(profile, null, 2));
 		console.log(`✅ Saved user profile to ${cachePath}`);
-	} catch (error) {
+	}
+	catch (error)
+	{
 		console.error(`❌ Error downloading user profile:`, error);
 		throw error;
 	}
 }
 
-async function downloadRepositories(): Promise<void> {
+async function downloadRepositories(): Promise<void>
+{
 	console.log("\n📥 Downloading repository data...");
 
 	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GITHUB_TOKEN falls through to GH_TOKEN.
 	const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 	console.log(`GitHub token available: ${githubToken ? "Yes" : "No"}`);
 
-	const headers: Record<string, string> = {
+	const headers: Record<string, string> =
+	{
 		Accept: "application/vnd.github.v3+json",
-		...(githubToken && {Authorization: `token ${githubToken}`}),
+		...(githubToken &&
+		{
+			Authorization: `token ${githubToken}`,
+		}),
 	};
 
 	const repos = new Map<string, Repository>();
@@ -96,10 +132,17 @@ async function downloadRepositories(): Promise<void> {
 	const searchQuery = "user:motlin user:liftwizard user:FactorioBlueprints is:public fork:false archived:false";
 	const searchUrl = `https://api.github.com/search/repositories?q=${encodeURIComponent(searchQuery)}&per_page=100&sort=created&order=asc`;
 
-	try {
-		const searchResponse = await fetch(searchUrl, {headers});
+	try
+	{
+		const searchResponse = await fetch(
+			searchUrl,
+			{
+				headers,
+			},
+		);
 
-		if (!searchResponse.ok) {
+		if (!searchResponse.ok)
+		{
 			throw new Error(`Failed to search repositories: ${searchResponse.status} ${searchResponse.statusText}`);
 		}
 
@@ -107,24 +150,37 @@ async function downloadRepositories(): Promise<void> {
 		console.log(`Found ${searchData.items.length} repositories via search`);
 
 		/* oxlint-disable no-await-in-loop -- Serial GitHub API requests avoid rate limits; parallel requests would change behavior. */
-		for (const repo of searchData.items) {
-			try {
-				const fullRepoResponse = await fetch(`https://api.github.com/repos/${repo.full_name}`, {headers});
+		for (const repo of searchData.items)
+		{
+			try
+			{
+				const fullRepoResponse = await fetch(
+					`https://api.github.com/repos/${repo.full_name}`,
+					{
+						headers,
+					},
+				);
 
-				if (fullRepoResponse.ok) {
+				if (fullRepoResponse.ok)
+				{
 					const fullRepoData = await readJson<Repository>(fullRepoResponse);
 
-					if (githubToken) {
+					if (githubToken)
+					{
 						await fetchOpenGraphData(repo.full_name, fullRepoData, githubToken, hardCodedOpenGraphUrls);
 					}
 
 					repos.set(repo.full_name, fullRepoData);
 					console.log(`✅ Fetched ${repo.full_name}`);
-				} else {
+				}
+				else
+				{
 					console.warn(`⚠️  Failed to fetch full data for ${repo.full_name}`);
 					repos.set(repo.full_name, repo);
 				}
-			} catch (error) {
+			}
+			catch (error)
+			{
 				console.warn(`⚠️  Error fetching ${repo.full_name}:`, error);
 				repos.set(repo.full_name, repo);
 			}
@@ -140,23 +196,36 @@ async function downloadRepositories(): Promise<void> {
 		console.log(`\nFetching ${additionalRepos.length} additional repos from portfolio...`);
 
 		/* oxlint-disable no-await-in-loop -- Serial GitHub API requests avoid rate limits; parallel requests would change behavior. */
-		for (const repoName of additionalRepos) {
-			try {
-				const response = await fetch(`https://api.github.com/repos/${repoName}`, {headers});
+		for (const repoName of additionalRepos)
+		{
+			try
+			{
+				const response = await fetch(
+					`https://api.github.com/repos/${repoName}`,
+					{
+						headers,
+					},
+				);
 
-				if (response.ok) {
+				if (response.ok)
+				{
 					const data = await readJson<Repository>(response);
 
-					if (githubToken) {
+					if (githubToken)
+					{
 						await fetchOpenGraphData(repoName, data, githubToken, hardCodedOpenGraphUrls);
 					}
 
 					repos.set(repoName, data);
 					console.log(`✅ Fetched ${repoName}`);
-				} else {
+				}
+				else
+				{
 					console.warn(`⚠️  Failed to fetch ${repoName}: ${response.statusText}`);
 				}
-			} catch (error) {
+			}
+			catch (error)
+			{
 				console.warn(`⚠️  Error fetching ${repoName}:`, error);
 			}
 		}
@@ -172,7 +241,9 @@ async function downloadRepositories(): Promise<void> {
 		console.log(`\n📊 Summary:`);
 		console.log(`   Total repos: ${repos.size}`);
 		console.log(`   Repos with openGraphImageUrl: ${reposWithOpenGraph}`);
-	} catch (error) {
+	}
+	catch (error)
+	{
 		console.error(`❌ Error downloading repositories:`, error);
 		throw error;
 	}
@@ -183,10 +254,13 @@ async function fetchOpenGraphData(
 	repoData: Repository,
 	githubToken: string,
 	hardCodedUrls: Record<string, string>,
-): Promise<void> {
-	try {
+): Promise<void>
+{
+	try
+	{
 		const [owner, name] = repoFullName.split("/");
-		const graphqlQuery = {
+		const graphqlQuery =
+		{
 			query: `
         query($owner: String!, $name: String!) {
           repository(owner: $owner, name: $name) {
@@ -195,40 +269,56 @@ async function fetchOpenGraphData(
           }
         }
       `,
-			variables: {owner, name},
+			variables:
+			{
+				owner,
+				name,
+			},
 		};
 
-		const graphqlResponse = await fetch("https://api.github.com/graphql", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `bearer ${githubToken}`,
+		const graphqlResponse = await fetch(
+			"https://api.github.com/graphql",
+			{
+				method: "POST",
+				headers:
+				{
+					"Content-Type": "application/json",
+					Authorization: `bearer ${githubToken}`,
+				},
+				body: JSON.stringify(graphqlQuery),
 			},
-			body: JSON.stringify(graphqlQuery),
-		});
+		);
 
-		if (graphqlResponse.ok) {
+		if (graphqlResponse.ok)
+		{
 			const graphqlData = await readJson<GraphQLResponse>(graphqlResponse);
-			if (graphqlData.data?.repository) {
+			if (graphqlData.data?.repository)
+			{
 				repoData.openGraphImageUrl = graphqlData.data.repository.openGraphImageUrl;
 				repoData.usesCustomOpenGraphImage = graphqlData.data.repository.usesCustomOpenGraphImage;
 
-				if (hardCodedUrls[repoFullName]) {
+				if (hardCodedUrls[repoFullName])
+				{
 					const hardCoded = hardCodedUrls[repoFullName];
 					const fetched = repoData.openGraphImageUrl;
-					if (hardCoded !== fetched) {
+					if (hardCoded !== fetched)
+					{
 						console.warn(`   ⚠️  OpenGraph URL mismatch for ${repoFullName}`);
 					}
 				}
 			}
 		}
-	} catch {
+	}
+	catch
+	{
 		console.warn(`   ⚠️  Failed to fetch GraphQL data for ${repoFullName}`);
 	}
 }
 
-async function main() {
-	try {
+async function main()
+{
+	try
+	{
 		console.log("🚀 GitHub Data Downloader");
 		console.log("========================\n");
 
@@ -241,7 +331,9 @@ async function main() {
 		console.log("\n✅ Download complete!");
 
 		console.log(`\n💡 Tip: Set GITHUB_TOKEN environment variable to avoid rate limits.`);
-	} catch (error) {
+	}
+	catch (error)
+	{
 		console.error("\n❌ Download failed:", error);
 		process.exit(1);
 	}

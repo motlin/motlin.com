@@ -3,7 +3,8 @@ import CompactCardFrame from "./CompactCardFrame";
 import mnemonicaData from "@site/src/data/mnemonicaData.json";
 import {getActualImagePath} from "@site/src/utils/mnemonicaUtils";
 
-export interface CompactCardWithLabelProps {
+export interface CompactCardWithLabelProps
+{
 	card: string;
 	position: number;
 	size?: number;
@@ -15,14 +16,16 @@ export const CompactCardWithLabel: React.FC<CompactCardWithLabelProps> = ({
 	position,
 	size = 200,
 	className = "",
-}) => {
+}) =>
+{
 	const cardData = mnemonicaData[position - 1];
 	const imageSrc = getActualImagePath(cardData, position);
 
 	return (
 		<div
 			className={className}
-			style={{
+			style={
+			{
 				width: size,
 				display: "inline-block",
 			}}

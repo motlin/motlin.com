@@ -3,7 +3,8 @@ import {FlippableCard} from "./FlippableCard";
 import {StandardCard} from "../CardSide/StandardCard";
 import {MnemonicCard} from "../CardSide/MnemonicCard";
 
-export interface StandardToMnemonicFlippableCardProps {
+export interface StandardToMnemonicFlippableCardProps
+{
 	card: string;
 	position?: number;
 	size?: number;
@@ -14,7 +15,8 @@ export const StandardToMnemonicFlippableCard: React.FC<StandardToMnemonicFlippab
 	card,
 	size = 200,
 	className = "",
-}) => {
+}) =>
+{
 	return (
 		<FlippableCard
 			frontComponent={<StandardCard card={card} size={size} />}

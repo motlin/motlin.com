@@ -1,12 +1,14 @@
 import React from "react";
 
-export interface CardFrameProps {
+export interface CardFrameProps
+{
 	size: number;
 	className?: string;
 	children: React.ReactNode;
 }
 
-export const CardFrame: React.FC<CardFrameProps> = ({size, className = "", children}) => {
+export const CardFrame: React.FC<CardFrameProps> = ({size, className = "", children}) =>
+{
 	return (
 		<div
 			className={className}

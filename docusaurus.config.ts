@@ -5,7 +5,8 @@ import portfolioData from "./src/data/portfolio.json";
 
 process.title = "motlin.com";
 
-const config: Config = {
+const config: Config =
+{
 	title: "motlin.com",
 	tagline: "developer productivity blog",
 	favicon: "img/motlin.com.png",
@@ -20,7 +21,8 @@ const config: Config = {
 
 	onBrokenLinks: "throw",
 
-	i18n: {
+	i18n:
+	{
 		defaultLocale: "en",
 		locales: ["en"],
 	},
@@ -28,7 +30,8 @@ const config: Config = {
 	headTags: [
 		{
 			tagName: "script",
-			attributes: {
+			attributes:
+			{
 				async: "true",
 				src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3146575260211386",
 				crossorigin: "anonymous",
@@ -54,13 +57,20 @@ const config: Config = {
 				disableInDev: false,
 			},
 		],
-		["./src/plugins/github-user-profile-plugin.ts", {username: portfolioData.profile.username}],
+		[
+			"./src/plugins/github-user-profile-plugin.ts",
+			{
+				username: portfolioData.profile.username,
+			},
+		],
 		"./src/plugins/github-repos-plugin.ts",
 	],
 
-	markdown: {
+	markdown:
+	{
 		mermaid: true,
-		hooks: {
+		hooks:
+		{
 			onBrokenMarkdownLinks: "throw",
 		},
 	},
@@ -70,7 +80,8 @@ const config: Config = {
 		[
 			"classic",
 			{
-				docs: {
+				docs:
+				{
 					sidebarPath: "./sidebars.ts",
 					editUrl: "https://github.com/motlin/motlin.com/edit/main/",
 					showLastUpdateAuthor: true,
@@ -79,9 +90,11 @@ const config: Config = {
 					tags: "tags.yml",
 					onInlineTags: "throw",
 				},
-				blog: {
+				blog:
+				{
 					showReadingTime: true,
-					feedOptions: {
+					feedOptions:
+					{
 						type: ["rss", "atom"],
 						xslt: true,
 					},
@@ -93,18 +106,22 @@ const config: Config = {
 					blogSidebarCount: "ALL",
 					blogSidebarTitle: "All our posts",
 				},
-				theme: {
+				theme:
+				{
 					customCss: "./src/css/custom.css",
 				},
 			} satisfies Preset.Options,
 		],
 	],
 
-	themeConfig: {
+	themeConfig:
+	{
 		image: "img/motlin-social-card.png",
-		navbar: {
+		navbar:
+		{
 			title: "motlin.com",
-			logo: {
+			logo:
+			{
 				alt: "motlin.com Logo",
 				src: "img/motlin.com.png",
 			},
@@ -115,10 +132,26 @@ const config: Config = {
 					position: "left",
 					label: "Docs",
 				},
-				{to: "/blog", label: "Blog", position: "left"},
-				{to: "/pages", label: "Pages", position: "left"},
-				{to: "/portfolio", label: "Portfolio", position: "left"},
-				{to: "/sick-picks", label: "Sick Picks", position: "left"},
+				{
+					to: "/blog",
+					label: "Blog",
+					position: "left",
+				},
+				{
+					to: "/pages",
+					label: "Pages",
+					position: "left",
+				},
+				{
+					to: "/portfolio",
+					label: "Portfolio",
+					position: "left",
+				},
+				{
+					to: "/sick-picks",
+					label: "Sick Picks",
+					position: "left",
+				},
 				{
 					href: "https://github.com/motlin/motlin.com",
 					label: "GitHub",
@@ -126,7 +159,8 @@ const config: Config = {
 				},
 			],
 		},
-		footer: {
+		footer:
+		{
 			style: "dark",
 			links: [
 				{
@@ -167,7 +201,8 @@ const config: Config = {
 					title: "Connect",
 					items: portfolioData.profile.socialLinks
 						.filter((link) => ["GitHub", "LinkedIn", "Stack Overflow", "Medium"].includes(link.platform))
-						.map((link) => ({
+						.map((link) => (
+						{
 							label: link.platform,
 							href: link.url,
 						})),
@@ -175,12 +210,14 @@ const config: Config = {
 			],
 			copyright: `Copyright © ${new Date().getFullYear()} ${portfolioData.profile.name}. Built with Docusaurus.`,
 		},
-		prism: {
+		prism:
+		{
 			theme: prismThemes.oneDark,
 			darkTheme: prismThemes.oneDark,
 			additionalLanguages: ["java", "shell-session", "bash", "toml", "markdown", "json"],
 		},
-		algolia: {
+		algolia:
+		{
 			appId: "C2FFLRAS9H",
 			apiKey: "e55dde7380a510c51b3748b4bffdd9d1",
 			indexName: "motlin",

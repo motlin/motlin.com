@@ -3,27 +3,40 @@ import React from "react";
 import {IndexWithStandardCard} from "../../../components/MnemonicaStack/FlippableCards/IndexWithStandardCard";
 import mnemonicaData from "../../../data/mnemonicaData.json";
 
-const meta = {
+const meta =
+{
 	title: "MnemonicaStack/FlippableCards/IndexWithStandardCard",
 	component: IndexWithStandardCard,
-	parameters: {
+	parameters:
+	{
 		layout: "centered",
 	},
 	tags: ["autodocs"],
-	argTypes: {
-		card: {
+	argTypes:
+	{
+		card:
+		{
 			control: "text",
 			description: 'Card code (e.g., "4C", "QH", "AS")',
 		},
-		position: {
-			control: {type: "range", min: 1, max: 52, step: 1},
+		position:
+		{
+			control:
+			{
+				type: "range",
+				min: 1,
+				max: 52,
+				step: 1,
+			},
 			description: "Position in Mnemonica stack (1-52)",
 		},
-		size: {
+		size:
+		{
 			control: "number",
 			description: "Card width in pixels",
 		},
-		className: {
+		className:
+		{
 			control: "text",
 			description: "Additional CSS classes",
 		},
@@ -35,7 +48,8 @@ type Story = StoryObj<typeof meta>;
 
 const FlippingInstructions = () => (
 	<div
-		style={{
+		style={
+		{
 			padding: "1rem",
 			marginBottom: "1rem",
 			backgroundColor: "#f0f0f0",
@@ -43,56 +57,93 @@ const FlippingInstructions = () => (
 			textAlign: "center",
 		}}
 	>
-		<p style={{margin: 0, fontWeight: "bold"}}>💡 Click any card to flip between position and card face</p>
+		<p
+			style={
+			{
+				margin: 0,
+				fontWeight: "bold",
+			}}
+		>
+			💡 Click any card to flip between position and card face
+		</p>
 	</div>
 );
 
-export const Default: Story = {
-	args: {
+export const Default: Story =
+{
+	args:
+	{
 		card: "4C",
 		position: 1,
 		size: 200,
 	},
 };
 
-export const QueenOfHearts: Story = {
-	args: {
+export const QueenOfHearts: Story =
+{
+	args:
+	{
 		card: "QH",
 		position: 11,
 		size: 200,
 	},
 };
 
-export const AceOfSpades: Story = {
-	args: {
+export const AceOfSpades: Story =
+{
+	args:
+	{
 		card: "AS",
 		position: 7,
 		size: 200,
 	},
 };
 
-export const All52Cards: Story = {
-	args: {
+export const All52Cards: Story =
+{
+	args:
+	{
 		card: "4C",
 		position: 1,
 		size: 150,
 	},
-	render: (args) => {
+	render: (args) =>
+	{
 		return (
-			<div style={{padding: "2rem"}}>
-				<h2 style={{marginBottom: "1rem"}}>All 52 Flippable Cards (in Mnemonica order)</h2>
+			<div
+				style={
+				{
+					padding: "2rem",
+				}}
+			>
+				<h2
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
+					All 52 Flippable Cards (in Mnemonica order)
+				</h2>
 				<FlippingInstructions />
 				<div
-					style={{
+					style={
+					{
 						display: "grid",
 						gridTemplateColumns: `repeat(auto-fill, minmax(${args.size}px, 1fr))`,
 						gap: "1.5rem",
 					}}
 				>
-					{mnemonicaData.map((data, index) => {
+					{mnemonicaData.map((data, index) =>
+					{
 						const position = index + 1;
 						return (
-							<div key={position} style={{textAlign: "center"}}>
+							<div
+								key={position}
+								style={
+								{
+									textAlign: "center",
+								}}
+							>
 								<IndexWithStandardCard card={data.card} position={position} size={args.size} />
 							</div>
 						);
@@ -101,7 +152,8 @@ export const All52Cards: Story = {
 			</div>
 		);
 	},
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 };

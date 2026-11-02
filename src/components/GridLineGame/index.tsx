@@ -2,28 +2,42 @@ import React, {useState, useEffect, useRef, useCallback} from "react";
 import Heading from "@theme/Heading";
 import styles from "./GridLineGame.module.css";
 
-interface Position {
+interface Position
+{
 	x: number;
 	y: number;
 }
 
-interface Move {
+interface Move
+{
 	direction: string;
 	destination: Position;
 }
 
-const getLineKey = (from: Position, to: Position) => {
+const getLineKey = (from: Position, to: Position) =>
+{
 	const key1 = `${from.x},${from.y}-${to.x},${to.y}`;
 	const key2 = `${to.x},${to.y}-${from.x},${from.y}`;
 	return [key1, key2];
 };
 
-const GridLineGame = () => {
+const GridLineGame = () =>
+{
 	const [gridWidth, setGridWidth] = useState(3);
 	const [gridHeight, setGridHeight] = useState(4);
-	const [currentPos, setCurrentPos] = useState<Position>({x: 0, y: 0});
+	const [currentPos, setCurrentPos] = useState<Position>(
+		{
+			x: 0,
+			y: 0,
+		},
+	);
 	const [lines, setLines] = useState(new Set<string>());
-	const [path, setPath] = useState<Position[]>([{x: 0, y: 0}]);
+	const [path, setPath] = useState<Position[]>([
+		{
+			x: 0,
+			y: 0,
+		},
+	]);
 	const [gameStatus, setGameStatus] = useState("playing");
 	const [possibleMoves, setPossibleMoves] = useState<Move[]>([]);
 	const [touchStart, setTouchStart] = useState<Position | null>(null);
@@ -40,11 +54,13 @@ const GridLineGame = () => {
 	const totalPossibleLines = gridWidth * gridHeight * 2;
 
 	const getDestination = useCallback(
-		(pos: Position, direction: string) => {
+		(pos: Position, direction: string) =>
+		{
 			let newX = pos.x;
 			let newY = pos.y;
 
-			switch (direction) {
+			switch (direction)
+			{
 				case "up":
 					newY = (pos.y - 1 + gridHeight) % gridHeight;
 					break;
@@ -59,13 +75,17 @@ const GridLineGame = () => {
 					break;
 			}
 
-			return {x: newX, y: newY};
+			return {
+				x: newX,
+				y: newY,
+			};
 		},
 		[gridWidth, gridHeight],
 	);
 
 	const isValidMove = useCallback(
-		(from: Position, to: Position) => {
+		(from: Position, to: Position) =>
+		{
 			const [key1, key2] = getLineKey(from, to);
 			return !lines.has(key1) && !lines.has(key2);
 		},
@@ -73,14 +93,22 @@ const GridLineGame = () => {
 	);
 
 	const getPossibleMoves = useCallback(
-		(pos: Position) => {
+		(pos: Position) =>
+		{
 			const moves = [];
 			const directions = ["up", "down", "left", "right"];
 
-			for (const dir of directions) {
+			for (const dir of directions)
+			{
 				const dest = getDestination(pos, dir);
-				if (isValidMove(pos, dest)) {
-					moves.push({direction: dir, destination: dest});
+				if (isValidMove(pos, dest))
+				{
+					moves.push(
+						{
+							direction: dir,
+							destination: dest,
+						},
+					);
 				}
 			}
 
@@ -90,24 +118,32 @@ const GridLineGame = () => {
 	);
 
 	// Update possible moves whenever position or lines change
-	useEffect(() => {
-		if (!showSetup) {
+	useEffect(() =>
+	{
+		if (!showSetup)
+		{
 			// oxlint-disable-next-line react/set-state-in-effect -- Possible moves are recomputed after each position or line change.
 			setPossibleMoves(getPossibleMoves(currentPos));
 		}
 	}, [currentPos, showSetup, getPossibleMoves]);
 
-	useEffect(() => {
-		if (!showSetup && lines.size > 0) {
-			if (lines.size === totalPossibleLines) {
+	useEffect(() =>
+	{
+		if (!showSetup && lines.size > 0)
+		{
+			if (lines.size === totalPossibleLines)
+			{
 				// oxlint-disable-next-line react/set-state-in-effect -- Win and loss are detected after the move state settles.
 				setGameStatus("won");
 				setRainbowActive(true);
 				// Stop rainbow effect after 10 seconds
-				rainbowTimerRef.current = setTimeout(() => {
+				rainbowTimerRef.current = setTimeout(() =>
+				{
 					setRainbowActive(false);
 				}, 10000);
-			} else if (possibleMoves.length === 0 && lines.size < totalPossibleLines) {
+			}
+			else if (possibleMoves.length === 0 && lines.size < totalPossibleLines)
+			{
 				setGameStatus("lost");
 			}
 		}
@@ -115,18 +151,21 @@ const GridLineGame = () => {
 
 	// Make a move
 	const makeMove = useCallback(
-		(direction: string) => {
+		(direction: string) =>
+		{
 			if (gameStatus !== "playing") return;
 
 			const destination = getDestination(currentPos, direction);
 
-			if (!isValidMove(currentPos, destination)) {
+			if (!isValidMove(currentPos, destination))
+			{
 				return;
 			}
 
 			const [key1] = getLineKey(currentPos, destination);
 
-			setLines((prev) => {
+			setLines((prev) =>
+			{
 				const newLines = new Set(prev);
 				newLines.add(key1);
 				return newLines;
@@ -139,19 +178,28 @@ const GridLineGame = () => {
 	);
 
 	// Handle touch events for swipe gestures
-	const handleTouchStart = (e: React.TouchEvent) => {
+	const handleTouchStart = (e: React.TouchEvent) =>
+	{
 		const touch = e.touches[0];
-		setTouchStart({x: touch.clientX, y: touch.clientY});
+		setTouchStart(
+			{
+				x: touch.clientX,
+				y: touch.clientY,
+			},
+		);
 		setIsSwiping(true);
 	};
 
-	const handleTouchMove = (e: React.TouchEvent) => {
+	const handleTouchMove = (e: React.TouchEvent) =>
+	{
 		if (!touchStart || !isSwiping) return;
 		e.preventDefault(); // Prevent scrolling while swiping
 	};
 
-	const handleTouchEnd = (e: React.TouchEvent) => {
-		if (!touchStart || !isSwiping || gameStatus !== "playing") {
+	const handleTouchEnd = (e: React.TouchEvent) =>
+	{
+		if (!touchStart || !isSwiping || gameStatus !== "playing")
+		{
 			setIsSwiping(false);
 			return;
 		}
@@ -162,21 +210,32 @@ const GridLineGame = () => {
 		const minSwipeDistance = 30;
 
 		// Determine swipe direction
-		if (Math.abs(deltaX) > Math.abs(deltaY)) {
+		if (Math.abs(deltaX) > Math.abs(deltaY))
+		{
 			// Horizontal swipe
-			if (Math.abs(deltaX) > minSwipeDistance) {
-				if (deltaX > 0) {
+			if (Math.abs(deltaX) > minSwipeDistance)
+			{
+				if (deltaX > 0)
+				{
 					makeMove("right");
-				} else {
+				}
+				else
+				{
 					makeMove("left");
 				}
 			}
-		} else {
+		}
+		else
+		{
 			// Vertical swipe
-			if (Math.abs(deltaY) > minSwipeDistance) {
-				if (deltaY > 0) {
+			if (Math.abs(deltaY) > minSwipeDistance)
+			{
+				if (deltaY > 0)
+				{
 					makeMove("down");
-				} else {
+				}
+				else
+				{
 					makeMove("up");
 				}
 			}
@@ -187,12 +246,23 @@ const GridLineGame = () => {
 	};
 
 	// Start a new game with selected grid size
-	const startGame = () => {
+	const startGame = () =>
+	{
 		setGridWidth(tempWidth);
 		setGridHeight(tempHeight);
-		setCurrentPos({x: 0, y: 0});
+		setCurrentPos(
+			{
+				x: 0,
+				y: 0,
+			},
+		);
 		setLines(new Set());
-		setPath([{x: 0, y: 0}]);
+		setPath([
+			{
+				x: 0,
+				y: 0,
+			},
+		]);
 		setGameStatus("playing");
 		setShowTouchHint(true);
 		setRainbowActive(false);
@@ -200,17 +270,29 @@ const GridLineGame = () => {
 	};
 
 	// Reset the game
-	const resetGame = () => {
-		setCurrentPos({x: 0, y: 0});
+	const resetGame = () =>
+	{
+		setCurrentPos(
+			{
+				x: 0,
+				y: 0,
+			},
+		);
 		setLines(new Set());
-		setPath([{x: 0, y: 0}]);
+		setPath([
+			{
+				x: 0,
+				y: 0,
+			},
+		]);
 		setGameStatus("playing");
 		setShowTouchHint(true);
 		setRainbowActive(false);
 		setShowSetup(true);
 	};
 
-	const calculateCellSize = useCallback(() => {
+	const calculateCellSize = useCallback(() =>
+	{
 		if (!containerRef.current) return;
 
 		const availableWidth = window.innerWidth - 40;
@@ -228,33 +310,41 @@ const GridLineGame = () => {
 	}, [gridWidth, gridHeight]);
 
 	// Recalculate cell size on mount, window resize, and grid size change
-	useEffect(() => {
+	useEffect(() =>
+	{
 		calculateCellSize();
 
-		const handleResize = () => {
+		const handleResize = () =>
+		{
 			calculateCellSize();
 		};
 
 		window.addEventListener("resize", handleResize);
-		return () => {
+		return () =>
+		{
 			window.removeEventListener("resize", handleResize);
 		};
 	}, [calculateCellSize]);
 
 	// Hide touch hint after first move
-	useEffect(() => {
-		if (lines.size > 0) {
+	useEffect(() =>
+	{
+		if (lines.size > 0)
+		{
 			// oxlint-disable-next-line react/set-state-in-effect -- The hint hides after the first move, however that move was made.
 			setShowTouchHint(false);
 		}
 	}, [lines]);
 
 	// Handle keyboard events
-	useEffect(() => {
-		const handleKeyPress = (e: KeyboardEvent) => {
+	useEffect(() =>
+	{
+		const handleKeyPress = (e: KeyboardEvent) =>
+		{
 			if (gameStatus !== "playing" || showSetup) return;
 
-			switch (e.key) {
+			switch (e.key)
+			{
 				case "ArrowUp":
 					e.preventDefault();
 					makeMove("up");
@@ -275,45 +365,58 @@ const GridLineGame = () => {
 		};
 
 		window.addEventListener("keydown", handleKeyPress);
-		return () => {
+		return () =>
+		{
 			window.removeEventListener("keydown", handleKeyPress);
 		};
 	}, [gameStatus, showSetup, makeMove]);
 
-	const getSVGPath = () => {
+	const getSVGPath = () =>
+	{
 		if (path.length < 2) return "";
 
 		const offset = cellSize / 2;
 
 		let pathStr = `M ${path[0].x * cellSize + offset} ${path[0].y * cellSize + offset}`;
 
-		for (let i = 1; i < path.length; i++) {
+		for (let i = 1; i < path.length; i++)
+		{
 			const prev = path[i - 1];
 			const curr = path[i];
 
 			const xDiff = Math.abs(curr.x - prev.x);
 			const yDiff = Math.abs(curr.y - prev.y);
 
-			if (xDiff > 1 || yDiff > 1) {
+			if (xDiff > 1 || yDiff > 1)
+			{
 				// This is a wrapping line
-				if (xDiff > 1) {
+				if (xDiff > 1)
+				{
 					// Horizontal wrap
-					if (prev.x === 0) {
+					if (prev.x === 0)
+					{
 						// Wrapping left
 						pathStr += ` L ${-offset} ${prev.y * cellSize + offset}`;
 						pathStr += ` M ${gridWidth * cellSize + offset} ${curr.y * cellSize + offset}`;
-					} else {
+					}
+					else
+					{
 						// Wrapping right
 						pathStr += ` L ${gridWidth * cellSize + offset} ${prev.y * cellSize + offset}`;
 						pathStr += ` M ${-offset} ${curr.y * cellSize + offset}`;
 					}
-				} else {
+				}
+				else
+				{
 					// Vertical wrap
-					if (prev.y === 0) {
+					if (prev.y === 0)
+					{
 						// Wrapping up
 						pathStr += ` L ${prev.x * cellSize + offset} ${-offset}`;
 						pathStr += ` M ${curr.x * cellSize + offset} ${gridHeight * cellSize + offset}`;
-					} else {
+					}
+					else
+					{
 						// Wrapping down
 						pathStr += ` L ${prev.x * cellSize + offset} ${gridHeight * cellSize + offset}`;
 						pathStr += ` M ${curr.x * cellSize + offset} ${-offset}`;
@@ -350,7 +453,8 @@ const GridLineGame = () => {
 										min="2"
 										max="10"
 										value={tempWidth}
-										onChange={(e) => {
+										onChange={(e) =>
+										{
 											setTempWidth(parseInt(e.target.value));
 										}}
 										className={styles.slider}
@@ -364,7 +468,8 @@ const GridLineGame = () => {
 										min="2"
 										max="8"
 										value={tempHeight}
-										onChange={(e) => {
+										onChange={(e) =>
+										{
 											setTempHeight(parseInt(e.target.value));
 										}}
 										className={styles.slider}
@@ -375,11 +480,19 @@ const GridLineGame = () => {
 								<div className={styles.gridPreview}>
 									<div
 										className={styles.gridPreviewGrid}
-										style={{gridTemplateColumns: `repeat(${tempWidth}, 1fr)`}}
+										style={
+										{
+											gridTemplateColumns: `repeat(${tempWidth}, 1fr)`,
+										}}
 									>
-										{Array.from({length: tempHeight * tempWidth}, (_, i) => (
-											<div key={i} className={styles.gridPreviewCell} />
-										))}
+										{Array.from(
+											{
+												length: tempHeight * tempWidth,
+											},
+											(_, i) => (
+												<div key={i} className={styles.gridPreviewCell} />
+											),
+										)}
 									</div>
 								</div>
 
@@ -508,31 +621,40 @@ const GridLineGame = () => {
 									</defs>
 
 									{/* Grid squares */}
-									{Array.from({length: gridHeight}, (_, y) =>
-										Array.from({length: gridWidth}, (_cell, x) => (
-											<g key={`${x}-${y}`}>
-												<rect
-													x={x * cellSize}
-													y={y * cellSize}
-													width={cellSize}
-													height={cellSize}
-													fill="none"
-													stroke="var(--ifm-color-emphasis-300)"
-													strokeWidth="1"
-												/>
-												<circle
-													cx={x * cellSize + cellSize / 2}
-													cy={y * cellSize + cellSize / 2}
-													r="6"
-													fill={
-														currentPos.x === x && currentPos.y === y
-															? "var(--ifm-color-primary)"
-															: "var(--ifm-color-emphasis-400)"
-													}
-													className={rainbowActive ? styles.swipeIndicator : ""}
-												/>
-											</g>
-										)),
+									{Array.from(
+										{
+											length: gridHeight,
+										},
+										(_, y) =>
+											Array.from(
+												{
+													length: gridWidth,
+												},
+												(_cell, x) => (
+													<g key={`${x}-${y}`}>
+														<rect
+															x={x * cellSize}
+															y={y * cellSize}
+															width={cellSize}
+															height={cellSize}
+															fill="none"
+															stroke="var(--ifm-color-emphasis-300)"
+															strokeWidth="1"
+														/>
+														<circle
+															cx={x * cellSize + cellSize / 2}
+															cy={y * cellSize + cellSize / 2}
+															r="6"
+															fill={
+																currentPos.x === x && currentPos.y === y
+																	? "var(--ifm-color-primary)"
+																	: "var(--ifm-color-emphasis-400)"
+															}
+															className={rainbowActive ? styles.swipeIndicator : ""}
+														/>
+													</g>
+												),
+											),
 									)}
 
 									{/* Drawn path */}
@@ -574,33 +696,38 @@ const GridLineGame = () => {
 									{/* Win celebration effects */}
 									{rainbowActive && (
 										<g>
-											{Array.from({length: 8}, (_, i) => (
-												<circle
-													key={`sparkle-${i}`}
-													// oxlint-disable-next-line react/purity -- Sparkles are intentionally placed at random.
-													cx={Math.random() * gridWidth * cellSize}
-													// oxlint-disable-next-line react/purity -- Sparkles are intentionally placed at random.
-													cy={Math.random() * gridHeight * cellSize}
-													r="2"
-													fill="#ffff00"
-													opacity="0"
-												>
-													<animate
-														attributeName="opacity"
-														values="0;1;0"
-														dur="2s"
-														begin={`${i * 0.2}s`}
-														repeatCount="indefinite"
-													/>
-													<animate
-														attributeName="r"
-														values="2;6;2"
-														dur="2s"
-														begin={`${i * 0.2}s`}
-														repeatCount="indefinite"
-													/>
-												</circle>
-											))}
+											{Array.from(
+												{
+													length: 8,
+												},
+												(_, i) => (
+													<circle
+														key={`sparkle-${i}`}
+														// oxlint-disable-next-line react/purity -- Sparkles are intentionally placed at random.
+														cx={Math.random() * gridWidth * cellSize}
+														// oxlint-disable-next-line react/purity -- Sparkles are intentionally placed at random.
+														cy={Math.random() * gridHeight * cellSize}
+														r="2"
+														fill="#ffff00"
+														opacity="0"
+													>
+														<animate
+															attributeName="opacity"
+															values="0;1;0"
+															dur="2s"
+															begin={`${i * 0.2}s`}
+															repeatCount="indefinite"
+														/>
+														<animate
+															attributeName="r"
+															values="2;6;2"
+															dur="2s"
+															begin={`${i * 0.2}s`}
+															repeatCount="indefinite"
+														/>
+													</circle>
+												),
+											)}
 										</g>
 									)}
 								</svg>

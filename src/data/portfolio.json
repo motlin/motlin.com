@@ -1,5 +1,6 @@
 {
-	"profile": {
+	"profile":
+	{
 		"name": "Craig Motlin",
 		"username": "motlin",
 		"tagline": "Model-Driven Design • Developer Productivity",
@@ -38,7 +39,8 @@
 			}
 		]
 	},
-	"openGraphImageUrls": {
+	"openGraphImageUrls":
+	{
 		"eclipse-collections/eclipse-collections": "https://repository-images.githubusercontent.com/46803767/30a0d313-9984-4580-b587-f899361ca8b8",
 		"liftwizard/liftwizard": "https://repository-images.githubusercontent.com/232442863/68684218-c814-45c3-ba9f-ed9c2835df27",
 		"liftwizard/klass": "https://repository-images.githubusercontent.com/772183375/63ba0f2b-6e03-4754-8e6e-020ddb32373a",
@@ -101,7 +103,8 @@
 					"githubRepo": "liftwizard/liftwizard",
 					"iconUrl": "https://avatars.githubusercontent.com/u/66336490?s=400&u=9224a9fdb190bb4b591405b11cd826c0c9ffd33c&v=4",
 					"openGraphImageUrl": "https://repository-images.githubusercontent.com/232442863/68684218-c814-45c3-ba9f-ed9c2835df27",
-					"stats": {
+					"stats":
+					{
 						"prs": 685
 					},
 					"language": "Java",
@@ -126,7 +129,8 @@
 					"features": ["Code Quality", "CI/CD Automation", "CheckStyle Integration"],
 					"githubRepo": "motlin/checkstyle-results",
 					"customIcon": "CheckStyleMarketplaceIcon",
-					"stats": {
+					"stats":
+					{
 						"prs": 4
 					},
 					"language": "TypeScript",
@@ -151,7 +155,8 @@
 					"features": ["Commit History", "Pull Request Validation"],
 					"githubRepo": "motlin/forbid-merge-commits-action",
 					"customIcon": "ForbidMergeCommitsMarketplaceIcon",
-					"stats": {
+					"stats":
+					{
 						"prs": 29
 					},
 					"language": "TypeScript",
@@ -172,7 +177,8 @@
 					"features": ["Data Aggregation", "Maven", "Multi-Module", "Code Generation"],
 					"githubRepo": "motlin/aggregator-creator",
 					"openGraphImageUrl": "https://repository-images.githubusercontent.com/978289206/e59d26af-4725-496b-aab1-953f0a26ad6c",
-					"stats": {
+					"stats":
+					{
 						"prs": 5
 					},
 					"language": "TypeScript",
@@ -224,7 +230,8 @@
 					"githubRepo": "eclipse-collections/eclipse-collections-kata",
 					"language": "Java",
 					"license": "EPL-1.0",
-					"stats": {
+					"stats":
+					{
 						"prs": 8
 					}
 				}
@@ -258,7 +265,8 @@
 					"techStack": ["ANTLR"],
 					"features": ["Model-Driven Design", "Code Generation"],
 					"githubRepo": "liftwizard/klass",
-					"stats": {
+					"stats":
+					{
 						"prs": 317
 					},
 					"language": "Java",
@@ -305,7 +313,8 @@
 					"features": ["Blueprint Editing", "Live Preview", "Interactive Playground"],
 					"githubRepo": "motlin/factorio-blueprint-playground",
 					"iconUrl": "https://factorio-icon-cdn.pages.dev/item/blueprint-book.webp",
-					"stats": {
+					"stats":
+					{
 						"prs": 128
 					},
 					"language": "TypeScript",
@@ -414,7 +423,8 @@
 					"features": ["Puzzle Game", "Spatial Reasoning", "Interactive Graphics"],
 					"githubRepo": "motlin/hex-zero",
 					"iconUrl": "/img/hex-zero-favicon.svg",
-					"stats": {
+					"stats":
+					{
 						"prs": 21
 					},
 					"language": "TypeScript",
@@ -439,7 +449,8 @@
 					"features": ["Technical Blogging", "Documentation"],
 					"githubRepo": "motlin/motlin.com",
 					"iconUrl": "/img/motlin.com.png",
-					"stats": {
+					"stats":
+					{
 						"prs": 32
 					},
 					"language": "TypeScript",

@@ -4,23 +4,28 @@ import {FaStar, FaCodeBranch} from "react-icons/fa";
 import Heading from "@theme/Heading";
 import {Project} from "../../data/projects";
 
-interface ThirdPartyContributionsProps {
+interface ThirdPartyContributionsProps
+{
 	projects: Project[];
 }
 
-const handleCardClick = (project: Project) => () => {
-	if (window.getSelection()?.toString()) {
+const handleCardClick = (project: Project) => () =>
+{
+	if (window.getSelection()?.toString())
+	{
 		return;
 	}
 
 	const myContributionsUrl = project.links.find((link) => link.label === "My Contributions")?.url;
 
-	if (myContributionsUrl) {
+	if (myContributionsUrl)
+	{
 		window.open(myContributionsUrl, "_blank", "noopener,noreferrer");
 	}
 };
 
-export function ThirdPartyContributions({projects}: ThirdPartyContributionsProps): React.JSX.Element {
+export function ThirdPartyContributions({projects}: ThirdPartyContributionsProps): React.JSX.Element
+{
 	// oxlint-disable-next-line unicorn/no-array-sort -- Sorts a copy; toSorted is outside the ES2022 target.
 	const sortedProjects = [...projects].sort((a, b) => (b.stars ?? 0) - (a.stars ?? 0));
 
@@ -32,7 +37,10 @@ export function ThirdPartyContributions({projects}: ThirdPartyContributionsProps
 					key={project.id}
 					className={styles.contributionItem}
 					onClick={handleCardClick(project)}
-					style={{cursor: "pointer"}}
+					style={
+					{
+						cursor: "pointer",
+					}}
 				>
 					<div className={styles.projectHeader}>
 						<Heading as="h3" className={styles.projectName}>

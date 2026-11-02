@@ -24,7 +24,8 @@
 		// Imported by docusaurus.config.ts for the production build, which fallow classifies as test-only.
 		"prism-react-renderer",
 	],
-	"rules": {
+	"rules":
+	{
 		"unused-dependencies": "error",
 	},
 }

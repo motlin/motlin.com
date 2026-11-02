@@ -2,7 +2,8 @@ import React from "react";
 
 type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
-interface HeadingProps {
+interface HeadingProps
+{
 	as: HeadingTag;
 	children: React.ReactNode;
 	className?: string;
@@ -11,7 +12,8 @@ interface HeadingProps {
 }
 
 // Simple mock of Docusaurus Heading component for Storybook
-const Heading: React.FC<HeadingProps> = ({as: Tag, children, className, style, id}) => {
+const Heading: React.FC<HeadingProps> = ({as: Tag, children, className, style, id}) =>
+{
 	return (
 		<Tag className={className} style={style} id={id}>
 			{children}

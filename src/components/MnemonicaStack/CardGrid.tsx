@@ -1,13 +1,20 @@
 import React from "react";
 
-export interface CardData {
+export interface CardData
+{
 	card: string;
 	position: number;
 }
 
-export interface CardGridProps {
+export interface CardGridProps
+{
 	cards: CardData[];
-	cardComponent: React.ComponentType<{card: string; position: number; size?: number}>;
+	cardComponent: React.ComponentType<
+	{
+		card: string;
+		position: number;
+		size?: number;
+	}>;
 	columns?: number;
 	cardSize?: number;
 	gap?: string;
@@ -21,14 +28,22 @@ export const CardGrid: React.FC<CardGridProps> = ({
 	cardSize = 150,
 	gap = "1.5rem",
 	className = "",
-}) => {
-	const gridStyle: React.CSSProperties = {
+}) =>
+{
+	const gridStyle: React.CSSProperties =
+	{
 		display: "grid",
 		gap,
 		justifyContent: "center",
 		...(columns
-			? {gridTemplateColumns: `repeat(${columns}, ${cardSize}px)`}
-			: {gridTemplateColumns: `repeat(auto-fill, minmax(${cardSize}px, 1fr))`}),
+			?
+				{
+					gridTemplateColumns: `repeat(${columns}, ${cardSize}px)`,
+				}
+			:
+				{
+					gridTemplateColumns: `repeat(auto-fill, minmax(${cardSize}px, 1fr))`,
+				}),
 	};
 
 	return (
@@ -36,7 +51,8 @@ export const CardGrid: React.FC<CardGridProps> = ({
 			{cards.map((cardData) => (
 				<div
 					key={`${cardData.position}-${cardData.card}`}
-					style={{
+					style={
+					{
 						display: "flex",
 						justifyContent: "center",
 						alignItems: "center",

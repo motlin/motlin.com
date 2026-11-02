@@ -3,15 +3,20 @@ import React from "react";
 import "./styles.css";
 import "../src/css/custom.css";
 
-const preview: Preview = {
-	parameters: {
-		controls: {
-			matchers: {
+const preview: Preview =
+{
+	parameters:
+	{
+		controls:
+		{
+			matchers:
+			{
 				color: /(background|color)$/i,
 				date: /Date$/i,
 			},
 		},
-		backgrounds: {
+		backgrounds:
+		{
 			default: "light",
 			values: [
 				{
@@ -25,12 +30,15 @@ const preview: Preview = {
 			],
 		},
 	},
-	globalTypes: {
-		theme: {
+	globalTypes:
+	{
+		theme:
+		{
 			name: "Theme",
 			description: "Global theme for components",
 			defaultValue: "light",
-			toolbar: {
+			toolbar:
+			{
 				icon: "circlehollow",
 				items: ["light", "dark"],
 				title: "Theme",
@@ -39,11 +47,13 @@ const preview: Preview = {
 		},
 	},
 	decorators: [
-		(Story, context) => {
+		(Story, context) =>
+		{
 			const theme = String(context.globals.theme);
 
 			// Apply theme class to the story
-			React.useEffect(() => {
+			React.useEffect(() =>
+			{
 				document.documentElement.setAttribute("data-theme", theme);
 			}, [theme]);
 
@@ -51,7 +61,8 @@ const preview: Preview = {
 				"div",
 				{
 					"data-theme": theme,
-					style: {
+					style:
+					{
 						padding: "1rem",
 						minHeight: "100vh",
 						backgroundColor: "var(--ifm-background-color)",

@@ -1,8 +1,10 @@
 import React, {useEffect} from "react";
 import GridLineGame from "../GridLineGame";
 
-const GridLineGamePage = () => {
-	useEffect(() => {
+const GridLineGamePage = () =>
+{
+	useEffect(() =>
+	{
 		// Hide the sidebar and center the content
 		const sidebarElement = document.querySelector<HTMLElement>("aside.theme-doc-sidebar-container");
 		const tocElement = document.querySelector<HTMLElement>(".theme-doc-toc-desktop");
@@ -15,7 +17,8 @@ const GridLineGamePage = () => {
 		if (tocElement) tocElement.style.display = "none";
 
 		// Make main take full width
-		if (mainElement) {
+		if (mainElement)
+		{
 			mainElement.style.maxWidth = "100%";
 			mainElement.style.width = "100%";
 			mainElement.style.margin = "0";
@@ -23,36 +26,42 @@ const GridLineGamePage = () => {
 		}
 
 		// Make article take full width
-		if (articleElement) {
+		if (articleElement)
+		{
 			articleElement.style.maxWidth = "100%";
 			articleElement.style.margin = "0";
 			articleElement.style.padding = "0";
 		}
 
 		// Remove all container constraints
-		allContainers.forEach((el) => {
+		allContainers.forEach((el) =>
+		{
 			el.style.maxWidth = "100%";
 			el.style.width = "100%";
 			el.style.margin = "0";
 			el.style.padding = "0";
 		});
 
-		return () => {
+		return () =>
+		{
 			// Cleanup when leaving the page
 			if (sidebarElement) sidebarElement.style.removeProperty("display");
 			if (tocElement) tocElement.style.removeProperty("display");
-			if (mainElement) {
+			if (mainElement)
+			{
 				mainElement.style.removeProperty("max-width");
 				mainElement.style.removeProperty("width");
 				mainElement.style.removeProperty("margin");
 				mainElement.style.removeProperty("padding");
 			}
-			if (articleElement) {
+			if (articleElement)
+			{
 				articleElement.style.removeProperty("max-width");
 				articleElement.style.removeProperty("margin");
 				articleElement.style.removeProperty("padding");
 			}
-			allContainers.forEach((el) => {
+			allContainers.forEach((el) =>
+			{
 				el.style.removeProperty("max-width");
 				el.style.removeProperty("width");
 				el.style.removeProperty("margin");
@@ -63,7 +72,8 @@ const GridLineGamePage = () => {
 
 	return (
 		<div
-			style={{
+			style={
+			{
 				position: "fixed",
 				top: 0,
 				left: 0,

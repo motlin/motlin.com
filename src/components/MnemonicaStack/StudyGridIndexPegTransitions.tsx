@@ -4,8 +4,13 @@ import {CardBackWithIndexNumber} from "./CardSide/CardBackWithIndexNumber";
 import {MnemonicCard} from "./CardSide/MnemonicCard";
 import {TransitionImage} from "./TransitionImage";
 
-export interface StudyGridIndexPegTransitionsProps {
-	mnemonicaData: Array<{card: string; mnemonic: string}>;
+export interface StudyGridIndexPegTransitionsProps
+{
+	mnemonicaData: Array<
+	{
+		card: string;
+		mnemonic: string;
+	}>;
 	cardSize?: number;
 	transitionSize?: number;
 	gap?: string;
@@ -18,10 +23,12 @@ export const StudyGridIndexPegTransitions: React.FC<StudyGridIndexPegTransitions
 	transitionSize = 100,
 	gap = "1rem",
 	className = "",
-}) => {
+}) =>
+{
 	const gridItems: React.ReactNode[] = [];
 
-	for (let index = 0; index < mnemonicaData.length; index++) {
+	for (let index = 0; index < mnemonicaData.length; index++)
+	{
 		const entry = mnemonicaData[index];
 		const position = index + 1;
 		const nextEntry = mnemonicaData[(index + 1) % mnemonicaData.length];
@@ -38,7 +45,15 @@ export const StudyGridIndexPegTransitions: React.FC<StudyGridIndexPegTransitions
 		const transitionItem = (
 			<FlippableCard
 				key={`transition-${position}`}
-				frontComponent={<div style={{width: transitionSize, height: transitionSize * 1.4}} />}
+				frontComponent={
+					<div
+						style={
+						{
+							width: transitionSize,
+							height: transitionSize * 1.4,
+						}}
+					/>
+				}
 				backComponent={
 					<TransitionImage
 						fromCard={entry.card}
@@ -55,7 +70,8 @@ export const StudyGridIndexPegTransitions: React.FC<StudyGridIndexPegTransitions
 		gridItems.push(transitionItem);
 	}
 
-	const gridStyle: React.CSSProperties = {
+	const gridStyle: React.CSSProperties =
+	{
 		display: "grid",
 		gridTemplateColumns: "repeat(8, 1fr)",
 		gap,
