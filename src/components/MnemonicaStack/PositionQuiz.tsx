@@ -4,8 +4,13 @@ import {IndexWithStandardCard} from "./FlippableCards/IndexWithStandardCard";
 
 export type QuizMode = "position-to-card" | "card-to-position";
 
-export interface PositionQuizProps {
-	cards: Array<{card: string; position: number}>;
+export interface PositionQuizProps
+{
+	cards: Array<
+	{
+		card: string;
+		position: number;
+	}>;
 	mode?: QuizMode;
 	showFeedback?: boolean;
 	shuffleQuestions?: boolean;
@@ -20,13 +25,17 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 	shuffleQuestions = true,
 	size = 200,
 	className = "",
-}) => {
-	const questions = useMemo(() => {
-		if (!shuffleQuestions) {
+}) =>
+{
+	const questions = useMemo(() =>
+	{
+		if (!shuffleQuestions)
+		{
 			return [...cards];
 		}
 		const shuffled = [...cards];
-		for (let i = shuffled.length - 1; i > 0; i--) {
+		for (let i = shuffled.length - 1; i > 0; i--)
+		{
 			// oxlint-disable-next-line react/purity -- The shuffle is intentionally random and memoized per deck.
 			const j = Math.floor(Math.random() * (i + 1));
 			[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -47,21 +56,31 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 	const totalQuestions = questions.length;
 	const isLastQuestion = currentQuestionIndex === questions.length - 1;
 
-	const checkAnswer = useCallback(() => {
-		if (mode === "position-to-card") {
+	const checkAnswer = useCallback(() =>
+	{
+		if (mode === "position-to-card")
+		{
 			const correct = userAnswer.toUpperCase() === currentQuestion.card;
 			setIsCorrect(correct);
-			if (correct) {
+			if (correct)
+			{
 				setCorrectCount((count) => count + 1);
-			} else {
+			}
+			else
+			{
 				setIncorrectCount((count) => count + 1);
 			}
-		} else {
+		}
+		else
+		{
 			const correct = parseInt(userAnswer, 10) === currentQuestion.position;
 			setIsCorrect(correct);
-			if (correct) {
+			if (correct)
+			{
 				setCorrectCount((count) => count + 1);
-			} else {
+			}
+			else
+			{
 				setIncorrectCount((count) => count + 1);
 			}
 			setCardFlipped(true);
@@ -69,14 +88,17 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 		setIsAnswered(true);
 	}, [mode, userAnswer, currentQuestion]);
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = (e: React.FormEvent) =>
+	{
 		e.preventDefault();
-		if (!isAnswered && userAnswer.trim()) {
+		if (!isAnswered && userAnswer.trim())
+		{
 			checkAnswer();
 		}
 	};
 
-	const goToNextQuestion = () => {
+	const goToNextQuestion = () =>
+	{
 		setCurrentQuestionIndex((index) => index + 1);
 		setUserAnswer("");
 		setIsAnswered(false);
@@ -84,7 +106,8 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 		setCardFlipped(false);
 	};
 
-	const restartQuiz = () => {
+	const restartQuiz = () =>
+	{
 		setCurrentQuestionIndex(0);
 		setUserAnswer("");
 		setIsAnswered(false);
@@ -94,7 +117,8 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 		setCardFlipped(false);
 	};
 
-	const inputStyle: React.CSSProperties = {
+	const inputStyle: React.CSSProperties =
+	{
 		padding: "0.75rem",
 		fontSize: "1rem",
 		border: "2px solid #ccc",
@@ -103,7 +127,8 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 		textAlign: "center",
 	};
 
-	const buttonStyle: React.CSSProperties = {
+	const buttonStyle: React.CSSProperties =
+	{
 		padding: "0.75rem 1.5rem",
 		fontSize: "1rem",
 		fontWeight: "bold",
@@ -115,7 +140,8 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 		transition: "background-color 0.2s",
 	};
 
-	const feedbackStyle: React.CSSProperties = {
+	const feedbackStyle: React.CSSProperties =
+	{
 		padding: "0.5rem",
 		borderRadius: "4px",
 		marginTop: "0.5rem",
@@ -126,15 +152,33 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 		border: isCorrect ? "1px solid #c3e6cb" : "1px solid #f5c6cb",
 	};
 
-	if (currentQuestionIndex >= questions.length) {
+	if (currentQuestionIndex >= questions.length)
+	{
 		const percentage = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
 		return (
-			<div className={className} style={{textAlign: "center", padding: "2rem"}}>
-				<div style={{marginBottom: "1rem", fontSize: "1.75rem", fontWeight: "bold"}}>Quiz Complete!</div>
+			<div
+				className={className}
+				style={
+				{
+					textAlign: "center",
+					padding: "2rem",
+				}}
+			>
+				<div
+					style={
+					{
+						marginBottom: "1rem",
+						fontSize: "1.75rem",
+						fontWeight: "bold",
+					}}
+				>
+					Quiz Complete!
+				</div>
 
 				<div
-					style={{
+					style={
+					{
 						fontSize: "3rem",
 						fontWeight: "bold",
 						marginBottom: "1.5rem",
@@ -144,19 +188,41 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 					{percentage}%
 				</div>
 
-				<div style={{fontSize: "1.25rem", marginBottom: "2rem"}}>
-					<div style={{marginBottom: "0.5rem"}}>✓ Correct: {correctCount}</div>
-					<div style={{marginBottom: "0.5rem"}}>✗ Incorrect: {incorrectCount}</div>
+				<div
+					style={
+					{
+						fontSize: "1.25rem",
+						marginBottom: "2rem",
+					}}
+				>
+					<div
+						style={
+						{
+							marginBottom: "0.5rem",
+						}}
+					>
+						✓ Correct: {correctCount}
+					</div>
+					<div
+						style={
+						{
+							marginBottom: "0.5rem",
+						}}
+					>
+						✗ Incorrect: {incorrectCount}
+					</div>
 					<div>Total Questions: {totalQuestions}</div>
 				</div>
 
 				<button
 					onClick={restartQuiz}
 					style={buttonStyle}
-					onMouseEnter={(e) => {
+					onMouseEnter={(e) =>
+					{
 						e.currentTarget.style.backgroundColor = "#0056b3";
 					}}
-					onMouseLeave={(e) => {
+					onMouseLeave={(e) =>
+					{
 						e.currentTarget.style.backgroundColor = "#007bff";
 					}}
 				>
@@ -167,13 +233,28 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 	}
 
 	return (
-		<div className={className} style={{textAlign: "center", padding: "0.5rem"}}>
-			<div style={{marginBottom: "0.5rem", fontSize: "0.875rem", color: "#666"}}>
+		<div
+			className={className}
+			style={
+			{
+				textAlign: "center",
+				padding: "0.5rem",
+			}}
+		>
+			<div
+				style={
+				{
+					marginBottom: "0.5rem",
+					fontSize: "0.875rem",
+					color: "#666",
+				}}
+			>
 				Question {progress} of {totalQuestions}
 			</div>
 
 			<div
-				style={{
+				style={
+				{
 					marginBottom: "0.5rem",
 					height: "6px",
 					backgroundColor: "#e9ecef",
@@ -183,7 +264,8 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 				}}
 			>
 				<div
-					style={{
+					style={
+					{
 						height: "100%",
 						backgroundColor: "#007bff",
 						borderRadius: "4px",
@@ -193,12 +275,20 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 				/>
 			</div>
 
-			<div style={{marginBottom: "0.75rem", fontSize: "0.9rem", color: "#666"}}>
+			<div
+				style={
+				{
+					marginBottom: "0.75rem",
+					fontSize: "0.9rem",
+					color: "#666",
+				}}
+			>
 				Score: {correctCount} correct, {incorrectCount} incorrect
 			</div>
 
 			<div
-				style={{
+				style={
+				{
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",
@@ -219,8 +309,20 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 			</div>
 
 			<form onSubmit={handleSubmit}>
-				<div style={{marginBottom: "0.75rem"}}>
-					<div style={{marginBottom: "0.5rem", fontSize: "1rem", fontWeight: "bold"}}>
+				<div
+					style={
+					{
+						marginBottom: "0.75rem",
+					}}
+				>
+					<div
+						style={
+						{
+							marginBottom: "0.5rem",
+							fontSize: "1rem",
+							fontWeight: "bold",
+						}}
+					>
 						{mode === "position-to-card"
 							? `What card is at position ${currentQuestion.position}?`
 							: `What position is ${currentQuestion.card}?`}
@@ -229,12 +331,14 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 					<input
 						type="text"
 						value={userAnswer}
-						onChange={(e) => {
+						onChange={(e) =>
+						{
 							setUserAnswer(e.target.value);
 						}}
 						disabled={isAnswered}
 						placeholder={mode === "position-to-card" ? "e.g., 4C, QH, AS" : "e.g., 1, 2, 52"}
-						style={{
+						style={
+						{
 							...inputStyle,
 							backgroundColor: isAnswered ? "#f8f9fa" : "white",
 						}}
@@ -247,14 +351,17 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 					<button
 						type="button"
 						onClick={goToNextQuestion}
-						style={{
+						style={
+						{
 							...buttonStyle,
 							backgroundColor: "#28a745",
 						}}
-						onMouseEnter={(e) => {
+						onMouseEnter={(e) =>
+						{
 							e.currentTarget.style.backgroundColor = "#218838";
 						}}
-						onMouseLeave={(e) => {
+						onMouseLeave={(e) =>
+						{
 							e.currentTarget.style.backgroundColor = "#28a745";
 						}}
 					>
@@ -264,18 +371,23 @@ export const PositionQuiz: React.FC<PositionQuizProps> = ({
 					<button
 						type="submit"
 						disabled={!userAnswer.trim()}
-						style={{
+						style={
+						{
 							...buttonStyle,
 							opacity: userAnswer.trim() ? 1 : 0.5,
 							cursor: userAnswer.trim() ? "pointer" : "not-allowed",
 						}}
-						onMouseEnter={(e) => {
-							if (userAnswer.trim()) {
+						onMouseEnter={(e) =>
+						{
+							if (userAnswer.trim())
+							{
 								e.currentTarget.style.backgroundColor = "#0056b3";
 							}
 						}}
-						onMouseLeave={(e) => {
-							if (userAnswer.trim()) {
+						onMouseLeave={(e) =>
+						{
+							if (userAnswer.trim())
+							{
 								e.currentTarget.style.backgroundColor = "#007bff";
 							}
 						}}

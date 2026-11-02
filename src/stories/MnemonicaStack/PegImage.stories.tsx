@@ -3,19 +3,24 @@ import React from "react";
 import {PegImage} from "../../components/MnemonicaStack/PegImage";
 import mnemonicaData from "../../data/mnemonicaData.json";
 
-const meta = {
+const meta =
+{
 	title: "MnemonicaStack/PegImage",
 	component: PegImage,
-	parameters: {
+	parameters:
+	{
 		layout: "centered",
 	},
 	tags: ["autodocs"],
-	argTypes: {
-		card: {
+	argTypes:
+	{
+		card:
+		{
 			control: "text",
 			description: 'Card code (e.g., "4C", "QH", "AS")',
 		},
-		className: {
+		className:
+		{
 			control: "text",
 			description: "Additional CSS classes",
 		},
@@ -25,48 +30,91 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-	args: {
+export const Default: Story =
+{
+	args:
+	{
 		card: "4C",
 	},
 };
 
-export const QueenOfHearts: Story = {
-	args: {
+export const QueenOfHearts: Story =
+{
+	args:
+	{
 		card: "QH",
 	},
 };
 
-export const AceOfSpades: Story = {
-	args: {
+export const AceOfSpades: Story =
+{
+	args:
+	{
 		card: "AS",
 	},
 };
 
-export const AllPegImages: Story = {
-	args: {
+export const AllPegImages: Story =
+{
+	args:
+	{
 		card: "4C",
 	},
-	render: () => {
+	render: () =>
+	{
 		return (
-			<div style={{padding: "2rem"}}>
-				<h2 style={{marginBottom: "1rem"}}>All 52 Mnemonic Peg Images</h2>
+			<div
+				style={
+				{
+					padding: "2rem",
+				}}
+			>
+				<h2
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
+					All 52 Mnemonic Peg Images
+				</h2>
 				<div
-					style={{
+					style={
+					{
 						display: "grid",
 						gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
 						gap: "1.5rem",
 					}}
 				>
-					{mnemonicaData.map((data, index) => {
+					{mnemonicaData.map((data, index) =>
+					{
 						const position = index + 1;
 						return (
-							<div key={position} style={{textAlign: "center", paddingBottom: "2.5rem"}}>
+							<div
+								key={position}
+								style={
+								{
+									textAlign: "center",
+									paddingBottom: "2.5rem",
+								}}
+							>
 								<PegImage card={data.card} />
-								<div style={{marginTop: "0.5rem", fontSize: "0.875rem"}}>
+								<div
+									style={
+									{
+										marginTop: "0.5rem",
+										fontSize: "0.875rem",
+									}}
+								>
 									{position}: {data.card}
 								</div>
-								<div style={{marginTop: "0.25rem", fontSize: "0.75rem", color: "#666"}}>
+								<div
+									style={
+									{
+										marginTop: "0.25rem",
+										fontSize: "0.75rem",
+										color: "#666",
+									}}
+								>
 									{data.mnemonic}
 								</div>
 							</div>
@@ -76,49 +124,95 @@ export const AllPegImages: Story = {
 			</div>
 		);
 	},
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 };
 
-export const AllPegImagesDark: Story = {
-	args: {
+export const AllPegImagesDark: Story =
+{
+	args:
+	{
 		card: "4C",
 	},
 	render: AllPegImages.render,
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
-		backgrounds: {default: "dark"},
+		backgrounds:
+		{
+			default: "dark",
+		},
 	},
-	globals: {
+	globals:
+	{
 		theme: "dark",
 	},
 };
 
-export const FirstTenPegs: Story = {
-	args: {
+export const FirstTenPegs: Story =
+{
+	args:
+	{
 		card: "4C",
 	},
-	render: () => {
+	render: () =>
+	{
 		return (
-			<div style={{padding: "2rem"}}>
-				<h2 style={{marginBottom: "1rem"}}>First 10 Mnemonic Pegs</h2>
+			<div
+				style={
+				{
+					padding: "2rem",
+				}}
+			>
+				<h2
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
+					First 10 Mnemonic Pegs
+				</h2>
 				<div
-					style={{
+					style={
+					{
 						display: "grid",
 						gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
 						gap: "2rem",
 					}}
 				>
-					{mnemonicaData.slice(0, 10).map((data, index) => {
+					{mnemonicaData.slice(0, 10).map((data, index) =>
+					{
 						const position = index + 1;
 						return (
-							<div key={position} style={{textAlign: "center", paddingBottom: "3rem"}}>
+							<div
+								key={position}
+								style={
+								{
+									textAlign: "center",
+									paddingBottom: "3rem",
+								}}
+							>
 								<PegImage card={data.card} />
-								<div style={{marginTop: "0.5rem", fontSize: "0.875rem", fontWeight: "bold"}}>
+								<div
+									style={
+									{
+										marginTop: "0.5rem",
+										fontSize: "0.875rem",
+										fontWeight: "bold",
+									}}
+								>
 									Position {position}: {data.card}
 								</div>
-								<div style={{marginTop: "0.25rem", fontSize: "0.875rem", fontStyle: "italic"}}>
+								<div
+									style={
+									{
+										marginTop: "0.25rem",
+										fontSize: "0.875rem",
+										fontStyle: "italic",
+									}}
+								>
 									{data.mnemonic}
 								</div>
 							</div>
@@ -128,7 +222,8 @@ export const FirstTenPegs: Story = {
 			</div>
 		);
 	},
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 };

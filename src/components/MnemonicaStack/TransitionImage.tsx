@@ -1,7 +1,8 @@
 import React from "react";
 import {getTransitionImagePath, type MnemonicaCard} from "../../utils/mnemonicaUtils";
 
-export interface TransitionImageProps {
+export interface TransitionImageProps
+{
 	fromCard: string;
 	toCard: string;
 	fromPosition: number;
@@ -17,24 +18,31 @@ export const TransitionImage: React.FC<TransitionImageProps> = ({
 	size,
 	className = "",
 	style,
-}) => {
-	const fromData: MnemonicaCard = {
+}) =>
+{
+	const fromData: MnemonicaCard =
+	{
 		card: fromCard,
 		mnemonic: "",
 	};
 
-	const toData: MnemonicaCard = {
+	const toData: MnemonicaCard =
+	{
 		card: toCard,
 		mnemonic: "",
 	};
 
 	const imagePath = getTransitionImagePath(fromData, toData, fromPosition);
 
-	const imageStyle: React.CSSProperties = {
+	const imageStyle: React.CSSProperties =
+	{
 		display: "block",
 		maxWidth: "100%",
 		height: "auto",
-		...(size && {width: size}),
+		...(size &&
+		{
+			width: size,
+		}),
 		objectFit: "contain",
 		...style,
 	};

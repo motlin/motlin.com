@@ -5,7 +5,8 @@ import {TestGridIndexToCard} from "@site/src/components/MnemonicaStack/TestGridI
 import mnemonicaData from "@site/src/data/mnemonicaData.json";
 import styles from "./test-grid.module.css";
 
-export default function TestGridPage() {
+export default function TestGridPage()
+{
 	return (
 		<Layout
 			title="Mnemonica Stack - Test Grid"

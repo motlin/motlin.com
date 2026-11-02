@@ -10,7 +10,8 @@ import {FaGithub, FaStackOverflow, FaLinkedinIn, FaMedium, FaLink, FaXTwitter} f
 import portfolioData from "../../data/portfolio.json";
 import styles from "./Portfolio.module.css";
 
-function ProfileImage() {
+function ProfileImage()
+{
 	const profile = useGitHubUserProfile();
 	return (
 		<img
@@ -21,19 +22,22 @@ function ProfileImage() {
 	);
 }
 
-function ProfileName() {
+function ProfileName()
+{
 	const profile = useGitHubUserProfile();
 	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GitHub name falls back to the portfolio name.
 	return profile?.name || portfolioData.profile.name;
 }
 
-function ProfileBio() {
+function ProfileBio()
+{
 	const profile = useGitHubUserProfile();
 	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty GitHub bio falls back to the portfolio bio.
 	return profile?.bio || portfolioData.profile.bio;
 }
 
-const iconMap: Record<string, React.JSX.Element> = {
+const iconMap: Record<string, React.JSX.Element> =
+{
 	FaGithub: <FaGithub />,
 	FaStackOverflow: <FaStackOverflow />,
 	FaLinkedinIn: <FaLinkedinIn />,
@@ -42,7 +46,8 @@ const iconMap: Record<string, React.JSX.Element> = {
 	FaXTwitter: <FaXTwitter />,
 };
 
-export function Portfolio() {
+export function Portfolio()
+{
 	return (
 		<div className={styles.container}>
 			<div className={styles.header}>
@@ -73,17 +78,38 @@ export function Portfolio() {
 
 			<Heading as="h2">Projects</Heading>
 
-			<p style={{marginBottom: "2rem", fontSize: "1.1rem", color: "var(--ifm-color-emphasis-700)"}}>
+			<p
+				style={
+				{
+					marginBottom: "2rem",
+					fontSize: "1.1rem",
+					color: "var(--ifm-color-emphasis-700)",
+				}}
+			>
 				All projects listed here are open source. Below are my contributions organized by affiliation and
 				project type.
 			</p>
 
-			{projectSections.map((section) => {
-				if (section.id === "third-party-contributions") {
+			{projectSections.map((section) =>
+			{
+				if (section.id === "third-party-contributions")
+				{
 					return (
-						<div key={section.id} style={{marginBottom: "3rem"}}>
+						<div
+							key={section.id}
+							style={
+							{
+								marginBottom: "3rem",
+							}}
+						>
 							<Heading as="h3">{section.title}</Heading>
-							<p style={{marginBottom: "1.5rem", color: "var(--ifm-color-emphasis-600)"}}>
+							<p
+								style={
+								{
+									marginBottom: "1.5rem",
+									color: "var(--ifm-color-emphasis-600)",
+								}}
+							>
 								{portfolioData.sections.find((s) => s.id === section.id)?.description}
 							</p>
 							<ThirdPartyContributions projects={section.projects} />

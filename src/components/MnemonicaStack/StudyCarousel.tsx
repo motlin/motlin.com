@@ -6,23 +6,30 @@ import {CardBackWithIndexNumber} from "./CardSide/CardBackWithIndexNumber";
 
 export type StudyMode = "study" | "test";
 
-export interface StudyCarouselProps {
+export interface StudyCarouselProps
+{
 	autoplay?: boolean;
 	interval?: number;
 	showControls?: boolean;
-	cards: Array<{card: string; position: number}>;
+	cards: Array<
+	{
+		card: string;
+		position: number;
+	}>;
 	size?: number;
 	className?: string;
 	mode?: StudyMode;
 }
 
-interface CardSlide {
+interface CardSlide
+{
 	type: "card";
 	card: string;
 	position: number;
 }
 
-interface TransitionSlide {
+interface TransitionSlide
+{
 	type: "transition";
 	card: string;
 	position: number;
@@ -39,57 +46,72 @@ export const StudyCarousel: React.FC<StudyCarouselProps> = ({
 	size = 300,
 	className = "",
 	mode = "study",
-}) => {
+}) =>
+{
 	const slides: Slide[] = [];
-	cards.forEach((cardData, index) => {
-		slides.push({
-			type: "card",
-			card: cardData.card,
-			position: cardData.position,
-		});
-
-		if (index < cards.length - 1) {
-			slides.push({
-				type: "transition",
+	cards.forEach((cardData, index) =>
+	{
+		slides.push(
+			{
+				type: "card",
 				card: cardData.card,
 				position: cardData.position,
-				nextCard: cards[index + 1].card,
-			});
+			},
+		);
+
+		if (index < cards.length - 1)
+		{
+			slides.push(
+				{
+					type: "transition",
+					card: cardData.card,
+					position: cardData.position,
+					nextCard: cards[index + 1].card,
+				},
+			);
 		}
 	});
 
 	const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 	const [isPlaying, setIsPlaying] = useState(autoplay);
 
-	const goToNextSlide = useCallback(() => {
+	const goToNextSlide = useCallback(() =>
+	{
 		setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % slides.length);
 	}, [slides.length]);
 
-	const goToPreviousSlide = useCallback(() => {
+	const goToPreviousSlide = useCallback(() =>
+	{
 		setCurrentSlideIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
 	}, [slides.length]);
 
-	const togglePlayPause = () => {
+	const togglePlayPause = () =>
+	{
 		setIsPlaying(!isPlaying);
 	};
 
-	useEffect(() => {
-		if (!isPlaying) {
+	useEffect(() =>
+	{
+		if (!isPlaying)
+		{
 			return undefined;
 		}
 
-		const timer = setInterval(() => {
+		const timer = setInterval(() =>
+		{
 			goToNextSlide();
 		}, interval);
 
-		return () => {
+		return () =>
+		{
 			clearInterval(timer);
 		};
 	}, [isPlaying, interval, goToNextSlide]);
 
 	const currentSlide = slides[currentSlideIndex];
 
-	const controlButtonStyle: React.CSSProperties = {
+	const controlButtonStyle: React.CSSProperties =
+	{
 		padding: "0.75rem 1.5rem",
 		fontSize: "1rem",
 		fontWeight: "bold",
@@ -102,9 +124,16 @@ export const StudyCarousel: React.FC<StudyCarouselProps> = ({
 	};
 
 	return (
-		<div className={className} style={{textAlign: "center"}}>
+		<div
+			className={className}
+			style={
+			{
+				textAlign: "center",
+			}}
+		>
 			<div
-				style={{
+				style={
+				{
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",
@@ -132,25 +161,48 @@ export const StudyCarousel: React.FC<StudyCarouselProps> = ({
 				)}
 			</div>
 
-			<div style={{marginBottom: "1rem", fontSize: "1.125rem", fontWeight: "bold"}}>
+			<div
+				style={
+				{
+					marginBottom: "1rem",
+					fontSize: "1.125rem",
+					fontWeight: "bold",
+				}}
+			>
 				{currentSlide.type === "card"
 					? `Position ${currentSlide.position}: ${currentSlide.card}`
 					: `Transition ${currentSlide.position} → ${currentSlide.position + 1}`}
 			</div>
 
-			<div style={{marginBottom: "1rem", color: "#666"}}>
+			<div
+				style={
+				{
+					marginBottom: "1rem",
+					color: "#666",
+				}}
+			>
 				Slide {currentSlideIndex + 1} of {slides.length}
 			</div>
 
 			{showControls && (
-				<div style={{display: "flex", gap: "1rem", justifyContent: "center", alignItems: "center"}}>
+				<div
+					style={
+					{
+						display: "flex",
+						gap: "1rem",
+						justifyContent: "center",
+						alignItems: "center",
+					}}
+				>
 					<button
 						onClick={goToPreviousSlide}
 						style={controlButtonStyle}
-						onMouseEnter={(e) => {
+						onMouseEnter={(e) =>
+						{
 							e.currentTarget.style.backgroundColor = "#0056b3";
 						}}
-						onMouseLeave={(e) => {
+						onMouseLeave={(e) =>
+						{
 							e.currentTarget.style.backgroundColor = "#007bff";
 						}}
 					>
@@ -159,14 +211,17 @@ export const StudyCarousel: React.FC<StudyCarouselProps> = ({
 
 					<button
 						onClick={togglePlayPause}
-						style={{
+						style={
+						{
 							...controlButtonStyle,
 							backgroundColor: isPlaying ? "#dc3545" : "#28a745",
 						}}
-						onMouseEnter={(e) => {
+						onMouseEnter={(e) =>
+						{
 							e.currentTarget.style.backgroundColor = isPlaying ? "#bd2130" : "#218838";
 						}}
-						onMouseLeave={(e) => {
+						onMouseLeave={(e) =>
+						{
 							e.currentTarget.style.backgroundColor = isPlaying ? "#dc3545" : "#28a745";
 						}}
 					>
@@ -176,10 +231,12 @@ export const StudyCarousel: React.FC<StudyCarouselProps> = ({
 					<button
 						onClick={goToNextSlide}
 						style={controlButtonStyle}
-						onMouseEnter={(e) => {
+						onMouseEnter={(e) =>
+						{
 							e.currentTarget.style.backgroundColor = "#0056b3";
 						}}
-						onMouseLeave={(e) => {
+						onMouseLeave={(e) =>
+						{
 							e.currentTarget.style.backgroundColor = "#007bff";
 						}}
 					>

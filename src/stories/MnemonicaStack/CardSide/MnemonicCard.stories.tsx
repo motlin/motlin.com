@@ -3,32 +3,40 @@ import React from "react";
 import {MnemonicCard} from "../../../components/MnemonicaStack/CardSide/MnemonicCard";
 import mnemonicaData from "../../../data/mnemonicaData.json";
 
-const isRedSuit = (card: string): boolean => {
+const isRedSuit = (card: string): boolean =>
+{
 	const suit = card.charAt(card.length - 1);
 	return suit === "H" || suit === "D";
 };
 
-const meta = {
+const meta =
+{
 	title: "MnemonicaStack/CardSide/MnemonicCard",
 	component: MnemonicCard,
-	parameters: {
+	parameters:
+	{
 		layout: "centered",
 	},
 	tags: ["autodocs"],
-	argTypes: {
-		card: {
+	argTypes:
+	{
+		card:
+		{
 			control: "text",
 			description: 'Card code (e.g., "4C", "QH", "AS")',
 		},
-		showPosition: {
+		showPosition:
+		{
 			control: "boolean",
 			description: "Show position number badge on card",
 		},
-		size: {
+		size:
+		{
 			control: "number",
 			description: "Card width in pixels",
 		},
-		className: {
+		className:
+		{
 			control: "text",
 			description: "Additional CSS classes",
 		},
@@ -38,62 +46,95 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-	args: {
+export const Default: Story =
+{
+	args:
+	{
 		card: "4C",
 		showPosition: false,
 		size: 200,
 	},
 };
 
-export const WithPosition: Story = {
-	args: {
+export const WithPosition: Story =
+{
+	args:
+	{
 		card: "4C",
 		showPosition: true,
 		size: 200,
 	},
 };
 
-export const QueenOfHearts: Story = {
-	args: {
+export const QueenOfHearts: Story =
+{
+	args:
+	{
 		card: "QH",
 		showPosition: true,
 		size: 200,
 	},
 };
 
-export const AceOfSpades: Story = {
-	args: {
+export const AceOfSpades: Story =
+{
+	args:
+	{
 		card: "AS",
 		showPosition: true,
 		size: 200,
 	},
 };
 
-export const All52Cards: Story = {
-	args: {
+export const All52Cards: Story =
+{
+	args:
+	{
 		card: "4C",
 		size: 200,
 	},
-	render: (args) => {
+	render: (args) =>
+	{
 		return (
-			<div style={{padding: "2rem"}}>
-				<h2 style={{marginBottom: "1rem"}}>All 52 Mnemonic Cards (in Mnemonica order)</h2>
+			<div
+				style={
+				{
+					padding: "2rem",
+				}}
+			>
+				<h2
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
+					All 52 Mnemonic Cards (in Mnemonica order)
+				</h2>
 				<div
-					style={{
+					style={
+					{
 						display: "grid",
 						gridTemplateColumns: `repeat(auto-fill, minmax(${args.size}px, 1fr))`,
 						gap: "1.5rem",
 					}}
 				>
-					{mnemonicaData.map((data, index) => {
+					{mnemonicaData.map((data, index) =>
+					{
 						const position = index + 1;
 						const cardColor = isRedSuit(data.card) ? "#dc2626" : "#000000";
 						return (
-							<div key={position} style={{textAlign: "center", paddingBottom: "2.5rem"}}>
+							<div
+								key={position}
+								style={
+								{
+									textAlign: "center",
+									paddingBottom: "2.5rem",
+								}}
+							>
 								<MnemonicCard card={data.card} showPosition={true} size={args.size} />
 								<div
-									style={{
+									style={
+									{
 										marginTop: "0.5rem",
 										fontSize: "0.875rem",
 										fontWeight: "bold",
@@ -102,7 +143,14 @@ export const All52Cards: Story = {
 								>
 									{position}: {data.card}
 								</div>
-								<div style={{marginTop: "0.25rem", fontSize: "0.75rem", color: "#666"}}>
+								<div
+									style={
+									{
+										marginTop: "0.25rem",
+										fontSize: "0.75rem",
+										color: "#666",
+									}}
+								>
 									{data.mnemonic}
 								</div>
 							</div>
@@ -112,49 +160,82 @@ export const All52Cards: Story = {
 			</div>
 		);
 	},
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 };
 
-export const All52CardsDark: Story = {
-	args: {
+export const All52CardsDark: Story =
+{
+	args:
+	{
 		card: "4C",
 		size: 150,
 	},
 	render: All52Cards.render,
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
-		backgrounds: {default: "dark"},
+		backgrounds:
+		{
+			default: "dark",
+		},
 	},
-	globals: {
+	globals:
+	{
 		theme: "dark",
 	},
 };
 
-export const FirstTenCards: Story = {
-	args: {
+export const FirstTenCards: Story =
+{
+	args:
+	{
 		card: "4C",
 	},
-	render: () => {
+	render: () =>
+	{
 		return (
-			<div style={{padding: "2rem"}}>
-				<h2 style={{marginBottom: "1rem"}}>First 10 Mnemonic Cards</h2>
+			<div
+				style={
+				{
+					padding: "2rem",
+				}}
+			>
+				<h2
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
+					First 10 Mnemonic Cards
+				</h2>
 				<div
-					style={{
+					style={
+					{
 						display: "grid",
 						gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
 						gap: "2rem",
 					}}
 				>
-					{mnemonicaData.slice(0, 10).map((data, index) => {
+					{mnemonicaData.slice(0, 10).map((data, index) =>
+					{
 						const position = index + 1;
 						const cardColor = isRedSuit(data.card) ? "#dc2626" : "#000000";
 						return (
-							<div key={position} style={{textAlign: "center", paddingBottom: "3rem"}}>
+							<div
+								key={position}
+								style={
+								{
+									textAlign: "center",
+									paddingBottom: "3rem",
+								}}
+							>
 								<MnemonicCard card={data.card} showPosition={true} size={200} />
 								<div
-									style={{
+									style={
+									{
 										marginTop: "0.75rem",
 										fontSize: "1rem",
 										fontWeight: "bold",
@@ -163,7 +244,14 @@ export const FirstTenCards: Story = {
 								>
 									Position {position}: {data.card}
 								</div>
-								<div style={{marginTop: "0.25rem", fontSize: "0.875rem", fontStyle: "italic"}}>
+								<div
+									style={
+									{
+										marginTop: "0.25rem",
+										fontSize: "0.875rem",
+										fontStyle: "italic",
+									}}
+								>
 									{data.mnemonic}
 								</div>
 							</div>
@@ -173,33 +261,65 @@ export const FirstTenCards: Story = {
 			</div>
 		);
 	},
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 };
 
-export const WithoutPositionBadges: Story = {
-	args: {
+export const WithoutPositionBadges: Story =
+{
+	args:
+	{
 		card: "4C",
 	},
-	render: () => {
+	render: () =>
+	{
 		return (
-			<div style={{padding: "2rem"}}>
-				<h2 style={{marginBottom: "1rem"}}>Mnemonic Cards (without position badges)</h2>
+			<div
+				style={
+				{
+					padding: "2rem",
+				}}
+			>
+				<h2
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
+					Mnemonic Cards (without position badges)
+				</h2>
 				<div
-					style={{
+					style={
+					{
 						display: "grid",
 						gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
 						gap: "1.5rem",
 					}}
 				>
-					{mnemonicaData.slice(0, 12).map((data, index) => {
+					{mnemonicaData.slice(0, 12).map((data, index) =>
+					{
 						const position = index + 1;
 						const cardColor = isRedSuit(data.card) ? "#dc2626" : "#000000";
 						return (
-							<div key={position} style={{textAlign: "center", paddingBottom: "1.5rem"}}>
+							<div
+								key={position}
+								style={
+								{
+									textAlign: "center",
+									paddingBottom: "1.5rem",
+								}}
+							>
 								<MnemonicCard card={data.card} showPosition={false} size={150} />
-								<div style={{marginTop: "0.5rem", fontSize: "0.875rem", color: cardColor}}>
+								<div
+									style={
+									{
+										marginTop: "0.5rem",
+										fontSize: "0.875rem",
+										color: cardColor,
+									}}
+								>
 									{position}: {data.card}
 								</div>
 							</div>
@@ -209,27 +329,45 @@ export const WithoutPositionBadges: Story = {
 			</div>
 		);
 	},
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 };
 
-export const CompactGrid: Story = {
-	args: {
+export const CompactGrid: Story =
+{
+	args:
+	{
 		card: "4C",
 	},
-	render: () => {
+	render: () =>
+	{
 		return (
-			<div style={{padding: "2rem"}}>
-				<h2 style={{marginBottom: "1rem"}}>Compact Grid Layout (100px cards)</h2>
+			<div
+				style={
+				{
+					padding: "2rem",
+				}}
+			>
+				<h2
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
+					Compact Grid Layout (100px cards)
+				</h2>
 				<div
-					style={{
+					style={
+					{
 						display: "grid",
 						gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))",
 						gap: "1rem",
 					}}
 				>
-					{mnemonicaData.map((data, index) => {
+					{mnemonicaData.map((data, index) =>
+					{
 						const position = index + 1;
 						return (
 							<div key={position}>
@@ -241,32 +379,64 @@ export const CompactGrid: Story = {
 			</div>
 		);
 	},
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 };
 
-export const LargeGrid: Story = {
-	args: {
+export const LargeGrid: Story =
+{
+	args:
+	{
 		card: "4C",
 	},
-	render: () => {
+	render: () =>
+	{
 		return (
-			<div style={{padding: "2rem"}}>
-				<h2 style={{marginBottom: "1rem"}}>Large Grid Layout (250px cards)</h2>
+			<div
+				style={
+				{
+					padding: "2rem",
+				}}
+			>
+				<h2
+					style={
+					{
+						marginBottom: "1rem",
+					}}
+				>
+					Large Grid Layout (250px cards)
+				</h2>
 				<div
-					style={{
+					style={
+					{
 						display: "grid",
 						gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
 						gap: "2rem",
 					}}
 				>
-					{mnemonicaData.slice(0, 8).map((data, index) => {
+					{mnemonicaData.slice(0, 8).map((data, index) =>
+					{
 						const position = index + 1;
 						return (
-							<div key={position} style={{textAlign: "center", paddingBottom: "2rem"}}>
+							<div
+								key={position}
+								style={
+								{
+									textAlign: "center",
+									paddingBottom: "2rem",
+								}}
+							>
 								<MnemonicCard card={data.card} showPosition={true} size={250} />
-								<div style={{marginTop: "0.75rem", fontSize: "1.125rem", fontWeight: "bold"}}>
+								<div
+									style={
+									{
+										marginTop: "0.75rem",
+										fontSize: "1.125rem",
+										fontWeight: "bold",
+									}}
+								>
 									{data.mnemonic}
 								</div>
 							</div>
@@ -276,7 +446,8 @@ export const LargeGrid: Story = {
 			</div>
 		);
 	},
-	parameters: {
+	parameters:
+	{
 		layout: "fullscreen",
 	},
 };

@@ -5,7 +5,8 @@ import portfolioData from "./portfolio.json";
 // Custom marketplace icon for CheckStyle Results Reporter
 const CheckStyleMarketplaceIcon = () => (
 	<div
-		style={{
+		style={
+		{
 			backgroundColor: "#ffd33d",
 			color: "white",
 			borderRadius: "6px",
@@ -37,7 +38,8 @@ const CheckStyleMarketplaceIcon = () => (
 // Custom marketplace icon for Forbid Merge Commits Action
 const ForbidMergeCommitsMarketplaceIcon = () => (
 	<div
-		style={{
+		style={
+		{
 			backgroundColor: "#ffd33d",
 			color: "white",
 			borderRadius: "6px",
@@ -68,7 +70,8 @@ const ForbidMergeCommitsMarketplaceIcon = () => (
 );
 
 // Icon mapping
-const iconMap: Record<string, React.JSX.Element> = {
+const iconMap: Record<string, React.JSX.Element> =
+{
 	FaCircleDot: <FaCircleDot size={24} />,
 	FaCube: <FaCube size={24} />,
 	FaFolder: <FaFolder size={24} />,
@@ -76,17 +79,20 @@ const iconMap: Record<string, React.JSX.Element> = {
 };
 
 // Custom icon mapping
-const customIconMap: Record<string, React.JSX.Element> = {
+const customIconMap: Record<string, React.JSX.Element> =
+{
 	CheckStyleMarketplaceIcon: <CheckStyleMarketplaceIcon />,
 	ForbidMergeCommitsMarketplaceIcon: <ForbidMergeCommitsMarketplaceIcon />,
 };
 
-export interface Link {
+export interface Link
+{
 	url: string;
 	label: string;
 }
 
-export interface Project {
+export interface Project
+{
 	id: string;
 	name: string;
 	repoUrl: string;
@@ -106,7 +112,8 @@ export interface Project {
 	contributionCount?: number;
 }
 
-export interface ProjectSection {
+export interface ProjectSection
+{
 	id: string;
 	title: string;
 	icon: React.JSX.Element;
@@ -114,10 +121,12 @@ export interface ProjectSection {
 }
 
 // oxlint-disable-next-line oxc/no-map-spread -- Copies rather than mutates the shared imported portfolio JSON.
-export const projectSections: ProjectSection[] = portfolioData.sections.map((section) => ({
+export const projectSections: ProjectSection[] = portfolioData.sections.map((section) => (
+{
 	...section,
 	icon: iconMap[section.icon],
-	projects: section.projects.map((project) => ({
+	projects: section.projects.map((project) => (
+	{
 		...project,
 		customIcon: "customIcon" in project && project.customIcon ? customIconMap[project.customIcon] : undefined,
 	})),

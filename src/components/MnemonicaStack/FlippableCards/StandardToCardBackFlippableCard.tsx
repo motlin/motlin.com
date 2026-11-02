@@ -3,7 +3,8 @@ import {FlippableCard} from "./FlippableCard";
 import {StandardCard} from "../CardSide/StandardCard";
 import {CardBack} from "../CardSide/CardBack";
 
-export interface StandardToCardBackFlippableCardProps {
+export interface StandardToCardBackFlippableCardProps
+{
 	card: string;
 	position: number;
 	size?: number;
@@ -14,7 +15,8 @@ export const StandardToCardBackFlippableCard: React.FC<StandardToCardBackFlippab
 	card,
 	size = 200,
 	className = "",
-}) => {
+}) =>
+{
 	return (
 		<FlippableCard
 			frontComponent={<StandardCard card={card} />}

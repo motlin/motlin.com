@@ -2,13 +2,15 @@ import React from "react";
 import {getCardSvgPath} from "../../../utils/mnemonicaUtils";
 import {CardFrame} from "../CardFrame";
 
-export interface StandardCardProps {
+export interface StandardCardProps
+{
 	card: string;
 	size?: number;
 	className?: string;
 }
 
-export const StandardCard: React.FC<StandardCardProps> = ({card, size = 200, className = ""}) => {
+export const StandardCard: React.FC<StandardCardProps> = ({card, size = 200, className = ""}) =>
+{
 	const svgPath = getCardSvgPath(card, "standard");
 
 	return (
@@ -18,7 +20,8 @@ export const StandardCard: React.FC<StandardCardProps> = ({card, size = 200, cla
 				alt={`Playing card ${card}`}
 				width={size}
 				height={size * 1.4}
-				style={{
+				style={
+				{
 					display: "block",
 					width: "100%",
 					height: "100%",

@@ -5,6 +5,7 @@ import type {WrapperProps} from "@docusaurus/types";
 
 type Props = WrapperProps<typeof HeadingType>;
 
-export default function HeadingWrapper(props: Props): React.JSX.Element {
+export default function HeadingWrapper(props: Props): React.JSX.Element
+{
 	return <OriginalHeading {...props} />;
 }

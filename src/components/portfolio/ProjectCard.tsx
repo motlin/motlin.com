@@ -4,7 +4,8 @@ import {Project} from "../../data/projects";
 import {useGitHubRepos} from "../../hooks/useGitHubRepos";
 import {FaGithub, FaBook, FaStore, FaGlobe, FaBlog, FaGamepad, FaHouse} from "react-icons/fa6";
 import {FaJava, FaPython, FaRust, FaPhp} from "react-icons/fa";
-import {
+import
+{
 	SiTypescript,
 	SiJavascript,
 	SiKotlin,
@@ -30,15 +31,18 @@ import {
 import Link from "@docusaurus/Link";
 import Markdown, {type Components} from "react-markdown";
 
-const markdownComponents: Components = {
+const markdownComponents: Components =
+{
 	p: ({children}) => <div className={styles.descriptionText}>{children}</div>,
 };
 
-interface ProjectCardProps {
+interface ProjectCardProps
+{
 	project: Project;
 }
 
-const languageIcons: Record<string, React.ComponentType> = {
+const languageIcons: Record<string, React.ComponentType> =
+{
 	TypeScript: SiTypescript,
 	JavaScript: SiJavascript,
 	Java: FaJava,
@@ -55,7 +59,8 @@ const languageIcons: Record<string, React.ComponentType> = {
 	Lua: SiLua,
 };
 
-const techStackIcons: Record<string, React.ComponentType> = {
+const techStackIcons: Record<string, React.ComponentType> =
+{
 	Cloudflare: SiCloudflare,
 	"Cloudflare Pages": SiCloudflare,
 	Firebase: SiFirebase,
@@ -71,18 +76,21 @@ const techStackIcons: Record<string, React.ComponentType> = {
 	"GitHub Actions": SiGithubactions,
 };
 
-const licenseIcons: Record<string, React.ComponentType> = {
+const licenseIcons: Record<string, React.ComponentType> =
+{
 	"Apache-2.0": SiApache,
 	"Apache License 2.0": SiApache,
 };
 
-function renderIconForKey(icons: Partial<Record<string, React.ComponentType>>, key: string | undefined) {
+function renderIconForKey(icons: Partial<Record<string, React.ComponentType>>, key: string | undefined)
+{
 	const icon = key ? icons[key] : undefined;
 	if (!icon) return null;
 	return <span className={styles.linkIcon}>{React.createElement(icon)}</span>;
 }
 
-export function ProjectCard({project}: ProjectCardProps): React.JSX.Element {
+export function ProjectCard({project}: ProjectCardProps): React.JSX.Element
+{
 	const repos = useGitHubRepos();
 
 	const repoData = project.githubRepo ? repos[project.githubRepo] : null;
@@ -99,23 +107,30 @@ export function ProjectCard({project}: ProjectCardProps): React.JSX.Element {
 
 	const links = project.links;
 
-	const handleCardClick = (e: React.MouseEvent) => {
+	const handleCardClick = (e: React.MouseEvent) =>
+	{
 		// Don't navigate if clicking on text or interactive elements
 		const target = e.target;
-		if (window.getSelection()?.toString()) {
+		if (window.getSelection()?.toString())
+		{
 			return;
 		}
 		if (
 			target instanceof Element &&
 			(target.tagName === "A" || target.closest("a") || target.classList.contains(styles.matrixBadge))
-		) {
+		)
+		{
 			return;
 		}
 
-		if (mainLink) {
-			if (e.ctrlKey || e.metaKey || e.button === 1) {
+		if (mainLink)
+		{
+			if (e.ctrlKey || e.metaKey || e.button === 1)
+			{
 				window.open(mainLink, "_blank", "noopener,noreferrer");
-			} else {
+			}
+			else
+			{
 				window.open(mainLink, "_blank", "noopener,noreferrer");
 			}
 		}
@@ -166,7 +181,8 @@ export function ProjectCard({project}: ProjectCardProps): React.JSX.Element {
 											key={link.label}
 											href={link.url}
 											className={styles.matrixBadge}
-											onClick={(e) => {
+											onClick={(e) =>
+											{
 												e.stopPropagation();
 											}}
 										>

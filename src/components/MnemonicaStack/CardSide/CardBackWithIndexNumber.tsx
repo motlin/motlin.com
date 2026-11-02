@@ -1,7 +1,8 @@
 import React from "react";
 import {CardFrame} from "../CardFrame";
 
-export interface CardBackWithIndexNumberProps {
+export interface CardBackWithIndexNumberProps
+{
 	position: number;
 	size?: number;
 	className?: string;
@@ -13,8 +14,10 @@ export const CardBackWithIndexNumber: React.FC<CardBackWithIndexNumberProps> = (
 	size = 200,
 	className = "",
 	textColor = "RoyalBlue",
-}) => {
-	if (position < 1 || position > 52) {
+}) =>
+{
+	if (position < 1 || position > 52)
+	{
 		throw new Error("Position must be between 1 and 52");
 	}
 
@@ -23,7 +26,8 @@ export const CardBackWithIndexNumber: React.FC<CardBackWithIndexNumberProps> = (
 	return (
 		<CardFrame size={size} className={className}>
 			<div
-				style={{
+				style={
+				{
 					position: "relative",
 					width: "100%",
 					height: "100%",
@@ -34,14 +38,16 @@ export const CardBackWithIndexNumber: React.FC<CardBackWithIndexNumberProps> = (
 					alt="Card back"
 					width={size}
 					height={size * 1.4}
-					style={{
+					style={
+					{
 						display: "block",
 						width: "100%",
 						height: "100%",
 					}}
 				/>
 				<div
-					style={{
+					style={
+					{
 						position: "absolute",
 						top: 0,
 						left: 0,

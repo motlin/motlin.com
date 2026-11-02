@@ -3,7 +3,8 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import Heading from "@theme/Heading";
 
-interface PageItem {
+interface PageItem
+{
 	title: string;
 	description: string;
 	link: string;
@@ -68,7 +69,8 @@ const pages: PageItem[] = [
 	},
 ];
 
-export default function PagesIndex() {
+export default function PagesIndex()
+{
 	return (
 		<Layout title="Pages" description="Explore all pages on motlin.com">
 			<main className="container margin-vert--lg">
@@ -90,7 +92,10 @@ export default function PagesIndex() {
 												width={32}
 												height={32}
 												className="margin-right--sm"
-												style={{verticalAlign: "middle"}}
+												style={
+												{
+													verticalAlign: "middle",
+												}}
 											/>
 										)}
 										{page.emoji && <span className="margin-right--sm">{page.emoji}</span>}

@@ -5,7 +5,8 @@ import {TestGridCardToMnemonic} from "@site/src/components/MnemonicaStack/TestGr
 import mnemonicaData from "@site/src/data/mnemonicaData.json";
 import styles from "./test-grid.module.css";
 
-export default function TestMnemonicPage() {
+export default function TestMnemonicPage()
+{
 	return (
 		<Layout title="Mnemonica Stack - Card to Mnemonic" description="Test your recall of mnemonic peg images">
 			<div className={styles.container}>

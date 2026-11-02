@@ -2,7 +2,8 @@ import React from "react";
 import Heading from "@theme/Heading";
 import ColorSwatch from "./ColorSwatch";
 
-export default function ColorSwatchExample(): React.JSX.Element {
+export default function ColorSwatchExample(): React.JSX.Element
+{
 	return (
 		<div className="color-swatch-examples">
 			<Heading as="h3">Color Swatch Examples</Heading>
