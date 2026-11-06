@@ -1,23 +1,30 @@
 {
-  // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@docusaurus/tsconfig",
-  "compilerOptions": {
-    "ignoreDeprecations": "6.0",
-    "baseUrl": ".",
-    "paths": {
-      "@site/*": ["./*"]
-    },
-    "jsx": "react-jsx",
-    "strict": false
-  },
-  "include": [
-    "src/**/*",
-    ".storybook/**/*",
-    "scripts/**/*",
-    "docusaurus.config.ts",
-    "sidebars.ts",
-    "vitest.config.ts",
-    "vitest.setup.ts"
-  ],
-  "exclude": [".docusaurus", "build", "storybook-static"]
+	// This file is not used in compilation. It is here just for a nice editor experience.
+	// Inlined from @docusaurus/tsconfig because it sets baseUrl, which tsgolint rejects.
+	"compilerOptions": {
+		"allowJs": true,
+		"esModuleInterop": true,
+		"target": "ES2022",
+		"lib": ["ES2022", "DOM"],
+		"moduleResolution": "bundler",
+		"module": "esnext",
+		"noEmit": true,
+		"skipLibCheck": true,
+		"paths": {
+			"@site/*": ["./*"]
+		},
+		"jsx": "react-jsx",
+		"strictNullChecks": true
+	},
+	"include": [
+		"src/**/*",
+		".storybook/**/*",
+		"scripts/**/*",
+		"docusaurus.config.ts",
+		"sidebars.ts",
+		"vite.config.ts",
+		"vitest.config.ts",
+		"vitest.setup.ts"
+	],
+	"exclude": [".docusaurus", "build", "storybook-static", "src/claude-code-plugins"]
 }

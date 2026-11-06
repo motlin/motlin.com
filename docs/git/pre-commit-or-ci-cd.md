@@ -41,15 +41,11 @@ How long before developers start skipping? Not very long. If `git commit` is tak
 
 When the [pre-commit framework](https://pre-commit.com/) was [announced in 2021](https://news.ycombinator.com/item?id=29634897), [the top comments](https://news.ycombinator.com/item?id=29635885) were now-familiar rebuttals.
 
-> Whatever test runs during pre-commit must also run during normal CI/CD run... It must run during normal CI/CD because pre-commit hooks can be skipped.
-> So now I have two different black calls: in the pre-commit hook and in the CI/CD. And they must be of the same version.
-> Ad infinitum for all other tests.
-> This is the reason I don't use pre-commit framework. It leads to "double accounting".
+> Whatever test runs during pre-commit must also run during normal CI/CD run... It must run during normal CI/CD because pre-commit hooks can be skipped. So now I have two different black calls: in the pre-commit hook and in the CI/CD. And they must be of the same version. Ad infinitum for all other tests. This is the reason I don't use pre-commit framework. It leads to "double accounting".
 
 and:
 
-> The CI check is the important one: It's what ensures that bad formatting doesn't make it into master.
-> The pre-commit is just a convenience for the developer. It gives faster feedback - immediately when trying to commit, instead of a couple of minutes later. And if a developer on my team wants to disable it, it doesn't affect others.
+> The CI check is the important one: It's what ensures that bad formatting doesn't make it into master. The pre-commit is just a convenience for the developer. It gives faster feedback - immediately when trying to commit, instead of a couple of minutes later. And if a developer on my team wants to disable it, it doesn't affect others.
 
 Fans of pre-commit hooks describe a framework that's new but growing into an industry standard.
 

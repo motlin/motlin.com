@@ -46,9 +46,9 @@ If you want to know what the colors mean, read on.
 
 I use a maroon color to represent **concreteness** (in classes and methods) and a teal color to represent **abstractness**.
 
-* Interfaces are teal
-* Concrete classes are maroon
-* Abstract classes are maroon with a teal underline
+- Interfaces are teal
+- Concrete classes are maroon
+- Abstract classes are maroon with a teal underline
 
 <img width="514" alt="Screen Shot concrete and abstract" src="/img/intellij/concrete-and-abstract.png" />
 
@@ -66,9 +66,9 @@ I use italics to represent **static**.
 
 I use bold to represent **mutability**.
 
-* Fields that are non-final, both static and non-static, are bold
-* Parameters that get reassigned are bold
-* Variables that get reassigned are bold, including loop variables
+- Fields that are non-final, both static and non-static, are bold
+- Parameters that get reassigned are bold
+- Variables that get reassigned are bold, including loop variables
 
 <img width="414" alt="Screen Shot Static and Mutability" src="/img/intellij/static-and-mutability.png" />
 
@@ -116,10 +116,10 @@ Here, the underline for reassignment is obscured by the underwave for the type e
 
 To configure your own color scheme:
 
-* Open the IDE settings, go to Settings > Editor > Color Scheme.
-* Choose a built-in scheme, like IntelliJ Light or Darcula.
-* Click the gear icon, and choose Duplicate...
-* Give it a name and choose Apply.
+- Open the IDE settings, go to Settings > Editor > Color Scheme.
+- Choose a built-in scheme, like IntelliJ Light or Darcula.
+- Click the gear icon, and choose Duplicate...
+- Give it a name and choose Apply.
 
 Next it's helpful to look at a specific language. I'll click Java.
 
@@ -137,12 +137,12 @@ This makes it easy to discover the various token types, and can make it quick to
 
 The token types that we can configure are organized into a hierarchy. Each token type either has custom display settings, or uses the settings from the parent type. The "Inherit values from" pane has a hyperlink we can click to jump to the parent type. Following one example chain:
 
-* Java > Constant (static final imported field)
-* Java > Constant (static final field)
-* Java > Static field
-* Language Defaults > Static field
-* Language Defaults > Default
-* General > Default text
+- Java > Constant (static final imported field)
+- Java > Constant (static final field)
+- Java > Static field
+- Language Defaults > Static field
+- Language Defaults > Default
+- General > Default text
 
 It's best to configure the token types as high in the hierarchy as possible, in "Language Defaults" or "General" whenever possible. Settings here will apply to all programming languages, which is especially helpful when working with a new language.
 

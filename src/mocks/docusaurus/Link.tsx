@@ -1,18 +1,19 @@
-import React from 'react';
+import React from "react";
 
-interface LinkProps {
-  href?: string;
-  to?: string;
-  children: React.ReactNode;
-  className?: string;
-  onClick?: (e: React.MouseEvent) => void;
-  [key: string]: any;
+interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+	to?: string;
 }
 
-const Link: React.FC<LinkProps> = ({ href, to, children, ...props }) => {
-  const url = href || to || '#';
-  // eslint-disable-next-line @docusaurus/no-html-links
-  return <a href={url} {...props}>{children}</a>;
+const Link: React.FC<LinkProps> = ({href, to, children, ...props}) => {
+	// oxlint-disable-next-line typescript/prefer-nullish-coalescing -- An empty href falls through like the real Link.
+	const url = href || to || "#";
+
+	return (
+		// oxlint-disable-next-line @docusaurus/no-html-links
+		<a href={url} {...props}>
+			{children}
+		</a>
+	);
 };
 
 export default Link;

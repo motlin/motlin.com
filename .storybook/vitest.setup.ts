@@ -1,10 +1,9 @@
-import { beforeAll } from 'vitest';
-import { setProjectAnnotations } from '@storybook/react';
-import * as projectAnnotations from './preview';
-import '@testing-library/jest-dom/vitest';
+import {beforeAll} from "vite-plus/test";
+import {setProjectAnnotations} from "@storybook/react";
+import * as projectAnnotations from "./preview";
+// oxlint-disable-next-line import/no-unassigned-import -- This import registers the jest-dom matchers.
+import "@testing-library/jest-dom/vitest";
 
 const project = setProjectAnnotations([projectAnnotations]);
 
-if (project.beforeAll) {
-  beforeAll(project.beforeAll);
-}
+beforeAll(project.beforeAll);

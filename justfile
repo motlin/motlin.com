@@ -1,107 +1,102 @@
 # `just --list --unsorted`
+[group('default')]
 default:
     @just --list --unsorted
 
-# `npm install`
+ci := env("CI", "")
+
+export PATH := justfile_directory() / "node_modules/.bin" + ":" + env("PATH")
+
+# Install dependencies
+[group('setup')]
 install:
-    npm install
+    pnpm install
+    vp fmt --no-error-on-unmatched-pattern CLAUDE.md
 
-# `npm ci`
-install-ci:
-    npm ci
-
-# Download GitHub data to .github-cache/ (requires 1Password)
+# Download GitHub data to .github-cache/ (requires 1Password locally, GITHUB_TOKEN in CI)
 download-data: install
-    op run -- npm run download-github-data
+    {{ if ci != "" { "" } else { "op run --" } }} pnpm run download-github-data
 
-# Download GitHub data to .github-cache/ (requires GITHUB_TOKEN)
-download-data-ci: install-ci
-    npm run download-github-data
+# Run dev server
+dev *args: install
+    pnpm start --port 4000 --host 0.0.0.0 {{ args }}
 
-# `npm start`
+# `pnpm start`
 start: install
-    npm start -- --port 4000 --host 0.0.0.0
+    pnpm start --port 4000 --host 0.0.0.0
 
-# Start with drafts enabled: `DOCUSAURUS_DRAFT=true npm start`
+# Start with drafts enabled: `DOCUSAURUS_DRAFT=true pnpm start`
 start-drafts: install
-    bash -c 'DOCUSAURUS_DRAFT=true npm start -- --port 4000 --host 0.0.0.0'
+    bash -c 'DOCUSAURUS_DRAFT=true pnpm start --port 4000 --host 0.0.0.0'
 
-# `npm run build`
-build: install
-    npm run build
-
-# `npm run build`
-build-ci: install-ci
-    npm run build
-
-# `npm run serve`
+# `pnpm run serve`
 serve: build
-    npm run serve -- --port 4000
+    pnpm run serve --port 4000
 
-# `npm run deploy`
+# `pnpm run deploy`
 deploy: install
-    npm run deploy
+    pnpm run deploy
 
-# `npm run typecheck`
-typecheck: install
-    npm run typecheck
-
-# `npm run typecheck`
-typecheck-ci: install-ci
-    npm run typecheck
-
-# `npm run ci:eslint`
-lint: install
-    npm run ci:eslint
-
-# `npm run ci:eslint`
-lint-ci: install-ci
-    npm run ci:eslint
-
-# `npm run lint:fix`
-lint-fix: install
-    npm run lint:fix
-
-# `npm run clear`
+# `pnpm run clear`
 clear: install
-    npm run clear
+    pnpm run clear
 
 # `git submodule update --init --recursive`
 update-submodules:
     git submodule update --init --recursive
 
-# `npm run test`
-test: install
-    npm run test
+# Run linter
+lint: install
+    vp lint {{ if ci != "" { "--format github" } else { "--fix" } }}
 
-# `npm run test:run`
-test-run: install
-    npm run test:run
+# Run formatter
+format: install
+    pre-commit run just-fmt --all-files
+    vp fmt {{ if ci != "" { "--check" } else { "" } }}
 
-# `npm run test:run`
-test-run-ci: install-ci
-    npm run test:run
+# Run checks (format + lint + typecheck)
+check *args: install
+    vp run --cache check {{ if ci != "" { "" } else { "--fix" } }} {{ args }}
 
-# `npm run test:watch`
-test-watch: install
-    npm run test:watch
+# Run tests
+test *args: install
+    vp run --cache test:run {{ args }}
 
-# `npm run test:ui`
-test-ui: install
-    npm run test:ui
+# Type-check the project
+typecheck: install
+    vp run typecheck
 
-# `npm run storybook`
-storybook: install
-    npm run storybook
+# Build the project
+build: install
+    vp run --cache build
 
-# `npm run build-storybook`
+# Apply safe Fallow fixes locally, then reject remaining dead code
+fallow: install
+    {{ if ci == "" { "vp run fallow" } else { "true" } }}
+    vp run fallow:ci
+
+# vp run fallow:ci
+fallow-check: install
+    vp run fallow:ci
+
+# Run Storybook
+storybook *args: install
+    vp run storybook {{ args }}
+
+# `pnpm run build-storybook`
 build-storybook: install
-    npm run build-storybook
+    pnpm run build-storybook
 
-validate-lockfile:
-    @echo "Validating package-lock.json is in sync..."
-    @npm install --package-lock-only --quiet
-    @git diff --exit-code package-lock.json || (echo "Error: package-lock.json is out of sync with package.json. Run 'npm install' and commit the changes." && exit 1)
+# Run pre-commit hooks on all files (same as CI's pre-commit job)
+pre-commit: install
+    pre-commit run --all-files
 
 # Run all pre-commit checks
-precommit: update-submodules validate-lockfile lint-fix typecheck test-run build
+[arg("quick", long, value="true", help="Skip tests")]
+verify quick="": update-submodules check build fallow pre-commit
+    {{ if quick != "true" { "just test" } else { "true" } }}
+    @echo "All pre-commit checks passed!"
+
+# Deprecated alias for `verify`
+[arg("quick", long, value="true", help="Skip tests")]
+precommit quick="": (verify quick)
