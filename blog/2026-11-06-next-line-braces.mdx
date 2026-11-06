@@ -1,0 +1,122 @@
+---
+slug: next-line-braces
+title: "Next-line braces, everywhere"
+authors: [craig]
+tags: [code-formatting, claude-code, developer-productivity]
+date: 2026-11-06
+description: "I forked Prettier, Prettier Java, and Oxfmt so opening braces go on their own line. Here's how to use the forks, and why brace placement matters more now that I mostly review code instead of writing it."
+---
+
+import GiscusComponent from '@site/src/components/GiscusComponent';
+
+I maintain forks of three code formatters, [oxfmt-next-line](https://github.com/motlin/oxc-next-line), [prettier-next-line](https://github.com/motlin/prettier-next-line), and [prettier-java-next-line](https://github.com/motlin/prettier-java-next-line). They do one thing differently from upstream: opening braces go on their own line.
+
+<!-- truncate -->
+
+```java
+public class H2Bundle
+	implements PrioritizedBundle
+{
+	public void run()
+	{
+		try
+		{
+			server.start();
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+}
+```
+
+## How to use them
+
+All three forks add a `braceStyle` option with two values. `next-line` is the default. `same-line` gives you upstream's output, so you can switch back without changing tools.
+
+### Oxfmt
+
+`oxfmt-next-line` is a fork of [Oxfmt](https://oxc.rs/docs/guide/usage/formatter), the Rust formatter from the Oxc project. It formats JavaScript, TypeScript, JSON, CSS, SCSS, Less, GraphQL, and YAML. It installs both an `oxfmt-next-line` command and an `oxfmt` command, and it reads the usual `.oxfmtrc.json`.
+
+```json
+{
+	"braceStyle": "next-line",
+	"useTabs": true,
+	"printWidth": 120
+}
+```
+
+I install it with [mise](https://mise.jdx.dev/) and run it from [pre-commit](https://pre-commit.com/).
+
+```toml title=".mise/config.toml"
+[tools]
+"npm:oxfmt-next-line" = { version = "0.75.0", allow_low_downloads = true }
+```
+
+```yaml title=".pre-commit-config.yaml"
+- id: oxfmt
+  name: oxfmt-next-line
+  entry: oxfmt-next-line --no-error-on-unmatched-pattern
+  language: system
+```
+
+### Prettier Java
+
+`prettier-java-next-line` is a fork of [prettier-plugin-java](https://github.com/jhipster/prettier-java). Prettier resolves plugins from the working directory, so when the plugin is installed by mise, I load it by path.
+
+```toml title=".mise/config.toml"
+[tools]
+"npm:prettier" = "3.9.10"
+"npm:prettier-java-next-line" = { version = "2.11.4", allow_low_downloads = true }
+```
+
+```yaml title=".pre-commit-config.yaml"
+- id: prettier-java
+  name: prettier-java-next-line
+  entry: sh -c 'prettier --plugin "$(mise where npm:prettier-java-next-line)/node_modules/prettier-java-next-line/dist/index.mjs" --write "$@"' --
+  language: system
+  types: [java]
+```
+
+If you use Spotless, it expects a package named `prettier`, so use an npm alias for `prettier-next-line`. The [README](https://github.com/motlin/prettier-java-next-line) has the full Maven configuration.
+
+### Edge cases
+
+Next-line braces need a few exceptions to stay correct.
+
+- `return {` stays together in JavaScript, since moving the brace would change what the program does through automatic semicolon insertion.
+- An empty `{}` stays on one line.
+- `else`, `catch`, `finally`, and the `while` of a `do`/`while` loop start their own lines.
+
+## See the shape of the block
+
+Same-line braces made sense on small, low-resolution CRT displays where every row counted. On a modern display, I'd rather spend one extra line and see the shape of the block.
+
+With next-line braces, every opening brace lines up with its closing brace. The header of a class, method, or `if` sits above its block instead of running into it. In the Java fork, `throws`, `extends`, and `implements` clauses always start their own line and the `{` follows on the next, so a clause never blends into the first line of the body.
+
+## Humans are code reviewers now
+
+I'm not writing code anymore. LLMs write it. But I read and review more code than ever, and that's why I care about formatting even more than before. If my whole job is reading diffs, I want the code shaped the way I read.
+
+I also want diffs that contain only real changes. In 2024, on one project at work, Google Java Format was never actually set up. Some people ran it locally and others didn't, so we kept getting large formatting-only diffs. A formatter only helps when it runs everywhere. Mine runs in pre-commit in every repository I own, so the diffs I review only contain real changes.
+
+## Prettier's philosophy
+
+Prettier is deliberately opinionated. Its [option philosophy](https://prettier.io/docs/option-philosophy) says "Prettier has a few options because of history. But we won't add more of them." The point is to end debates about style.
+
+That makes sense, but only if the choices are right, or at least right enough. Prettier's own docs say some of its options "are not the type of options we're happy to have" and apologize for the bike-shedding they cause. Take quotes. I could use single or double quotes and not care much. Brace placement is different. It's important to me.
+
+People have asked for a brace style option before ([#3832](https://github.com/prettier/prettier/issues/3832), [#3964](https://github.com/prettier/prettier/issues/3964), [#4212](https://github.com/prettier/prettier/issues/4212)), and all of those issues were closed. I [proposed a `braceStyle` option](https://github.com/jhipster/prettier-java/pull/840) to Prettier Java, keeping same-line as the default. The maintainer turned it down, politely and for consistent reasons: K&R is the dominant style in Java, and new options go against Prettier's goal of avoiding style debates. That's a fair position for an opinionated formatter, and it left me with one option: fork it.
+
+There's some irony here. In 2018 I wrote that if I started a long debate about tabs versus spaces and curly brace placement, people would rightly be upset with me for wasting their time. I still believe that. A formatter ends the debate. The forks still end it, just with braces on the next line.
+
+## How I built it
+
+Maintaining forks of a Rust formatter with 19 native build targets, Prettier, and Prettier Java would not have been worth it for one person a few years ago. LLMs made it possible to build the forks and to keep them current. Each fork releases at the upstream version number, and I have recurring tasks scheduled for LLMs that merge each upstream release, run the tests, and prepare the next release. It hasn't been expensive in terms of my time.
+
+Once you own a formatter, braces aren't the only thing you fix. The Java fork also has options to keep a wrapped list's closing parenthesis on its last line, keep short array initializers on one line, group imports the way Spotless does (so I could drop that Spotless step), and break `throws`, `extends`, and `implements` clauses onto their own lines.
+
+The same rule now extends past source files. In [Liftwizard](https://github.com/liftwizard/liftwizard/pull/4328), Jackson's pretty printer puts a nested object's opening brace on the next line, matching what oxfmt-next-line does to JSON files.
+
+<GiscusComponent />

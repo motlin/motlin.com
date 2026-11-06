@@ -17,3 +17,8 @@ developer-productivity:
   label: Developer Productivity
   permalink: /developer-productivity
   description: Tips and tools for improving software development productivity
+
+code-formatting:
+  label: Code Formatting
+  permalink: /code-formatting
+  description: Posts about code formatters and code style
