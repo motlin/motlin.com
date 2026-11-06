@@ -1,0 +1,134 @@
+---
+slug: markdown-tasks-plugin
+title: "Beads is overengineered. Built-in todos aren't enough. Markdown is Goldilocks."
+authors: [craig]
+tags: [claude-code, plugins, developer-productivity]
+date: 2025-12-30
+description: "Built-in todos forget after compaction. Beads brings a versioned database. A plain markdown file sits squarely in between — and that's where I live."
+---
+
+import GiscusComponent from '@site/src/components/GiscusComponent';
+
+For all the talk of concurrent agent swarms, working concurrently is inconvenient. When I've run agents in parallel, carefully separating them into different worktrees so they don't trample each other's edits, their changes still cause merge conflicts. The coordination overhead eats any speedup.
+
+So I typically work on several *projects* at a time, but work through a single task list for each, in serial, from top to bottom.
+
+That todo list has to live somewhere. Claude Code's built-in todos forget. [Beads](https://github.com/gastownhall/beads) remembers everything, but brings a versioned database to a one-developer problem. A markdown checklist is just right, so I built [markdown-tasks](https://github.com/motlin/claude-code-plugins/tree/main/plugins/markdown-tasks).
+
+<!-- truncate -->
+
+## Too small, too big, just right
+
+Claude Code's built-in todos are session-scoped. They get summarized away during compaction, and `/clear` or a session restart wipes them outright. They're fine for the next ten minutes of work. They're useless for the next ten hours.
+
+Beads is the other extreme: a distributed graph issue tracker for AI agents, backed by a versioned Dolt database, with cell-level merges and native branching. It's a real piece of engineering. It's also more machinery than I want for "the running list of stuff I want Claude to do on this branch."
+
+A plain markdown file in the repo is Goldilocks. It survives because there's nothing to lose: it's a file, checked in next to the code it describes. I can edit it by hand, and Claude Code speaks markdown fluently. I described an earlier version of this workflow in [Keeping It Running for Hours](/blog/claude-code-running-for-hours); markdown-tasks is that setup packaged as a plugin.
+
+The plugin ships six slash commands, and they split into two jobs: filling the list, and burning it down.
+
+## Three ways tasks pile up
+
+### `/import-plan` — when I planned first
+
+When I'm being deliberate, I use Claude Code's plan mode. Claude explores the codebase, designs an approach, and ends with "Should I implement this plan?"
+
+I almost never say yes. I run `/import-plan` instead.
+
+It converts each step of the plan into its own task, archives the plan file to `.llm/plans/YYYY-MM-DD-<name>.md`, and points every task back at the archived plan so the subagent that eventually picks it up can recover the full context:
+
+```markdown
+- [ ] Implement the dark mode toggle on the settings page
+  Follow step 3 of the plan at .llm/plans/2025-12-30-dark-mode.md
+```
+
+It also appends verification tasks at the end, so the last thing the swarm does is check its own work.
+
+I used to fake this by pasting the plan's absolute path into `/add-one-task` by hand. Now it's one command, and I run it constantly. (There's also `/plan-tasks`, which captures an ordinary planning conversation into tasks when there's no plan file. I forget it exists.)
+
+### `/sweep-todos` — when I vibe-coded first
+
+When I'm moving fast and spot problems I don't want to fix right now, I drop `TODO` comments where I find them, phrased like prompts to Claude Code:
+
+```typescript
+// TODO: Add rate limiting to prevent abuse
+// TODO: Extract this into a reusable utility function
+// TODO: Handle the edge case when user is not authenticated
+```
+
+Then I run `/sweep-todos`. It creates one task per comment, with the file and line number baked in:
+
+```markdown
+- [ ] Implement TODO from src/api/auth.ts:42: Add rate limiting to prevent abuse
+- [ ] Implement TODO from src/utils/helpers.ts:87: Extract this into a reusable utility function
+```
+
+The sweep doesn't delete the comments. Each one disappears later, when its task gets implemented.
+
+### `/add-one-task` — when it's just one thing
+
+```bash
+/add-one-task Add dark mode toggle to settings page
+```
+
+This expands a one-line description into a self-contained task: file paths, implementation hints, expected outcome. Everything a subagent will need later, written down now. It appends atomically to `.llm/todo.md`, creating the file if it doesn't exist yet.
+
+## Burning the list down
+
+`/do-one-task` pulls the first incomplete task from the top of the file, implements it, marks it complete, and commits.
+
+`/do-all-tasks` is the payoff. It spawns subagents in serial, one per task. Each subagent starts with fresh context, reads only its single task, implements it, commits, and exits. The parent loops until no incomplete tasks remain. Every task gets its own commit, so when something goes sideways I can see exactly which task did it.
+
+When a task fails, it gets marked blocked and the loop moves on to the next one:
+
+```markdown
+- [x] Add dark mode toggle to settings page
+- [!] Migrate auth middleware to the new session API
+- [ ] Add rate limiting to the public endpoints
+```
+
+`[ ]` is ready, `[x]` is done and committed, `[!]` is blocked after a failed attempt. Flip a `[!]` back to `[ ]` once you've fixed whatever was in the way, and the loop will pick it up again.
+
+This is my agent swarm. It's one agent at a time, and the agents share nothing but a text file. No trampling, no merge conflicts, and it keeps going for hours — long after the session that queued the work has been compacted into oblivion.
+
+## I edit the list while it burns
+
+I can edit `.llm/todo.md` while `/do-all-tasks` is running. Reorder tasks, delete ones I've changed my mind about, queue up new ones at the bottom. As long as I don't touch the task currently in flight, nothing breaks.
+
+This works because appends are atomic, and because the loop asks exactly one question each iteration: is there another incomplete task? It never notices that the file changed underneath it.
+
+## No agent ever reads the whole file
+
+The plugin ships Python scripts for reading, completing, and adding tasks:
+
+```bash
+# Extract first incomplete task
+python3 task_get.py .llm/todo.md
+
+# Mark first incomplete task as done
+python3 task_complete.py .llm/todo.md
+
+# Append a new task
+python3 task_add.py .llm/todo.md "Task description"
+```
+
+They exist so that no agent ever runs `Read` on the whole todo file. That file grows long, and a subagent that reads all of it fills its context with tasks it must not work on — the fastest way to get an agent confidently implementing the wrong thing.
+
+`task_get.py` extracts exactly one task with its indented context lines, and nothing else. It's also why every task has to be self-contained: a subagent sees one task in isolation, so a task that says "same as above, but for the API" is a task that fails. A fourth script, `task_archive.py`, renames a finished list to `.llm/YYYY-MM-DD-todo.md` so the next batch starts clean.
+
+## Try it
+
+```bash
+claude plugin marketplace add motlin/claude-code-plugins
+claude plugin install markdown-tasks@motlin-claude-code-plugins
+```
+
+Then create your first task:
+
+```bash
+/add-one-task Add user authentication to the API
+```
+
+The source is at [motlin/claude-code-plugins](https://github.com/motlin/claude-code-plugins/tree/main/plugins/markdown-tasks). Queue up a list before dinner, walk away, and come back to commits.
+
+<GiscusComponent />
