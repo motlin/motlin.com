@@ -106,11 +106,13 @@ My job has changed as well. I write very little code myself now, and I review mo
 
 Prettier is deliberately opinionated. Its [option philosophy](https://prettier.io/docs/option-philosophy) says "Prettier has a few options because of history. But we won't add more of them." The point is to end debates about style.
 
-That makes sense, but only if the choices are right, or at least right enough. Prettier's own docs say some of its options "are not the type of options we're happy to have" and apologize for the bike-shedding they cause. Take quotes. I could use single or double quotes and not care much. Brace placement is different. It's important to me.
+That makes sense, but only if the choices are right, or at least right enough. Quotes are a good example. `singleQuote` is one of the few options Prettier has, and the authors think double quotes were the wrong default. Most of the JavaScript community prefers single quotes. That's roughly the bar for an option: the default turned out wrong, and most people want the opposite. Personally, I could use either quote style and not care much.
+
+Next-line braces don't clear that bar. They aren't the most common style, and most of the community isn't asking for them. I think that's partly because the community has worked without next-line braces as a choice for decades. Even newer tools like rustfmt only offer it as an unstable, nightly-only option. Still, I think brace placement matters enough to be configurable.
 
 People have asked for a brace style option before ([#3832](https://github.com/prettier/prettier/issues/3832), [#3964](https://github.com/prettier/prettier/issues/3964), [#4212](https://github.com/prettier/prettier/issues/4212)), and all of those issues were closed. I [proposed a `braceStyle` option](https://github.com/jhipster/prettier-java/pull/840) to Prettier Java, keeping same-line as the default. The maintainer turned it down, politely and for consistent reasons: K&R is the dominant style in Java, and new options go against Prettier's goal of avoiding style debates. That's a fair position for an opinionated formatter, and it left me with one option: fork it.
 
-There's some irony here. In 2018 I wrote that if I started a long debate about tabs versus spaces and curly brace placement, people would rightly be upset with me for wasting their time. I still believe that. A formatter ends the debate. The forks still end it, just with braces on the next line.
+There's some irony here. In 2018 I wrote that if I started a long debate about tabs versus spaces and curly brace placement, people would rightly be upset with me for wasting their time. I still believe that. A consensus is good, and ending the debate is the point of a tool like Prettier. Making brace placement configurable, and arguing for it in a blog post, undermines that. But I used next-line braces for the first years of my career, and once you get used to them, they're much, much better.
 
 ## How I built it
 
