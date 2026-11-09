@@ -375,6 +375,27 @@
 					"language": "TypeScript"
 				},
 				{
+					"id": "animal-kingdom",
+					"name": "Animal Kingdom",
+					"repoUrl": "https://github.com/motlin/animal-kingdom",
+					"description": "A turn-based, free-for-all battle for 2 to 6 players on one device. Each player picks an animal with its own special ability, then attacks, heals, or shields until the last animal standing wins.",
+					"links": [
+						{
+							"url": "https://github.com/motlin/animal-kingdom",
+							"label": "GitHub"
+						},
+						{
+							"url": "https://animal-kingdom.motlin.com/",
+							"label": "Play"
+						}
+					],
+					"techStack": ["React", "TypeScript"],
+					"features": ["2 to 6 Players", "Unique Animal Abilities", "Hot-Seat Play"],
+					"githubRepo": "motlin/animal-kingdom",
+					"iconUrl": "/img/animal-kingdom-icon.png",
+					"language": "TypeScript"
+				},
+				{
 					"id": "hex-zero",
 					"name": "Hex Zero",
 					"repoUrl": "https://github.com/motlin/hex-zero",
