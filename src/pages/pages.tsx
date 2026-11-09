@@ -56,6 +56,12 @@ const pages: PageItem[] = [
 		iconUrl: "/img/animal-kingdom-icon.png",
 	},
 	{
+		title: "Who's That?",
+		description: "A face-memory game: study a face, then pick it out, spot what changed, or build it back",
+		link: "https://whos-that.motlin.com/",
+		iconUrl: "/img/whos-that-favicon.svg",
+	},
+	{
 		title: "Grid Lines",
 		description: "A puzzle game where you draw lines through all connections on a grid",
 		link: "/lines",
