@@ -7,9 +7,11 @@ description: Put a web app on a motlin.com subdomain and list it on https://motl
 
 Gets a web app live at `https://<name>.motlin.com/` and listed on `/pages` and the portfolio. The work starts at a different point depending on the source:
 
-- **Claude artifact:** fetch the source, create a repo, create a Pages project, then do everything below.
+- **Claude artifact:** fetch the source, create a repo, then deploy it. New projects are Workers with static assets, not Pages. Older imports stay on Pages.
 - **Existing Cloudflare Pages project:** skip to the custom domain.
-- **Cloudflare Worker:** `wrangler deploy --domain <name>.motlin.com` creates the DNS record itself. Skip to the listing.
+- **Existing Cloudflare Worker:** `wrangler deploy --domain <name>.motlin.com` creates the DNS record itself. Skip to the listing.
+
+An artifact that uses `window.claude.use('db')` or `('user')` has a backend to replace. Port it to a Worker API backed by D1. Players have no Claude identity on the public site, so the usual replacement is a random per-device ID in localStorage plus server-side validation and rate limits, with one hook where Turnstile or Cloudflare Access can be added later. Export the existing rows with the `ArtifactData` tool (`action: "list"`).
 
 Ask for `<name>` if the user hasn't given one. Elsewhere, look at an existing import before inventing anything. `~/projects/cublitz` (artifact origin, Pages) and `~/projects/neighbors` (Pages, with per-PR previews) are the references. Copy their justfile, `wrangler.toml`, and `.github/workflows/deploy.yml` instead of writing new ones.
 
@@ -24,7 +26,7 @@ Save the artifact HTML byte-for-byte as `legacy/original.html` in the new repo, 
 
 Model the new repo on `~/projects/cublitz`: pnpm, Vite+, Vitest, Playwright, justfile, `wrangler.toml`, and GitHub Actions. Then, in this order:
 
-- Add the repo to the `own:` list in `~/projects/typescript-template/.llm/projects.yaml` and run `/sync-template`. The sync also registers `git test`.
+- Every project is created from `~/projects/typescript-template` and syncs with it in both directions. Add the repo to the `own:` list in `~/projects/typescript-template/.llm/projects.yaml` and run its `/sync-template` command. The sync also registers `git test`.
 - Run `git test run` on every commit and fix failures before deploying.
 - Create the GitHub repo, asking the user whether it should be public or private:
 
@@ -33,6 +35,39 @@ env -u GITHUB_TOKEN gh repo create motlin/<name> --private --source . --remote o
 ```
 
 A hook blocks pushing to `main`, so the user pushes the first commit.
+
+## Keep personal data out of the repo
+
+Game repos are usually public. Artifact data often holds real names, such as high scores. Never commit them, not even in seed migrations or test fixtures. Tests use invented names like Alice and Bob. Load real rows once at go-live with `wrangler d1 execute <db> --remote --file <sql outside the repo>`. If a name was committed, rewrite history before the first push, for example by squashing into the root commit, then expire the reflog and gc.
+
+## Deploy a Worker
+
+`wrangler.toml` for a Worker with static assets and D1:
+
+```toml
+name = "<name>"
+main = "src/worker/index.ts"
+compatibility_date = "<recent>"
+[assets]
+directory = "dist"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
+[[d1_databases]]
+binding = "DB"
+database_name = "<name>"
+database_id = "<from d1 create>"
+migrations_dir = "migrations"
+```
+
+Going live is a one-time sequence, in this order:
+
+```bash
+pnpm exec wrangler d1 create <name>          # put the printed id in database_id
+pnpm exec wrangler d1 migrations apply <name> --remote
+pnpm exec wrangler deploy --domain <name>.motlin.com
+```
+
+`--domain` goes in the deploy command, not in `wrangler.toml`, so previews don't claim the domain. CI deploys with the Workers deploy token as the `CLOUDFLARE_API_TOKEN` secret. A Worker needs no CNAME step.
 
 ## Create the Pages project and deploy
 
@@ -77,10 +112,17 @@ curl -s -X POST -H "Authorization: Bearer $T" -H 'Content-Type: application/json
   "https://api.cloudflare.com/client/v4/accounts/<account-id>/pages/projects/<project>/domains"
 ```
 
-Then add a proxied CNAME, `<name>` → `<project>.pages.dev`. The wrangler token and the deploy tokens have only read access to the zone, so the API call fails with `code 10000 Authentication error`. Either:
+Then add a proxied CNAME, `<name>` → `<project>.pages.dev`. Only the Workers deploy token has DNS edit on motlin.com. The wrangler OAuth token and the Pages deploy token fail with `code 10000 Authentication error`. Look the zone ID up with `GET /zones?name=motlin.com`, check no `<name>` record exists, then create it:
 
-- open `https://dash.cloudflare.com/<account-id>/motlin.com/dns/records` and have the user add the record, after checking no `<name>` record exists; or
-- use the Global API Key from 1Password (`op://Development/Cloudflare Global API Key/credential`) with `X-Auth-Email` set to the account email from `wrangler whoami`, POSTing `{"type":"CNAME","name":"<name>","content":"<project>.pages.dev","proxied":true}` to `/zones/<zone-id>/dns_records`. Look the zone ID up with `GET /zones?name=motlin.com`.
+```bash
+T=$(op read 'op://Development/Cloudflare API token - cmotlin - GitHub Actions Deploy - Edit Cloudflare Workers/credential')
+curl -s -H "Authorization: Bearer $T" "https://api.cloudflare.com/client/v4/zones/<zone-id>/dns_records?name=<name>.motlin.com"
+curl -s -X POST -H "Authorization: Bearer $T" -H 'Content-Type: application/json' \
+  -d '{"type":"CNAME","name":"<name>","content":"<project>.pages.dev","proxied":true}' \
+  "https://api.cloudflare.com/client/v4/zones/<zone-id>/dns_records"
+```
+
+1Password item names drift. If `op read` can't find the item, list candidates with `op item list --vault Development` and filter for Cloudflare. To find which token has DNS edit without changing anything, PATCH a made-up record ID such as 32 zeros: `81044 Record does not exist` means it has write access, and `10000 Authentication error` means it doesn't.
 
 Verify with `curl -sI https://<name>.motlin.com/`. A 522 just after adding the record is transient. If the name still doesn't resolve locally, negative DNS caching is the likely cause, so check against Cloudflare's nameserver with `dig @<ns>.ns.cloudflare.com <name>.motlin.com`.
 
