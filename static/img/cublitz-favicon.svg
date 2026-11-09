@@ -1,8 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#161923"/>
-  <g transform="translate(256 256) scale(1.25) translate(-256 -256)" stroke="#161923" stroke-width="10" stroke-linejoin="round">
-    <path d="M256 106 L386 181 L256 256 L126 181 Z" fill="#ef5a52"/>
-    <path d="M126 181 L256 256 L256 406 L126 331 Z" fill="#4b8cf2"/>
-    <path d="M256 256 L386 181 L386 331 L256 406 Z" fill="#f3c23e"/>
+  <defs>
+    <clipPath id="tile">
+      <rect width="512" height="512" rx="112"/>
+    </clipPath>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3f52" stop-opacity="0"/>
+      <stop offset="1" stop-color="#3a3f52"/>
+    </linearGradient>
+    <radialGradient id="shadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#000" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="512" height="512" fill="#161923"/>
+    <g stroke="url(#floor)" stroke-width="3" fill="none">
+      <path d="M0 400 H512 M0 440 H512 M0 486 H512"/>
+      <path d="M256 370 V512 M170 370 L120 512 M342 370 L392 512 M84 370 L-16 512 M428 370 L528 512"/>
+    </g>
+    <ellipse cx="250" cy="418" rx="150" ry="22" fill="url(#shadow)"/>
+  </g>
+  <g stroke-linejoin="round" stroke-width="22">
+    <path d="M88 127 L229 72 L418 107 L296 182 Z" fill="#f3c23e" stroke="#f3c23e"/>
+    <path d="M296 182 L418 107 L406 316 L293 408 Z" fill="#f78a3a" stroke="#f78a3a"/>
+    <path d="M88 127 L296 182 L293 408 L101 347 Z" fill="#ef5a52" stroke="#ef5a52"/>
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="3" stroke-linejoin="round">
+    <path d="M88 127 L296 182 L418 107"/>
+    <path d="M296 182 L293 408"/>
+  </g>
+  <g fill="#000" fill-opacity="0.3">
+    <ellipse cx="258" cy="116" rx="30" ry="11"/>
+    <path d="M190 236 L210 286 L170 280 Z"/>
+    <path d="M346 226 h14 v20 h16 v14 h-16 v22 h-14 v-22 h-14 v-14 h14 Z"/>
   </g>
 </svg>
