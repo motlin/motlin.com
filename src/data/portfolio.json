@@ -354,6 +354,27 @@
 					"language": "TypeScript"
 				},
 				{
+					"id": "cublitz",
+					"name": "Cublitz",
+					"repoUrl": "https://github.com/motlin/cublitz",
+					"description": "A rolling paint puzzle. Roll a cube through puddles of paint to color its faces, then bring it to the target past gates, switches, boxes and doors. Includes 31 campaign levels, an infinite mode, and a level editor with shareable links.",
+					"links": [
+						{
+							"url": "https://github.com/motlin/cublitz",
+							"label": "GitHub"
+						},
+						{
+							"url": "https://cublitz.motlin.com/",
+							"label": "Play"
+						}
+					],
+					"techStack": ["TypeScript", "Vite"],
+					"features": ["31 Campaign Levels", "Infinite Mode", "Level Editor"],
+					"githubRepo": "motlin/cublitz",
+					"iconUrl": "/img/cublitz-favicon.svg",
+					"language": "TypeScript"
+				},
+				{
 					"id": "hex-zero",
 					"name": "Hex Zero",
 					"repoUrl": "https://github.com/motlin/hex-zero",

@@ -43,6 +43,12 @@ const pages: PageItem[] = [
 		iconUrl: "/img/neighbors-favicon.svg",
 	},
 	{
+		title: "Cublitz",
+		description: "A rolling paint puzzle where every roll turns a new face of your cube to the floor",
+		link: "https://cublitz.motlin.com/",
+		iconUrl: "/img/cublitz-favicon.svg",
+	},
+	{
 		title: "Grid Lines",
 		description: "A puzzle game where you draw lines through all connections on a grid",
 		link: "/lines",
