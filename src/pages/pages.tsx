@@ -49,6 +49,12 @@ const pages: PageItem[] = [
 		iconUrl: "/img/cublitz-favicon.svg",
 	},
 	{
+		title: "Animal Kingdom",
+		description: "A turn-based battle for 2 to 6 players where the last animal standing wins",
+		link: "https://animal-kingdom.motlin.com/",
+		iconUrl: "/img/animal-kingdom-icon.png",
+	},
+	{
 		title: "Grid Lines",
 		description: "A puzzle game where you draw lines through all connections on a grid",
 		link: "/lines",
