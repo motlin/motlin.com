@@ -17,7 +17,7 @@ Ask for `<name>` if the user hasn't given one. Elsewhere, look at an existing im
 
 ## Fetch the artifact source
 
-Save the artifact HTML byte-for-byte as `legacy/original.html` in the new repo, and record its `shasum -a 256`. The rebuilt app is checked against this file.
+Save the artifact HTML to a scratch file outside the new repo and port from it. Don't commit it, and don't add tests or checks that compare the app against it. Once ported, the app is the source of truth and its art and rules change freely.
 
 - **The user's own artifact** (`claude.ai/artifact/<id>` or `claude.ai/code/artifact/<uuid>`): use the `Artifact` tool with `action: "read"`. The full HTML lands in a local file.
 - **A public artifact** (`claude.ai/public/artifacts/<uuid>`): WebFetch only returns an empty SPA shell, and curl gets a Cloudflare challenge. Use Claude in Chrome on a claude.ai tab: run `fetch('/api/published_artifacts/<uuid>')` with `javascript_tool`, then POST the JSON to a throwaway local Node listener on a free port. The JSON's `content` field holds the HTML.
