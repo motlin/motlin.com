@@ -62,6 +62,12 @@ const pages: PageItem[] = [
 		iconUrl: "/img/whos-that-favicon.svg",
 	},
 	{
+		title: "Jelly Torture",
+		description: "Grab, fling, and smash lab jellies with an absurd arsenal across 150 levels",
+		link: "https://jelly-torture.motlin.com/",
+		iconUrl: "/img/jelly-torture-favicon.svg",
+	},
+	{
 		title: "Grid Lines",
 		description: "A puzzle game where you draw lines through all connections on a grid",
 		link: "/lines",

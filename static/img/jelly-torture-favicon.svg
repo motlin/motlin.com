@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="body" x1="0.15" y1="0.1" x2="0.9" y2="0.95">
+      <stop offset="0" stop-color="#ee6a82"/>
+      <stop offset="0.55" stop-color="#e3143a"/>
+      <stop offset="1" stop-color="#720a1d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.6" r="0.55">
+      <stop offset="0" stop-color="#e3143a" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#e3143a" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="jelly">
+      <path d="M17 19 Q32 15 47 19 Q51 34 48 47 Q32 51 16 47 Q13 34 17 19Z"/>
+    </clipPath>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#12131a"/>
+  <ellipse cx="32" cy="34" rx="26" ry="24" fill="url(#glow)"/>
+  <ellipse cx="32" cy="52" rx="16" ry="2.6" fill="#000" fill-opacity="0.45"/>
+  <path d="M17 19 Q32 15 47 19 Q51 34 48 47 Q32 51 16 47 Q13 34 17 19Z" fill="url(#body)"/>
+  <g clip-path="url(#jelly)">
+    <path d="M16 18 Q32 14 48 18 L48 24 Q32 20 16 24Z" fill="#f7a3b3" fill-opacity="0.35"/>
+    <circle cx="38" cy="36" r="3.2" fill="#fff" fill-opacity="0.16"/>
+    <circle cx="37" cy="35" r="1.2" fill="#fff" fill-opacity="0.5"/>
+    <circle cx="25" cy="41" r="2.2" fill="#fff" fill-opacity="0.16"/>
+    <circle cx="24.4" cy="40.4" r="0.8" fill="#fff" fill-opacity="0.5"/>
+  </g>
+  <path d="M19.5 40 Q18.5 30 20 22.5 Q30 19.5 42 21" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="2.4" stroke-linecap="round"/>
+  <ellipse cx="25" cy="27" rx="3" ry="1.5" transform="rotate(-34 25 27)" fill="#fff" fill-opacity="0.75"/>
+  <path d="M17 19 Q32 15 47 19 Q51 34 48 47 Q32 51 16 47 Q13 34 17 19Z" fill="none" stroke="#5a0816" stroke-opacity="0.75" stroke-width="1.6"/>
+</svg>

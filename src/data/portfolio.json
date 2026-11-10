@@ -405,6 +405,27 @@
 					"language": "TypeScript"
 				},
 				{
+					"id": "jelly-torture",
+					"name": "Jelly Torture",
+					"repoUrl": "https://github.com/motlin/jelly-torture",
+					"description": "A physics arcade game. Grab, fling, and smash lab jellies with a huge arsenal, from bare hands to falling pianos, across 150 levels of jellies with stacking traits. Includes speedrun, idle, and ASMR modes and a custom fight builder.",
+					"links": [
+						{
+							"url": "https://github.com/motlin/jelly-torture",
+							"label": "GitHub"
+						},
+						{
+							"url": "https://jelly-torture.motlin.com/",
+							"label": "Play"
+						}
+					],
+					"techStack": ["TypeScript", "Vite"],
+					"features": ["150 Levels", "Speedrun, Idle and ASMR Modes", "Custom Fights"],
+					"githubRepo": "motlin/jelly-torture",
+					"iconUrl": "/img/jelly-torture-favicon.svg",
+					"language": "TypeScript"
+				},
+				{
 					"id": "hex-zero",
 					"name": "Hex Zero",
 					"repoUrl": "https://github.com/motlin/hex-zero",
