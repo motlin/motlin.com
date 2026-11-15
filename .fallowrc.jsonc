@@ -12,6 +12,10 @@
 	],
 	// src/claude-code-plugins is a git submodule, so its code is not this project's to analyze.
 	"ignorePatterns": [".storybook/**", "src/claude-code-plugins/**"],
+	// Blog posts embed files from git submodules with raw-loader, which fallow cannot resolve.
+	"ignoreUnresolvedImports": ["!!raw-loader!../src/claude-code-plugins/**", "!!raw-loader!../src/.claude-prompts/**"],
+	// Installed by mise, not npm.
+	"ignoreBinaries": ["oxfmt-next-line"],
 	"ignoreDependencies": [
 		// Loaded by string from .storybook/main.ts, which is ignored above.
 		"@chromatic-com/storybook",
