@@ -64,3 +64,17 @@ updates:
     commit-message:
       prefix: "dependabot"
       include: "scope"
+
+  # Branch protection rejects direct pushes to main, and PRs opened with
+  # GITHUB_TOKEN don't trigger CI, so Dependabot opens the submodule PRs.
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "07:00"
+      timezone: "America/New_York"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "dependabot"
+      include: "scope"
