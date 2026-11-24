@@ -62,6 +62,12 @@ const pages: PageItem[] = [
 		iconUrl: "/img/whos-that-favicon.svg",
 	},
 	{
+		title: "The L Game",
+		description: "Edward de Bono's blocking game, against a friend or a computer that has solved it",
+		link: "https://l-game.motlin.com/",
+		iconUrl: "/img/l-game-favicon.svg",
+	},
+	{
 		title: "Grid Lines",
 		description: "A puzzle game where you draw lines through all connections on a grid",
 		link: "/lines",

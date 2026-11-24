@@ -431,6 +431,27 @@
 					"license": "MIT"
 				},
 				{
+					"id": "l-game",
+					"name": "The L Game",
+					"repoUrl": "https://github.com/motlin/l-game",
+					"description": "Edward de Bono's two-player blocking game on a 4 by 4 board, against a friend or a computer that has solved every position. Includes a four-player battle on a collapsing floor, a Moving Tiles variant, T-piece variants, position codes and a move tree.",
+					"links": [
+						{
+							"url": "https://github.com/motlin/l-game",
+							"label": "GitHub"
+						},
+						{
+							"url": "https://l-game.motlin.com/",
+							"label": "Play"
+						}
+					],
+					"techStack": ["TypeScript", "Vite"],
+					"features": ["Solved Computer Opponent", "Four-Player Battle", "Position Codes"],
+					"githubRepo": "motlin/l-game",
+					"iconUrl": "/img/l-game-favicon.svg",
+					"language": "TypeScript"
+				},
+				{
 					"id": "motlin-com",
 					"name": "motlin.com",
 					"repoUrl": "https://github.com/motlin/motlin.com",
