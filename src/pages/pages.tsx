@@ -68,6 +68,13 @@ const pages: PageItem[] = [
 		iconUrl: "/img/l-game-favicon.svg",
 	},
 	{
+		title: "Dragon Code",
+		description:
+			"A block-coding game where you play the dragon: read the knights' code and write a spell to burn them all",
+		link: "https://dragon-code.motlin.com/",
+		iconUrl: "/img/dragon-code-favicon.svg",
+	},
+	{
 		title: "Grid Lines",
 		description: "A puzzle game where you draw lines through all connections on a grid",
 		link: "/lines",

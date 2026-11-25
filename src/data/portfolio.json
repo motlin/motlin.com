@@ -452,6 +452,27 @@
 					"language": "TypeScript"
 				},
 				{
+					"id": "dragon-code",
+					"name": "Dragon Code",
+					"repoUrl": "https://github.com/motlin/dragon-code",
+					"description": "A block-coding puzzle game where you are the dragon. Read every knight's looping code, snap together a spell from blocks with loops, conditions, variables and math, and run it step by step. Includes a 55-level campaign, an endless siege of generated waves, a level editor with a solver, and a shared gallery of player levels and high scores.",
+					"links": [
+						{
+							"url": "https://github.com/motlin/dragon-code",
+							"label": "GitHub"
+						},
+						{
+							"url": "https://dragon-code.motlin.com/",
+							"label": "Play"
+						}
+					],
+					"techStack": ["TypeScript", "Vite", "Cloudflare Workers", "D1"],
+					"features": ["Block Coding", "Level Editor", "Endless Siege"],
+					"githubRepo": "motlin/dragon-code",
+					"iconUrl": "/img/dragon-code-favicon.svg",
+					"language": "TypeScript"
+				},
+				{
 					"id": "motlin-com",
 					"name": "motlin.com",
 					"repoUrl": "https://github.com/motlin/motlin.com",
