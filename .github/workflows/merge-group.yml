@@ -3,6 +3,8 @@
 on:
   pull_request:
   merge_group:
+  # The daily submodule update dispatches this on its branch, since pull requests opened with GITHUB_TOKEN start no workflows.
+  workflow_dispatch:
 
 permissions:
   contents: read

@@ -1,3 +1,4 @@
+# Bumps the submodules daily and lands the bump through a pull request, since main requires "All checks".
 name: Daily Submodule Update
 
 on:
@@ -6,8 +7,7 @@ on:
       timezone: "America/New_York"
   workflow_dispatch:
 
-permissions:
-  contents: write
+permissions: {}
 
 concurrency:
   group: "daily-submodule-update"
@@ -17,31 +17,60 @@ jobs:
   update-submodules:
     name: Update Submodules
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: write
+    env:
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      UPDATE_BRANCH: automation/update-submodules
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           submodules: recursive
-          token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: true
-
-      - name: Configure Git
-        run: |
-          git config --global user.name 'Craig P. Motlin'
-          git config --global user.email 'cmotlin@gmail.com'
+          persist-credentials: false
 
       - name: Update Submodules
+        id: update
         run: |
           git submodule update --init --remote --recursive
-
           git -C src/.dotfiles submodule update --init --recursive
-
           if [[ -n $(git status --porcelain) ]]; then
-            git add .
-            git commit -m "Update submodules."
-            git push origin main
-            echo "Submodules updated and pushed to main"
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
           else
             echo "No submodule updates detected"
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Commit and push to the update branch
+        if: steps.update.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name 'Craig P. Motlin'
+          git config user.email 'cmotlin@gmail.com'
+          git fetch origin "$UPDATE_BRANCH:refs/remotes/origin/$UPDATE_BRANCH" || true
+          git switch --create "$UPDATE_BRANCH"
+          git add .
+          git commit -m "Update submodules."
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --force-with-lease origin "$UPDATE_BRANCH"
+
+      - name: Open the pull request, queue auto-merge and run the checks
+        if: steps.update.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pull_request_url=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$UPDATE_BRANCH" --state open --json url --jq '.[0].url // ""')
+          if [[ -z "$pull_request_url" ]]; then
+            pull_request_url=$(gh pr create \
+              --repo "$GITHUB_REPOSITORY" \
+              --base "$DEFAULT_BRANCH" \
+              --head "$UPDATE_BRANCH" \
+              --title 'Update submodules.' \
+              --body 'Automated daily submodule update.')
+          fi
+          gh pr merge "$pull_request_url" --repo "$GITHUB_REPOSITORY" --auto --rebase
+          gh workflow run merge-group.yml --repo "$GITHUB_REPOSITORY" --ref "$UPDATE_BRANCH"
