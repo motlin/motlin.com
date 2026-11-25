@@ -13,7 +13,10 @@ Gets a web app live at `https://<name>.motlin.com/` and listed on `/pages` and t
 
 An artifact that uses `window.claude.use('db')` or `('user')` has a backend to replace. Port it to a Worker API backed by D1. Players have no Claude identity on the public site, so the usual replacement is a random per-device ID in localStorage plus server-side validation and rate limits, with one hook where Turnstile or Cloudflare Access can be added later. Export the existing rows with the `ArtifactData` tool (`action: "list"`).
 
-Ask for `<name>` if the user hasn't given one. Elsewhere, look at an existing import before inventing anything. `~/projects/cublitz` (artifact origin, Pages) and `~/projects/neighbors` (Pages, with per-PR previews) are the references. Copy their justfile, `wrangler.toml`, and `.github/workflows/deploy.yml` instead of writing new ones.
+Ask for `<name>` if the user hasn't given one. Elsewhere, look at an existing import before inventing anything. Copy the reference's justfile, `wrangler.toml`, `.github/workflows/deploy.yml`, `scripts/` and test layout instead of writing new ones:
+
+- `~/projects/l-game` and `~/projects/whos-that`: artifact origin, a Worker with static assets only, a PWA, Fable icons and a link preview. Use these for a new game with no backend.
+- `~/projects/cublitz` (artifact origin, Pages) and `~/projects/neighbors` (Pages, with per-PR previews): older imports.
 
 ## Fetch the artifact source
 
@@ -24,7 +27,7 @@ Save the artifact HTML to a scratch file outside the new repo and port from it. 
 
 ## Create the repo
 
-Model the new repo on `~/projects/cublitz`: pnpm, Vite+, Vitest, Playwright, justfile, `wrangler.toml`, and GitHub Actions. Then, in this order:
+Start from an empty directory with `git init`, in a peer of the other projects (`~/projects/<name>`). Model the new repo on `~/projects/l-game`: pnpm, Vite+, Vitest, Playwright, justfile, `wrangler.toml`, and GitHub Actions. Then, in this order:
 
 - Every project is created from `~/projects/typescript-template` and syncs with it in both directions. Add the repo to the `own:` list in `~/projects/typescript-template/.llm/projects.yaml` and run its `/sync-template` command. The sync also registers `git test`.
 - Run `git test run` on every commit and fix failures before deploying.
@@ -34,7 +37,23 @@ Model the new repo on `~/projects/cublitz`: pnpm, Vite+, Vitest, Playwright, jus
 env -u GITHUB_TOKEN gh repo create motlin/<name> --private --source . --remote origin
 ```
 
-A hook blocks pushing to `main`, so the user pushes the first commit.
+A hook blocks pushing to `main`, so the user pushes the first commit. The permission classifier may also block `gh repo create` and `gh secret set`. For a Worker, put them in the go-live script below instead of giving the user separate commands.
+
+## Port the code
+
+The user wants a real project, not the artifact's single HTML file. Split the inline `<script>` blocks into typed modules under `src/game/`, the CSS into `src/styles/`, and keep `index.html` as markup only. `src/main.ts` starts each part in its own try/catch so one failure doesn't blank the page. Keep `localStorage` keys unchanged so existing players keep their progress.
+
+Add tests while porting, at the lowest level that proves the behavior: Vitest for rules, solvers and codecs, and Playwright for playing a move and switching modes. `git test run` must pass on every commit.
+
+Copy the PWA from `~/projects/l-game`: `src/pwa/`, `scripts/service-worker-build.ts`, and the `tests/unit/pwa/` and `tests/browser/pwa.spec.ts` tests. Rename the `__L_GAME_SW_*__` placeholders and the theme color.
+
+## Draw the icons and link preview
+
+Fable draws every new graphic. Spawn an agent with `model: "fable"` to draw `scripts/icons/og.svg` (1200×630 link preview), `favicon.svg`, `icon-maskable.svg` and `apple-touch-icon.svg`, in the game's own art style. The favicon should look like a crop of the link preview, so have Fable draw the preview first and the favicon from it. Opus does everything else.
+
+`just icons` renders the PNGs with `rsvg-convert`. `just og-image` renders `public/og.jpg` offline through `scripts/og-image.ts`, with the font committed under `tests/fixtures/fonts/`. Add `og:` and `twitter:` meta tags pointing at `https://<name>.motlin.com/og.jpg`.
+
+Open `public/og.jpg` and the favicon in the user's browser and get their approval before the listing uses them.
 
 ## Keep personal data out of the repo
 
@@ -68,6 +87,18 @@ pnpm exec wrangler deploy --domain <name>.motlin.com
 ```
 
 `--domain` goes in the deploy command, not in `wrangler.toml`, so previews don't claim the domain. CI deploys with the Workers deploy token as the `CLOUDFLARE_API_TOKEN` secret. A Worker needs no CNAME step.
+
+A game with no backend needs only `name`, `compatibility_date` and `[assets] directory = "dist"`, with no `main`. Copy `deploy.yml` from `~/projects/l-game`: it builds and tests, then runs `wrangler deploy --domain <name>.motlin.com` with the secrets.
+
+### Go live with one script
+
+The user doesn't want a list of commands to run. Write `.llm/go-live.sh` and `.llm/go-live.env` (both gitignored), copied from `~/projects/l-game/.llm/`. The script creates the GitHub repo, adds the remote, sets the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets, pushes the game (CI deploys it), and pushes the motlin.com listing. Each step skips what is already done, so it is safe to re-run. The env file holds 1Password secret references, not values: the Workers deploy token item and the account ID from `wrangler whoami`. The user runs it as:
+
+```bash
+op run --env-file ~/projects/<name>/.llm/go-live.env -- ~/projects/<name>/.llm/go-live.sh
+```
+
+Have the motlin.com listing committed on `main` before the user runs it. If a push is rejected because Dependabot merged in the meantime, fetch, rebase, rerun `git test run origin/main..HEAD`, and ask the user to push again. Afterward, watch the Deploy run and check `curl -sI https://<name>.motlin.com/` returns 200.
 
 ## Create the Pages project and deploy
 
