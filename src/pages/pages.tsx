@@ -75,6 +75,12 @@ const pages: PageItem[] = [
 		iconUrl: "/img/dragon-code-favicon.svg",
 	},
 	{
+		title: "Build It!",
+		description: "A party platformer: take turns placing blocks and traps, then race to the flag",
+		link: "https://build-it.motlin.com/",
+		iconUrl: "/img/build-it-favicon.svg",
+	},
+	{
 		title: "Grid Lines",
 		description: "A puzzle game where you draw lines through all connections on a grid",
 		link: "/lines",

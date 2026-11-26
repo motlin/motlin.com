@@ -473,6 +473,27 @@
 					"language": "TypeScript"
 				},
 				{
+					"id": "build-it",
+					"name": "Build It!",
+					"repoUrl": "https://github.com/motlin/build-it",
+					"description": "A party platformer for friends on one screen, with CPU players to fill out the field. Players vote on a course, take turns placing a piece each round, from springs, lifts and clouds to saws, cannons and fire bars, then race from the start to the flag for points. Solo practice saves your best time on every level.",
+					"links": [
+						{
+							"url": "https://github.com/motlin/build-it",
+							"label": "GitHub"
+						},
+						{
+							"url": "https://build-it.motlin.com/",
+							"label": "Play"
+						}
+					],
+					"techStack": ["TypeScript", "Vite", "Canvas"],
+					"features": ["Party Game", "CPU Players", "Solo Practice"],
+					"githubRepo": "motlin/build-it",
+					"iconUrl": "/img/build-it-favicon.svg",
+					"language": "TypeScript"
+				},
+				{
 					"id": "motlin-com",
 					"name": "motlin.com",
 					"repoUrl": "https://github.com/motlin/motlin.com",
