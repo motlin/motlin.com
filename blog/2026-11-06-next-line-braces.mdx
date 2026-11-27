@@ -9,7 +9,13 @@ description: "I forked Prettier, Prettier Java, and Oxfmt so opening braces go o
 
 import GiscusComponent from '@site/src/components/GiscusComponent';
 
-I maintain forks of three code formatters, [oxfmt-next-line](https://github.com/motlin/oxc-next-line), [prettier-next-line](https://github.com/motlin/prettier-next-line), and [prettier-java-next-line](https://github.com/motlin/prettier-java-next-line). They do one thing differently from upstream: opening braces go on their own line.
+The problem with opinionated code formatters is their opinions. The problem with writing your own is that it undermines the whole premise of avoiding debate.
+
+Anyway, I forked three code formatters just so I could put curly braces on their own lines.
+
+- [prettier-next-line](https://github.com/motlin/prettier-next-line), a fork of Prettier, which formats JavaScript and TypeScript.
+- [prettier-java-next-line](https://github.com/motlin/prettier-java-next-line), a fork of Prettier Java, which is the first one I wanted to fork.
+- [oxfmt-next-line](https://github.com/motlin/oxc-next-line), a fork of Oxfmt, which is newer and formats a whole bunch of languages. It mostly replaces Prettier, except where you need Prettier plugins like Prettier Java.
 
 <!-- truncate -->
 
@@ -33,11 +39,11 @@ public class H2Bundle
 
 ## How to use them
 
-All three forks add a `braceStyle` option with two values. `next-line` is the default. `same-line` gives you upstream's output, so you can switch back without changing tools.
+Upstream, none of the three let you configure brace placement, to prevent exactly this sort of debate. My forks add a `braceStyle` option and default it to `next-line`. I think that should be the default, so of course you should never touch this setting. But if you want, you can set it back to `same-line`.
 
 ### Oxfmt
 
-`oxfmt-next-line` is a fork of [Oxfmt](https://oxc.rs/docs/guide/usage/formatter), the Rust formatter from the Oxc project. It formats JavaScript, TypeScript, JSON, CSS, SCSS, Less, GraphQL, and YAML. It installs both an `oxfmt-next-line` command and an `oxfmt` command, and it reads the usual `.oxfmtrc.json`.
+`oxfmt-next-line` installs an `oxfmt` command too, and reads the usual [Oxfmt](https://oxc.rs/docs/guide/usage/formatter) `.oxfmtrc.json`.
 
 ```json
 {
@@ -79,20 +85,13 @@ I install it with [mise](https://mise.jdx.dev/) and run it from [pre-commit](htt
   types: [java]
 ```
 
-If you use [Spotless](https://github.com/diffplug/spotless), it expects a package named `prettier`, so use an npm alias for `prettier-next-line`. The [README](https://github.com/motlin/prettier-java-next-line) has the full Maven configuration.
-
-### Edge cases
-
-Next-line braces need a few exceptions to stay correct.
-
-- `return {` stays together in JavaScript, since moving the brace would change what the program does through automatic semicolon insertion.
-- An empty `{}` stays on one line.
+If you use [Spotless](https://github.com/diffplug/spotless), it expects a package named `prettier`, so alias `prettier-next-line` to `prettier` in npm, as the [README](https://github.com/motlin/prettier-java-next-line) shows.
 
 ## Why
 
-The usual argument for same-line braces is that they save vertical space, which mattered on small, low-resolution CRT displays where every row counted.
+The case for same-line braces has always been vertical space. On an 80x25 terminal, I buy that. But when I started my career in 2005, computer monitors were already big enough for my team to use next-line braces with room to spare.
 
-I started my career writing C++, where my team consistently used next-line braces. I later learned the wider C++ community was always split on brace style, but next-line braces influenced Microsoft, and today the one big community where they're the official default is C#. I saw first-hand that the convention was better, even on the small monitors of the early 2000s. On a modern display, I'd rather spend one extra line and see the shape of the block.
+We were writing C++, and my team consistently used next-line braces. I later learned the wider C++ community was always split on brace style, but next-line braces influenced Microsoft, and today the one big community where they're the official default is C#. I saw first-hand that the convention was better. On a modern display, I'd rather spend one extra line and see the shape of the block.
 
 With next-line braces, every opening brace lines up with its closing brace.
 
@@ -104,17 +103,17 @@ Our jobs have changed too. We barely write code by hand anymore, but we review i
 
 ## Undermining Prettier's philosophy
 
-Prettier is deliberately opinionated. Its [option philosophy](https://prettier.io/docs/option-philosophy) says "Prettier has a few options because of history. But we won't add more of them." The point is to end debates about style.
+Prettier is deliberately opinionated. Its [option philosophy](https://prettier.io/docs/option-philosophy) says "Prettier has a few options because of history. But we won't add more of them." The idea is that nobody argues about style anymore. I like that idea, as long as the defaults are good.
 
-That makes sense, but only if the choices are right, or at least right enough. Quotes are a good example. `singleQuote` is one of the few options Prettier has. On [Syntax](https://syntax.fm/show/794/prettier-javascript-with-vjeux/transcript), co-creator Christopher Chedeau said double quotes came from James Long's own habits, while most of the industry uses single quotes, and they've kept the default only to avoid a breaking change. That's roughly the bar for an option: the default turned out wrong, and most people want the opposite. Personally, I could use either quote style and not care much.
+Quotes are a good example. `singleQuote` is one of the few options Prettier has. On [Syntax](https://syntax.fm/show/794/prettier-javascript-with-vjeux/transcript), co-creator Christopher Chedeau said double quotes came from James Long's own habits, while most of the industry uses single quotes, and they've kept the default only to avoid a breaking change. As far as I can tell, that's what it takes to get an option in Prettier. The default has to be wrong, and most people have to want the opposite. Personally, I could use either quote style and not care much.
 
 On the same episode, when asked for Prettier's most controversial default, Chedeau named curly braces.
 
 Still, next-line braces don't clear that bar. They aren't the most common style, and most of the community isn't asking for them. I think that's partly because the community has worked without next-line braces as a choice for decades. Even newish languages and tools like rustfmt don't give next-line as a choice. But I think brace placement matters enough to be configurable.
 
-People have asked for a brace style option before ([#3832](https://github.com/prettier/prettier/issues/3832), [#3964](https://github.com/prettier/prettier/issues/3964), [#4212](https://github.com/prettier/prettier/issues/4212)), and all of those issues were closed. I [proposed a `braceStyle` option](https://github.com/jhipster/prettier-java/pull/840) to Prettier Java, keeping same-line as the default. The maintainer turned it down, politely and for consistent reasons: K&R is the dominant style in Java, and new options go against Prettier's goal of avoiding style debates. That's a fair position for an opinionated formatter, and it left me with one option: fork it.
+People have asked for a brace style option before ([#3832](https://github.com/prettier/prettier/issues/3832), [#3964](https://github.com/prettier/prettier/issues/3964), [#4212](https://github.com/prettier/prettier/issues/4212)), and all of those issues were closed. I [proposed a `braceStyle` option](https://github.com/jhipster/prettier-java/pull/840) to Prettier Java, keeping same-line as the default. The maintainer said no, and was nice about it. Most Java code is K&R, and Prettier doesn't want new options that restart style debates. Honestly, that's the right call for Prettier. So I forked it.
 
-There's some irony here. In 2018 I wrote that if I started a long debate about tabs versus spaces and curly brace placement, people would rightly be upset with me for wasting their time. I still believe that. A consensus is good, and ending the debate is the point of a tool like Prettier. Making brace placement configurable, and arguing for it in a blog post, undermines that. But I used next-line braces for the first years of my career, and once you get used to them, they're much, much better.
+The irony isn't lost on me. In 2018 I wrote that if I started a long debate about tabs versus spaces and curly brace placement, people would rightly be upset with me for wasting their time. I still believe that. A consensus is good, and ending the debate is the point of a tool like Prettier. Making brace placement configurable, and arguing for it in a blog post, undermines that. But I used next-line braces for the first years of my career, and once you get used to them, they're much, much better.
 
 ## How I built it
 
