@@ -64,7 +64,7 @@
 		"@testing-library/user-event": "^14.6.13",
 		"@types/react": "19.1.2",
 		"eslint-plugin-storybook": "^10.6.8",
-		"fallow": "^3.43.2",
+		"fallow": "^3.45.0",
 		"infima": "0.2.0-alpha.45",
 		"jsdom": "^31.0.1",
 		"markdownlint-cli2": "^0.24.2",
