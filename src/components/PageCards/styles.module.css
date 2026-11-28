@@ -1,0 +1,15 @@
+/* Stretch every card to the tallest card in its row. */
+.column
+{
+	display: flex;
+}
+
+.card
+{
+	flex: 1;
+}
+
+.body
+{
+	flex: 1;
+}

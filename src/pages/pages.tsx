@@ -1,16 +1,7 @@
 import React from "react";
 import Layout from "@theme/Layout";
-import Link from "@docusaurus/Link";
 import Heading from "@theme/Heading";
-
-interface PageItem
-{
-	title: string;
-	description: string;
-	link: string;
-	emoji?: string;
-	iconUrl?: string;
-}
+import PageCards, {type PageItem} from "@site/src/components/PageCards";
 
 const pages: PageItem[] = [
 	{
@@ -26,64 +17,9 @@ const pages: PageItem[] = [
 		emoji: "🎧",
 	},
 	{
-		title: "QuartoBot",
-		description: "Play Quarto against a perfect-play opponent with move annotations",
-		link: "https://quarto.motlin.com/",
-		iconUrl: "/img/quarto-favicon.svg",
-	},
-	{
-		title: "Elemental Arena",
-		description: "A hot-seat tactical card game played on a grid of fusing elemental terrain",
-		link: "https://elemental-arena.motlin.com/",
-		iconUrl: "/img/elemental-arena-favicon.svg",
-	},
-	{
-		title: "Neighbors",
-		description: "A logic puzzle where every building must agree with the neighbors touching it",
-		link: "https://neighbors.motlin.com/",
-		iconUrl: "/img/neighbors-favicon.svg",
-	},
-	{
-		title: "Cublitz",
-		description: "A rolling paint puzzle where every roll turns a new face of your cube to the floor",
-		link: "https://cublitz.motlin.com/",
-		iconUrl: "/img/cublitz-favicon.svg",
-	},
-	{
-		title: "Animal Kingdom",
-		description: "A turn-based battle for 2 to 6 players where the last animal standing wins",
-		link: "https://animal-kingdom.motlin.com/",
-		iconUrl: "/img/animal-kingdom-icon.png",
-	},
-	{
-		title: "Who's That?",
-		description: "A face-memory game: study a face, then pick it out, spot what changed, or build it back",
-		link: "https://whos-that.motlin.com/",
-		iconUrl: "/img/whos-that-favicon.svg",
-	},
-	{
-		title: "The L Game",
-		description: "Edward de Bono's blocking game, against a friend or a computer that has solved it",
-		link: "https://l-game.motlin.com/",
-		iconUrl: "/img/l-game-favicon.svg",
-	},
-	{
-		title: "Dragon Code",
-		description:
-			"A block-coding game where you play the dragon: read the knights' code and write a spell to burn them all",
-		link: "https://dragon-code.motlin.com/",
-		iconUrl: "/img/dragon-code-favicon.svg",
-	},
-	{
-		title: "Build It!",
-		description: "A party platformer: take turns placing blocks and traps, then race to the flag",
-		link: "https://build-it.motlin.com/",
-		iconUrl: "/img/build-it-favicon.svg",
-	},
-	{
-		title: "Grid Lines",
-		description: "A puzzle game where you draw lines through all connections on a grid",
-		link: "/lines",
+		title: "Games",
+		description: "Puzzles, party games, and strategy games",
+		link: "/games",
 		emoji: "🎮",
 	},
 	{
@@ -100,45 +36,9 @@ export default function PagesIndex()
 		<Layout title="Pages" description="Explore all pages on motlin.com">
 			<main className="container margin-vert--lg">
 				<Heading as="h1">📑 Pages Index</Heading>
-				<p className="text--lg margin-bottom--lg">
-					Explore various tools, games, and resources available on this site.
-				</p>
+				<p className="text--lg margin-bottom--lg">Explore the tools, games, and resources on this site.</p>
 
-				<div className="row">
-					{pages.map((page) => (
-						<div key={page.title} className="col col--6 margin-bottom--lg">
-							<div className="card shadow--md">
-								<div className="card__header">
-									<Heading as="h2">
-										{page.iconUrl && (
-											<img
-												src={page.iconUrl}
-												alt=""
-												width={32}
-												height={32}
-												className="margin-right--sm"
-												style={
-												{
-													verticalAlign: "middle",
-												}}
-											/>
-										)}
-										{page.emoji && <span className="margin-right--sm">{page.emoji}</span>}
-										{page.title}
-									</Heading>
-								</div>
-								<div className="card__body">
-									<p>{page.description}</p>
-								</div>
-								<div className="card__footer">
-									<Link className="button button--primary button--block" to={page.link}>
-										Visit Page
-									</Link>
-								</div>
-							</div>
-						</div>
-					))}
-				</div>
+				<PageCards pages={pages} buttonLabel="Visit Page" />
 			</main>
 		</Layout>
 	);

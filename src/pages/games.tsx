@@ -1,0 +1,84 @@
+import React from "react";
+import Layout from "@theme/Layout";
+import Heading from "@theme/Heading";
+import PageCards, {type PageItem} from "@site/src/components/PageCards";
+
+const games: PageItem[] = [
+	{
+		title: "QuartoBot",
+		description: "Play Quarto against a perfect-play opponent with move annotations",
+		link: "https://quarto.motlin.com/",
+		iconUrl: "/img/quarto-favicon.svg",
+	},
+	{
+		title: "Elemental Arena",
+		description: "A hot-seat tactical card game played on a grid of fusing elemental terrain",
+		link: "https://elemental-arena.motlin.com/",
+		iconUrl: "/img/elemental-arena-favicon.svg",
+	},
+	{
+		title: "Neighbors",
+		description: "A logic puzzle where every building must agree with the neighbors touching it",
+		link: "https://neighbors.motlin.com/",
+		iconUrl: "/img/neighbors-favicon.svg",
+	},
+	{
+		title: "Cublitz",
+		description: "A rolling paint puzzle where every roll turns a new face of your cube to the floor",
+		link: "https://cublitz.motlin.com/",
+		iconUrl: "/img/cublitz-favicon.svg",
+	},
+	{
+		title: "Animal Kingdom",
+		description: "A turn-based battle for 2 to 6 players where the last animal standing wins",
+		link: "https://animal-kingdom.motlin.com/",
+		iconUrl: "/img/animal-kingdom-icon.png",
+	},
+	{
+		title: "Who's That?",
+		description: "A face-memory game: study a face, then pick it out, spot what changed, or build it back",
+		link: "https://whos-that.motlin.com/",
+		iconUrl: "/img/whos-that-favicon.svg",
+	},
+	{
+		title: "The L Game",
+		description: "Edward de Bono's blocking game, against a friend or a computer that has solved it",
+		link: "https://l-game.motlin.com/",
+		iconUrl: "/img/l-game-favicon.svg",
+	},
+	{
+		title: "Dragon Code",
+		description:
+			"A block-coding game where you play the dragon: read the knights' code and write a spell to burn them all",
+		link: "https://dragon-code.motlin.com/",
+		iconUrl: "/img/dragon-code-favicon.svg",
+	},
+	{
+		title: "Build It!",
+		description: "A party platformer: take turns placing blocks and traps, then race to the flag",
+		link: "https://build-it.motlin.com/",
+		iconUrl: "/img/build-it-favicon.svg",
+	},
+	{
+		title: "Grid Lines",
+		description: "A puzzle game where you draw lines through all connections on a grid",
+		link: "/lines",
+		emoji: "🎮",
+	},
+];
+
+export default function GamesIndex()
+{
+	return (
+		<Layout title="Games" description="Games you can play on motlin.com">
+			<main className="container margin-vert--lg">
+				<Heading as="h1">🎮 Games</Heading>
+				<p className="text--lg margin-bottom--lg">
+					Puzzles, party games, and strategy games you can play in the browser.
+				</p>
+
+				<PageCards pages={games} buttonLabel="Play" />
+			</main>
+		</Layout>
+	);
+}
