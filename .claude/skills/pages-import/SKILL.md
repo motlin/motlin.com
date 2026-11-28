@@ -164,7 +164,7 @@ Finally, set the GitHub repo's homepage with `gh repo edit motlin/<name> --homep
 Work in a worktree off `origin/main` (the `git:worktree` skill). Run `git submodule update --init --recursive` in it, or fallow fails with unresolved `!!raw-loader!` imports. Change three files, copying the neighboring games' entries:
 
 - `static/img/<name>-favicon.svg`: the app's own SVG icon.
-- `src/pages/pages.tsx`: a card after the other games, with `title`, a one-line `description`, `link: "https://<name>.motlin.com/"` and `iconUrl: "/img/<name>-favicon.svg"`.
+- `src/pages/games.tsx` for a game, or `src/pages/pages.tsx` for anything else: a card at the end of the list, with `title`, a one-line `description`, `link: "https://<name>.motlin.com/"` and `iconUrl: "/img/<name>-favicon.svg"`.
 - `src/data/portfolio.json`: an entry after the other games, with `id`, `name`, `repoUrl`, `description`, `links` (GitHub and Play), `techStack`, `features`, `githubRepo`, `iconUrl` and `language`. Leave out the GitHub link and `repoUrl` if the repo is private.
 
 Commit as `Add <Name> to the pages index and the personal projects list with a link to play.`, run the `build:precommit` skill, and push the branch. Open a PR only if the user asks.

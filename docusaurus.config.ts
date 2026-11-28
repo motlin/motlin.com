@@ -143,6 +143,11 @@ const config: Config =
 					position: "left",
 				},
 				{
+					to: "/games",
+					label: "Games",
+					position: "left",
+				},
+				{
 					to: "/portfolio",
 					label: "Portfolio",
 					position: "left",
