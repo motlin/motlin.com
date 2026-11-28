@@ -10,6 +10,7 @@ export interface PageItem
 	link: string;
 	emoji?: string;
 	iconUrl?: string;
+	previewUrl?: string;
 }
 
 interface PageCardsProps
@@ -25,6 +26,18 @@ export default function PageCards({pages, buttonLabel}: PageCardsProps)
 			{pages.map((page) => (
 				<div key={page.title} className={`col col--6 margin-bottom--lg ${styles.column}`}>
 					<div className={`card shadow--md ${styles.card}`}>
+						{page.previewUrl && (
+							<div className="card__image">
+								<img
+									src={page.previewUrl}
+									alt=""
+									width={1200}
+									height={630}
+									loading="lazy"
+									className={styles.preview}
+								/>
+							</div>
+						)}
 						<div className="card__header">
 							<Heading as="h2">
 								{page.iconUrl && (
