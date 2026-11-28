@@ -13,3 +13,12 @@
 {
 	flex: 1;
 }
+
+.preview
+{
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 1200 / 630;
+	object-fit: cover;
+}
